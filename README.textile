@@ -1,0 +1,41 @@
+* Lesson 1. Move code from Controller to Model
+## [-Move finder to named_scope-]
+## [-Use model association-]
+## Use scope access
+## Add model virtual attribute
+## Use model callback
+## Replace Complex Creation with Factory Method
+## Move Model Logic into the Model
+## model.collection_model_ids (many-to-many)
+## Nested Model Forms (one-to-one)
+## Nested Model Forms (one-to-many)
+
+* Lesson 2. RESTful Conventions
+## Overuse route customizations
+## Needless deep nesting
+## Not use default route
+
+* Lesson 3. Model
+## Keep Finders on Their Own Model
+## Love named_scope
+## the Law of Demeter
+## DRY: metaprogramming
+## Extract into Module
+## Extract to composed class
+## Use Observer
+
+* Lesson 4. Migration
+## Isolating Seed Data
+## Always add DB index
+
+* Lesson 5. Controller
+## Use before_filter
+## DRY Controller
+
+* Lesson 6. View
+## Move code into controller
+## Move code into model
+## Move code into helper
+## Replace instance variable with local variable
+## Use Form Builder
+## Organize Helper files
