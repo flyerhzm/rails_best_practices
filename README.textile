@@ -1,7 +1,7 @@
 * Lesson 1. Move code from Controller to Model
 ## [-Move finder to named_scope-]
 ## [-Use model association-]
-## Use scope access
+## [-Use scope access-]
 ## Add model virtual attribute
 ## Use model callback
 ## Replace Complex Creation with Factory Method

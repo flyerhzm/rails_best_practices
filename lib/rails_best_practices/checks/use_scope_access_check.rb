@@ -14,14 +14,18 @@ module RailsBestPractices
       end
       
       def evaluate_start(node)
-        add_error "use scope access" if current_user_redirect(node)
+        add_error "use scope access" if current_user_redirect?(node)
       end
       
       private
       
-      def current_user_redirect(node)
+      def current_user_redirect?(node)
         condition_node = node.call
-        condition_node.message == :== and condition_node.arguments.call.message == :current_user and node.false_node.method_body.any? {|n| n.message == :redirect_to}
+        condition_node.message == :== and current_user?(condition_node.arguments.call) and node.false_node.method_body.any? {|n| n.message == :redirect_to}
+      end
+      
+      def current_user?(call_node)
+        call_node.message == :current_user or (call_node.subject.message == :current_user and call_node.message == :id)
       end
       
     end
