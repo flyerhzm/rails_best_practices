@@ -2,7 +2,7 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
-    # Check a controller to make sure use scope access
+    # Check a controller to make sure using scope access
     #
     # Implementation: simply check if or unless compare with current_user or current_user.id and there is a redirect_to message in if or unless block
     class UseScopeAccessCheck < Check
