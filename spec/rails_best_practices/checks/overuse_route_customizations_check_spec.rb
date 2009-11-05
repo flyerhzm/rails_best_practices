@@ -34,6 +34,17 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
     errors.should_not be_empty
     errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations"
   end
+  
+  it "should not overuse route customizations without customization" do
+    content = <<-EOF
+    ActionController::Routing::Routes.draw do |map|
+      map.resources :posts
+    end
+    EOF
+    @runner.check('config/routes.rb', content)
+    errors = @runner.errors
+    errors.should be_empty
+  end
 
   it "should not overuse route customizations when customize route is only one" do
     content = <<-EOF
