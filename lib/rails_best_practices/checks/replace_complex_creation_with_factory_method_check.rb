@@ -35,8 +35,11 @@ module RailsBestPractices
         @variables = nil
       end
       
+      private
+      
       def attribute_assignment(node)
         variable = node.subject
+        return if variable.nil?
         @variables[variable] ||= 0
         @variables[variable] += 1
       end

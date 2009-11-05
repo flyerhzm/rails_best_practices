@@ -34,6 +34,7 @@ module RailsBestPractices
       
       def attribute_assignment(node)
         variable = node.subject
+        return if variable.nil?
         @variables[variable] ||= []
         @variables[variable] << {:message => node.message, :arguments => node.arguments}
       end

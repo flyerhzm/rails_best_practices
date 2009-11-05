@@ -5,7 +5,7 @@
 ## [-Add model virtual attribute-]
 ## Use model callback
 ## [-Replace Complex Creation with Factory Method-]
-## Move Model Logic into the Model
+## [-Move Model Logic into the Model-]
 ## model.collection_model_ids (many-to-many)
 ## Nested Model Forms (one-to-one)
 ## Nested Model Forms (one-to-many)
