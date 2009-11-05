@@ -45,9 +45,10 @@ module RailsBestPractices
         evaluate_node(:end, node)
         evaluate_end(node)
       end
-  
-      def add_error(error)
-        @errors << RailsBestPractices::Core::Error.new("#{@node.file}", "#{@node.line}", error)
+      
+      def add_error(error, line = nil)
+        line = @node.line if line.nil?
+        @errors << RailsBestPractices::Core::Error.new("#{@node.file}", "#{line}", error)
       end
   
       def errors
