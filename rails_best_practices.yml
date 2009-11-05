@@ -2,3 +2,5 @@ MoveFinderToNamedScopeCheck: { }
 UseModelAssociationCheck: { }
 UseScopeAccessCheck: { }
 AddModelVirtualAttributeCheck: { }
+# UseModelCallbackCheck: { }
+ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }

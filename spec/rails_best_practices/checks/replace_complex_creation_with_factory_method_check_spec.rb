@@ -68,7 +68,7 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
       end
     end
     EOF
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::ReplaceComplexCreationWithFactoryMethodCheck.new(:attribute_assignment_count => 5))
+    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::ReplaceComplexCreationWithFactoryMethodCheck.new('attribute_assignment_count' => 5))
     @runner.check('app/controller/invoices_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty

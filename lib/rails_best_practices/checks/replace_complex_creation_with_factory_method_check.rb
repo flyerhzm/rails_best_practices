@@ -18,7 +18,7 @@ module RailsBestPractices
       
       def initialize(options = {})
         super()
-        @attrasgn_count = options[:attribute_assignment_count] || 2
+        @attrasgn_count = options['attribute_assignment_count'] || 2
       end
       
       def evaluate_start(node)
