@@ -41,12 +41,12 @@ module RailsBestPractices
         if node.message == :save
           variable = node.subject
           add_error "add model virtual attribute" if params_dup?(@variables[variable].collect {|h| h[:arguments] })
-          
         end
       end
       
       def params_dup?(nodes)
-        params_nodes = nodes.collect {|node| node.grep_nodes({:subject => s(:call, nil, :params, s(:arglist)), :message => :[]}).first}
+        return false if nodes.nil?
+        params_nodes = nodes.collect {|node| node.grep_nodes({:subject => s(:call, nil, :params, s(:arglist)), :message => :[]}).first}.compact
         params_arguments = params_nodes.collect(&:arguments)
         !params_arguments.dups.empty?
       end
