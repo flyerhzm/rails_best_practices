@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'sexp'
+require 'ruby2ruby'
 
 class Sexp
   def accept(visitor)
@@ -99,5 +100,9 @@ class Sexp
       self[1..-1]
     else
     end
+  end
+
+  def to_ruby
+    Ruby2Ruby.new.process(self)
   end
 end

@@ -26,7 +26,7 @@ module RailsBestPractices
       private
 
       def member_and_collection_count(node)
-        customize_hash = eval(Ruby2Ruby.new.process(node.grep_nodes(:node_type => :hash).first))
+        customize_hash = eval(node.grep_nodes(:node_type => :hash).first.to_ruby)
         (customize_hash[:member].size || 0) + (customize_hash[:collection].size || 0)
       end
     end

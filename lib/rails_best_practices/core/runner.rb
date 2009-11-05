@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'ruby_parser'
-require 'ruby2ruby'
 require 'yaml'
 
 module RailsBestPractices
