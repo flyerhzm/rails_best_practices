@@ -44,6 +44,16 @@ module RailsBestPractices
           nil
         end
       end
+      
+      def load_checks
+        check_objects = []
+        checks = YAML.load_file @config
+        checks.each do |check| 
+          klass = eval("RailsBestPractices::Checks::#{check[0]}")
+          check_objects << (check[1].empty? ? klass.new : klass.new(check[1]))
+        end
+        check_objects
+      end
     end
   end
 end
