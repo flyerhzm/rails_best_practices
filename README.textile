@@ -4,7 +4,7 @@
 ## [-Use scope access-]
 ## [-Add model virtual attribute-]
 ## Use model callback
-## Replace Complex Creation with Factory Method
+## [-Replace Complex Creation with Factory Method-]
 ## Move Model Logic into the Model
 ## model.collection_model_ids (many-to-many)
 ## Nested Model Forms (one-to-one)
