@@ -4,7 +4,8 @@ module RailsBestPractices
   module Checks
     # Check a controller file to make sure that complex model creation should not exist in controller, move it to model factory method
     #
-    # Implementation: check the count of variable attribute assignment calling before saving, if large than defined attribute assignment count, then it's a complex creation, 
+    # Implementation: check the count of variable attribute assignment calling before saving, 
+    # if more than defined attribute assignment count, then it's a complex creation.
     class ReplaceComplexCreationWithFactoryMethodCheck < Check
       
       def interesting_nodes

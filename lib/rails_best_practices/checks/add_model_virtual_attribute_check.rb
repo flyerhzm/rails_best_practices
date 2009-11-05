@@ -4,7 +4,8 @@ module RailsBestPractices
   module Checks
     # Check a controller to make sure adding a model virual attribute to simplify model creation.
     #
-    # Implementation: check arguments of params#[]=, if they have duplicated arguments, then the model may need to add a model virtual attribute.
+    # Implementation: check arguments of params#[]= before calling save, 
+    # if they have duplicated arguments, then the model may need to add a model virtual attribute.
     class AddModelVirtualAttributeCheck < Check
       
       def interesting_nodes

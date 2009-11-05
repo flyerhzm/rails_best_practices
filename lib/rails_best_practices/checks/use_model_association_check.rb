@@ -5,9 +5,8 @@ module RailsBestPractices
     # Check a model creation to make sure using model association.
     #
     # Implementation: 
-    # 1. check :iasgn and :lasgn, record as a hash, the key is the assigned variable, the value is false.
-    # 2. check :attrasgn, if xxx_id is assigned for the recorded variable, set the value of the assigned variable to true.
-    # 3. check :call, if call message :save and caller is included in recorded variables, add error.
+    # 1. check :attrasgn, if xxx_id is assigned to a variable, set the value of the assigned variable to true.
+    # 2. check :call, if call message :save and caller is included in variables, add error.
     class UseModelAssociationCheck < Check
       
       def interesting_nodes
