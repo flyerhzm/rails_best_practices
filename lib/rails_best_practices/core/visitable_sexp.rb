@@ -62,7 +62,7 @@ class Sexp
   
   def arguments
     case node_type
-    when :call
+    when :attrasgn, :call
       self[3]
     else
     end

@@ -39,4 +39,22 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
     errors = @runner.errors
     errors.should be_empty
   end
+  
+  it "should not add model virtual attribute with read" do
+    content = <<-EOF
+    class UsersController < ApplicationController
+      
+      def show
+        if params[:id]
+          @user = User.find(params[:id])
+        else
+          @user = current_user
+        end
+      end
+    end
+    EOF
+    @runner.check('app/controller/users_controller.rb', content)
+    errors = @runner.errors
+    errors.should be_empty
+  end
 end

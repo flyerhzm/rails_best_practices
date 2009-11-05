@@ -16,13 +16,37 @@ module RailsBestPractices
       end
 
       def evaluate_start(node)
-        add_error("add model virtual attribute") if params_dup?(node)
+        @variables = {}
+        node.recursive_children do |child|
+          case child.node_type
+          when :attrasgn
+            attribute_assignment(child)
+          when :call
+            call_assignment(child)
+          else
+          end
+        end
+        @variables = nil
       end
       
       private
       
-      def params_dup?(node)
-        params_nodes = node.grep_nodes({:subject => s(:call, nil, :params, s(:arglist)), :message => :[]})
+      def attribute_assignment(node)
+        variable = node.subject
+        @variables[variable] ||= []
+        @variables[variable] << {:message => node.message, :arguments => node.arguments}
+      end
+      
+      def call_assignment(node)
+        if node.message == :save
+          variable = node.subject
+          add_error "add model virtual attribute" if params_dup?(@variables[variable].collect {|h| h[:arguments] })
+          
+        end
+      end
+      
+      def params_dup?(nodes)
+        params_nodes = nodes.collect {|node| node.grep_nodes({:subject => s(:call, nil, :params, s(:arglist)), :message => :[]}).first}
         params_arguments = params_nodes.collect(&:arguments)
         !params_arguments.dups.empty?
       end
