@@ -2,7 +2,7 @@
 ## [-Move finder to named_scope-]
 ## [-Use model association-]
 ## [-Use scope access-]
-## Add model virtual attribute
+## [-Add model virtual attribute-]
 ## Use model callback
 ## Replace Complex Creation with Factory Method
 ## Move Model Logic into the Model
