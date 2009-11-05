@@ -1,3 +1,4 @@
 MoveFinderToNamedScopeCheck: { }
 UseModelAssociationCheck: { }
 UseScopeAccessCheck: { }
+AddModelVirtualAttributeCheck: { }
