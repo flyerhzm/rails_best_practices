@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
+describe RailsBestPractices::Checks::ReplaceComplexCreationWithFactoryMethodCheck do
   before(:each) do
     @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::ReplaceComplexCreationWithFactoryMethodCheck.new)
   end
