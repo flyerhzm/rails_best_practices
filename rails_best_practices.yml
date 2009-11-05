@@ -7,3 +7,4 @@ ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }
 MoveModelLogicIntoModelCheck: { called_count: 4 }
 # ManyToManyCollectionCheck: { }
 # NestedModelFormsCheck: { }
+OveruseRouteCustomizations: { customize_count: 3 }

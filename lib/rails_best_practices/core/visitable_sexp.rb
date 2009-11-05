@@ -32,12 +32,13 @@ class Sexp
   
   def grep_nodes(options)
     return self if options.empty?
+    node_type = options[:node_type]
     subject = options[:subject]
     message = options[:message]
     arguments = options[:arguments]
     nodes = []
     self.recursive_children do |child|
-      if (!subject or subject == child.subject) and (!message or message == child.message) and (!arguments or arguments == child.arguments)
+      if (!node_type or node_type == child.node_type) and (!subject or subject == child.subject) and (!message or message == child.message) and (!arguments or arguments == child.arguments)
         nodes << child
       end
     end

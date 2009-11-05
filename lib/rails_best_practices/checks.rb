@@ -7,3 +7,4 @@ require 'rails_best_practices/checks/replace_complex_creation_with_factory_metho
 require 'rails_best_practices/checks/move_model_logic_into_model_check'
 require 'rails_best_practices/checks/many_to_many_collection_check'
 require 'rails_best_practices/checks/nested_model_forms_check'
+require 'rails_best_practices/checks/overuse_route_customizations_check'
