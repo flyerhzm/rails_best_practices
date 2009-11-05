@@ -2,6 +2,9 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
+    # Check config/routes.rb to make sure there are no much route customizations.
+    #
+    # Implementation: check member and collection route count, if more than customize_count, then it is overuse route customizations.
     class OveruseRouteCustomizationsCheck < Check
       
       def interesting_nodes
