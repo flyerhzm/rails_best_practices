@@ -45,6 +45,7 @@ Gem::Specification.new do |s|
      "lib/rails_best_practices/core/error.rb",
      "lib/rails_best_practices/core/runner.rb",
      "lib/rails_best_practices/core/visitable_sexp.rb",
+     "rails_best_practices.gemspec",
      "rails_best_practices.yml",
      "spec/rails_best_practices/checks/add_model_virtual_attribute_check_spec.rb",
      "spec/rails_best_practices/checks/many_to_many_collection_check_spec.rb",
