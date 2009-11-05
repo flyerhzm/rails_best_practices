@@ -38,7 +38,7 @@ h2. Progress
 ## Nested Model Forms (one-to-many)
 
 * Lesson 2. RESTful Conventions
-## Overuse route customizations
+## [-Overuse route customizations-]
 ## Needless deep nesting
 ## Not use default route
 
