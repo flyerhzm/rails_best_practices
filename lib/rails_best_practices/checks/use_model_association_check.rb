@@ -15,12 +15,9 @@ module RailsBestPractices
       end
 
       def evaluate_start(node)
+        @variables = {}
         node.recursive_children do |child|
           case child.node_type
-          when :iasgn
-            instance_assignment(child)
-          when :lasgn
-            local_assignment(child)
           when :attrasgn
             attribute_assignment(child)
           when :call
@@ -33,31 +30,18 @@ module RailsBestPractices
       
       private
       
-      def instance_assignment(node)
-        add_variable(node.subject)
-      end
-      
-      def local_assignment(node)
-        add_variable(node.subject)
-      end
-      
       def attribute_assignment(node)
         if node.message.to_s =~ /_id=$/
-          variable = node.subject
+          variable = node.subject[1]
           @variables[variable] = true
         end
       end
       
       def call_assignment(node)
         if node.message == :save
-          variable = node.subject
+          variable = node.subject[1]
           add_error "use model association" if @variables[variable]
         end
-      end
-      
-      def add_variable(key)
-        @variables ||= {}
-        @variables[key] = false
       end
     end
   end
