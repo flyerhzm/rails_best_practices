@@ -40,7 +40,7 @@ module RailsBestPractices
       
       def call_node(node)
         variable = node.subject
-        return if variable.nil?
+        return if variable.nil? or ![:lvar, :ivar].include? node.subject.node_type
         @variables[variable] ||= 0
         @variables[variable] += 1
       end
