@@ -2,6 +2,9 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
+    # Check config/routes.rb to make sure not to use too deep nesting routes.
+    #
+    # Implementation: check nested route count, if more than nested_count, then it is needless deep nesting.
     class NeedlessDeepNestingCheck < Check
       
       def interesting_nodes
