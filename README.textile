@@ -39,7 +39,7 @@ h2. Progress
 
 * Lesson 2. RESTful Conventions
 ## [-Overuse route customizations-]
-## Needless deep nesting
+## [-Needless deep nesting-]
 ## Not use default route
 
 * Lesson 3. Model
