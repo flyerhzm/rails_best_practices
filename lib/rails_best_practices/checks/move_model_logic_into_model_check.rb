@@ -29,8 +29,9 @@ module RailsBestPractices
             call_node(child)
           end
         end
-        if @variables.values.any? { |count| count > @called_count }
-          add_error "move model logic into model"
+        
+        @variables.each do |variable, count|
+          add_error "move model logic into model (#{variable.to_ruby} called_count > #{@called_count})" if count > @called_count
         end
         @variables = nil
       end

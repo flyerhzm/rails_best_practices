@@ -26,7 +26,7 @@ describe RailsBestPractices::Checks::MoveModelLogicIntoModelCheck do
     @runner.check('app/controller/posts_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/controller/posts_controller.rb:3 - move model logic into model"
+    errors[0].to_s.should == "app/controller/posts_controller.rb:3 - move model logic into model (@post called_count > 4)"
   end
 
   it "should not move model logic into model with simple model calling" do
