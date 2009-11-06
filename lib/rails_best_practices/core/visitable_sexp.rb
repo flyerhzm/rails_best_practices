@@ -47,56 +47,43 @@ class Sexp
   end
   
   def subject
-    case node_type
-    when :attrasgn, :call, :iasgn, :lasgn
+    if [:attrasgn, :call, :iasgn, :lasgn].include? node_type
       self[1]
-    else
     end
   end
   
   def message
-    case node_type
-    when :attrasgn, :call
+    if [:attrasgn, :call].include? node_type
       self[2]
-    else
     end
   end
   
   def arguments
-    case node_type
-    when :attrasgn, :call
+    if [:attrasgn, :call].include? node_type
       self[3]
-    else
     end
   end
   
   def call
-    case node_type
-    when :if, :arglist
+    if [:if, :arglist].include? node_type
       self[1]
-    else
     end
   end
   
   def true_node
-    case node_type
-    when :if
+    if :if == node_type
       self[2]
-    else
     end
   end
   
   def false_node
-    case node_type
-    when :if
+    if :if == node_type
       self[3]
-    else
     end
   end
   
   def method_body
-    case node_type
-    when :block
+    if :block == node_type
       self[1..-1]
     else
     end
