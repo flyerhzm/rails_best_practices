@@ -6,9 +6,14 @@ module RailsBestPractices
   module Core
     class Runner
       DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "..", "..", "rails_best_practices.yml")
+      CUSTOM_CONFIG = File.join('config', 'rails_best_practices.yml')
       
       def initialize(*checks)
-        @config = DEFAULT_CONFIG
+        if File.exists?(CUSTOM_CONFIG)
+          @config = CUSTOM_CONFIG
+        else
+          @config = DEFAULT_CONFIG
+        end
         @checks = checks unless checks.empty?
         @checks ||= load_checks
         @checker ||= CheckingVisitor.new(@checks)
