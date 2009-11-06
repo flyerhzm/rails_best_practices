@@ -19,7 +19,7 @@ describe RailsBestPractices::Checks::UseModelAssociationCheck do
     @runner.check('app/controller/posts_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/controller/posts_controller.rb:3 - use model association"
+    errors[0].to_s.should == "app/controller/posts_controller.rb:3 - use model association (for @post)"
   end
 
   it "should not use model association without association assign" do
@@ -51,7 +51,7 @@ describe RailsBestPractices::Checks::UseModelAssociationCheck do
     @runner.check('app/controller/posts_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/controller/posts_controller.rb:3 - use model association"
+    errors[0].to_s.should == "app/controller/posts_controller.rb:3 - use model association (for post)"
   end
 
   it "should not use model association" do
