@@ -15,10 +15,32 @@ sudo gem install rails_best_practices --source http://gemcutter.org
 
 h2. Usage
 
-at the root of rails
+at the root directory of rails app
 
 <pre><code>
 rails_best_practices .
+</code></pre>
+
+*************************************************
+
+h2. Customize Configuration
+
+Copy <code>rails_best_practices.yml</code> in the root directory of rails_best_practices gem to <code>config</code> directory
+Now you can customize the configuration, the default configuration is as follows:
+
+<pre><code>
+MoveFinderToNamedScopeCheck: { }
+UseModelAssociationCheck: { }
+UseScopeAccessCheck: { }
+AddModelVirtualAttributeCheck: { }
+# UseModelCallbackCheck: { }
+ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }
+MoveModelLogicIntoModelCheck: { called_count: 4 }
+# ManyToManyCollectionCheck: { }
+# NestedModelFormsCheck: { }
+OveruseRouteCustomizationsCheck: { customize_count: 3 }
+NeedlessDeepNestingCheck: { nested_count: 2 }
+NotUseDefaultRouteCheck: {  }
 </code></pre>
 
 *************************************************
