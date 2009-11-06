@@ -17,7 +17,7 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
     @runner.check('config/routes.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations"
+    errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
   end
   
   it "should overuse route customizations with collection" do
@@ -32,7 +32,7 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
     @runner.check('config/routes.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations"
+    errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
   end
   
   it "should not overuse route customizations without customization" do
