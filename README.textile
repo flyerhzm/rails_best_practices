@@ -40,7 +40,7 @@ h2. Progress
 * Lesson 2. RESTful Conventions
 ## [-Overuse route customizations-]
 ## [-Needless deep nesting-]
-## Not use default route
+## [-Not use default route-]
 
 * Lesson 3. Model
 ## Keep Finders on Their Own Model

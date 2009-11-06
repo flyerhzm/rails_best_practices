@@ -9,3 +9,4 @@ MoveModelLogicIntoModelCheck: { called_count: 4 }
 # NestedModelFormsCheck: { }
 OveruseRouteCustomizationsCheck: { customize_count: 3 }
 NeedlessDeepNestingCheck: { nested_count: 2 }
+NotUseDefaultRouteCheck: {  }
