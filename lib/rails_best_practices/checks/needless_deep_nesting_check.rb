@@ -26,7 +26,7 @@ module RailsBestPractices
             @counter = 0
           else
             @counter += 1
-            add_error "needless deep nesting" if @counter >= @nested_count
+            add_error "needless deep nesting (nested_count > #{@nested_count})" if @counter >= @nested_count
           end
         end
       end

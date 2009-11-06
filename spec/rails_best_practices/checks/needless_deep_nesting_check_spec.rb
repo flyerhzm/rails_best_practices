@@ -16,7 +16,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
     @runner.check('config/routes.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "config/routes.rb:3 - needless deep nesting"
+    errors[0].to_s.should == "config/routes.rb:3 - needless deep nesting (nested_count > 2)"
   end
 
   it "should no needless deep nesting" do
