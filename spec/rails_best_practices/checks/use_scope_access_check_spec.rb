@@ -20,10 +20,10 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controller/posts_controller.rb', content)
+      @runner.check('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
-      errors[0].to_s.should == "app/controller/posts_controller.rb:7 - use scope access"
+      errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
     end
 
     it "shoud use scope access by comparing with id" do
@@ -40,10 +40,10 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controller/posts_controller.rb', content)
+      @runner.check('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
-      errors[0].to_s.should == "app/controller/posts_controller.rb:7 - use scope access"
+      errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
     end
 
     it "shoud use scope access with current_user ==" do
@@ -60,10 +60,10 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controller/posts_controller.rb', content)
+      @runner.check('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
-      errors[0].to_s.should == "app/controller/posts_controller.rb:7 - use scope access"
+      errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
     end
 
     it "shoud use scope access by current_user.id ==" do
@@ -80,10 +80,10 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controller/posts_controller.rb', content)
+      @runner.check('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
-      errors[0].to_s.should == "app/controller/posts_controller.rb:7 - use scope access"
+      errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
     end
   end
 
@@ -102,10 +102,10 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controller/posts_controller.rb', content)
+      @runner.check('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
-      errors[0].to_s.should == "app/controller/posts_controller.rb:6 - use scope access"
+      errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
     end
 
     it "shoud use scope access by comparing with id" do
@@ -122,10 +122,10 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controller/posts_controller.rb', content)
+      @runner.check('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
-      errors[0].to_s.should == "app/controller/posts_controller.rb:6 - use scope access"
+      errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
     end
 
     it "shoud use scope access with current_user ==" do
@@ -142,10 +142,10 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controller/posts_controller.rb', content)
+      @runner.check('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
-      errors[0].to_s.should == "app/controller/posts_controller.rb:6 - use scope access"
+      errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
     end
 
     it "shoud use scope access by current_user.id ==" do
@@ -162,10 +162,10 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controller/posts_controller.rb', content)
+      @runner.check('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
-      errors[0].to_s.should == "app/controller/posts_controller.rb:6 - use scope access"
+      errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
     end
   end
 end

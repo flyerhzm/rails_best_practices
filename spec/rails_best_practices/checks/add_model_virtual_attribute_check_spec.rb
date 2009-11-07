@@ -17,10 +17,10 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
       end
     end
     EOF
-    @runner.check('app/controller/users_controller.rb', content)
+    @runner.check('app/controllers/users_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/controller/users_controller.rb:3 - add model virtual attribute (for @user)"
+    errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for @user)"
   end
 
   it "should not add model virtual attribute with differen param" do
@@ -35,7 +35,7 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
       end
     end
     EOF
-    @runner.check('app/controller/users_controller.rb', content)
+    @runner.check('app/controllers/users_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -53,7 +53,7 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
       end
     end
     EOF
-    @runner.check('app/controller/users_controller.rb', content)
+    @runner.check('app/controllers/users_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end

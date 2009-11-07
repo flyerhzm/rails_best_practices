@@ -20,11 +20,11 @@ describe RailsBestPractices::Checks::MoveFinderToNamedScopeCheck do
       end
     end
     EOF
-    @runner.check('app/controller/posts_controller.rb', content)
+    @runner.check('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.size.should == 2
-    errors[0].to_s.should == "app/controller/posts_controller.rb:4 - move finder to named_scope"
-    errors[1].to_s.should == "app/controller/posts_controller.rb:8 - move finder to named_scope"
+    errors[0].to_s.should == "app/controllers/posts_controller.rb:4 - move finder to named_scope"
+    errors[1].to_s.should == "app/controllers/posts_controller.rb:8 - move finder to named_scope"
   end
   
   it "should not move simple finder" do
@@ -41,7 +41,7 @@ describe RailsBestPractices::Checks::MoveFinderToNamedScopeCheck do
       end
     end
     EOF
-    @runner.check('app/controller/posts_controller.rb', content)
+    @runner.check('app/controllers/posts_controller.rb', content)
     @runner.errors.should be_empty
   end
   
@@ -55,7 +55,7 @@ describe RailsBestPractices::Checks::MoveFinderToNamedScopeCheck do
       end
     end
     EOF
-    @runner.check('app/controller/posts_controller.rb', content)
+    @runner.check('app/controllers/posts_controller.rb', content)
     @runner.errors.should be_empty
   end
   

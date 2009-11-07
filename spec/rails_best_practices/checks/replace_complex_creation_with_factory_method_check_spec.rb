@@ -25,10 +25,10 @@ describe RailsBestPractices::Checks::ReplaceComplexCreationWithFactoryMethodChec
       end
     end
     EOF
-    @runner.check('app/controller/invoices_controller.rb', content)
+    @runner.check('app/controllers/invoices_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/controller/invoices_controller.rb:3 - replace complex creation with factory method (@invoice attribute_assignment_count > 2)"
+    errors[0].to_s.should == "app/controllers/invoices_controller.rb:3 - replace complex creation with factory method (@invoice attribute_assignment_count > 2)"
   end
 
   it "should not replace complex creation with factory method with simple creation" do
@@ -43,7 +43,7 @@ describe RailsBestPractices::Checks::ReplaceComplexCreationWithFactoryMethodChec
       end
     end
     EOF
-    @runner.check('app/controller/invoices_controller.rb', content)
+    @runner.check('app/controllers/invoices_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -69,7 +69,7 @@ describe RailsBestPractices::Checks::ReplaceComplexCreationWithFactoryMethodChec
     end
     EOF
     @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::ReplaceComplexCreationWithFactoryMethodCheck.new('attribute_assignment_count' => 5))
-    @runner.check('app/controller/invoices_controller.rb', content)
+    @runner.check('app/controllers/invoices_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
