@@ -67,7 +67,7 @@ h2. Progress
 
 * Lesson 3. Model
 ## [-Keep Finders on Their Own Model-]
-## Love named_scope
+## [-Love named_scope-] # same as Move finder to named_scope
 ## the Law of Demeter
 ## DRY: metaprogramming
 ## Extract into Module
