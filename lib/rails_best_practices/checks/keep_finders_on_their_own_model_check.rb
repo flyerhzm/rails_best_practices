@@ -2,6 +2,9 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
+    # Check a model to make sure finders are on their own model.
+    #
+    # Implementation: check if :find is called by other model.
     class KeepFindersOnTheirOwnModelCheck < Check
       
       def interesting_nodes
