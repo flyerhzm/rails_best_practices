@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'ruby_parser'
+require 'erb'
 require 'yaml'
 
 module RailsBestPractices
@@ -21,6 +22,9 @@ module RailsBestPractices
       end
 
       def check(filename, content)
+        if filename =~ /.*erb/
+          content = ERB.new(content).src
+        end
         node = parse(filename, content)
         node.accept(@checker) if node
       end
