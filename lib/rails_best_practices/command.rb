@@ -1,11 +1,11 @@
 require 'optparse'
 
 def expand_dirs_to_files *dirs
-  extensions = ['rb']
+  extensions = ['rb', 'builder']
 
   dirs.flatten.map { |p|
     if File.directory? p
-      Dir[File.join(p, '**', "*.{#{extensions.join(',')}}")]
+      Dir[File.join(p, '**', "*{#{extensions.join(',')}}")]
     else
       p
     end
