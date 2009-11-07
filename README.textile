@@ -42,6 +42,7 @@ OveruseRouteCustomizationsCheck: { customize_count: 3 }
 NeedlessDeepNestingCheck: { nested_count: 2 }
 NotUseDefaultRouteCheck: {  }
 KeepFindersOnTheirOwnModelCheck: { }
+LawOfDemeterCheck: { }
 </code></pre>
 
 *************************************************
@@ -68,7 +69,7 @@ h2. Progress
 * Lesson 3. Model
 ## [-Keep Finders on Their Own Model-]
 ## [-Love named_scope-] # same as Move finder to named_scope
-## the Law of Demeter
+## [-the Law of Demeter-]
 ## DRY: metaprogramming
 ## Extract into Module
 ## Extract to composed class

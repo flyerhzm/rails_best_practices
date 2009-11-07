@@ -47,7 +47,7 @@ class Sexp
   end
   
   def subject
-    if [:attrasgn, :call, :iasgn, :lasgn].include? node_type
+    if [:attrasgn, :call, :iasgn, :lasgn, :class].include? node_type
       self[1]
     end
   end
@@ -85,11 +85,16 @@ class Sexp
   def method_body
     if :block == node_type
       self[1..-1]
-    else
+    end
+  end
+
+  def class_body
+    if :class == node_type
+      self[3]
     end
   end
 
   def to_ruby
-    Ruby2Ruby.new.process(self)
+    Ruby2Ruby.new.process(self) unless self.empty?
   end
 end

@@ -11,3 +11,4 @@ OveruseRouteCustomizationsCheck: { customize_count: 3 }
 NeedlessDeepNestingCheck: { nested_count: 2 }
 NotUseDefaultRouteCheck: {  }
 KeepFindersOnTheirOwnModelCheck: { }
+LawOfDemeterCheck: { }
