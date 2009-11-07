@@ -2,6 +2,11 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
+    # Check to make sure not avoid the law of demeter.
+    # 
+    # Implementation: 
+    # 1. check all models to record belongs_to associations
+    # 2. check if calling belongs_to association's method or attribute
     class LawOfDemeterCheck < Check
       
       def interesting_nodes
