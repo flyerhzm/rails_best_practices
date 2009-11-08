@@ -2,6 +2,12 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
+    # Check a migration file to make sure every reference key has a database index.
+    #
+    # Implementation:
+    # Parse migration files twice.
+    # First, remember all reference keys and index keys.
+    # Second, compare reference keys and index keys, and add error when reference keys are not in index keys.
     class AlwaysAddDbIndexCheck < Check
 
       def interesting_nodes
