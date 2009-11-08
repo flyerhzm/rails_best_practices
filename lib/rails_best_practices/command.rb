@@ -10,6 +10,7 @@ def expand_dirs_to_files *dirs
       p
     end
   }.flatten.sort { |a, b|
+    # for law_of_demeter_check
     if a =~ /models\/.*rb/
       -1
     elsif b =~ /models\/.*rb/
@@ -20,6 +21,7 @@ def expand_dirs_to_files *dirs
   }
 end
 
+# for always_add_db_index_check
 def add_duplicate_migration_files files
   migration_files = files.select { |file| file.index("db/migrate") }
   (files << migration_files).flatten
