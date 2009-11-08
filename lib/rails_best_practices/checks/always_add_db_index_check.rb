@@ -45,12 +45,25 @@ module RailsBestPractices
         create_table_node = node.grep_nodes({:node_type => :call, :message => :create_table}).first
         if create_table_node
           table_name = eval(create_table_node.arguments[1].to_ruby).to_s
-          [:integer, :column, :references].each do |message|
-            node.grep_nodes({:node_type => :call, :message => message}).each do |integer_node|
-              column_name = eval(integer_node.arguments[1].to_ruby).to_s
-              column_name += "_id" if :references == message
+          node.grep_nodes({:node_type => :call, :message => :integer}).each do |integer_node|
+            column_name = eval(integer_node.arguments[1].to_ruby).to_s
+            if column_name =~ /_id$/
               @references[table_name] ||= []
               @references[table_name] << column_name
+            end
+          end
+          node.grep_nodes({:node_type => :call, :message => :references}).each do |references_node|
+            column_name = eval(references_node.arguments[1].to_ruby).to_s + "_id"
+            @references[table_name] ||= []
+            @references[table_name] << column_name
+          end
+          node.grep_nodes({:node_type => :call, :message => :column}).each do |column_node|
+            if 'integer' == eval(column_node.arguments[2].to_ruby).to_s
+              column_name = eval(column_node.arguments[1].to_ruby).to_s
+              if column_name =~ /_id$/
+                @references[table_name] ||= []
+                @references[table_name] << column_name
+              end
             end
           end
         end
