@@ -1,11 +1,12 @@
 require 'optparse'
 
 def expand_dirs_to_files *dirs
+  # extensions = ['rb', 'erb', 'builder']
   extensions = ['rb', 'builder']
 
   dirs.flatten.map { |p|
     if File.directory? p
-      Dir[File.join(p, '**', "*{#{extensions.join(',')}}")]
+      Dir[File.join(p, '**', "*.{#{extensions.join(',')}}")]
     else
       p
     end
@@ -27,6 +28,10 @@ def add_duplicate_migration_files files
   (files << migration_files).flatten
 end
 
+def ignore_vendor_directories files
+  files.reject { |file| file.index("vendor/") }
+end
+
 options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: rails_best_practices [options]"
@@ -40,7 +45,7 @@ OptionParser.new do |opts|
 end
 
 runner = RailsBestPractices::Core::Runner.new
-add_duplicate_migration_files(expand_dirs_to_files(ARGV)).each { |file| runner.check_file(file) }
+ignore_vendor_directories(add_duplicate_migration_files(expand_dirs_to_files(ARGV))).each { |file| runner.check_file(file) }
 runner.errors.each {|error| puts error}
 puts "\nFound #{runner.errors.size} errors."
 
