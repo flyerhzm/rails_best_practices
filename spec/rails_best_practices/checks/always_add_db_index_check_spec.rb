@@ -28,6 +28,52 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     errors[0].to_s.should == "db/migrate/20090918130258_create_comments.rb:2 - always add db index (comments => post_id, comments => user_id)"
   end
 
+  it "should always add db index with references" do
+    content = <<-EOF
+    class CreateComments < ActiveRecord::Migration
+      def self.up
+        create_table "comments", :force => true do |t|
+          t.string :content
+          t.references :post
+          t.references :user
+        end
+      end
+
+      def self.down
+        drop_table "comments"
+      end
+    end
+    EOF
+    @runner.check('db/migrate/20090918130258_create_comments.rb', content)
+    @runner.check('db/migrate/20090918130258_create_comments.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "db/migrate/20090918130258_create_comments.rb:2 - always add db index (comments => post_id, comments => user_id)"
+  end
+
+  it "should always add db index with column" do
+    content = <<-EOF
+    class CreateComments < ActiveRecord::Migration
+      def self.up
+        create_table "comments", :force => true do |t|
+          t.string :content
+          t.column :post_id, :integer
+          t.column :user_id, :integer
+        end
+      end
+
+      def self.down
+        drop_table "comments"
+      end
+    end
+    EOF
+    @runner.check('db/migrate/20090918130258_create_comments.rb', content)
+    @runner.check('db/migrate/20090918130258_create_comments.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "db/migrate/20090918130258_create_comments.rb:2 - always add db index (comments => post_id, comments => user_id)"
+  end
+
   it "should not always add db index with add_index" do
     content = <<-EOF
     class CreateComments < ActiveRecord::Migration

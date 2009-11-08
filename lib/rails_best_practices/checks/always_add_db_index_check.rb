@@ -45,10 +45,13 @@ module RailsBestPractices
         create_table_node = node.grep_nodes({:node_type => :call, :message => :create_table}).first
         if create_table_node
           table_name = eval(create_table_node.arguments[1].to_ruby).to_s
-          node.grep_nodes({:node_type => :call, :message => :integer}).each do |integer_node|
-            column_name = eval(integer_node.arguments[1].to_ruby).to_s
-            @references[table_name] ||= []
-            @references[table_name] << column_name
+          [:integer, :column, :references].each do |message|
+            node.grep_nodes({:node_type => :call, :message => message}).each do |integer_node|
+              column_name = eval(integer_node.arguments[1].to_ruby).to_s
+              column_name += "_id" if :references == message
+              @references[table_name] ||= []
+              @references[table_name] << column_name
+            end
           end
         end
       end
