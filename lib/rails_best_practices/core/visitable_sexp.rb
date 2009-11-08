@@ -81,6 +81,12 @@ class Sexp
       self[3]
     end
   end
+
+  def message_name
+    if :defn == node_type
+      self[1]
+    end
+  end
   
   def method_body
     if :block == node_type

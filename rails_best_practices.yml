@@ -12,3 +12,4 @@ NeedlessDeepNestingCheck: { nested_count: 2 }
 NotUseDefaultRouteCheck: {  }
 KeepFindersOnTheirOwnModelCheck: { }
 LawOfDemeterCheck: { }
+UseObserverCheck: { }

@@ -43,6 +43,7 @@ NeedlessDeepNestingCheck: { nested_count: 2 }
 NotUseDefaultRouteCheck: {  }
 KeepFindersOnTheirOwnModelCheck: { }
 LawOfDemeterCheck: { }
+UseObserverCheck: { }
 </code></pre>
 
 *************************************************
@@ -73,7 +74,7 @@ h2. Progress
 ## DRY: metaprogramming
 ## Extract into Module
 ## Extract to composed class
-## Use Observer
+## [-Use Observer-]
 
 * Lesson 4. Migration
 ## Isolating Seed Data
