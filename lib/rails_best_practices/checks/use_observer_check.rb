@@ -33,7 +33,9 @@ module RailsBestPractices
       private
 
       def remember_callbacks(node)
-        @callbacks << eval(node.arguments.to_ruby).to_s
+        node.arguments[1..-1].each do |argument|
+          @callbacks << eval(argument.to_ruby).to_s
+        end
       end
 
       def use_observer?(node)

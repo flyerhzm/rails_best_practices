@@ -41,4 +41,27 @@ describe RailsBestPractices::Checks::UseObserverCheck do
     errors = @runner.errors
     errors.should be_empty
   end
+
+  it "should use observer with two after_create" do
+    content =<<-EOF
+    class Project < ActiveRecord::Base
+      after_create :send_create_notification, :update_author
+
+      private
+
+      def send_create_notification
+        self.members.each do |member|
+          ProjectMailer.deliver_notification(self, member)
+        end
+      end
+
+      def update_author
+      end
+    end
+    EOF
+    @runner.check('app/models/project.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "app/models/project.rb:6 - use observer"
+  end
 end
