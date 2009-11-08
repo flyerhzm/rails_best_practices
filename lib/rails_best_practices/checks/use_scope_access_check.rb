@@ -26,7 +26,7 @@ module RailsBestPractices
         
         condition_node.message == :== and 
         (current_user?(condition_node.arguments.call) or current_user?(condition_node.subject)) and 
-        (node.false_node.method_body.any? {|n| n.message == :redirect_to} or node.true_node.method_body.any? {|n| n.message == :redirect_to})
+        (node.false_node.body.any? {|n| n.message == :redirect_to} or node.true_node.method_body.any? {|n| n.message == :redirect_to})
       end
       
       def current_user?(call_node)

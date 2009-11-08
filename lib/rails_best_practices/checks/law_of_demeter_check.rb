@@ -29,7 +29,7 @@ module RailsBestPractices
       private
 
       def remember_belongs_to(node)
-        node.class_body.grep_nodes(:message => :belongs_to).collect do |body_node|
+        node.body.grep_nodes(:message => :belongs_to).collect do |body_node|
           class_name = node.subject.to_s.underscore
           @associations[class_name] ||= []
           @associations[class_name] << eval(body_node.arguments[1].to_ruby).to_s

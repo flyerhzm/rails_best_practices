@@ -88,14 +88,10 @@ class Sexp
     end
   end
   
-  def method_body
+  def body
     if :block == node_type
       self[1..-1]
-    end
-  end
-
-  def class_body
-    if :class == node_type
+    elsif :class == node_type
       self[3]
     end
   end
