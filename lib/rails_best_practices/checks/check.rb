@@ -3,7 +3,7 @@ require 'rails_best_practices/core/error'
 module RailsBestPractices
   module Checks
     class Check
-      NODE_TYPES = [:call, :defn, :if, :unless, :class, :lasgn]
+      NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn]
 
       def initialize
         @errors = []

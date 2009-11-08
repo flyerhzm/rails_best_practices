@@ -12,6 +12,11 @@ def expand_dirs_to_files *dirs
   }.flatten.sort
 end
 
+def add_duplicate_migration_files files
+  migration_files = files.select { |file| file.index("db/migrate") }
+  (files << migration_files).flatten
+end
+
 options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: rails_best_practices [options]"
@@ -25,7 +30,7 @@ OptionParser.new do |opts|
 end
 
 runner = RailsBestPractices::Core::Runner.new
-expand_dirs_to_files(ARGV).each.each { |file| runner.check_file(file) }
+add_duplicate_migration_files(expand_dirs_to_files(ARGV)).each { |file| runner.check_file(file) }
 runner.errors.each {|error| puts error}
 puts "\nFound #{runner.errors.size} errors."
 

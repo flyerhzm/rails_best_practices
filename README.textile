@@ -45,6 +45,7 @@ KeepFindersOnTheirOwnModelCheck: { }
 LawOfDemeterCheck: { }
 UseObserverCheck: { }
 IsolateSeedDataCheck: { }
+AlwaysAddDbIndexCheck: { }
 </code></pre>
 
 *************************************************
@@ -79,7 +80,7 @@ h2. Progress
 
 * Lesson 4. Migration
 ## [-Isolating Seed Data-]
-## Always add DB index
+## [-Always add DB index-]
 
 * Lesson 5. Controller
 ## Use before_filter
