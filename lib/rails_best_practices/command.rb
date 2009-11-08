@@ -9,7 +9,15 @@ def expand_dirs_to_files *dirs
     else
       p
     end
-  }.flatten.sort
+  }.flatten.sort { |a, b|
+    if a =~ /models\/.*rb/
+      -1
+    elsif b =~ /models\/.*rb/
+      1
+    else
+      a <=> b
+    end
+  }
 end
 
 def add_duplicate_migration_files files
