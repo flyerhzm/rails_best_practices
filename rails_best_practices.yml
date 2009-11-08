@@ -13,3 +13,4 @@ NotUseDefaultRouteCheck: {  }
 KeepFindersOnTheirOwnModelCheck: { }
 LawOfDemeterCheck: { }
 UseObserverCheck: { }
+IsolateSeedDataCheck: { }

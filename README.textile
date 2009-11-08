@@ -44,6 +44,7 @@ NotUseDefaultRouteCheck: {  }
 KeepFindersOnTheirOwnModelCheck: { }
 LawOfDemeterCheck: { }
 UseObserverCheck: { }
+IsolateSeedDataCheck: { }
 </code></pre>
 
 *************************************************
@@ -77,7 +78,7 @@ h2. Progress
 ## [-Use Observer-]
 
 * Lesson 4. Migration
-## Isolating Seed Data
+## [-Isolating Seed Data-]
 ## Always add DB index
 
 * Lesson 5. Controller
