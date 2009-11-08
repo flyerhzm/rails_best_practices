@@ -22,6 +22,24 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
     errors.should_not be_empty
     errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for @user)"
   end
+  
+  it "should add model virtual attribute with local assignment" do
+    content = <<-EOF
+    class UsersController < ApplicationController
+      
+      def create
+        user = User.new(params[:user])
+        user.first_name = params[:full_name].split(' ', 2).first
+        user.last_name = params[:full_name].split(' ', 2).last
+        user.save
+      end
+    end
+    EOF
+    @runner.check('app/controllers/users_controller.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for user)"
+  end
 
   it "should not add model virtual attribute with differen param" do
     content = <<-EOF
