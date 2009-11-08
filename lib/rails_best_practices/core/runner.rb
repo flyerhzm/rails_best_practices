@@ -49,7 +49,7 @@ module RailsBestPractices
         begin
           @parser.parse(content, filename)
         rescue Exception => e
-          puts "#{filename} looks like it's not a valid Ruby file.  Skipping..." if ENV["RBP_DEBUG"]
+          puts "#{filename} looks like it's not a valid Ruby file.  Skipping..."
           nil
         end
       end
