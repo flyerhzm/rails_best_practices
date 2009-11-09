@@ -9,8 +9,12 @@ def expand_dirs_to_files *dirs
     else
       p
     end
-  }.flatten.sort { |a, b|
-    # for law_of_demeter_check
+  }.flatten
+end
+
+# for law_of_demeter_check
+def model_first_sort files
+  files.sort { |a, b|
     if a =~ /models\/.*rb/
       -1
     elsif b =~ /models\/.*rb/
@@ -22,13 +26,13 @@ def expand_dirs_to_files *dirs
 end
 
 # for always_add_db_index_check
-def add_duplicate_migration_files files
+def add_duplicate_migrations files
   migration_files = files.select { |file| file.index("db/migrate") }
   (files << migration_files).flatten
 end
 
-def ignore_vendor_directories files
-  files.reject { |file| file.index("vendor/") }
+def ignore_files files, pattern
+  files.reject { |file| file.index(pattern) }
 end
 
 options = {}
@@ -38,7 +42,13 @@ OptionParser.new do |opts|
   opts.on("-d", "--debug", "Debug mode") do
     options['debug'] = true
   end
-  
+
+  ['vendor', 'spec', 'test', 'stories'].each do |pattern|
+    opts.on("--#{pattern}", "include #{pattern} files") do
+      options[pattern] = true
+    end
+  end
+
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
     exit
@@ -49,7 +59,15 @@ end
 
 runner = RailsBestPractices::Core::Runner.new
 runner.set_debug if options['debug']
-ignore_vendor_directories(add_duplicate_migration_files(expand_dirs_to_files(ARGV))).each { |file| runner.check_file(file) }
+
+files = expand_dirs_to_files(ARGV)
+files = model_first_sort(files)
+files = add_duplicate_migrations(files)
+['vendor', 'spec', 'test', 'stories'].each do |pattern|
+  files = ignore_files(files, "#{pattern}/") unless options[pattern]
+end
+files.each { |file| runner.check_file(file) }
+
 runner.errors.each {|error| puts error}
 puts "\nFound #{runner.errors.size} errors."
 
