@@ -2,6 +2,9 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
+    # Check a controller file to make sure to use filter to remove duplicate call in different action.
+    #
+    # Implementation: Check all methods' first call, if they are duplicate, then should use filter.
     class UseFilterCheck < Check
 
       def interesting_nodes
