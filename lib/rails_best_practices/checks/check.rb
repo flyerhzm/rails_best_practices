@@ -16,8 +16,8 @@ module RailsBestPractices
       NODE_TYPES.each do |node|
         start_node_method = "evaluate_start_#{node}"
         end_node_method = "evaluate_end_#{node}"
-        define_method(start_node_method) { } unless self.respond_to?(start_node_method)
-        define_method(end_node_method) { } unless self.respond_to?(end_node_method)
+        define_method(start_node_method) { |node| } unless self.respond_to?(start_node_method)
+        define_method(end_node_method) { |node| } unless self.respond_to?(end_node_method)
       end
 
       def position(offset = 0)
