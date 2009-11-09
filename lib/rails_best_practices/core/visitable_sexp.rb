@@ -101,4 +101,9 @@ class Sexp
   def to_ruby
     Ruby2Ruby.new.process(self) unless self.empty?
   end
+  
+  def to_ruby_string
+    return nil if self.empty?
+    eval(Ruby2Ruby.new.process(self)).to_s
+  end
 end

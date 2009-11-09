@@ -34,7 +34,7 @@ module RailsBestPractices
 
       def remember_callbacks(node)
         node.arguments[1..-1].each do |argument|
-          @callbacks << eval(argument.to_ruby).to_s
+          @callbacks << argument.to_ruby_string
         end
       end
 

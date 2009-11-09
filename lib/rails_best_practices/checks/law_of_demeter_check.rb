@@ -32,7 +32,7 @@ module RailsBestPractices
         node.body.grep_nodes(:message => :belongs_to).collect do |body_node|
           class_name = node.subject.to_s.underscore
           @associations[class_name] ||= []
-          @associations[class_name] << eval(body_node.arguments[1].to_ruby).to_s
+          @associations[class_name] << body_node.arguments[1].to_ruby_string
         end
       end
 

@@ -51,22 +51,22 @@ module RailsBestPractices
       def remember_references(node)
         create_table_node = node.grep_nodes({:node_type => :call, :message => :create_table}).first
         if create_table_node
-          table_name = eval(create_table_node.arguments[1].to_ruby).to_s
+          table_name = create_table_node.arguments[1].to_ruby_string
           node.grep_nodes({:node_type => :call, :message => :integer}).each do |integer_node|
-            column_name = eval(integer_node.arguments[1].to_ruby).to_s
+            column_name = integer_node.arguments[1].to_ruby_string
             if column_name =~ /_id$/
               @references[table_name] ||= []
               @references[table_name] << column_name
             end
           end
           node.grep_nodes({:node_type => :call, :message => :references}).each do |references_node|
-            column_name = eval(references_node.arguments[1].to_ruby).to_s + "_id"
+            column_name = references_node.arguments[1].to_ruby_string + "_id"
             @references[table_name] ||= []
             @references[table_name] << column_name
           end
           node.grep_nodes({:node_type => :call, :message => :column}).each do |column_node|
-            if 'integer' == eval(column_node.arguments[2].to_ruby).to_s
-              column_name = eval(column_node.arguments[1].to_ruby).to_s
+            if 'integer' == column_node.arguments[2].to_ruby_string
+              column_name = column_node.arguments[1].to_ruby_string
               if column_name =~ /_id$/
                 @references[table_name] ||= []
                 @references[table_name] << column_name
@@ -79,8 +79,8 @@ module RailsBestPractices
       def remember_indexes(node)
         add_index_nodes = node.grep_nodes({:node_type => :call, :message => :add_index})
         add_index_nodes.each do |add_index_node|
-          table_name = eval(add_index_node.arguments[1].to_ruby).to_s
-          column_name = eval(add_index_node.arguments[2].to_ruby).to_s
+          table_name = add_index_node.arguments[1].to_ruby_string
+          column_name = add_index_node.arguments[2].to_ruby_string
           @indexes[table_name] ||= []
           @indexes[table_name] << column_name
         end
