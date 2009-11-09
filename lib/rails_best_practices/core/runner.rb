@@ -19,6 +19,11 @@ module RailsBestPractices
         @checks ||= load_checks
         @checker ||= CheckingVisitor.new(@checks)
         @parser = RubyParser.new
+        @debug = false
+      end
+      
+      def set_debug
+        @debug = true
       end
 
       def check(filename, content)
@@ -46,6 +51,7 @@ module RailsBestPractices
       private
 
       def parse(filename, content)
+        puts filename if @debug
         begin
           @parser.parse(content, filename)
         rescue Exception => e

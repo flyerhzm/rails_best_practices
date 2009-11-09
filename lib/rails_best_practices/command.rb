@@ -36,6 +36,10 @@ options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: rails_best_practices [options]"
   
+  opts.on("-d", "--debug", "Debug mode") do
+    options['debug'] = true
+  end
+  
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
     exit
@@ -45,6 +49,7 @@ OptionParser.new do |opts|
 end
 
 runner = RailsBestPractices::Core::Runner.new
+runner.set_debug if options['debug']
 ignore_vendor_directories(add_duplicate_migration_files(expand_dirs_to_files(ARGV))).each { |file| runner.check_file(file) }
 runner.errors.each {|error| puts error}
 puts "\nFound #{runner.errors.size} errors."
