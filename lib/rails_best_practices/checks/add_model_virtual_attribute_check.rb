@@ -49,7 +49,7 @@ module RailsBestPractices
       def params_dup?(nodes)
         return false if nodes.nil?
         params_nodes = nodes.collect {|node| node.grep_nodes({:subject => s(:call, nil, :params, s(:arglist)), :message => :[]}).first}.compact
-        params_arguments = params_nodes.collect(&:arguments)
+        params_arguments = params_nodes.collect{|node| node.arguments}
         !params_arguments.dups.empty?
       end
     end
