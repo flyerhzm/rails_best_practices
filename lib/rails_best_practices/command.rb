@@ -1,8 +1,7 @@
 require 'optparse'
 
 def expand_dirs_to_files *dirs
-  # extensions = ['rb', 'erb', 'builder']
-  extensions = ['rb', 'builder']
+  extensions = ['rb', 'erb', 'builder']
 
   dirs.flatten.map { |p|
     if File.directory? p

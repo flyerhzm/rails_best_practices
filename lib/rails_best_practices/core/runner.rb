@@ -18,7 +18,6 @@ module RailsBestPractices
         @checks = checks unless checks.empty?
         @checks ||= load_checks
         @checker ||= CheckingVisitor.new(@checks)
-        @parser = RubyParser.new
         @debug = false
       end
       
@@ -53,7 +52,7 @@ module RailsBestPractices
       def parse(filename, content)
         puts filename if @debug
         begin
-          @parser.parse(content, filename)
+          RubyParser.new.parse(content, filename)
         rescue Exception => e
           puts "#{filename} looks like it's not a valid Ruby file.  Skipping..."
           nil
