@@ -93,8 +93,10 @@ class Sexp
       self[1..-1]
     elsif :class == node_type
       self[3]
+    elsif :defn == node_type
+      self[3][1]
     elsif :defs == node_type
-      self[4]
+      self[4][1]
     end
   end
 

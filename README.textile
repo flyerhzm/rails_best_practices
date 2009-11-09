@@ -1,5 +1,4 @@
 h1. rails_best_practices
-
 rails_best_practices is a gem to check quality of rails app files according to ihower's presentation Rails Best Practices.
 rails_best_practices is a code static parser tool based on ruby_parser.
 
@@ -53,6 +52,7 @@ LawOfDemeterCheck: { }
 UseObserverCheck: { }
 IsolateSeedDataCheck: { }
 AlwaysAddDbIndexCheck: { }
+UseFilterCheck: { }
 </code></pre>
 
 *************************************************
@@ -90,7 +90,7 @@ h2. Progress
 ## [-Always add DB index-]
 
 * Lesson 5. Controller
-## Use before_filter
+## [-Use before_filter-]
 ## DRY Controller
 
 * Lesson 6. View
