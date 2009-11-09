@@ -36,6 +36,7 @@ module RailsBestPractices
         if @parse and :up == node.message
           @references.each do |table_name, column_names|
             differences = column_names - (@indexes[table_name] || [])
+            @references[table_name] = column_names - differences
             hint = differences.collect {|column_name| "#{table_name} => #{column_name}"}.join(', ')
             add_error "always add db index (#{hint})" unless differences.empty?
           end
