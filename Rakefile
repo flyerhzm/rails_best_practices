@@ -27,7 +27,7 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.email = "flyerhzm@gmail.com"
   gemspec.homepage = "http://github.com/flyerhzm/rails_best_practices"
   gemspec.authors = ["Richard Huang"]
-  gemspec.add_dependency 'ruby_parser'
-  gemspec.add_dependency 'ruby2ruby'
+  gemspec.add_dependency 'ruby_parser', '>= 2.0.4'
+  gemspec.add_dependency 'ruby2ruby', '>= 1.2.4'
 end
 Jeweler::GemcutterTasks.new
