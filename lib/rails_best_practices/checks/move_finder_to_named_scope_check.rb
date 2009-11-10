@@ -16,7 +16,7 @@ module RailsBestPractices
       end
       
       def interesting_files
-        /_controller.rb$/
+        CONTROLLER_FILES
       end
 
       def evaluate_start(node)

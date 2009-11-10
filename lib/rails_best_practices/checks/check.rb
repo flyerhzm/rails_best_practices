@@ -4,6 +4,10 @@ module RailsBestPractices
   module Checks
     class Check
       NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn]
+      
+      CONTROLLER_FILES = /_controller.rb$/
+      MIGRATION_FILES = /db\/migrate\/.*rb/
+      MODLE_FILES = /models\/.*rb/
 
       def initialize
         @errors = []

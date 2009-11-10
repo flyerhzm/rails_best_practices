@@ -14,7 +14,7 @@ module RailsBestPractices
       end
 
       def interesting_files
-        /models\/.*rb/
+        MODLE_FILES
       end
 
       def initialize

@@ -12,7 +12,7 @@ module RailsBestPractices
       end
 
       def interesting_files
-        /db\/migrate\/.*rb/
+        MIGRATION_FILES
       end
 
       def initialize
