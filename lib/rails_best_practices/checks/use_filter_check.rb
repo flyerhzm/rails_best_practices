@@ -28,8 +28,10 @@ module RailsBestPractices
       def remember_method(method_node)
         method_name = method_node.message_name
         first_call = method_node.body[1]
-        @methods[first_call] ||= []
-        @methods[first_call] << method_name
+        unless first_call == s(:nil)
+          @methods[first_call] ||= []
+          @methods[first_call] << method_name
+        end
       end
     end
   end

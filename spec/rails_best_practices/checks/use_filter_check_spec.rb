@@ -59,4 +59,27 @@ describe RailsBestPractices::Checks::UseFilterCheck do
     errors = @runner.errors
     errors.should be_empty
   end
+
+  it "should not use filter by nil" do
+    content = <<-EOF
+    class PostsController < ApplicationController
+
+      def show
+      end
+
+      def edit
+      end
+
+      def update
+      end
+
+      def destroy
+      end
+
+    end
+    EOF
+    @runner.check('app/controllers/posts_controller.rb', content)
+    errors = @runner.errors
+    errors.should be_empty
+  end
 end
