@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rails_best_practices}
-  s.version = "0.2.14"
+  s.version = "0.2.15"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Huang"]
@@ -35,6 +35,7 @@ Gem::Specification.new do |s|
      "lib/rails_best_practices/checks/law_of_demeter_check.rb",
      "lib/rails_best_practices/checks/many_to_many_collection_check.rb",
      "lib/rails_best_practices/checks/move_code_into_controller_check.rb",
+     "lib/rails_best_practices/checks/move_code_into_helper_check.rb",
      "lib/rails_best_practices/checks/move_finder_to_named_scope_check.rb",
      "lib/rails_best_practices/checks/move_model_logic_into_model_check.rb",
      "lib/rails_best_practices/checks/needless_deep_nesting_check.rb",
@@ -63,6 +64,7 @@ Gem::Specification.new do |s|
      "spec/rails_best_practices/checks/law_of_demeter_check_spec.rb",
      "spec/rails_best_practices/checks/many_to_many_collection_check_spec.rb",
      "spec/rails_best_practices/checks/move_code_into_controller_check_spec.rb",
+     "spec/rails_best_practices/checks/move_code_into_helper_check_spec.rb",
      "spec/rails_best_practices/checks/move_finder_to_named_scope_check_spec.rb",
      "spec/rails_best_practices/checks/move_model_logic_into_model_check_spec.rb",
      "spec/rails_best_practices/checks/needless_deep_nesting_check_spec.rb",
@@ -91,6 +93,7 @@ Gem::Specification.new do |s|
      "spec/rails_best_practices/checks/law_of_demeter_check_spec.rb",
      "spec/rails_best_practices/checks/many_to_many_collection_check_spec.rb",
      "spec/rails_best_practices/checks/move_code_into_controller_check_spec.rb",
+     "spec/rails_best_practices/checks/move_code_into_helper_check_spec.rb",
      "spec/rails_best_practices/checks/move_finder_to_named_scope_check_spec.rb",
      "spec/rails_best_practices/checks/move_model_logic_into_model_check_spec.rb",
      "spec/rails_best_practices/checks/needless_deep_nesting_check_spec.rb",
