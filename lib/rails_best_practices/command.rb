@@ -69,6 +69,9 @@ end
 files.each { |file| runner.check_file(file) }
 
 runner.errors.each {|error| puts error}
-puts "\nFound #{runner.errors.size} errors."
+if runner.errors.size > 0
+  puts "\ngo to http://wiki.github.com/flyerhzm/rails_best_practices to see how to solve these errors."
+  puts "\nFound #{runner.errors.size} errors."
+end
 
 exit runner.errors.size
