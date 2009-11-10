@@ -8,6 +8,7 @@ module RailsBestPractices
       CONTROLLER_FILES = /_controller.rb$/
       MIGRATION_FILES = /db\/migrate\/.*rb/
       MODLE_FILES = /models\/.*rb/
+      VIEW_FILES = /views\/.*erb/
 
       def initialize
         @errors = []
