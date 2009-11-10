@@ -28,7 +28,6 @@ describe RailsBestPractices::Checks::IsolateSeedDataCheck do
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:8 - isolate seed data"
-    puts errors.inspect
     errors.size.should == 1
   end
   

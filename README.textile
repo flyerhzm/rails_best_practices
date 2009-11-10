@@ -57,6 +57,7 @@ IsolateSeedDataCheck: { }
 AlwaysAddDbIndexCheck: { }
 UseFilterCheck: { }
 MoveCodeIntoControllerCheck: { }
+MoveCodeIntoHelperCheck: { }
 </code></pre>
 
 *************************************************
@@ -100,7 +101,7 @@ h2. Progress
 * Lesson 6. View
 ## [-Move code into controller-]
 ## Move code into model
-## Move code into helper
+## [-Move code into helper-]
 ## Replace instance variable with local variable
 ## Use Form Builder
 ## Organize Helper files

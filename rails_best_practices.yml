@@ -17,3 +17,4 @@ IsolateSeedDataCheck: { }
 AlwaysAddDbIndexCheck: { }
 UseFilterCheck: { }
 MoveCodeIntoControllerCheck: { }
+MoveCodeIntoHelperCheck: { }
