@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rails_best_practices}
-  s.version = "0.2.15"
+  s.version = "0.2.16"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Huang"]
@@ -43,6 +43,7 @@ Gem::Specification.new do |s|
      "lib/rails_best_practices/checks/not_use_default_route_check.rb",
      "lib/rails_best_practices/checks/overuse_route_customizations_check.rb",
      "lib/rails_best_practices/checks/replace_complex_creation_with_factory_method_check.rb",
+     "lib/rails_best_practices/checks/replace_instance_variable_with_local_variable_check.rb",
      "lib/rails_best_practices/checks/use_filter_check.rb",
      "lib/rails_best_practices/checks/use_model_association_check.rb",
      "lib/rails_best_practices/checks/use_model_callback_check.rb",
@@ -72,6 +73,7 @@ Gem::Specification.new do |s|
      "spec/rails_best_practices/checks/not_use_default_route_check_spec.rb",
      "spec/rails_best_practices/checks/overuse_route_customizations_check_spec.rb",
      "spec/rails_best_practices/checks/replace_complex_creation_with_factory_method_check_spec.rb",
+     "spec/rails_best_practices/checks/replace_instance_variable_with_local_variable_check_spec.rb",
      "spec/rails_best_practices/checks/use_filter_check_spec.rb",
      "spec/rails_best_practices/checks/use_model_association_check_spec.rb",
      "spec/rails_best_practices/checks/use_model_callback_check_spec.rb",
@@ -101,6 +103,7 @@ Gem::Specification.new do |s|
      "spec/rails_best_practices/checks/not_use_default_route_check_spec.rb",
      "spec/rails_best_practices/checks/overuse_route_customizations_check_spec.rb",
      "spec/rails_best_practices/checks/replace_complex_creation_with_factory_method_check_spec.rb",
+     "spec/rails_best_practices/checks/replace_instance_variable_with_local_variable_check_spec.rb",
      "spec/rails_best_practices/checks/use_filter_check_spec.rb",
      "spec/rails_best_practices/checks/use_model_association_check_spec.rb",
      "spec/rails_best_practices/checks/use_model_callback_check_spec.rb",
