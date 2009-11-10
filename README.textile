@@ -104,8 +104,8 @@ h2. Progress
 ## Move code into model
 ## [-Move code into helper-]
 ## [-Replace instance variable with local variable-]
-## Use Form Builder
-## Organize Helper files
+## [-Use Form Builder-] # not implement, use http://github.com/justinfrench/formtastic
+## [-Organize Helper files-] # not implement, it's rails default behaviour
 
 *************************************************
 
