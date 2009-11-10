@@ -18,3 +18,4 @@ AlwaysAddDbIndexCheck: { }
 UseFilterCheck: { }
 MoveCodeIntoControllerCheck: { }
 MoveCodeIntoHelperCheck: { }
+ReplaceInstanceVariableWithLocalVariableCheck: { }

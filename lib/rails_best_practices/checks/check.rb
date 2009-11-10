@@ -3,12 +3,13 @@ require 'rails_best_practices/core/error'
 module RailsBestPractices
   module Checks
     class Check
-      NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn]
+      NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn, :ivar]
       
       CONTROLLER_FILES = /_controller.rb$/
       MIGRATION_FILES = /db\/migrate\/.*rb/
       MODLE_FILES = /models\/.*rb/
       VIEW_FILES = /views\/.*erb/
+      PARTIAL_VIEW_FILES = /views\/.*\/_.*erb/
 
       def initialize
         @errors = []

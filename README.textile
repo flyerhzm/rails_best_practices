@@ -58,6 +58,7 @@ AlwaysAddDbIndexCheck: { }
 UseFilterCheck: { }
 MoveCodeIntoControllerCheck: { }
 MoveCodeIntoHelperCheck: { }
+ReplaceInstanceVariableWithLocalVariableCheck: { }
 </code></pre>
 
 *************************************************
@@ -102,7 +103,7 @@ h2. Progress
 ## [-Move code into controller-]
 ## Move code into model
 ## [-Move code into helper-]
-## Replace instance variable with local variable
+## [-Replace instance variable with local variable-]
 ## Use Form Builder
 ## Organize Helper files
 
