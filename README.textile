@@ -28,6 +28,8 @@ at the root directory of rails app
 rails_best_practices .
 </code></pre>
 
+notice the period at the end, it can be the relative or absolute path of your rails app.
+
 *************************************************
 
 h2. Customize Configuration
