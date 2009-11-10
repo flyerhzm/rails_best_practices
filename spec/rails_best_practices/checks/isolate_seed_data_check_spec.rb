@@ -24,11 +24,14 @@ describe RailsBestPractices::Checks::IsolateSeedDataCheck do
     end
     EOF
     @runner.check('db/migrate/20090818130258_create_roles.rb', content)
+    @runner.check('db/migrate/20090818130258_create_roles.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:8 - isolate seed data"
+    puts errors.inspect
+    errors.size.should == 1
   end
-
+  
   it "should isolate seed data with new and save" do
     content = <<-EOF
     class CreateRoles < ActiveRecord::Migration
@@ -36,24 +39,25 @@ describe RailsBestPractices::Checks::IsolateSeedDataCheck do
         create_table "roles", :force => true do |t|
           t.string :name
         end
-
+  
         ["admin", "author", "editor", "account"].each do |name|
           role = Role.new(:name => name)
           role.save!
         end
       end
-
+  
       def self.down
         drop_table "roles"
       end
     end
     EOF
     @runner.check('db/migrate/20090818130258_create_roles.rb', content)
+    @runner.check('db/migrate/20090818130258_create_roles.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:9 - isolate seed data"
   end
-
+  
   it "should not isolate seed data without data insert" do
     content = <<-EOF
     class CreateRoles < ActiveRecord::Migration
@@ -62,12 +66,13 @@ describe RailsBestPractices::Checks::IsolateSeedDataCheck do
           t.string :name
         end
       end
-
+  
       def self.down
         drop_table "roles"
       end
     end
     EOF
+    @runner.check('db/migrate/20090818130258_create_roles.rb', content)
     @runner.check('db/migrate/20090818130258_create_roles.rb', content)
     errors = @runner.errors
     errors.should be_empty
