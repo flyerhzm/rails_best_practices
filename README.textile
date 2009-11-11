@@ -30,6 +30,19 @@ rails_best_practices .
 
 notice the period at the end, it can be the relative or absolute path of your rails app.
 
+And default rails_best_practices will do parse codes in vendor, spec, test and stories directories. If you need, see the command options:
+
+<pre><code>
+$ rails_best_practices -h
+Usage: rails_best_practices [options]
+    -d, --debug                      Debug mode
+        --vendor                     include vendor files
+        --spec                       include spec files
+        --test                       include test files
+        --stories                    include stories files
+    -h, --help                       Show this message
+</code></pre>
+
 *************************************************
 
 h2. Customize Configuration
