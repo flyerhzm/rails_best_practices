@@ -97,7 +97,7 @@ h2. Progress
 
 * Lesson 5. Controller
 ## [-Use before_filter-]
-## DRY Controller
+## [-DRY Controller-] # not implement, use http://github.com/josevalim/inherited_resources
 
 * Lesson 6. View
 ## [-Move code into controller-]
