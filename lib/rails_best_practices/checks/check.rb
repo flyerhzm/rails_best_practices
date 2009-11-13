@@ -8,8 +8,8 @@ module RailsBestPractices
       CONTROLLER_FILES = /_controller.rb$/
       MIGRATION_FILES = /db\/migrate\/.*rb/
       MODLE_FILES = /models\/.*rb/
-      VIEW_FILES = /views\/.*erb/
-      PARTIAL_VIEW_FILES = /views\/.*\/_.*erb/
+      VIEW_FILES = /views\/.*(erb|haml)/
+      PARTIAL_VIEW_FILES = /views\/.*\/_.*(erb|haml)/
 
       def initialize
         @errors = []

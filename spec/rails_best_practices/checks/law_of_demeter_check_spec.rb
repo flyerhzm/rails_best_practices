@@ -24,6 +24,18 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
     errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
   end
 
+  it "should law of demeter" do
+    content = <<-EOF
+= @invoice.user.name
+= @invoice.user.address
+= @invoice.user.cellphone
+    EOF
+    @runner.check('app/views/invoices/show.html.haml', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "app/views/invoices/show.html.haml:1 - law of demeter"
+  end
+
   it "should no law of demeter" do
     content = <<-EOF
     <%= @invoice.user_name %>
