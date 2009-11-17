@@ -30,7 +30,7 @@ module RailsBestPractices
       end
       
       def current_user?(call_node)
-        call_node.message == :current_user or (call_node.subject.message == :current_user and call_node.message == :id)
+        call_node.node_type == :call and (call_node.message == :current_user or (call_node.subject.message == :current_user and call_node.message == :id))
       end
       
     end

@@ -167,5 +167,27 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
       errors.should_not be_empty
       errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
     end
+    
+    it "should no error in use_scope_access_check" do
+      content = <<-EOF
+      class CommentsController < ApplicationController
+      
+        def add_comment
+          @current_user = User.find_by_id(session[:user_id])
+          @id = params[:post_id]
+          @error = ""
+          if (@text = params[:text]) == ""
+            @error = "Please enter a comment!"
+          else
+            @comment = Comment.create_object(@text,  @id, @current_user.id)
+          end
+          unless @comment
+            @error = "Comment could not be saved."
+          end
+        end
+      end
+      EOF
+      @runner.check('app/controllers/comments_controller.rb', content)
+    end
   end
 end
