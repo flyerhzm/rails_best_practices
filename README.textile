@@ -68,7 +68,7 @@ LawOfDemeterCheck: { }
 UseObserverCheck: { }
 IsolateSeedDataCheck: { }
 AlwaysAddDbIndexCheck: { }
-UseFilterCheck: { }
+UseBeforeFilterCheck: { }
 MoveCodeIntoControllerCheck: { }
 MoveCodeIntoHelperCheck: { }
 ReplaceInstanceVariableWithLocalVariableCheck: { }
