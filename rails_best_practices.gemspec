@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rails_best_practices}
-  s.version = "0.3.2"
+  s.version = "0.3.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Huang"]
-  s.date = %q{2009-11-17}
+  s.date = %q{2009-11-19}
   s.default_executable = %q{rails_best_practices}
   s.description = %q{check rails files according to ihower's presentation 'rails best practices'}
   s.email = %q{flyerhzm@gmail.com}
@@ -44,7 +44,7 @@ Gem::Specification.new do |s|
      "lib/rails_best_practices/checks/overuse_route_customizations_check.rb",
      "lib/rails_best_practices/checks/replace_complex_creation_with_factory_method_check.rb",
      "lib/rails_best_practices/checks/replace_instance_variable_with_local_variable_check.rb",
-     "lib/rails_best_practices/checks/use_filter_check.rb",
+     "lib/rails_best_practices/checks/use_before_filter_check.rb",
      "lib/rails_best_practices/checks/use_model_association_check.rb",
      "lib/rails_best_practices/checks/use_model_callback_check.rb",
      "lib/rails_best_practices/checks/use_observer_check.rb",
@@ -74,7 +74,7 @@ Gem::Specification.new do |s|
      "spec/rails_best_practices/checks/overuse_route_customizations_check_spec.rb",
      "spec/rails_best_practices/checks/replace_complex_creation_with_factory_method_check_spec.rb",
      "spec/rails_best_practices/checks/replace_instance_variable_with_local_variable_check_spec.rb",
-     "spec/rails_best_practices/checks/use_filter_check_spec.rb",
+     "spec/rails_best_practices/checks/use_before_filter_check_spec.rb",
      "spec/rails_best_practices/checks/use_model_association_check_spec.rb",
      "spec/rails_best_practices/checks/use_model_callback_check_spec.rb",
      "spec/rails_best_practices/checks/use_observer_check_spec.rb",
@@ -104,7 +104,7 @@ Gem::Specification.new do |s|
      "spec/rails_best_practices/checks/overuse_route_customizations_check_spec.rb",
      "spec/rails_best_practices/checks/replace_complex_creation_with_factory_method_check_spec.rb",
      "spec/rails_best_practices/checks/replace_instance_variable_with_local_variable_check_spec.rb",
-     "spec/rails_best_practices/checks/use_filter_check_spec.rb",
+     "spec/rails_best_practices/checks/use_before_filter_check_spec.rb",
      "spec/rails_best_practices/checks/use_model_association_check_spec.rb",
      "spec/rails_best_practices/checks/use_model_callback_check_spec.rb",
      "spec/rails_best_practices/checks/use_observer_check_spec.rb",
