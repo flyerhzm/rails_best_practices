@@ -22,7 +22,7 @@ sudo gem install rails_best_practices --source http://gemcutter.org
 
 h2. Usage
 
-at the root directory of rails app
+At the root directory of rails app
 
 <pre><code>
 rails_best_practices .
@@ -42,6 +42,18 @@ Usage: rails_best_practices [options]
         --stories                    include stories files
     -h, --help                       Show this message
 </code></pre>
+
+*************************************************
+
+h2. Issue
+
+If you got NoMethodError or any syntax error, you should use debug mode to detect which file rails_best_practices is parsing and getting the error.
+
+<pre><code>
+rails_best_practices -d .
+</code></pre>
+
+Then give me the error stack and the source code of the file that rails_best_practices is parsing error.
 
 *************************************************
 
