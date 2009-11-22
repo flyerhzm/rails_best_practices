@@ -27,10 +27,10 @@ module RailsBestPractices
       end
 
       def check(filename, content)
-        if filename =~ /.*erb/
+        if filename =~ /.*erb$/
           content = ERB.new(content).src
         end
-        if filename =~ /.*haml/
+        if filename =~ /.*haml$/
           content = Haml::Engine.new(content).precompiled
         end
         node = parse(filename, content)
