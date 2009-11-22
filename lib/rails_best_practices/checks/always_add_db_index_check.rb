@@ -21,9 +21,13 @@ module RailsBestPractices
       def initialize
         super
         @files = []
-        @references = {}
-        @indexes = {}
+        @@indexes = {}
         @parse = false
+      end
+
+      # make indexes class method for get indexes out of AlwaysAddDbIndexCheck class.
+      def self.indexes
+        @@indexes
       end
 
       def evaluate_start(node)
@@ -34,57 +38,63 @@ module RailsBestPractices
         end
 
         if @parse and :up == node.message
-          @references.each do |table_name, column_names|
-            differences = column_names - (@indexes[table_name] || [])
-            @references[table_name] = column_names - differences
-            hint = differences.collect {|column_name| "#{table_name} => #{column_name}"}.join(', ')
-            add_error "always add db index (#{hint})" unless differences.empty?
-          end
+          check_references(node.body)
         else
-          remember_references(node.body)
           remember_indexes(node.body)
         end
       end
 
       private
 
-      def remember_references(node)
+      def check_references(node)
         create_table_node = node.grep_nodes({:node_type => :call, :message => :create_table}).first
         if create_table_node
           table_name = create_table_node.arguments[1].to_ruby_string
           node.grep_nodes({:node_type => :call, :message => :integer}).each do |integer_node|
             column_name = integer_node.arguments[1].to_ruby_string
-            if column_name =~ /_id$/
-              @references[table_name] ||= []
-              @references[table_name] << column_name
+            if column_name =~ /_id$/ and !@@indexes[table_name].include? column_name
+              add_error "always add db index (#{table_name} => #{column_name})"
             end
           end
           node.grep_nodes({:node_type => :call, :message => :references}).each do |references_node|
             column_name = references_node.arguments[1].to_ruby_string + "_id"
-            @references[table_name] ||= []
-            @references[table_name] << column_name
+            if !@@indexes[table_name].include? column_name
+              add_error "always add db index (#{table_name} => #{column_name})"
+            end
           end
           node.grep_nodes({:node_type => :call, :message => :column}).each do |column_node|
             if 'integer' == column_node.arguments[2].to_ruby_string
               column_name = column_node.arguments[1].to_ruby_string
-              if column_name =~ /_id$/
-                @references[table_name] ||= []
-                @references[table_name] << column_name
+              if column_name =~ /_id$/ and !@@indexes[table_name].include? column_name
+                add_error "always add db index (#{table_name} => #{column_name})"
               end
             end
           end
         end
       end
 
-      def remember_indexes(node)
-        add_index_nodes = node.grep_nodes({:node_type => :call, :message => :add_index})
-        add_index_nodes.each do |add_index_node|
-          table_name = add_index_node.arguments[1].to_ruby_string
-          column_name = add_index_node.arguments[2].to_ruby_string
-          @indexes[table_name] ||= []
-          @indexes[table_name] << column_name
+      # dynamically execute add_index because static parser can't handle
+      #
+      # [[:comments, :post_id], [:comments, :user_id]].each do |args|
+      #   add_index *args
+      # end
+      def remember_indexes(nodes)
+        nodes.each do |node|
+          begin
+            eval(node.to_ruby)
+          rescue
+          end
         end
       end
     end
+  end
+end
+
+def add_index(*args)
+  table_name, column_names = *args
+  table_name = table_name.to_s
+  RailsBestPractices::Checks::AlwaysAddDbIndexCheck.indexes[table_name] ||= []
+  Array(column_names).each do |column_name|
+    RailsBestPractices::Checks::AlwaysAddDbIndexCheck.indexes[table_name] << column_name.to_s
   end
 end
