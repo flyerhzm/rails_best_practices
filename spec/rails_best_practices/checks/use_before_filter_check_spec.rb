@@ -5,7 +5,7 @@ describe RailsBestPractices::Checks::UseBeforeFilterCheck do
     @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::UseBeforeFilterCheck.new)
   end
   
-  it "should use filter" do
+  it "should use before_filter" do
     content = <<-EOF
     class PostsController < ApplicationController
 
@@ -32,10 +32,10 @@ describe RailsBestPractices::Checks::UseBeforeFilterCheck do
     @runner.check('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/controllers/posts_controller.rb:1 - use filter for @post = current_user.posts.find(params[:id]) in show,edit,update,destroy"
+    errors[0].to_s.should == "app/controllers/posts_controller.rb:1 - use before_filter for @post = current_user.posts.find(params[:id]) in show,edit,update,destroy"
   end
   
-  it "should not use filter" do
+  it "should not use before_filter" do
     content = <<-EOF
     class PostsController < ApplicationController
       before_filter :find_post, :only => [:show, :edit, :update, :destroy]
@@ -60,7 +60,7 @@ describe RailsBestPractices::Checks::UseBeforeFilterCheck do
     errors.should be_empty
   end
 
-  it "should not use filter by nil" do
+  it "should not use before_filter by nil" do
     content = <<-EOF
     class PostsController < ApplicationController
 
