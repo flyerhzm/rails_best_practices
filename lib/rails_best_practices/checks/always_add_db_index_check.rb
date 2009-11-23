@@ -82,7 +82,7 @@ module RailsBestPractices
         nodes.each do |node|
           begin
             eval(node.to_ruby)
-          rescue
+          rescue Exception
           end
         end
       end

@@ -177,4 +177,20 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     @runner.check('db/migrate/20091111113612_add_indexes.rb', content)
     errors = @runner.errors
   end
+
+  it "should always add db index without error 2" do
+    content = <<-EOF
+    class MoveCategoriesToProfileArea < ActiveRecord::Migration
+      def self.up
+        CategoryArea.update_all({:name => "Profile"}, ["name IN (?)", %w(UserSite UserProfile Site)])
+      end
+
+      def self.down
+      end
+    end
+    EOF
+    @runner.check('db/migrate/20090706091635_move_categories_to_profile_area.rb', content)
+    @runner.check('db/migrate/20090706091635_move_categories_to_profile_area.rb', content)
+    errors = @runner.errors
+  end
 end
