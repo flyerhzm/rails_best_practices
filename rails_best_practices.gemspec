@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rails_best_practices}
-  s.version = "0.3.5"
+  s.version = "0.3.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Huang"]
-  s.date = %q{2009-11-22}
+  s.date = %q{2009-11-23}
   s.default_executable = %q{rails_best_practices}
   s.description = %q{check rails files according to ihower's presentation 'rails best practices'}
   s.email = %q{flyerhzm@gmail.com}
