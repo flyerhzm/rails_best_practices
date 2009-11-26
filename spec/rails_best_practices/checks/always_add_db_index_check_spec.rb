@@ -193,4 +193,29 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     @runner.check('db/migrate/20090706091635_move_categories_to_profile_area.rb', content)
     errors = @runner.errors
   end
+  
+  it "should always add db index without duplicate error outputs" do
+    content = <<-EOF
+    class AllTables < ActiveRecord::Migration
+      def self.up
+        create_table "ducks" do |t|
+          t.column "registration", :string, :limit => 32
+          t.column "description",  :string
+        end
+
+        create_table "lab_data" do |t|
+          t.integer "input_biologist_id", :null => true
+          t.integer "owner_biologist_id", :null => false
+          t.column "remark",             :string,   :limit => 250
+        end
+      end
+    end
+    EOF
+    @runner.check('db/migrate/20090204160203_all_tables.rb', content)
+    @runner.check('db/migrate/20090204160203_all_tables.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "db/migrate/20090204160203_all_tables.rb:2 - always add db index (lab_data => input_biologist_id)"
+    errors[1].to_s.should == "db/migrate/20090204160203_all_tables.rb:2 - always add db index (lab_data => owner_biologist_id)"
+  end
 end
