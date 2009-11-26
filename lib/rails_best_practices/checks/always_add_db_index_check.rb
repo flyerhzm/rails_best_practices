@@ -54,20 +54,20 @@ module RailsBestPractices
             node.grep_nodes({:node_type => :call, :message => :integer}).each do |integer_node|
               column_name = integer_node.arguments[1].to_ruby_string
               if column_name =~ /_id$/ and !@@indexes[table_name].include? column_name
-                add_error "always add db index (#{table_name} => #{column_name})"
+                add_error "always add db index (#{table_name} => #{column_name})", integer_node
               end
             end
             node.grep_nodes({:node_type => :call, :message => :references}).each do |references_node|
               column_name = references_node.arguments[1].to_ruby_string + "_id"
               if !@@indexes[table_name].include? column_name
-                add_error "always add db index (#{table_name} => #{column_name})"
+                add_error "always add db index (#{table_name} => #{column_name})", references_node
               end
             end
             node.grep_nodes({:node_type => :call, :message => :column}).each do |column_node|
               if 'integer' == column_node.arguments[2].to_ruby_string
                 column_name = column_node.arguments[1].to_ruby_string
                 if column_name =~ /_id$/ and !@@indexes[table_name].include? column_name
-                  add_error "always add db index (#{table_name} => #{column_name})"
+                  add_error "always add db index (#{table_name} => #{column_name})", column_node
                 end
               end
             end

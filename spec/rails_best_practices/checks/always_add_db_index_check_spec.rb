@@ -25,8 +25,8 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     @runner.check('db/migrate/20090918130258_create_comments.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "db/migrate/20090918130258_create_comments.rb:2 - always add db index (comments => post_id)"
-    errors[1].to_s.should == "db/migrate/20090918130258_create_comments.rb:2 - always add db index (comments => user_id)"
+    errors[0].to_s.should == "db/migrate/20090918130258_create_comments.rb:5 - always add db index (comments => post_id)"
+    errors[1].to_s.should == "db/migrate/20090918130258_create_comments.rb:6 - always add db index (comments => user_id)"
   end
 
   it "should always add db index with column has no id" do
@@ -70,8 +70,8 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     @runner.check('db/migrate/20090918130258_create_comments.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "db/migrate/20090918130258_create_comments.rb:2 - always add db index (comments => post_id)"
-    errors[1].to_s.should == "db/migrate/20090918130258_create_comments.rb:2 - always add db index (comments => user_id)"
+    errors[0].to_s.should == "db/migrate/20090918130258_create_comments.rb:5 - always add db index (comments => post_id)"
+    errors[1].to_s.should == "db/migrate/20090918130258_create_comments.rb:6 - always add db index (comments => user_id)"
   end
 
   it "should always add db index with column" do
@@ -94,8 +94,8 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     @runner.check('db/migrate/20090918130258_create_comments.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "db/migrate/20090918130258_create_comments.rb:2 - always add db index (comments => post_id)"
-    errors[1].to_s.should == "db/migrate/20090918130258_create_comments.rb:2 - always add db index (comments => user_id)"
+    errors[0].to_s.should == "db/migrate/20090918130258_create_comments.rb:5 - always add db index (comments => post_id)"
+    errors[1].to_s.should == "db/migrate/20090918130258_create_comments.rb:6 - always add db index (comments => user_id)"
   end
 
   it "should not always add db index with add_index" do
@@ -215,7 +215,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     @runner.check('db/migrate/20090204160203_all_tables.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "db/migrate/20090204160203_all_tables.rb:2 - always add db index (lab_data => input_biologist_id)"
-    errors[1].to_s.should == "db/migrate/20090204160203_all_tables.rb:2 - always add db index (lab_data => owner_biologist_id)"
+    errors[0].to_s.should == "db/migrate/20090204160203_all_tables.rb:9 - always add db index (lab_data => input_biologist_id)"
+    errors[1].to_s.should == "db/migrate/20090204160203_all_tables.rb:10 - always add db index (lab_data => owner_biologist_id)"
   end
 end
