@@ -31,16 +31,18 @@ module RailsBestPractices
       end
 
       def evaluate_start(node)
-        if @files.include? node.file
-          @parse = true if :up == node.message
-        else
-          @files << node.file
-        end
+        if :up == node.message
+          if @files.include? node.file
+            @parse = true if :up == node.message
+          else
+            @files << node.file
+          end
 
-        if @parse and :up == node.message
-          check_references(node.body)
-        else
-          remember_indexes(node.body)
+          if @parse
+            check_references(node.body)
+          else
+            remember_indexes(node.body)
+          end
         end
       end
 

@@ -148,9 +148,53 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     end
     EOF
     @runner.check('db/migrate/20090918130258_create_comments.rb', content)
-    @runner.check('db/migrate/20090919130258_add_indexes_to_comments.rb', add_index_content)
+    @runner.check('db/migrate/20090919130260_add_indexes_to_comments.rb', add_index_content)
     @runner.check('db/migrate/20090918130258_create_comments.rb', content)
-    @runner.check('db/migrate/20090919130258_add_indexes_to_comments.rb', add_index_content)
+    @runner.check('db/migrate/20090919130260_add_indexes_to_comments.rb', add_index_content)
+    errors = @runner.errors
+    errors.should be_empty
+  end
+
+  it "should not always add db index with add_index in another migration file and a migration between them" do
+    content = <<-EOF
+    class CreateComments < ActiveRecord::Migration
+      def self.up
+        create_table "comments", :force => true do |t|
+          t.string :content
+          t.integer :post_id
+          t.integer :user_id
+        end
+      end
+
+      def self.down
+        drop_table "comments"
+      end
+    end
+    EOF
+    another_content = <<-EOF
+    class Settings < ActiveRecord::Migration
+      def self.my_escape(val)
+      end
+
+      def self.up
+        add_column :settings, :groep, :string, :limit => 50
+      end
+    end
+    EOF
+    add_index_content = <<-EOF
+    class AddIndexesToComments < ActiveRecord::Migration
+      def self.up
+        add_index :comments, :post_id
+        add_index :comments, :user_id
+      end
+    end
+    EOF
+    @runner.check('db/migrate/20090918140258_create_comments.rb', content)
+    @runner.check('db/migrate/20090918140259_settings.rb', another_content)
+    @runner.check('db/migrate/20090919140260_add_indexes_to_comments.rb', add_index_content)
+    @runner.check('db/migrate/20090918140258_create_comments.rb', content)
+    @runner.check('db/migrate/20090918140259_settings.rb', another_content)
+    @runner.check('db/migrate/20090919140260_add_indexes_to_comments.rb', add_index_content)
     errors = @runner.errors
     errors.should be_empty
   end
