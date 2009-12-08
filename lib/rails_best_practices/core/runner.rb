@@ -32,6 +32,8 @@ module RailsBestPractices
         if filename =~ /.*haml/
           require 'haml'
           content = Haml::Engine.new(content).precompiled
+          # remove \xxx characters
+          content.gsub!(/\\\d{3}/, '')
         end
         node = parse(filename, content)
         node.accept(@checker) if node
