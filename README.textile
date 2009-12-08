@@ -134,4 +134,11 @@ h2. Progress
 
 *************************************************
 
+h2. Links
+
+"http://railsenvy.com/2009/12/07/rails-envy-podcast-episode-102":http://railsenvy.com/2009/12/07/rails-envy-podcast-episode-102
+"http://ruby5.envylabs.com/episodes/29-episode-28-november-17-2009":http://ruby5.envylabs.com/episodes/29-episode-28-november-17-2009
+
+*************************************************
+
 Copyright © 2009 Richard Huang (flyerhzm@gmail.com), released under the MIT license
