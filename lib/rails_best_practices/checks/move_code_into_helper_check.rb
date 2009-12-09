@@ -4,7 +4,7 @@ module RailsBestPractices
   module Checks
     # Check a view file to make sure there is no complex options_for_select message call.
     #
-    # Implementation: Check if arguments of options_for_select message call contain more than 2 method call, then move it into helper.
+    # Implementation: Check if first argument of options_for_select is an array and contains more than two nodes, then it should be moved into helper.
     class MoveCodeIntoHelperCheck < Check
     
       def interesting_nodes
@@ -15,6 +15,11 @@ module RailsBestPractices
         VIEW_FILES
       end
 
+      def initialize(options = {})
+        super()
+        @array_count = options['array_count'] || 3
+      end
+
       def evaluate_start(node)
         add_error "move code into helper" if complex_select_options?(node)
       end
@@ -22,7 +27,7 @@ module RailsBestPractices
       private
       
       def complex_select_options?(node)
-        :options_for_select == node.message and node.arguments.grep_nodes(:node_type => :call).size > 2
+        :options_for_select == node.message and :array == node.arguments[1].node_type and node.arguments[1].size > @array_count
       end
     end
   end

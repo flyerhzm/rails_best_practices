@@ -17,5 +17,5 @@ IsolateSeedDataCheck: { }
 AlwaysAddDbIndexCheck: { }
 UseBeforeFilterCheck: { }
 MoveCodeIntoControllerCheck: { }
-MoveCodeIntoHelperCheck: { }
+MoveCodeIntoHelperCheck: { array_count: 3 }
 ReplaceInstanceVariableWithLocalVariableCheck: { }

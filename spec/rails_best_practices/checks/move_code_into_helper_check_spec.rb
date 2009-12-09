@@ -2,7 +2,7 @@ require File.join(File.dirname(__FILE__) + '/../../spec_helper')
 
 describe RailsBestPractices::Checks::MoveCodeIntoHelperCheck do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::MoveCodeIntoHelperCheck.new)
+    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::MoveCodeIntoHelperCheck.new('array_count' => 2))
   end
 
   it "should move code into helper" do
