@@ -21,7 +21,7 @@ module RailsBestPractices
       end
 
       def evaluate_start(node)
-        add_error "move code into helper" if complex_select_options?(node)
+        add_error "move code into helper (array_count >= #{@array_count})" if complex_select_options?(node)
       end
       
       private

@@ -15,7 +15,7 @@ describe RailsBestPractices::Checks::MoveCodeIntoHelperCheck do
     @runner.check('app/views/posts/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/views/posts/show.html.erb:3 - move code into helper"
+    errors[0].to_s.should == "app/views/posts/show.html.erb:3 - move code into helper (array_count >= 2)"
   end
 
   it "should not move code into helper with simple arguments" do
