@@ -82,6 +82,7 @@ IsolateSeedDataCheck: { }
 AlwaysAddDbIndexCheck: { }
 UseBeforeFilterCheck: { }
 MoveCodeIntoControllerCheck: { }
+MoveCodeIntoModelCheck: { }
 MoveCodeIntoHelperCheck: { array_count: 3 }
 ReplaceInstanceVariableWithLocalVariableCheck: { }
 </code></pre>
@@ -126,7 +127,7 @@ h2. Progress
 
 * Lesson 6. View
 ## [-Move code into controller-]
-## Move code into model
+## [-Move code into model-]
 ## [-Move code into helper-]
 ## [-Replace instance variable with local variable-]
 ## [-Use Form Builder-] # not implement, use http://github.com/justinfrench/formtastic
