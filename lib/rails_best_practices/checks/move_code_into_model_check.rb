@@ -4,7 +4,7 @@ module RailsBestPractices
   module Checks
     # Check a view file to make sure there is no complex logic call for model.
     #
-    # Implementation: Check if a local variable or instance variable called more than 3 times in if statuement, then it should more code into model.
+    # Implementation: Check if a local variable or instance variable called more than 3 times in if conditional statement, then it should more code into model.
     class MoveCodeIntoModelCheck < Check
 
       def interesting_nodes
@@ -17,7 +17,7 @@ module RailsBestPractices
 
       def evaluate_start(node)
         @variables = {}
-        node.grep_nodes(:node_type => :call).each { |call_node| remember_call(call_node) }
+        node.conditional_statement.grep_nodes(:node_type => :call).each { |call_node| remember_call(call_node) }
         check_errors
       end
 

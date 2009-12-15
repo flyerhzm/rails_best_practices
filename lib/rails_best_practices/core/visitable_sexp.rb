@@ -70,6 +70,12 @@ class Sexp
     end
   end
   
+  def conditional_statement
+    if node_type == :if
+      self[1]
+    end
+  end
+  
   def true_node
     if :if == node_type
       self[2]
