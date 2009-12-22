@@ -18,19 +18,21 @@ module RailsBestPractices
       def evaluate_start(node)
         @methods = {}
         node.grep_nodes({:node_type => :defn}).each { |method_node| remember_method(method_node) }
-        @methods.each do |first_call, method_names|
-          add_error "use before_filter for #{first_call.to_ruby} in #{method_names.join(',')}" if method_names.size > 1
+        @methods.each do |first_call, method_nodes|
+          if method_nodes.size > 1
+            add_error "use before_filter for #{method_nodes.collect{|method_node| method_node.message_name}.join(',')}", 
+              node.file, method_nodes.collect{|method_node| method_node.line}.join(',')
+          end
         end
       end
 
       private
 
       def remember_method(method_node)
-        method_name = method_node.message_name
         first_call = method_node.body[1]
         unless first_call == s(:nil)
           @methods[first_call] ||= []
-          @methods[first_call] << method_name
+          @methods[first_call] << method_node
         end
       end
     end

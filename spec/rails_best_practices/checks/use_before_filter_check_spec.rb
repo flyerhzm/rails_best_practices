@@ -32,7 +32,7 @@ describe RailsBestPractices::Checks::UseBeforeFilterCheck do
     @runner.check('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/controllers/posts_controller.rb:1 - use before_filter for @post = current_user.posts.find(params[:id]) in show,edit,update,destroy"
+    errors[0].to_s.should == "app/controllers/posts_controller.rb:3,7,11,16 - use before_filter for show,edit,update,destroy"
   end
   
   it "should not use before_filter" do
