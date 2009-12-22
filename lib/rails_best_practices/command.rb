@@ -1,39 +1,5 @@
 require 'optparse'
 
-def expand_dirs_to_files *dirs
-  extensions = ['rb', 'erb', 'haml', 'builder']
-
-  dirs.flatten.map { |p|
-    if File.directory? p
-      Dir[File.join(p, '**', "*.{#{extensions.join(',')}}")]
-    else
-      p
-    end
-  }.flatten
-end
-
-# for law_of_demeter_check
-def model_first_sort files
-  files.sort { |a, b|
-    if a =~ /models\/.*rb/
-      -1
-    elsif b =~ /models\/.*rb/
-      1
-    else
-      a <=> b
-    end
-  }
-end
-
-# for always_add_db_index_check
-def add_duplicate_migrations files
-  migration_files = files.select { |file| file.index("db/migrate") }
-  (files << migration_files).flatten
-end
-
-def ignore_files files, pattern
-  files.reject { |file| file.index(pattern) }
-end
 
 options = {}
 OptionParser.new do |opts|
@@ -60,12 +26,7 @@ end
 runner = RailsBestPractices::Core::Runner.new
 runner.set_debug if options['debug']
 
-files = expand_dirs_to_files(ARGV)
-files = model_first_sort(files)
-files = add_duplicate_migrations(files)
-['vendor', 'spec', 'test', 'stories'].each do |pattern|
-  files = ignore_files(files, "#{pattern}/") unless options[pattern]
-end
+files = RailsBestPractices::analyze_files(ARGV, options)
 files.each { |file| runner.check_file(file) }
 
 runner.errors.each {|error| puts error}
