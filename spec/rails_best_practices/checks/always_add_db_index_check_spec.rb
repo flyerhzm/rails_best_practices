@@ -262,4 +262,38 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     errors[0].to_s.should == "db/migrate/20090204160203_all_tables.rb:9 - always add db index (lab_data => input_biologist_id)"
     errors[1].to_s.should == "db/migrate/20090204160203_all_tables.rb:10 - always add db index (lab_data => owner_biologist_id)"
   end
+  
+  it "should not always add db index when table is created and droped" do
+    content = <<-EOF
+    class CreateComments < ActiveRecord::Migration
+      def self.up
+        create_table "comments", :force => true do |t|
+          t.string :content
+          t.integer :post_id
+          t.integer :user_id
+        end
+      end
+
+      def self.down
+        drop_table "comments"
+      end
+    end
+    EOF
+    another_content = <<-EOF
+    class DropComments < ActiveRecord::Migration
+      def self.up
+        drop_table "comments"
+      end
+      
+      def self.down
+      end
+    end
+    EOF
+    @runner.check('db/migrate/20100118140258_create_comments.rb', content)
+    @runner.check('db/migrate/20100118140259_drop_comments.rb', another_content)
+    @runner.check('db/migrate/20100118140258_create_comments.rb', content)
+    @runner.check('db/migrate/20100118140259_drop_comments.rb', another_content)
+    errors = @runner.errors
+    errors.should be_empty
+  end
 end

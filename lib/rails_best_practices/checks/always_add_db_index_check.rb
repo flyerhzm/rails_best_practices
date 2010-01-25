@@ -22,6 +22,7 @@ module RailsBestPractices
         super
         @files = []
         @@indexes = {}
+        @@tables = []
         @parse = false
       end
 
@@ -41,7 +42,7 @@ module RailsBestPractices
           if @parse
             check_references(node.body)
           else
-            remember_indexes(node.body)
+            remember(node.body)
           end
         end
       end
@@ -53,6 +54,7 @@ module RailsBestPractices
           create_table_node = node.grep_nodes({:node_type => :call, :message => :create_table}).first
           if create_table_node
             table_name = create_table_node.arguments[1].to_ruby_string
+            next unless @@tables.include? table_name
             node.grep_nodes({:node_type => :call, :message => :integer}).each do |integer_node|
               column_name = integer_node.arguments[1].to_ruby_string
               if column_name =~ /_id$/ and !@@indexes[table_name].include? column_name
@@ -75,6 +77,18 @@ module RailsBestPractices
             end
           end
         end
+      end
+      
+      def remember(nodes)
+        nodes.grep_nodes({:node_type => :call, :message => :create_table}).each do |create_table_node|
+          @@tables << create_table_node.arguments[1].to_ruby_string
+        end
+        nodes.grep_nodes({:node_type => :call, :message => :drop_table}).each do |drop_table_node|
+          @@tables.delete(drop_table_node.arguments[1].to_ruby_string)
+        end
+        @@tables.compact!
+        
+        remember_indexes(nodes)
       end
 
       # dynamically execute add_index because static parser can't handle
