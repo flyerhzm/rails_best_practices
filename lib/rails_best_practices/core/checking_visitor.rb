@@ -1,9 +1,9 @@
 module RailsBestPractices
   module Core
     class CheckingVisitor
-      def initialize(*checks)
+      def initialize(checks)
         @checks ||= {}
-        checks.first.each do |check|
+        checks.each do |check|
           nodes = check.interesting_nodes
           nodes.each do |node|
             @checks[node] ||= []
