@@ -11,6 +11,8 @@ module RailsBestPractices
       VIEW_FILES = /views\/.*(erb|haml)/
       PARTIAL_VIEW_FILES = /views\/.*\/_.*(erb|haml)/
 
+      attr_reader :errors
+
       def initialize
         @errors = []
       end
@@ -56,10 +58,6 @@ module RailsBestPractices
         file ||= @node.file
         line ||= @node.line
         @errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error)
-      end
-  
-      def errors
-        @errors
       end
     end
   end
