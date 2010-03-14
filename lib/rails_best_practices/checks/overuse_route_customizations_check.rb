@@ -21,7 +21,7 @@ module RailsBestPractices
       end
       
       def evaluate_start(node)
-        if s(:lvar, :map) == node.subject and :resources == node.message
+        if :resources == node.message
           add_error "overuse route customizations (customize_count > #{@customize_count})" if member_and_collection_count(node) > @customize_count
         end
       end
