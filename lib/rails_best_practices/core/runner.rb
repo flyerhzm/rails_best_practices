@@ -10,11 +10,7 @@ module RailsBestPractices
       CUSTOM_CONFIG = File.join('config', 'rails_best_practices.yml')
       
       def initialize(*checks)
-        if File.exists?(CUSTOM_CONFIG)
-          @config = CUSTOM_CONFIG
-        else
-          @config = DEFAULT_CONFIG
-        end
+        @config = File.exists?(CUSTOM_CONFIG) ? CUSTOM_CONFIG : DEFAULT_CONFIG
         @checks = checks unless checks.empty?
         @checks ||= load_checks
         @checker ||= CheckingVisitor.new(@checks)
