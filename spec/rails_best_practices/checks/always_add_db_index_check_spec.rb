@@ -296,4 +296,28 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     errors = @runner.errors
     errors.should be_empty
   end
+
+  it "should always add db index when add_column" do
+    content = <<-EOF
+    class CreateComments < ActiveRecord::Migration
+      def self.up
+        create_table "comments", :force => true do |t|
+          t.string :content
+        end
+        add_column :comments, :post_id, :integer
+        add_column :comments, :user_id, :integer
+      end
+
+      def self.down
+        drop_table "comments"
+      end
+    end
+    EOF
+    @runner.check('db/migrate/20090918130258_create_comments.rb', content)
+    @runner.check('db/migrate/20090918130258_create_comments.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "db/migrate/20090918130258_create_comments.rb:7 - always add db index (comments => post_id)"
+    errors[1].to_s.should == "db/migrate/20090918130258_create_comments.rb:8 - always add db index (comments => user_id)"
+  end
 end

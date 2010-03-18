@@ -76,6 +76,14 @@ module RailsBestPractices
               end
             end
           end
+          if :call == node.node_type and :add_column == node.message
+            table_name = node.arguments[1].to_ruby_string
+            column_name = node.arguments[2].to_ruby_string
+            column_type = node.arguments[3].to_ruby_string
+            if column_name =~ /_id$/ and column_type == "integer" and !@@indexes[table_name].include? column_name
+              add_error "always add db index (#{table_name} => #{column_name})", node.file, node.line
+            end
+          end
         end
       end
       
