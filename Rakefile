@@ -6,10 +6,10 @@ require 'jeweler'
 desc 'Default: run unit tests.'
 task :default => :spec
 
-desc 'Generate documentation for the sitemap plugin.'
+desc 'Generate documentation for the rails_best_practices plugin.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Bullet'
+  rdoc.title    = 'rails_best_practices'
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
