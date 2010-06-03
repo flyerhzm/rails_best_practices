@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rails_best_practices}
-  s.version = "0.3.19"
+  s.version = "0.3.20"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Huang"]
-  s.date = %q{2010-03-19}
+  s.date = %q{2010-06-03}
   s.default_executable = %q{rails_best_practices}
   s.description = %q{check rails files according to ihower's presentation 'rails best practices'}
   s.email = %q{flyerhzm@gmail.com}
@@ -91,28 +91,28 @@ Gem::Specification.new do |s|
   s.rubygems_version = %q{1.3.6}
   s.summary = %q{check rails files according to ihower's presentation 'rails best practices'}
   s.test_files = [
-    "spec/rails_best_practices/checks/add_model_virtual_attribute_check_spec.rb",
-     "spec/rails_best_practices/checks/always_add_db_index_check_spec.rb",
-     "spec/rails_best_practices/checks/isolate_seed_data_check_spec.rb",
-     "spec/rails_best_practices/checks/keep_finders_on_their_own_model_check_spec.rb",
-     "spec/rails_best_practices/checks/law_of_demeter_check_spec.rb",
-     "spec/rails_best_practices/checks/many_to_many_collection_check_spec.rb",
-     "spec/rails_best_practices/checks/move_code_into_controller_check_spec.rb",
-     "spec/rails_best_practices/checks/move_code_into_helper_check_spec.rb",
-     "spec/rails_best_practices/checks/move_code_into_model_check_spec.rb",
-     "spec/rails_best_practices/checks/move_finder_to_named_scope_check_spec.rb",
+    "spec/rails_best_practices/checks/isolate_seed_data_check_spec.rb",
      "spec/rails_best_practices/checks/move_model_logic_into_model_check_spec.rb",
-     "spec/rails_best_practices/checks/needless_deep_nesting_check_spec.rb",
-     "spec/rails_best_practices/checks/nested_model_forms_check_spec.rb",
-     "spec/rails_best_practices/checks/not_use_default_route_check_spec.rb",
-     "spec/rails_best_practices/checks/overuse_route_customizations_check_spec.rb",
-     "spec/rails_best_practices/checks/replace_complex_creation_with_factory_method_check_spec.rb",
-     "spec/rails_best_practices/checks/replace_instance_variable_with_local_variable_check_spec.rb",
-     "spec/rails_best_practices/checks/use_before_filter_check_spec.rb",
-     "spec/rails_best_practices/checks/use_model_association_check_spec.rb",
-     "spec/rails_best_practices/checks/use_model_callback_check_spec.rb",
+     "spec/rails_best_practices/checks/move_code_into_helper_check_spec.rb",
+     "spec/rails_best_practices/checks/move_code_into_controller_check_spec.rb",
      "spec/rails_best_practices/checks/use_observer_check_spec.rb",
+     "spec/rails_best_practices/checks/overuse_route_customizations_check_spec.rb",
+     "spec/rails_best_practices/checks/nested_model_forms_check_spec.rb",
+     "spec/rails_best_practices/checks/always_add_db_index_check_spec.rb",
+     "spec/rails_best_practices/checks/many_to_many_collection_check_spec.rb",
+     "spec/rails_best_practices/checks/use_before_filter_check_spec.rb",
+     "spec/rails_best_practices/checks/law_of_demeter_check_spec.rb",
      "spec/rails_best_practices/checks/use_scope_access_check_spec.rb",
+     "spec/rails_best_practices/checks/replace_complex_creation_with_factory_method_check_spec.rb",
+     "spec/rails_best_practices/checks/not_use_default_route_check_spec.rb",
+     "spec/rails_best_practices/checks/move_finder_to_named_scope_check_spec.rb",
+     "spec/rails_best_practices/checks/use_model_callback_check_spec.rb",
+     "spec/rails_best_practices/checks/add_model_virtual_attribute_check_spec.rb",
+     "spec/rails_best_practices/checks/replace_instance_variable_with_local_variable_check_spec.rb",
+     "spec/rails_best_practices/checks/use_model_association_check_spec.rb",
+     "spec/rails_best_practices/checks/move_code_into_model_check_spec.rb",
+     "spec/rails_best_practices/checks/needless_deep_nesting_check_spec.rb",
+     "spec/rails_best_practices/checks/keep_finders_on_their_own_model_check_spec.rb",
      "spec/spec_helper.rb"
   ]
 
