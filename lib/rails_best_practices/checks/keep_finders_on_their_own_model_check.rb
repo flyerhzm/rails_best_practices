@@ -22,7 +22,7 @@ module RailsBestPractices
       private
 
       def others_finder?(node)
-        node.message == :find and node.subject.node_type == :call
+        node.message == :find and node.subject.node_type == :call and node.arguments.size > 1
       end
     end
   end

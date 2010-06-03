@@ -54,13 +54,28 @@ describe RailsBestPractices::Checks::KeepFindersOnTheirOwnModelCheck do
     errors.should be_empty
   end
 
-  it "should not keep finders on thier own model without finder" do
+  it "should not keep finders on their own model without finder" do
     content = <<-EOF
     class Post < ActiveRecord::Base
       has_many :comments
 
       def find_valid_comments
         self.comments.destroy_all
+      end
+    end
+    EOF
+    @runner.check('app/models/post.rb', content)
+    errors = @runner.errors
+    errors.should be_empty
+  end
+
+  it "should not keep finders on their own model with ruby Array#find" do
+    content = <<-EOF
+    class Post < ActiveRecord::Base
+      has_many :comments
+
+      def active_comments
+        self.comments.find {|comment| comment.status == 'active'}
       end
     end
     EOF
