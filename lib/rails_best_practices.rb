@@ -8,7 +8,7 @@ module RailsBestPractices
       files = expand_dirs_to_files(dir)
       files = model_first_sort(files)
       files = add_duplicate_migrations(files)
-      ['vendor', 'spec', 'test', 'stories'].each do |pattern|
+      ['vendor', 'spec', 'test', 'stories', 'features'].each do |pattern|
         files = ignore_files(files, "#{pattern}/") unless options[pattern]
       end
       files
