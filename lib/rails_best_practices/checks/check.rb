@@ -5,11 +5,11 @@ module RailsBestPractices
     class Check
       NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn, :ivar, :block]
       
-      CONTROLLER_FILES = /_controller.rb$/
-      MIGRATION_FILES = /db\/migrate\/.*rb/
-      MODLE_FILES = /models\/.*rb/
-      VIEW_FILES = /views\/.*(erb|haml)/
-      PARTIAL_VIEW_FILES = /views\/.*\/_.*(erb|haml)/
+      CONTROLLER_FILES = /_controller\.rb$/
+      MIGRATION_FILES = /db\/migrate\/.*\.rb/
+      MODLE_FILES = /models\/.*\.rb/
+      VIEW_FILES = /views\/.*\.(erb|haml)/
+      PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)/
 
       attr_reader :errors
 
