@@ -22,6 +22,23 @@ describe RailsBestPractices::Checks::KeepFindersOnTheirOwnModelCheck do
     errors[0].to_s.should == "app/models/post.rb:5 - keep finders on their own model"
   end
 
+  it "should keep finders on thier own model with all method" do
+    content = <<-EOF
+    class Post < ActiveRecord::Base
+      has_many :comments
+
+      def find_valid_comments
+        self.comment.all(:conditions => { :is_spam => false },
+                         :limit => 10)
+      end
+    end
+    EOF
+    @runner.check('app/models/post.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "app/models/post.rb:5 - keep finders on their own model"
+  end
+
   it "should not keep finders on thier own model with self finder" do
     content = <<-EOF
     class Post < ActiveRecord::Base
