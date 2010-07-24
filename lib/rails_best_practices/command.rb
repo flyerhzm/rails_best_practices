@@ -30,8 +30,8 @@ files = RailsBestPractices::analyze_files(ARGV, options)
 files.each { |file| runner.check_file(file) }
 
 runner.errors.each {|error| puts error}
+puts "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices."
 if runner.errors.size > 0
-  puts "\ngo to http://wiki.github.com/flyerhzm/rails_best_practices to see how to solve these errors."
   puts "\nFound #{runner.errors.size} errors."
 end
 
