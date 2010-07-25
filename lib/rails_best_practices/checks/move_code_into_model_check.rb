@@ -4,11 +4,11 @@ module RailsBestPractices
   module Checks
     # Check a view file to make sure there is no complex logic call for model.
     #
-    # Implementation: Check if a local variable or instance variable called more than 3 times in if conditional statement, then it should more code into model.
+    # Implementation: Check if a local variable or instance variable called greater than 2 times in if or unless conditional statement, then it should more code into model.
     class MoveCodeIntoModelCheck < Check
 
       def interesting_nodes
-        [:if]
+        [:if, :unless]
       end
 
       def interesting_files
