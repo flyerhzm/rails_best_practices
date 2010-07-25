@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{rails_best_practices}
-  s.version = "0.3.24"
+  s.version = "0.3.25"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Richard Huang"]
   s.date = %q{2010-07-25}
   s.default_executable = %q{rails_best_practices}
-  s.description = %q{check rails files according to ihower's presentation 'rails best practices'}
+  s.description = %q{a code metric tool for rails codes.'}
   s.email = %q{flyerhzm@gmail.com}
   s.executables = ["rails_best_practices"]
   s.extra_rdoc_files = [
@@ -89,7 +89,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.6}
-  s.summary = %q{check rails files according to ihower's presentation 'rails best practices'}
+  s.summary = %q{a code metric tool for rails codes.'}
   s.test_files = [
     "spec/rails_best_practices/checks/isolate_seed_data_check_spec.rb",
      "spec/rails_best_practices/checks/move_model_logic_into_model_check_spec.rb",
