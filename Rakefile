@@ -25,7 +25,7 @@ Jeweler::Tasks.new do |gemspec|
   gemspec.summary = "check rails files according to ihower's presentation 'rails best practices'"
   gemspec.description = "check rails files according to ihower's presentation 'rails best practices'"
   gemspec.email = "flyerhzm@gmail.com"
-  gemspec.homepage = "http://github.com/flyerhzm/rails_best_practices"
+  gemspec.homepage = "http://rails-bestpractices.com"
   gemspec.authors = ["Richard Huang"]
   gemspec.add_dependency 'ruby_parser', '>= 2.0.4'
   gemspec.add_dependency 'ruby2ruby', '>= 1.2.4'
