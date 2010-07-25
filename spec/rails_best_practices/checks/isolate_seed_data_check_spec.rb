@@ -24,7 +24,6 @@ describe RailsBestPractices::Checks::IsolateSeedDataCheck do
     end
     EOF
     @runner.check('db/migrate/20090818130258_create_roles.rb', content)
-    @runner.check('db/migrate/20090818130258_create_roles.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:8 - isolate seed data"
@@ -51,7 +50,6 @@ describe RailsBestPractices::Checks::IsolateSeedDataCheck do
     end
     EOF
     @runner.check('db/migrate/20090818130258_create_roles.rb', content)
-    @runner.check('db/migrate/20090818130258_create_roles.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:9 - isolate seed data"
@@ -71,7 +69,6 @@ describe RailsBestPractices::Checks::IsolateSeedDataCheck do
       end
     end
     EOF
-    @runner.check('db/migrate/20090818130258_create_roles.rb', content)
     @runner.check('db/migrate/20090818130258_create_roles.rb', content)
     errors = @runner.errors
     errors.should be_empty

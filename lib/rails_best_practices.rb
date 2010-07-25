@@ -7,7 +7,6 @@ module RailsBestPractices
     def analyze_files(dir = '.', options = {})
       files = expand_dirs_to_files(dir)
       files = model_first_sort(files)
-      files = add_duplicate_migrations(files)
       ['vendor', 'spec', 'test', 'stories', 'features'].each do |pattern|
         files = ignore_files(files, "#{pattern}/") unless options[pattern]
       end
@@ -37,12 +36,6 @@ module RailsBestPractices
           a <=> b
         end
       }
-    end
-
-    # for always_add_db_index_check
-    def add_duplicate_migrations files
-      migration_files = files.select { |file| file.index("db/migrate") }
-      (files << migration_files).flatten
     end
 
     def ignore_files files, pattern
