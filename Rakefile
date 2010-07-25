@@ -22,8 +22,8 @@ end
 
 Jeweler::Tasks.new do |gemspec|
   gemspec.name = "rails_best_practices"
-  gemspec.summary = "check rails files according to ihower's presentation 'rails best practices'"
-  gemspec.description = "check rails files according to ihower's presentation 'rails best practices'"
+  gemspec.summary = "a code metric tool for rails codes.'"
+  gemspec.description = "a code metric tool for rails codes.'"
   gemspec.email = "flyerhzm@gmail.com"
   gemspec.homepage = "http://rails-bestpractices.com"
   gemspec.authors = ["Richard Huang"]
