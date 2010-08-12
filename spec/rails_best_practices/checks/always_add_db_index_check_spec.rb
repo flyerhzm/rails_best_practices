@@ -53,4 +53,21 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     errors = @runner.errors
     errors.should be_empty
   end
+
+  it "should not always add db index with multi-column index" do
+    content = <<-EOF
+    ActiveRecord::Schema.define(:version => 20100603080629) do
+      create_table "versions", :force => true do |t|
+        t.integer  "versioned_id"
+        t.string   "versioned_type"
+        t.string   "tag"
+      end
+
+      add_index "versions", ["versioned_id", "versioned_type"], :name => "index_versions_on_versioned_id_and_versioned_type"
+    end
+    EOF
+    @runner.check('db/schema.rb', content)
+    errors = @runner.errors
+    errors.should be_empty
+  end
 end

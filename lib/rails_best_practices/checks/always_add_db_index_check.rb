@@ -40,13 +40,15 @@ module RailsBestPractices
         def find_index_columns(node)
           node.grep_nodes({:node_type => :call, :message => :add_index}).each do |index_node|
             table_name = index_node.arguments[1].to_ruby_string
-            reference_column_name = index_node.arguments[2].to_ruby_string
-            @index_columns << [table_name, reference_column_name]
+            reference_column = eval(index_node.arguments[2].to_ruby)
+            @index_columns << [table_name, reference_column]
           end
         end
         
         def indexed?(table_name, column_name)
-          !!@index_columns.find { |reference| reference[0] == table_name and reference[1] == column_name }
+          !!@index_columns.find do |reference|
+            reference[0] == table_name and reference[1].class == String ? reference[1] == column_name : reference[1].include?(column_name)
+          end
         end
     end
   end
