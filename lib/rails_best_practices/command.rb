@@ -14,6 +14,11 @@ OptionParser.new do |opts|
       options[pattern] = true
     end
   end
+  
+  opts.on_tail('-v', '--version', 'Show this version') do
+    puts File.read(File.dirname(__FILE__) + '/../../VERSION')
+    exit
+  end
 
   opts.on_tail("-h", "--help", "Show this message") do
     puts opts
