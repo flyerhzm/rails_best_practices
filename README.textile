@@ -8,7 +8,7 @@ rails_best_practices is a code static parser tool.
 h2. Resources
 
 "ihower's presentation":http://www.slideshare.net/ihower/rails-best-practices
-"Wiki":http://wiki.github.com/flyerhzm/rails_best_practices
+"Wiki":http://github.com/flyerhzm/rails_best_practices/wiki
 
 *************************************************
 
@@ -142,4 +142,4 @@ h2. Links
 
 *************************************************
 
-Copyright © 2009 Richard Huang (flyerhzm@gmail.com), released under the MIT license
+Copyright © 2010 Richard Huang (flyerhzm@gmail.com), released under the MIT license
