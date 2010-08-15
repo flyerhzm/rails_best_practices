@@ -55,6 +55,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
       content = <<-EOF
       resources :posts do
         resources :comments
+        resources :votes
       end
       
       resources :comments do

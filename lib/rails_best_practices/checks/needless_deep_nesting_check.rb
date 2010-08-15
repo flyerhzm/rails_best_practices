@@ -17,6 +17,7 @@ module RailsBestPractices
 
       def initialize(options = {})
         super()
+        @counter = 0
         @nested_count = options['nested_count'] || 2
       end
       
@@ -28,17 +29,13 @@ module RailsBestPractices
         def check_nested_count(node)
           if :iter == node.node_type
             check_for_rails3(node)
-          elsif :resources == node.message
+          elsif :resources == node.message and node.subject
             check_for_rails2(node)
           end
         end
 
         def check_for_rails3(node)
-          nodes = node.grep_nodes(:message => :resources).delete_if {|node| nil != node.subject}
-          deepest_node = nodes.last
-          if nodes.size > @nested_count
-            add_error "needless deep nesting (nested_count > #{@nested_count})", deepest_node.file, deepest_node.line
-          end
+          nested_count_for_rails3(node)
         end
 
         def check_for_rails2(node)
@@ -47,6 +44,22 @@ module RailsBestPractices
           else
             @counter += 1
             add_error "needless deep nesting (nested_count > #{@nested_count})" if @counter >= @nested_count
+          end
+        end
+
+        def nested_count_for_rails3(node)
+          if :iter == node.node_type and :resources == node.subject.message and !node.message
+            @counter += 1
+            nested_count_for_rails3(node[3])
+            @counter -= 1
+          elsif :block == node.node_type
+            node.children.each do |child_node|
+              if :resources == child_node.message and nil == child_node.subject and @counter + 1 > @nested_count
+                add_error "needless deep nesting (nested_count > #{@nested_count})", child_node.file, child_node.line
+              end
+            end
+          elsif :call == node.node_type and :resources == node.message
+            add_error "needless deep nesting (nested_count > #{@nested_count})", node.file, node.line if @counter + 1 > @nested_count
           end
         end
     end
