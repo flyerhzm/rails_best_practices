@@ -53,7 +53,7 @@ class Sexp
   end
   
   def message
-    if [:attrasgn, :call, :defs].include? node_type
+    if [:attrasgn, :call, :defs, :iter].include? node_type
       self[2]
     end
   end
