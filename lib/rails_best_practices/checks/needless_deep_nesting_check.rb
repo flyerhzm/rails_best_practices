@@ -8,7 +8,7 @@ module RailsBestPractices
     class NeedlessDeepNestingCheck < Check
       
       def interesting_nodes
-        [:call]
+        [:call, :iter]
       end
 
       def interesting_files
@@ -21,7 +21,27 @@ module RailsBestPractices
       end
       
       def evaluate_start(node)
-        if node.message == :resources
+        check_nested_count(node)
+      end
+
+      private
+        def check_nested_count(node)
+          if :iter == node.node_type
+            check_for_rails3(node)
+          elsif :resources == node.message
+            check_for_rails2(node)
+          end
+        end
+
+        def check_for_rails3(node)
+          nodes = node.grep_nodes(:message => :resources).delete_if {|node| nil != node.subject}
+          deepest_node = nodes.last
+          if nodes.size > @nested_count
+            add_error "needless deep nesting (nested_count > #{@nested_count})", deepest_node.file, deepest_node.line
+          end
+        end
+
+        def check_for_rails2(node)
           if node.subject == s(:call, nil, :map, s(:arglist))
             @counter = 0
           else
@@ -29,7 +49,6 @@ module RailsBestPractices
             add_error "needless deep nesting (nested_count > #{@nested_count})" if @counter >= @nested_count
           end
         end
-      end
     end
   end
 end

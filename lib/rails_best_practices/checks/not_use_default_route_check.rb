@@ -17,7 +17,8 @@ module RailsBestPractices
       
       def evaluate_start(node)
         if node == s(:call, s(:lvar, :map), :connect, s(:arglist, s(:str, ":controller/:action/:id"))) or
-           node == s(:call, s(:lvar, :map), :connect, s(:arglist, s(:str, ":controller/:action/:id.:format")))
+           node == s(:call, s(:lvar, :map), :connect, s(:arglist, s(:str, ":controller/:action/:id.:format"))) or
+           node == s(:call, nil, :match, s(:arglist, s(:str, ":controller(/:action(/:id(.:format)))")))
           add_error "not use default route"
         end
       end
