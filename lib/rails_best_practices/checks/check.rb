@@ -3,7 +3,7 @@ require 'rails_best_practices/core/error'
 module RailsBestPractices
   module Checks
     class Check
-      NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn, :ivar, :block]
+      NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn, :ivar, :block, :iter]
       
       CONTROLLER_FILES = /_controller\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb/

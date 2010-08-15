@@ -8,7 +8,7 @@ module RailsBestPractices
     class OveruseRouteCustomizationsCheck < Check
       
       def interesting_nodes
-        [:call]
+        [:call, :iter]
       end
       
       def interesting_files
@@ -21,19 +21,32 @@ module RailsBestPractices
       end
       
       def evaluate_start(node)
-        if :resources == node.message
-          add_error "overuse route customizations (customize_count > #{@customize_count})" if member_and_collection_count(node) > @customize_count
-        end
+        add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.subject.line if member_and_collection_count(node) > @customize_count
       end
 
       private
+        def member_and_collection_count(node)
+          if :resources == node.message
+            member_and_collection_count_for_rails2(node)
+          elsif :iter == node.node_type and :resources == node.subject.message
+            member_and_collection_count_for_rails3(node)
+          end
+        end
 
-      def member_and_collection_count(node)
-        hash_nodes = node.grep_nodes(:node_type => :hash)
-        return 0 if hash_nodes.empty?
-        customize_hash = eval(hash_nodes.first.to_ruby)
-        (customize_hash[:member].size || 0) + (customize_hash[:collection].size || 0)
-      end
+        # this is the checker for rails3 style routes
+        def member_and_collection_count_for_rails3(node)
+          get_nodes = node.grep_nodes(:node_type => :call, :message => :get)
+          post_nodes = node.grep_nodes(:node_type => :call, :message => :post)
+          get_nodes.size + post_nodes.size
+        end
+        
+        # this is the checker for rails2 style routes
+        def member_and_collection_count_for_rails2(node)
+          hash_nodes = node.grep_nodes(:node_type => :hash)
+          return 0 if hash_nodes.empty?
+          customize_hash = eval(hash_nodes.first.to_ruby)
+          (customize_hash[:member].size || 0) + (customize_hash[:collection].size || 0)
+        end
     end
   end
 end
