@@ -88,14 +88,12 @@ ReplaceInstanceVariableWithLocalVariableCheck: { }
 h2. Implementation
 
 * Move code from Controller to Model
-## Move finder to named_scope
+## Move finder to named_scope (rails2 only)
 ## Use model association
 ## Use scope access
 ## Add model virtual attribute
 ## Replace Complex Creation with Factory Method
 ## Move Model Logic into the Model
-## Nested Model Forms (one-to-one)
-## Nested Model Forms (one-to-many)
 
 * Lesson 2. RESTful Conventions
 ## Overuse route customizations
@@ -103,7 +101,7 @@ h2. Implementation
 ## Not use default route
 
 * Lesson 3. Model
-## [-Keep Finders on Their Own Model-]
+## Keep Finders on Their Own Model (rails2 only)
 ## [-Love named_scope-] # same as Move finder to named_scope
 ## [-the Law of Demeter-]
 ## DRY: metaprogramming
