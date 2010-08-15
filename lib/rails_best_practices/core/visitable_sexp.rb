@@ -47,7 +47,7 @@ class Sexp
   end
   
   def subject
-    if [:attrasgn, :call, :iasgn, :lasgn, :class].include? node_type
+    if [:attrasgn, :call, :iasgn, :lasgn, :class, :iter].include? node_type
       self[1]
     end
   end

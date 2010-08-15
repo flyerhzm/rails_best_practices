@@ -1,13 +1,12 @@
 h1. rails_best_practices
 
-rails_best_practices is a gem to check quality of rails app files according to ihower's presentation Rails Best Practices from Kungfu RailsConf in Shanghai China.
-rails_best_practices is a code static parser tool.
+rails_best_practices is a code metric tool to check the quality of rails codes.
 
 *************************************************
 
 h2. Resources
 
-"ihower's presentation":http://www.slideshare.net/ihower/rails-best-practices
+"homepage":http://rails-bestpractices.com
 "Wiki":http://github.com/flyerhzm/rails_best_practices/wiki
 
 *************************************************
@@ -15,7 +14,7 @@ h2. Resources
 h2. Install
 
 <pre><code>
-sudo gem install rails_best_practices --source http://gemcutter.org
+sudo gem install rails_best_practices
 </code></pre>
 
 *************************************************
@@ -67,11 +66,8 @@ MoveFinderToNamedScopeCheck: { }
 UseModelAssociationCheck: { }
 UseScopeAccessCheck: { }
 AddModelVirtualAttributeCheck: { }
-# UseModelCallbackCheck: { }
 ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }
 MoveModelLogicIntoModelCheck: { called_count: 4 }
-# ManyToManyCollectionCheck: { }
-# NestedModelFormsCheck: { }
 OveruseRouteCustomizationsCheck: { customize_count: 3 }
 NeedlessDeepNestingCheck: { nested_count: 2 }
 NotUseDefaultRouteCheck: {  }
@@ -89,17 +85,15 @@ ReplaceInstanceVariableWithLocalVariableCheck: { }
 
 *************************************************
 
-h2. Progress
+h2. Implementation
 
-* Lesson 1. Move code from Controller to Model
-## [-Move finder to named_scope-]
-## [-Use model association-]
-## [-Use scope access-]
-## [-Add model virtual attribute-]
-## Use model callback
-## [-Replace Complex Creation with Factory Method-]
-## [-Move Model Logic into the Model-]
-## model.collection_model_ids (many-to-many)
+* Move code from Controller to Model
+## Move finder to named_scope
+## Use model association
+## Use scope access
+## Add model virtual attribute
+## Replace Complex Creation with Factory Method
+## Move Model Logic into the Model
 ## Nested Model Forms (one-to-one)
 ## Nested Model Forms (one-to-many)
 

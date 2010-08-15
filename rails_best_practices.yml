@@ -2,11 +2,8 @@ MoveFinderToNamedScopeCheck: { }
 UseModelAssociationCheck: { }
 UseScopeAccessCheck: { }
 AddModelVirtualAttributeCheck: { }
-# UseModelCallbackCheck: { }
 ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }
 MoveModelLogicIntoModelCheck: { called_count: 4 }
-# ManyToManyCollectionCheck: { }
-# NestedModelFormsCheck: { }
 OveruseRouteCustomizationsCheck: { customize_count: 3 }
 NeedlessDeepNestingCheck: { nested_count: 2 }
 NotUseDefaultRouteCheck: {  }
