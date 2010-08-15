@@ -95,35 +95,28 @@ h2. Implementation
 ## Replace Complex Creation with Factory Method
 ## Move Model Logic into the Model
 
-* Lesson 2. RESTful Conventions
+* RESTful Conventions
 ## Overuse route customizations
 ## Needless deep nesting
 ## Not use default route
 
-* Lesson 3. Model
+* Model
 ## Keep Finders on Their Own Model (rails2 only)
-## [-Love named_scope-] # same as Move finder to named_scope
-## [-the Law of Demeter-]
-## DRY: metaprogramming
-## Extract into Module
-## Extract to composed class
-## [-Use Observer-]
+## the Law of Demeter
+## Use Observer
 
-* Lesson 4. Migration
-## [-Isolating Seed Data-]
-## [-Always add DB index-]
+* Migration
+## Isolating Seed Data
+## Always add DB index
 
-* Lesson 5. Controller
-## [-Use before_filter-]
-## [-DRY Controller-] # not implement, use http://github.com/josevalim/inherited_resources
+* Controller
+## Use before_filter
 
-* Lesson 6. View
-## [-Move code into controller-]
-## [-Move code into model-]
-## [-Move code into helper-]
-## [-Replace instance variable with local variable-]
-## [-Use Form Builder-] # not implement, use http://github.com/justinfrench/formtastic
-## [-Organize Helper files-] # not implement, it's rails default behaviour
+* View
+## Move code into controller
+## Move code into model
+## Move code into helper
+## Replace instance variable with local variable
 
 *************************************************
 
