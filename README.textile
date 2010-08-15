@@ -6,8 +6,8 @@ rails_best_practices is a code metric tool to check the quality of rails codes.
 
 h2. Resources
 
-"homepage":http://rails-bestpractices.com
-"Wiki":http://github.com/flyerhzm/rails_best_practices/wiki
+Homepage: "http://rails-bestpractices.com":http://rails-bestpractices.com
+Wiki: "http://github.com/flyerhzm/rails_best_practices/wiki":http://github.com/flyerhzm/rails_best_practices/wiki
 
 *************************************************
 
