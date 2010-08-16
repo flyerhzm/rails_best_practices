@@ -120,6 +120,12 @@ h2. Implementation
 
 *************************************************
 
+h2. Contribute
+
+If you want to add your rails best practices into the gem, please post your best practices on "http://rails-bestpractices.com":http://rails-bestpractices.com
+
+*************************************************
+
 h2. Links
 
 "http://railsenvy.com/2009/12/07/rails-envy-podcast-episode-102":http://railsenvy.com/2009/12/07/rails-envy-podcast-episode-102
