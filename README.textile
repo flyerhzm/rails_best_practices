@@ -126,6 +126,12 @@ If you want to add your rails best practices into the gem, please post your best
 
 *************************************************
 
+h2. Contact
+
+Follow us on twitter: "http://twitter.com/railsbp":http://twitter.com/railsbp
+
+*************************************************
+
 h2. Links
 
 "http://railsenvy.com/2009/12/07/rails-envy-podcast-episode-102":http://railsenvy.com/2009/12/07/rails-envy-podcast-episode-102
