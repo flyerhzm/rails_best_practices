@@ -4,21 +4,6 @@ rails_best_practices is a code metric tool to check the quality of rails codes.
 
 *************************************************
 
-h2. Resources
-
-Homepage: "http://rails-bestpractices.com":http://rails-bestpractices.com
-Wiki: "http://github.com/flyerhzm/rails_best_practices/wiki":http://github.com/flyerhzm/rails_best_practices/wiki
-
-*************************************************
-
-h2. Install
-
-<pre><code>
-sudo gem install rails_best_practices
-</code></pre>
-
-*************************************************
-
 h2. Usage
 
 At the root directory of rails app
@@ -44,6 +29,22 @@ Usage: rails_best_practices [options]
 
 *************************************************
 
+h2. Helpful links
+
+Homepage: "http://rails-bestpractices.com":http://rails-bestpractices.com
+Repository: "http://github.com/flyerhzm/rails_best_practices":http://github.com/flyerhzm/rails_best_practices
+Wiki: "http://github.com/flyerhzm/rails_best_practices/wiki":http://github.com/flyerhzm/rails_best_practices/wiki
+
+*************************************************
+
+h2. Install
+
+<pre><code>
+sudo gem install rails_best_practices
+</code></pre>
+
+*************************************************
+
 h2. Issue
 
 If you got NoMethodError or any syntax error, you should use debug mode to detect which file rails_best_practices is parsing and getting the error.
@@ -53,6 +54,8 @@ rails_best_practices -d .
 </code></pre>
 
 Then give me the error stack and the source code of the file that rails_best_practices is parsing error.
+
+"http://github.com/flyerhzm/rails_best_practices/issues":http://github.com/flyerhzm/rails_best_practices/issues
 
 *************************************************
 
@@ -129,13 +132,7 @@ If you want to add your rails best practices into the gem, please post your best
 h2. Contact
 
 Follow us on twitter: "http://twitter.com/railsbp":http://twitter.com/railsbp
-
-*************************************************
-
-h2. Links
-
-"http://railsenvy.com/2009/12/07/rails-envy-podcast-episode-102":http://railsenvy.com/2009/12/07/rails-envy-podcast-episode-102
-"http://ruby5.envylabs.com/episodes/29-episode-28-november-17-2009":http://ruby5.envylabs.com/episodes/29-episode-28-november-17-2009
+Send us email: "team@rails-bestpractices.com":mailto:team@rails-bestpractices.com
 
 *************************************************
 
