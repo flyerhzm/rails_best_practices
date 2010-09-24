@@ -1,2 +1,8 @@
+.DS_STORE
 .*.swp
+.rvmrc
+.rspec
 pkg/**
+*.gem
+.bundle
+Gemfile.lock
