@@ -1,5 +1,6 @@
 require 'optparse'
-
+require 'progressbar'
+require 'colored'
 
 options = {}
 OptionParser.new do |opts|
@@ -32,12 +33,14 @@ runner = RailsBestPractices::Core::Runner.new
 runner.set_debug if options['debug']
 
 files = RailsBestPractices::analyze_files(ARGV, options)
-files.each { |file| runner.check_file(file) }
+bar = ProgressBar.new('Analyzing', files.size)
+files.each { |file| runner.check_file(file); bar.inc }
+bar.finish
 
-runner.errors.each {|error| puts error}
-puts "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices."
+runner.errors.each {|error| puts error.to_s.red}
+puts "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green
 if runner.errors.size > 0
-  puts "\nFound #{runner.errors.size} errors."
+  puts "\nFound #{runner.errors.size} errors.".red
 end
 
 exit runner.errors.size
