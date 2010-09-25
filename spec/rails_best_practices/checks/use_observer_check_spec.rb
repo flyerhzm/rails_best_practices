@@ -64,4 +64,13 @@ describe RailsBestPractices::Checks::UseObserverCheck do
     errors.should_not be_empty
     errors[0].to_s.should == "app/models/project.rb:6 - use observer"
   end
+
+  it "should not raise when initiate an object in callbac" do
+    content =<<-EOF
+    class Project < ActiveRecord::Base
+      after_create ProjectMailer.new
+    end
+    EOF
+    lambda { @runner.check('app/models/project.rb', content) }.should_not raise_error
+  end
 end

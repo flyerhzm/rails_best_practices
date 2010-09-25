@@ -34,7 +34,10 @@ module RailsBestPractices
 
       def remember_callbacks(node)
         node.arguments[1..-1].each do |argument|
-          @callbacks << argument.to_ruby_string
+          # ignore callback like after_create Comment.new
+          if :lit == argument.node_type
+            @callbacks << argument.to_ruby_string
+          end
         end
       end
 
