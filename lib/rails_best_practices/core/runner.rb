@@ -25,6 +25,8 @@ module RailsBestPractices
       def check(filename, content)
         if filename =~ /.*\.erb/
           content = ERB.new(content).src
+          # remove the coding line which exists in Ruby 1.9
+          content.gsub!(/#coding:US-ASCII\n/, '')
         end
         if filename =~ /.*\.haml/
           require 'haml'
