@@ -1,3 +1,4 @@
+# encoding: utf-8
 require 'rails_best_practices/checks'
 require 'rails_best_practices/core'
 
