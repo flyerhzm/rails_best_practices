@@ -3,6 +3,10 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
+    # Check config/deploy.rb file to make sure using the bundler's capistrano recipe.
+    #
+    # Implementation: check the method call,
+    # if there is a call "namespace :bundler", then it should use bundler's capistrano recipe.
     class DryBundlerInCapistranoCheck < Check
 
       def interesting_nodes
