@@ -17,4 +17,4 @@ MoveCodeIntoControllerCheck: { }
 MoveCodeIntoModelCheck: { }
 MoveCodeIntoHelperCheck: { array_count: 3 }
 ReplaceInstanceVariableWithLocalVariableCheck: { }
-DryBundlerInCapistrano: { }
+DryBundlerInCapistranoCheck: { }
