@@ -1,4 +1,4 @@
-require File.join(File.dirname(__FILE__) + '/../../spec_helper')
+require 'spec_helper'
 
 describe RailsBestPractices::Checks::MoveCodeIntoHelperCheck do
   before(:each) do
@@ -10,7 +10,6 @@ describe RailsBestPractices::Checks::MoveCodeIntoHelperCheck do
     <%= select_tag :state, options_for_select( [[t(:draft), "draft"],
                                                 [t(:published), "published"]],
                                                params[:default_state] ) %>
-    
     EOF
     @runner.check('app/views/posts/show.html.erb', content)
     errors = @runner.errors
