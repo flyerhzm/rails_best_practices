@@ -40,7 +40,7 @@ Wiki: "http://github.com/flyerhzm/rails_best_practices/wiki":http://github.com/f
 h2. Install
 
 <pre><code>
-sudo gem install rails_best_practices
+gem install rails_best_practices
 </code></pre>
 
 *************************************************
@@ -84,6 +84,7 @@ MoveCodeIntoControllerCheck: { }
 MoveCodeIntoModelCheck: { }
 MoveCodeIntoHelperCheck: { array_count: 3 }
 ReplaceInstanceVariableWithLocalVariableCheck: { }
+DryBundlerInCapistranoCheck: { }
 </code></pre>
 
 *************************************************
@@ -120,6 +121,9 @@ h2. Implementation
 ## Move code into model
 ## Move code into helper
 ## Replace instance variable with local variable
+
+* Deployment
+## Dry bundler in capistrano
 
 *************************************************
 
