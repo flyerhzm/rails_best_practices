@@ -65,7 +65,7 @@ describe RailsBestPractices::Checks::UseObserverCheck do
     errors[0].to_s.should == "app/models/project.rb:6 - use observer"
   end
 
-  it "should not raise when initiate an object in callbac" do
+  it "should not raise when initiate an object in callback" do
     content =<<-EOF
     class Project < ActiveRecord::Base
       after_create ProjectMailer.new
