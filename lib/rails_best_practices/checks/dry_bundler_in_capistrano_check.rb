@@ -13,8 +13,8 @@ module RailsBestPractices
         [:call]
       end
 
-      def interesting_file
-        'config/deploy.rb'
+      def interesting_files
+        /config\/deploy.rb/
       end
 
       def evaluate_start(node)
