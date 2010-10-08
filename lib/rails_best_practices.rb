@@ -11,6 +11,12 @@ module RailsBestPractices
       ['vendor', 'spec', 'test', 'stories', 'features'].each do |pattern|
         files = ignore_files(files, "#{pattern}/") unless options[pattern]
       end
+      
+      # Exclude files based on exclude regexes if the option is set.
+      for pattern in options[:exclude]
+        files = ignore_files(files, pattern)
+      end
+      
       files
     end
   
