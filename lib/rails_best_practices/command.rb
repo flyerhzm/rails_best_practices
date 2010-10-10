@@ -18,7 +18,8 @@ OptionParser.new do |opts|
   end
   
   opts.on_tail('-v', '--version', 'Show this version') do
-    puts File.read(File.dirname(__FILE__) + '/../../VERSION')
+    require 'rails_best_practices/version'
+    puts RailsBestPractices::VERSION
     exit
   end
 
@@ -31,7 +32,7 @@ OptionParser.new do |opts|
     begin
       options[:exclude] = list.split(/,/).map{|x| Regexp.new x}
     rescue RegexpError => e
-        raise OptionParser::InvalidArgument, e.message
+      raise OptionParser::InvalidArgument, e.message
     end
   end
 
