@@ -18,3 +18,4 @@ MoveCodeIntoModelCheck: { }
 MoveCodeIntoHelperCheck: { array_count: 3 }
 ReplaceInstanceVariableWithLocalVariableCheck: { }
 DryBundlerInCapistranoCheck: { }
+UseSayWithTimeInMigrationsCheck: { }

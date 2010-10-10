@@ -85,6 +85,7 @@ MoveCodeIntoModelCheck: { }
 MoveCodeIntoHelperCheck: { array_count: 3 }
 ReplaceInstanceVariableWithLocalVariableCheck: { }
 DryBundlerInCapistranoCheck: { }
+UseSayWithTimeInMigrationsCheck: { }
 </code></pre>
 
 *************************************************
@@ -112,6 +113,7 @@ h2. Implementation
 * Migration
 ## Isolating Seed Data
 ## Always add DB index
+## Use Say with Time in Migrations
 
 * Controller
 ## Use before_filter
