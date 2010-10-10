@@ -24,6 +24,9 @@ Usage: rails_best_practices [options]
         --spec                       include spec files
         --test                       include test files
         --stories                    include stories files
+    -x, --exclude PATTERNS           Don't analyze files matching a pattern
+                                     (comma-separated regexp list)
+    -v, --version                    Show this version
     -h, --help                       Show this message
 </code></pre>
 
