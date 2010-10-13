@@ -44,7 +44,10 @@ runner.set_debug if options['debug']
 
 files = RailsBestPractices::analyze_files(ARGV, options)
 bar = ProgressBar.new('Analyzing', files.size)
-files.each { |file| runner.check_file(file); bar.inc }
+files.each do |file|
+  runner.check_file(file)
+  bar.inc unless options['debug']
+end
 bar.finish
 
 runner.errors.each {|error| puts error.to_s.red}
