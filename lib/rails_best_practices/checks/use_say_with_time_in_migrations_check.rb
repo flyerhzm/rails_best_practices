@@ -21,7 +21,7 @@ module RailsBestPractices
       def evaluate_start(node)
         block_body = node.grep_nodes(:node_type => :block).first.body
         block_body.each do |iter|
-          if :call == iter[1].node_type and !(DEFAULT_MIGRATION_MESSAGES << :say_with_time).include? iter[1].message
+          if :iter == iter.node_type and :call == iter[1].node_type and !(DEFAULT_MIGRATION_MESSAGES << :say_with_time).include? iter[1].message
             add_error("use say with time in migrations", iter[1].file, iter[1].line)
           end
         end
