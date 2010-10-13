@@ -23,6 +23,7 @@ module RailsBestPractices
       end
 
       def check(filename, content)
+        puts filename if @debug
         if filename =~ /.*\.erb/
           content = ERB.new(content).src
           # remove the coding line which exists in Ruby 1.9
@@ -55,7 +56,6 @@ module RailsBestPractices
       private
 
       def parse(filename, content)
-        puts filename if @debug
         begin
           RubyParser.new.parse(content, filename)
         rescue Exception => e
