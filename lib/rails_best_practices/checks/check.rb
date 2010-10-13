@@ -7,10 +7,10 @@ module RailsBestPractices
       NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn, :ivar, :block, :iter]
       
       CONTROLLER_FILES = /_controller\.rb$/
-      MIGRATION_FILES = /db\/migrate\/.*\.rb/
-      MODLE_FILES = /models\/.*\.rb/
-      VIEW_FILES = /views\/.*\.(erb|haml)/
-      PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)/
+      MIGRATION_FILES = /db\/migrate\/.*\.rb$/
+      MODLE_FILES = /models\/.*\.rb$/
+      VIEW_FILES = /views\/.*\.(erb|haml)$/
+      PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)$/
 
       attr_reader :errors
 
