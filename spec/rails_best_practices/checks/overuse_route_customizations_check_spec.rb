@@ -74,6 +74,20 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
       errors = @runner.errors
       errors.should be_empty
     end
+
+    it "should not raise error for constants in routes" do
+      content =<<-EOF
+      IP_PATTERN = /(((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2}))|[\d]+/.freeze
+      map.resources :vlans do |vlan|
+        vlan.resources :ip_ranges, :member => {:move => [:get, :post]} do |range|
+          range.resources :ips, :requirements => { :id => IP_PATTERN }
+        end
+      end
+      EOF
+      @runner.check('config/routes.rb', content)
+      errors = @runner.errors
+      errors.should be_empty
+    end
   end
 
   describe "rails3" do

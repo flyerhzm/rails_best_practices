@@ -45,8 +45,11 @@ module RailsBestPractices
         def member_and_collection_count_for_rails2(node)
           hash_nodes = node.grep_nodes(:node_type => :hash)
           return 0 if hash_nodes.empty?
-          customize_hash = eval(hash_nodes.first.to_ruby)
-          (customize_hash[:member].size || 0) + (customize_hash[:collection].size || 0)
+          hash_key_node = hash_nodes.first[1]
+          if :lit == hash_key_node.node_type and [:member, :collection].include? hash_key_node[1]
+            customize_hash = eval(hash_nodes.first.to_ruby)
+            (customize_hash[:member].size || 0) + (customize_hash[:collection].size || 0)
+          end
         end
     end
   end
