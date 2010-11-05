@@ -22,10 +22,11 @@ Gem::Specification.new do |s|
   s.add_dependency("ruby2ruby", ["~> 1.2.4"])
   s.add_dependency("progressbar", ["~> 0.9.0"])
   s.add_dependency("colored", ["~> 1.2"])
+  s.add_dependency("activesupport")
 
-  s.add_development_dependency("rspec", ["= 2.0.0.beta.22"])
-  s.add_development_dependency("haml", ["= 3.0.18"])
-  s.add_development_dependency("watchr", ["= 0.6"])
+  s.add_development_dependency("rspec", ["~> 2.0.1"])
+  s.add_development_dependency("haml", ["~> 3.0.18"])
+  s.add_development_dependency("watchr", ["~> 0.6"])
 
   s.extra_rdoc_files = ["MIT_LICENSE", "README.textile"]
   s.files        = Dir.glob("lib/**/*") + %w(rails_best_practices.yml MIT_LICENSE README.textile)
