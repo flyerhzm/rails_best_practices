@@ -32,7 +32,7 @@ module RailsBestPractices
         end
         
         @variables.each do |variable, count|
-          add_error "move model logic into model (#{variable.to_ruby} called_count > #{@called_count})" if count > @called_count
+          add_error "move model logic into model (#{variable} called_count > #{@called_count})" if count > @called_count
         end
         @variables = nil
       end

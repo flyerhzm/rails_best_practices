@@ -50,7 +50,7 @@ module RailsBestPractices
       def call_assignment(node)
         if node.message == :save
           variable = node.subject
-          add_error "add model virtual attribute (for #{node.subject.to_ruby})" if params_dup?(@variables[variable].collect {|h| h[:arguments]})
+          add_error "add model virtual attribute (for #{variable})" if params_dup?(@variables[variable].collect {|h| h[:arguments]})
         end
       end
       

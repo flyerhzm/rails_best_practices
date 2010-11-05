@@ -47,7 +47,7 @@ module RailsBestPractices
           return 0 if hash_nodes.empty?
           hash_key_node = hash_nodes.first[1]
           if :lit == hash_key_node.node_type and [:member, :collection].include? hash_key_node[1]
-            customize_hash = eval(hash_nodes.first.to_ruby)
+            customize_hash = eval(hash_nodes.first.to_s)
             (customize_hash[:member].size || 0) + (customize_hash[:collection].size || 0)
           end
         end

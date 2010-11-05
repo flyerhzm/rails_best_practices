@@ -26,7 +26,7 @@ module RailsBestPractices
 
       def check_errors
         @variables.each do |node, count|
-          add_error "move code into model (#{node.to_ruby})" if count > 2
+          add_error "move code into model (#{node})" if count > 2
         end
       end
 

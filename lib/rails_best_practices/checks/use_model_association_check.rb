@@ -40,7 +40,7 @@ module RailsBestPractices
       def call_assignment(node)
         if node.message == :save
           variable = node.subject[1]
-          add_error "use model association (for #{node.subject.to_ruby})" if @variables[variable]
+          add_error "use model association (for #{node.subject})" if @variables[variable]
         end
       end
     end

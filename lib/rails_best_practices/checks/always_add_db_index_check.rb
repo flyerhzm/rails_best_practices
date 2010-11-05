@@ -27,9 +27,9 @@ module RailsBestPractices
         elsif :call == node.node_type
           case node.message
           when :create_table
-            @table_name = node.arguments[1].to_ruby_string
+            @table_name = node.arguments[1].to_s
           when :integer
-            column_name = node.arguments[1].to_ruby_string
+            column_name = node.arguments[1].to_s
             if column_name =~ /_id$/ and !indexed?(@table_name, column_name)
               add_error "always add db index (#@table_name => #{column_name})", node.file, node.line
             end
@@ -40,8 +40,8 @@ module RailsBestPractices
       private
         def find_index_columns(node)
           node.grep_nodes({:node_type => :call, :message => :add_index}).each do |index_node|
-            table_name = index_node.arguments[1].to_ruby_string
-            reference_column = eval(index_node.arguments[2].to_ruby)
+            table_name = index_node.arguments[1].to_s
+            reference_column = eval(index_node.arguments[2].to_s)
             @index_columns << [table_name, reference_column]
           end
         end

@@ -106,7 +106,28 @@ class Sexp
       self[4][1]
     end
   end
-
+  
+  def to_s
+    if [:lvar, :ivar].include? node_type
+      self[1].to_s
+    elsif :str == node_type
+      self[1]
+    elsif :lit == node_type
+      ":#{self[1]}"
+    elsif :array == node_type
+      "[\"#{self.children.collect(&:to_s).join('", "')}\"]"
+    elsif :hash == node_type
+      key_value = false # false is key, true is value
+      result = "{"
+      children.each do |child|
+        result += "#{child.to_s}#{key_value ? ', ' : ' => '}"
+        key_value = !key_value
+      end
+      result.sub!(/, $/, '')
+      result += "}"
+    end
+  end
+  
   def to_ruby
     Ruby2Ruby.new.process(self) unless self.empty?
   end

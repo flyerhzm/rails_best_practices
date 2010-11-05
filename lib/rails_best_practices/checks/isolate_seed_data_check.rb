@@ -40,7 +40,7 @@ module RailsBestPractices
       end
 
       def new_record?(node)
-        @new_variables.include? node.subject.to_ruby
+        @new_variables.include? node.subject.to_s
       end
     end
   end
