@@ -26,7 +26,7 @@ module RailsBestPractices
       def evaluate_start(node)
         if :after_create == node.message
           remember_callbacks(node)
-        elsif :defn == node.node_type and @callbacks.include?(node.message_name.to_s)
+        elsif :defn == node.node_type and @callbacks.find { |callback| equal?(callback, node.message_name) }
           add_error "use observer" if use_observer?(node)
         end
       end
@@ -37,7 +37,7 @@ module RailsBestPractices
         node.arguments[1..-1].each do |argument|
           # ignore callback like after_create Comment.new
           if :lit == argument.node_type
-            @callbacks << argument.to_ruby_string
+            @callbacks << argument.to_s
           end
         end
       end

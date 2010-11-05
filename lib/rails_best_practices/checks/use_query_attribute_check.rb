@@ -49,7 +49,7 @@ module RailsBestPractices
       
       def remember_association(association_node)
         @associations[@klazzes.last] ||= []
-        @associations[@klazzes.last] << association_node.arguments[1].to_ruby_string
+        @associations[@klazzes.last] << association_node.arguments[1].to_s
       end
 
       def need_query_attribute?(conditional_statement_node)
@@ -68,9 +68,9 @@ module RailsBestPractices
         return false unless :call == node.subject.node_type
         subject = node.subject.subject
         message = node.subject.message
-        subject_ruby = subject.to_ruby
+        subject_ruby = subject.to_s
         
-        subject_ruby && @klazzes.find { |klazz| subject_ruby =~ %r|#{klazz.to_s.underscore}| and !@associations[klazz].include? message.to_s } &&
+        subject_ruby && @klazzes.find { |klazz| subject_ruby =~ %r|#{klazz.to_s.underscore}| and !@associations[klazz].find { |association| equal?(association, message) } } &&
         message && message.to_s.pluralize != message.to_s &&
         QUERY_METHODS.include?(node.message)
       end

@@ -34,13 +34,13 @@ module RailsBestPractices
         (node.body.grep_nodes(:message => :belongs_to) + node.body.grep_nodes(:message => :has_one)).collect do |body_node|
           class_name = node.subject.to_s.underscore
           @associations[class_name] ||= []
-          @associations[class_name] << body_node.arguments[1].to_ruby_string
+          @associations[class_name] << body_node.arguments[1].to_s
         end
       end
 
       def need_delegate?(node)
         @associations.each do |class_name, associations|
-          return true if node.subject.to_ruby =~ /#{class_name}$/ and associations.include? node.message.to_s
+          return true if node.subject.to_s =~ /#{class_name}$/ and associations.find { |association| equal?(association, node.message) }
         end
         false
       end

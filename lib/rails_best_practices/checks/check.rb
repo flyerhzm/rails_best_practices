@@ -60,6 +60,10 @@ module RailsBestPractices
         line ||= @node.line
         @errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error)
       end
+      
+      def equal?(node, expected)
+        node.to_s == expected or node.to_s == ':' + expected.to_s
+      end
     end
   end
 end

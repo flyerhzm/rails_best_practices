@@ -48,7 +48,7 @@ module RailsBestPractices
       def call_assignment(node)
         if node.message == :save
           variable = node.subject
-          add_error "replace complex creation with factory method (#{variable.to_ruby} attribute_assignment_count > #{@attrasgn_count})" if @variables[variable] > @attrasgn_count
+          add_error "replace complex creation with factory method (#{variable} attribute_assignment_count > #{@attrasgn_count})" if @variables[variable] > @attrasgn_count
         end
       end
     end

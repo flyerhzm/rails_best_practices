@@ -18,7 +18,7 @@ module RailsBestPractices
       end
 
       def evaluate_start(node)
-        if :namespace == node.message and "bundler" == node.arguments.to_ruby_string
+        if :namespace == node.message and equal?(node.arguments[1], "bundler")
           add_error "dry bundler in capistrano"
         end
       end
