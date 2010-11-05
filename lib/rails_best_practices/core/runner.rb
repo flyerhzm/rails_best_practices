@@ -3,6 +3,7 @@ require 'rubygems'
 require 'ruby_parser'
 require 'erb'
 require 'yaml'
+require 'active_support/inflector'
 
 module RailsBestPractices
   module Core
@@ -30,10 +31,13 @@ module RailsBestPractices
           content.gsub!(/#coding:US-ASCII\n/, '')
         end
         if filename =~ /.*\.haml$/
-          require 'haml'
-          content = Haml::Engine.new(content).precompiled
-          # remove \xxx characters
-          content.gsub!(/\\\d{3}/, '')
+          begin
+            require 'haml'
+            content = Haml::Engine.new(content).precompiled
+            # remove \xxx characters
+            content.gsub!(/\\\d{3}/, '')
+          rescue Haml::SyntaxError
+          end
         end
         node = parse(filename, content)
         node.accept(@checker) if node

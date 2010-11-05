@@ -89,6 +89,7 @@ MoveCodeIntoHelperCheck: { array_count: 3 }
 ReplaceInstanceVariableWithLocalVariableCheck: { }
 DryBundlerInCapistranoCheck: { }
 UseSayWithTimeInMigrationsCheck: { }
+UseQueryAttributeCheck: { }
 </code></pre>
 
 *************************************************
@@ -112,6 +113,7 @@ h2. Implementation
 ## Keep Finders on Their Own Model (rails2 only)
 ## the Law of Demeter
 ## Use Observer
+## Use Query Attribute
 
 * Migration
 ## Isolating Seed Data
