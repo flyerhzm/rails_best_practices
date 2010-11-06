@@ -1,7 +1,6 @@
 # encoding: utf-8
 require 'rubygems'
 require 'sexp'
-require 'ruby2ruby'
 
 class Sexp
   def accept(visitor)
@@ -48,7 +47,13 @@ class Sexp
   end
   
   def subject
-    if [:attrasgn, :call, :iasgn, :lasgn, :class, :iter].include? node_type
+    if [:attrasgn, :call, :class, :iter].include? node_type
+      self[1]
+    end
+  end
+
+  def left_value
+    if [:lasgn, :iasgn].include? node_type
       self[1]
     end
   end
@@ -128,12 +133,12 @@ class Sexp
     end
   end
   
-  def to_ruby
-    Ruby2Ruby.new.process(self) unless self.empty?
-  end
+  #def to_ruby
+    #Ruby2Ruby.new.process(self) unless self.empty?
+  #end
   
-  def to_ruby_string
-    return nil if self.empty?
-    eval(Ruby2Ruby.new.process(self)).to_s
-  end
+  #def to_ruby_string
+    #return nil if self.empty?
+    #eval(Ruby2Ruby.new.process(self)).to_s
+  #end
 end
