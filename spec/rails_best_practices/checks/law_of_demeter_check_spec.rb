@@ -1,11 +1,13 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Checks::LawOfDemeterCheck do
+
+  before :each do
+    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::LawOfDemeterCheck.new)
+  end
   
   describe "belongs_to" do
     before(:each) do
-      @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::LawOfDemeterCheck.new)
-
       content = <<-EOF
       class Invoice < ActiveRecord::Base
         belongs_to :user
@@ -52,8 +54,6 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
 
   describe "has_one" do
     before(:each) do
-      @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::LawOfDemeterCheck.new)
-
       content = <<-EOF
       class Invoice < ActiveRecord::Base
         has_one :price
@@ -72,5 +72,30 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
       errors.should_not be_empty
       errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
     end
+  end
+
+  it "should no law of demeter with method call" do
+    content = <<-EOF
+    class Question < ActiveRecord::Base
+      has_many :answers, :dependent => :destroy
+    end
+    EOF
+    @runner.check('app/models/question.rb', content)
+    content = <<-EOF
+    class Answer < ActiveRecord::Base
+      belongs_to :question, :counter_cache => true, :touch => true
+    end
+    EOF
+    @runner.check('app/models/answer.rb', content)
+    content = <<-EOF
+    class CommentsController < ApplicationController
+      def comment_url
+        question_path(@answer.question)
+      end
+    end
+    EOF
+    @runner.check('app/controllers/comments_controller.rb', content)
+    errors = @runner.errors
+    errors.should be_empty
   end
 end

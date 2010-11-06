@@ -22,7 +22,7 @@ module RailsBestPractices
       def evaluate_start(node)
         if node.node_type == :class
           remember_association(node)
-        elsif [:lvar, :ivar].include?(node.subject.node_type) and node.subject != s(:lvar, :_erbout)
+        elsif [:lvar, :ivar].include?(node.subject.subject.node_type) and node.subject != s(:lvar, :_erbout)
           add_error "law of demeter" if need_delegate?(node)
         end
       end
@@ -40,7 +40,7 @@ module RailsBestPractices
 
       def need_delegate?(node)
         @associations.each do |class_name, associations|
-          return true if node.subject.to_s =~ /#{class_name}$/ and associations.find { |association| equal?(association, node.message) }
+          return true if node.subject.subject.to_s =~ /#{class_name}$/ and associations.find { |association| equal?(association, node.subject.message) }
         end
         false
       end
