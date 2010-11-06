@@ -9,7 +9,7 @@ module RailsBestPractices
     class IsolateSeedDataCheck < Check
 
       def interesting_nodes
-        [:call, :lasgn]
+        [:call, :lasgn, :iasgn]
       end
 
       def interesting_files
@@ -24,7 +24,7 @@ module RailsBestPractices
       def evaluate_start(node)
         if [:create, :create!].include? node.message
           add_error("isolate seed data")
-        elsif :lasgn == node.node_type
+        elsif [:lasgn, :iasgn].include? node.node_type
           remember_new_variable(node)
         elsif [:save, :save!].include? node.message
           add_error("isolate seed data") if new_record?(node)
@@ -35,7 +35,7 @@ module RailsBestPractices
 
       def remember_new_variable(node)
         unless node.grep_nodes({:node_type => :call, :message => :new}).empty?
-          @new_variables << node.subject.to_s
+          @new_variables << node.left_value.to_s
         end
       end
 
