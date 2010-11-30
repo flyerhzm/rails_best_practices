@@ -21,8 +21,24 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     errors[0].to_s.should == "db/schema.rb:4 - always add db index (comments => post_id)"
     errors[1].to_s.should == "db/schema.rb:5 - always add db index (comments => user_id)"
   end
-  
-  it "should always add db index with column has no id" do
+
+  it "should always add db index with polymorphic foreign key" do
+    content = <<-EOF
+    ActiveRecord::Schema.define(:version => 20100603080629) do
+      create_table "versions", :force => true do |t|
+        t.integer  "versioned_id"
+        t.string   "versioned_type"
+        t.string   "tag"
+      end
+    end
+    EOF
+    @runner.check('db/schema.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "db/schema.rb:3 - always add db index (versions => [versioned_id, versioned_type])"
+  end
+
+  it "should not always add db index with column has no id" do
     content = <<-EOF
     ActiveRecord::Schema.define(:version => 20100603080629) do
       create_table "comments", :force => true do |t|
@@ -35,7 +51,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     errors = @runner.errors
     errors.should be_empty
   end
-  
+
   it "should not always add db index with add_index" do
     content = <<-EOF
     ActiveRecord::Schema.define(:version => 20100603080629) do
