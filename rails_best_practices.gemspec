@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency("ruby_parser", ["~> 2.0.4"])
   s.add_dependency("progressbar", ["~> 0.9.0"])
   s.add_dependency("colored", ["~> 1.2"])
+  s.add_dependency("i18n")
   s.add_dependency("activesupport")
 
   s.add_development_dependency("rspec", ["~> 2.0.1"])
