@@ -8,9 +8,11 @@ require 'active_support/inflector'
 module RailsBestPractices
   module Core
     class Runner
+      attr_reader :checks
+
       DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "..", "..", "rails_best_practices.yml")
       CUSTOM_CONFIG = File.join('config', 'rails_best_practices.yml')
-      
+
       def initialize(*checks)
         @config = File.exists?(CUSTOM_CONFIG) ? CUSTOM_CONFIG : DEFAULT_CONFIG
         @checks = checks unless checks.empty?
@@ -18,7 +20,7 @@ module RailsBestPractices
         @checker ||= CheckingVisitor.new(@checks)
         @debug = false
       end
-      
+
       def set_debug
         @debug = true
       end
@@ -67,11 +69,11 @@ module RailsBestPractices
           nil
         end
       end
-      
+
       def load_checks
         check_objects = []
         checks = YAML.load_file @config
-        checks.each do |check| 
+        checks.each do |check|
           klass = eval("RailsBestPractices::Checks::#{check[0]}")
           check_objects << (check[1].empty? ? klass.new : klass.new(check[1]))
         end
