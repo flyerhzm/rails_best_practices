@@ -43,7 +43,7 @@ module RailsBestPractices
           @foreign_keys.each do |table, foreign_key|
             table_node = @table_nodes[table]
             foreign_key.each do |column|
-              unless @index_columns[table] && @index_columns[table].include?(column)
+              if indexed?(table, column)
                 add_error "always add db index (#{table} => [#{Array(column).join(', ')}])", table_node.file, table_node.line
               end
             end
@@ -75,6 +75,17 @@ module RailsBestPractices
             @foreign_keys[table_name].delete("#{$1}_id")
             @foreign_keys[table_name] << ["#{$1}_id", foreign_key_column]
           end
+        end
+
+        def indexed?(table, column)
+          index_columns = @index_columns[table]
+          !index_columns || !index_columns.any? { |e| greater_than(Array(e), Array(column)) }
+        end
+
+        def greater_than(more_array, less_array)
+          more_size = more_array.size
+          less_size = less_array.size
+          (more_array - less_array).size == more_size - less_size
         end
     end
   end
