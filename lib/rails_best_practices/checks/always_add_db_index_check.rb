@@ -66,9 +66,11 @@ module RailsBestPractices
         end
 
         def add_foreign_key_column(table_name, foreign_key_column)
+          @foreign_keys[table_name] ||= []
           if foreign_key_column =~ /_id$/
-            @foreign_keys[table_name] ||= []
-            @foreign_keys[table_name] << foreign_key_column
+            unless @foreign_keys[table_name].find { |foreign_key| foreign_key.include? foreign_key_column }
+              @foreign_keys[table_name] << foreign_key_column
+            end
           elsif foreign_key_column =~ /(.*?)_type$/
             @foreign_keys[table_name].delete("#{$1}_id")
             @foreign_keys[table_name] << ["#{$1}_id", foreign_key_column]
