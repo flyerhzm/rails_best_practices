@@ -41,9 +41,9 @@ module RailsBestPractices
       def evaluate_end(node)
         if :iter == node.node_type && :call == node.subject.node_type && s(:colon2, s(:const, :ActiveRecord), :Schema) == node.subject.subject
           @foreign_keys.each do |table, foreign_key|
-            if !@index_columns[table] && !foreign_key.include?(@index_columns[table])
-              table_node = @table_nodes[table]
-              foreign_key.each do |column|
+            table_node = @table_nodes[table]
+            foreign_key.each do |column|
+              unless @index_columns[table] && @index_columns[table].include?(column)
                 add_error "always add db index (#{table} => [#{Array(column).join(', ')}])", table_node.file, table_node.line
               end
             end
@@ -72,12 +72,6 @@ module RailsBestPractices
           elsif foreign_key_column =~ /(.*?)_type$/
             @foreign_keys[table_name].delete("#{$1}_id")
             @foreign_keys[table_name] << ["#{$1}_id", foreign_key_column]
-          end
-        end
-
-        def indexed?(table_name, column_name)
-          !!@index_columns.find do |reference|
-            reference[0] == table_name and reference[1].class == String ? reference[1] == column_name : reference[1].include?(column_name)
           end
         end
     end

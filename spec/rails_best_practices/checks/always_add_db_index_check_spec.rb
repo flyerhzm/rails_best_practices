@@ -38,6 +38,42 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     errors[0].to_s.should == "db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])"
   end
 
+  it "should always add db index with single index, but without polymorphic foreign key" do
+    content = <<-EOF
+    ActiveRecord::Schema.define(:version => 20100603080629) do
+      create_table "taggings", :force => true do |t|
+        t.integer  "tag_id"
+        t.integer  "taggable_id"
+        t.string   "taggable_type"
+      end
+
+      add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
+    end
+    EOF
+    @runner.check('db/schema.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "db/schema.rb:2 - always add db index (taggings => [taggable_id, taggable_type])"
+  end
+
+  it "should always add db index with polymorphic foreign key, but without single index" do
+    content = <<-EOF
+    ActiveRecord::Schema.define(:version => 20100603080629) do
+      create_table "taggings", :force => true do |t|
+        t.integer  "tag_id"
+        t.integer  "taggable_id"
+        t.string   "taggable_type"
+      end
+
+      add_index "taggings", ["taggable_id", "taggable_type"], :name => "index_taggings_on_taggable_id_and_taggable_type"
+    end
+    EOF
+    @runner.check('db/schema.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors[0].to_s.should == "db/schema.rb:2 - always add db index (taggings => [tag_id])"
+  end
+
   it "should not always add db index with column has no id" do
     content = <<-EOF
     ActiveRecord::Schema.define(:version => 20100603080629) do
