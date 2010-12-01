@@ -9,7 +9,7 @@ module RailsBestPractices
     class AlwaysAddDbIndexCheck < Check
 
       def interesting_nodes
-        [:block, :call]
+        [:block, :call, :iter]
       end
 
       def interesting_files
@@ -18,7 +18,9 @@ module RailsBestPractices
 
       def initialize
         super
-        @index_columns = []
+        @index_columns = {}
+        @foreign_keys = {}
+        @table_nodes = {}
       end
 
       def evaluate_start(node)
@@ -28,24 +30,51 @@ module RailsBestPractices
           case node.message
           when :create_table
             @table_name = node.arguments[1].to_s
-          when :integer
+            @table_nodes[@table_name] = node
+          when :integer, :string
             column_name = node.arguments[1].to_s
-            if column_name =~ /_id$/ and !indexed?(@table_name, column_name)
-              add_error "always add db index (#@table_name => #{column_name})", node.file, node.line
+            add_foreign_key_column(@table_name, column_name)
+          end
+        end
+      end
+
+      def evaluate_end(node)
+        if :iter == node.node_type && :call == node.subject.node_type && s(:colon2, s(:const, :ActiveRecord), :Schema) == node.subject.subject
+          @foreign_keys.each do |table, foreign_key|
+            if !@index_columns[table] && !foreign_key.include?(@index_columns[table])
+              table_node = @table_nodes[table]
+              foreign_key.each do |column|
+                add_error "always add db index (#{table} => [#{Array(column).join(', ')}])", table_node.file, table_node.line
+              end
             end
           end
         end
       end
-      
+
       private
         def find_index_columns(node)
           node.grep_nodes({:node_type => :call, :message => :add_index}).each do |index_node|
             table_name = index_node.arguments[1].to_s
-            reference_column = eval(index_node.arguments[2].to_s)
-            @index_columns << [table_name, reference_column]
+            index_column = eval(index_node.arguments[2].to_s)
+            add_index_column(table_name, index_column)
           end
         end
-        
+
+        def add_index_column(table_name, index_column)
+          @index_columns[table_name] ||= []
+          @index_columns[table_name] << (index_column.size == 1 ? index_column[0] : index_column)
+        end
+
+        def add_foreign_key_column(table_name, foreign_key_column)
+          if foreign_key_column =~ /_id$/
+            @foreign_keys[table_name] ||= []
+            @foreign_keys[table_name] << foreign_key_column
+          elsif foreign_key_column =~ /(.*?)_type$/
+            @foreign_keys[table_name].delete("#{$1}_id")
+            @foreign_keys[table_name] << ["#{$1}_id", foreign_key_column]
+          end
+        end
+
         def indexed?(table_name, column_name)
           !!@index_columns.find do |reference|
             reference[0] == table_name and reference[1].class == String ? reference[1] == column_name : reference[1].include?(column_name)
