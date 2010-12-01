@@ -38,6 +38,23 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     errors[0].to_s.should == "db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])"
   end
 
+  it "should always add db index with polymorphic foreign key and _type is defined before _id" do
+    content = <<-EOF
+    ActiveRecord::Schema.define(:version => 20100603080629) do
+      create_table "versions", :force => true do |t|
+        t.string   "versioned_type"
+        t.integer  "versioned_id"
+        t.string   "tag"
+      end
+    end
+    EOF
+    @runner.check('db/schema.rb', content)
+    errors = @runner.errors
+    errors.should_not be_empty
+    errors.size.should == 1
+    errors[0].to_s.should == "db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])"
+  end
+
   it "should always add db index with single index, but without polymorphic foreign key" do
     content = <<-EOF
     ActiveRecord::Schema.define(:version => 20100603080629) do
