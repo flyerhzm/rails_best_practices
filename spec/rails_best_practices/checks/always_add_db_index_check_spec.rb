@@ -139,4 +139,21 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
     errors = @runner.errors
     errors.should be_empty
   end
+
+  it "should not always add db index if there is an index contains more columns" do
+    content = <<-EOF
+    ActiveRecord::Schema.define(:version => 20100603080629) do
+      create_table "taggings", :force => true do |t|
+        t.integer  "taggable_id"
+        t.string   "taggable_type"
+        t.string   "context"
+      end
+
+      add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
+    end
+    EOF
+    @runner.check('db/schema.rb', content)
+    errors = @runner.errors
+    errors.should be_empty
+  end
 end
