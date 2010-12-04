@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'rubygems'
 require 'ruby_parser'
-require 'erb'
+require 'erubis'
 require 'yaml'
 require 'active_support/inflector'
 
@@ -28,9 +28,7 @@ module RailsBestPractices
       def check(filename, content)
         puts filename if @debug
         if filename =~ /.*\.erb$/
-          content = ERB.new(content).src
-          # remove the coding line which exists in Ruby 1.9
-          content.gsub!(/#coding:US-ASCII\n/, '')
+          content = Erubis::Eruby.new(content).src
         end
         if filename =~ /.*\.haml$/
           begin
