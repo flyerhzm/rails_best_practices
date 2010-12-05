@@ -32,7 +32,7 @@ Usage: rails_best_practices [options]
 
 *************************************************
 
-h2. Helpful links
+h2. Resources
 
 Homepage: "http://rails-bestpractices.com":http://rails-bestpractices.com
 Repository: "http://github.com/flyerhzm/rails_best_practices":http://github.com/flyerhzm/rails_best_practices
