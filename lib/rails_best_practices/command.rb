@@ -11,7 +11,7 @@ OptionParser.new do |opts|
     options['debug'] = true
   end
 
-  ['vendor', 'spec', 'test', 'stories'].each do |pattern|
+  ['vendor', 'spec', 'test', 'features'].each do |pattern|
     opts.on("--#{pattern}", "include #{pattern} files") do
       options[pattern] = true
     end
