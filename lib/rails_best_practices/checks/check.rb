@@ -4,8 +4,8 @@ require 'rails_best_practices/core/error'
 module RailsBestPractices
   module Checks
     class Check
-      NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn, :iasgn, :ivar, :lvar, :block, :iter]
-      
+      NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn, :iasgn, :ivar, :lvar, :block, :iter, :const]
+
       CONTROLLER_FILES = /_controller\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
       MODLE_FILES = /models\/.*\.rb$/
@@ -17,11 +17,11 @@ module RailsBestPractices
       def initialize
         @errors = []
       end
-      
+
       def interesting_files
         /.*/
       end
-  
+
       NODE_TYPES.each do |node|
         start_node_method = "evaluate_start_#{node}"
         end_node_method = "evaluate_end_#{node}"
@@ -32,7 +32,7 @@ module RailsBestPractices
       def position(offset = 0)
         "#{@line[2]}:#{@line[1] + offset}"
       end
-      
+
       def evaluate_start(node)
       end
 
@@ -49,18 +49,18 @@ module RailsBestPractices
         evaluate_node(:start, node)
         evaluate_start(node)
       end
-  
+
       def evaluate_node_end(node)
         evaluate_node(:end, node)
         evaluate_end(node)
       end
-      
+
       def add_error(error, file = nil, line = nil)
         file ||= @node.file
         line ||= @node.line
         @errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error)
       end
-      
+
       def equal?(node, expected)
         node.to_s == expected or node.to_s == ':' + expected.to_s
       end
