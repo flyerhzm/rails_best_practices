@@ -3,6 +3,10 @@ require 'rubygems'
 require 'sexp'
 
 class Sexp
+  def prepare(visitor)
+    visitor.prepare(self)
+  end
+
   def accept(visitor)
     visitor.visit(self)
   end

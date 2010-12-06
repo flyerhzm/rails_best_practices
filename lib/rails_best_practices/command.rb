@@ -42,6 +42,7 @@ end
 runner = RailsBestPractices::Core::Runner.new
 runner.set_debug if options['debug']
 
+prepare_files = RailsBestPractices::prepare_files
 files = RailsBestPractices::analyze_files(ARGV, options)
 
 if runner.checks.find { |check| check.is_a? RailsBestPractices::Checks::AlwaysAddDbIndexCheck } &&
@@ -49,7 +50,13 @@ if runner.checks.find { |check| check.is_a? RailsBestPractices::Checks::AlwaysAd
   puts "AlwaysAddDbIndexCheck is disabled as there is no db/schema.rb file in your rails project.".blue
 end
 
-bar = ProgressBar.new('Analyzing', files.size)
+bar = ProgressBar.new('Analyzing', prepare_files.size + files.size)
+
+prepare_files.each do |file|
+  runner.prepare_file(file)
+  bar.inc unless options['debug']
+end
+
 files.each do |file|
   runner.check_file(file)
   bar.inc unless options['debug']

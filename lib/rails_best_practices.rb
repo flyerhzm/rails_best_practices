@@ -3,23 +3,27 @@ require 'rails_best_practices/checks'
 require 'rails_best_practices/core'
 
 module RailsBestPractices
-  
+
   class <<self
+    def prepare_files
+      expand_dirs_to_files 'app/models'
+    end
+
     def analyze_files(dir = '.', options = {})
       files = expand_dirs_to_files(dir)
       files = model_first_sort(files)
       ['vendor', 'spec', 'test', 'stories', 'features'].each do |pattern|
         files = ignore_files(files, "#{pattern}/") unless options[pattern]
       end
-      
+
       # Exclude files based on exclude regexes if the option is set.
       for pattern in options[:exclude]
         files = ignore_files(files, pattern)
       end
-      
+
       files
     end
-  
+
     def expand_dirs_to_files *dirs
       extensions = ['rb', 'erb', 'haml', 'builder']
 
