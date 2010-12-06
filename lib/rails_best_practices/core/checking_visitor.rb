@@ -14,12 +14,17 @@ module RailsBestPractices
         end
       end
 
+      def prepare(node)
+        checks = @checks[node.node_type]
+        checks.each {|check| check.prepare_node_start(node) if node.file =~ check.interesting_prepare_files} unless checks.nil?
+        node.visitable_children.each {|sexp| sexp.prepare(self)}
+        checks.each {|check| check.prepare_node_end(node) if node.file =~ check.interesting_prepare_files} unless checks.nil?
+      end
+
     	def visit(node)
         checks = @checks[node.node_type]
         checks.each {|check| check.evaluate_node_start(node) if node.file =~ check.interesting_files} unless checks.nil?
-
     		node.visitable_children.each {|sexp| sexp.accept(self)}
-
         checks.each {|check| check.evaluate_node_end(node) if node.file =~ check.interesting_files} unless checks.nil?
     	end
     end

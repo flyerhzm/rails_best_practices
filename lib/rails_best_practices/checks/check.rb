@@ -22,15 +22,30 @@ module RailsBestPractices
         /.*/
       end
 
+      def interesting_prepare_files
+        /.*/
+      end
+
       NODE_TYPES.each do |node|
         start_node_method = "evaluate_start_#{node}"
         end_node_method = "evaluate_end_#{node}"
         define_method(start_node_method) { |node| } unless self.respond_to?(start_node_method)
         define_method(end_node_method) { |node| } unless self.respond_to?(end_node_method)
+
+        prepare_start_node_method = "prepare_start_#{node}"
+        prepare_end_node_method = "prepare_end_#{node}"
+        define_method(prepare_start_node_method) { |node| } unless self.respond_to?(prepare_start_node_method)
+        define_method(prepare_end_node_method) { |node| } unless self.respond_to?(prepare_end_node_method)
       end
 
       def position(offset = 0)
         "#{@line[2]}:#{@line[1] + offset}"
+      end
+
+      def prepare_start(node)
+      end
+
+      def prepare_end(node)
       end
 
       def evaluate_start(node)
@@ -39,10 +54,26 @@ module RailsBestPractices
       def evaluate_end(node)
       end
 
+      def prepare_node(position, node)
+        @node = node
+        prepare_method = "prepare_#{position}_#{node.node_type}"
+        self.send(prepare_method, node)
+      end
+
       def evaluate_node(position, node)
         @node = node
         eval_method = "evaluate_#{position}_#{node.node_type}"
         self.send(eval_method, node)
+      end
+
+      def prepare_node_start(node)
+        prepare_node(:start, node)
+        prepare_start(node)
+      end
+
+      def prepare_node_end(node)
+        prepare_node(:end, node)
+        prepare_end(node)
       end
 
       def evaluate_node_start(node)

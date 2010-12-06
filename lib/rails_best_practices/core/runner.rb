@@ -27,6 +27,43 @@ module RailsBestPractices
 
       def check(filename, content)
         puts filename if @debug
+        content = parse_erb_or_haml(filename, content)
+        node = parse_ruby(filename, content)
+        node.accept(@checker) if node
+      end
+
+      def prepare(filename, content)
+        puts filename if @debug
+        node = parse_ruby(filename, content)
+        node.prepare(@checker) if node
+      end
+
+      def check_file(filename)
+        check(filename, File.read(filename))
+      end
+
+      def prepare_file(filename)
+        prepare(filename, File.read(filename))
+      end
+
+      def errors
+        @checks ||= []
+        all_errors = @checks.collect {|check| check.errors}
+        all_errors.flatten
+      end
+
+      private
+
+      def parse_ruby(filename, content)
+        begin
+          RubyParser.new.parse(content, filename)
+        rescue Exception => e
+          puts "#{filename} looks like it's not a valid Ruby file.  Skipping..." if @debug
+          nil
+        end
+      end
+
+      def parse_erb_or_haml(filename, content)
         if filename =~ /.*\.erb$/
           content = Erubis::Eruby.new(content).src
         end
@@ -39,33 +76,7 @@ module RailsBestPractices
           rescue Haml::SyntaxError
           end
         end
-        node = parse(filename, content)
-        node.accept(@checker) if node
-      end
-
-      def check_content(content)
-        check("dummy-file.rb", content)
-      end
-
-      def check_file(filename)
-        check(filename, File.read(filename))
-      end
-
-      def errors
-        @checks ||= []
-        all_errors = @checks.collect {|check| check.errors}
-        all_errors.flatten
-      end
-
-      private
-
-      def parse(filename, content)
-        begin
-          RubyParser.new.parse(content, filename)
-        rescue Exception => e
-          puts "#{filename} looks like it's not a valid Ruby file.  Skipping..." if @debug
-          nil
-        end
+        content
       end
 
       def load_checks
