@@ -35,7 +35,8 @@ module RailsBestPractices
           remember_association(node) if ASSOCIATION_METHODS.include? node.message
         when :if
           if node = query_attribute_node(node.conditional_statement)
-            add_error "use query attribute", node.file, node.line
+            subject_node = node.subject
+            add_error "use query attribute (#{subject_node.subject}.#{subject_node.message}?)", node.file, node.line
           end
         else
         end

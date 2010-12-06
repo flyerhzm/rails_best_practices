@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Checks::UseQueryAttributeCheck do
-  
+
   before(:each) do
     @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::UseQueryAttributeCheck.new)
 
@@ -10,7 +10,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       has_many :projects
       belongs_to :location
       has_one :phone
-      
+
       belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
     end
     EOF
@@ -26,7 +26,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
     @runner.check('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute"
+    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should use query attribute by comparing empty string" do
@@ -38,7 +38,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
     @runner.check('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute"
+    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should use query attribute by nil call" do
@@ -50,7 +50,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
     @runner.check('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute"
+    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should use query attribute by present call" do
@@ -62,9 +62,9 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
     @runner.check('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute"
+    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
-  
+
   it "should use query attribute within and conditions" do
     content = <<-EOF
     <% if @user.active? and @user.login.present? %>
@@ -74,7 +74,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
     @runner.check('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute"
+    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should use query attribute within or conditions" do
@@ -86,7 +86,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
     @runner.check('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute"
+    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should not use query attribute" do
@@ -99,7 +99,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
     errors = @runner.errors
     errors.should be_empty
   end
-  
+
   it "should not check for pluralize attribute" do
     content = <<-EOF
     <% if @user.roles.blank? %>
@@ -110,7 +110,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
     errors = @runner.errors
     errors.should be_empty
   end
-  
+
   it "should not check non model class" do
     content = <<-EOF
     <% if @person.login.present? %>
@@ -121,7 +121,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
     errors = @runner.errors
     errors.should be_empty
   end
-  
+
   context "association" do
     it "should not check belongs_to association" do
       content = <<-EOF
@@ -133,7 +133,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       errors = @runner.errors
       errors.should be_empty
     end
-  
+
       it "should not check belongs_to category" do
         content = <<-EOF
         <% if @user.category.present? %>
@@ -144,7 +144,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
         errors = @runner.errors
         errors.should be_empty
       end
-    
+
     it "should not check has_one association" do
       content = <<-EOF
       <% if @user.phone.present? %>
@@ -155,7 +155,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       errors = @runner.errors
       errors.should be_empty
     end
-    
+
     it "should not check has_many association" do
       content = <<-EOF
       <% if @user.projects.present? %>
@@ -167,7 +167,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       errors.should be_empty
     end
   end
-  
+
   it "should not check for class method" do
     content = <<-EOF
     <% if User.name.present? %>
