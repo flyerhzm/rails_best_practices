@@ -14,7 +14,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
     end
     EOF
-    @runner.check('app/models/user.rb', content)
+    @runner.prepare('app/models/user.rb', content)
   end
 
   it "should use query attribute by blank call" do
@@ -175,6 +175,17 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
     <% end %>
     EOF
     @runner.check('app/views/users/show.html.erb', content)
+    errors = @runner.errors
+    errors.should be_empty
+  end
+
+  it "should not check for non attribute call" do
+    content = <<-EOF
+    if @user.login(false).nil?
+      puts @user.login(false)
+    end
+    EOF
+    @runner.check('app/models/users_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
