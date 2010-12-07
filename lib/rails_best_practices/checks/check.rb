@@ -3,8 +3,13 @@ require 'rails_best_practices/core/error'
 
 module RailsBestPractices
   module Checks
+    # A Check class that takes charge of reviewing one rails best practice.
+    # One check contains two process:
+    # 1. prepare process (optional), in this process, one check will do some preparation, such as analyzing the model associations.The check only does the preparation for the nodes (defined in interesting_prepare_nodes) in the files (defined in interesting_prepare_files).
+    # 2. review process, in this process, one check will really review your rails codes. The check only review the nodes (defined in interesting_review_nodes) in the files # (defined in interesting_review_files).
     class Check
-      NODE_TYPES = [:call, :defn, :defs, :if, :unless, :class, :lasgn, :iasgn, :ivar, :lvar, :block, :iter, :const]
+      # only nodes whose node_type is in NODE_TYPE will be reviewed.
+      NODE_TYPES = [:call, :defn, :defs, :if, :class, :lasgn, :iasgn, :ivar, :lvar, :block, :iter, :const]
 
       CONTROLLER_FILES = /_controller\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
@@ -18,80 +23,52 @@ module RailsBestPractices
         @errors = []
       end
 
-      def interesting_files
-        /.*/
+      [:prepare, :review].each do |process|
+        class_eval <<-EOS
+          def interesting_#{process}_nodes                        # def interesting_review_nodes
+            []                                                    #   []
+          end                                                     # end
+                                                                  #
+          def interesting_#{process}_files                        # def interesting_review_files
+            /.*/                                                  #   /.*/
+          end                                                     # end
+                                                                  #
+          def #{process}_node_start(node)                         # def review_node_start(node)
+            @node = node                                          #   @node = node
+            method = "#{process}_start_" + node.node_type.to_s    #   method = "review_start_" + node.node_type.to_s
+            self.send(method, node)                               #   self.send(method, node)
+          end                                                     # end
+                                                                  #
+          def #{process}_node_end(node)                           # def review_node_end(node)
+            @node = node                                          #   @node = node
+            method = "#{process}_end_" + node.node_type.to_s      #   method = "review_end_" + node.node_type.to_s
+            self.send(method, node)                               #   self.send(method, node)
+          end                                                     # end
+        EOS
       end
 
-      def interesting_prepare_files
-        /.*/
+      [:prepare, :review].each do |process|
+        NODE_TYPES.each do |node|
+          class_eval <<-EOS
+            def #{process}_start_#{node}(node)                    # def review_start_def(node)
+            end                                                   # end
+                                                                  #
+            def #{process}_end_#{node}(node)                      # def review_end_def(node)
+            end                                                   # end
+          EOS
+        end
       end
 
-      NODE_TYPES.each do |node|
-        start_node_method = "evaluate_start_#{node}"
-        end_node_method = "evaluate_end_#{node}"
-        define_method(start_node_method) { |node| } unless self.respond_to?(start_node_method)
-        define_method(end_node_method) { |node| } unless self.respond_to?(end_node_method)
-
-        prepare_start_node_method = "prepare_start_#{node}"
-        prepare_end_node_method = "prepare_end_#{node}"
-        define_method(prepare_start_node_method) { |node| } unless self.respond_to?(prepare_start_node_method)
-        define_method(prepare_end_node_method) { |node| } unless self.respond_to?(prepare_end_node_method)
-      end
-
-      def position(offset = 0)
-        "#{@line[2]}:#{@line[1] + offset}"
-      end
-
-      def prepare_start(node)
-      end
-
-      def prepare_end(node)
-      end
-
-      def evaluate_start(node)
-      end
-
-      def evaluate_end(node)
-      end
-
-      def prepare_node(position, node)
-        @node = node
-        prepare_method = "prepare_#{position}_#{node.node_type}"
-        self.send(prepare_method, node)
-      end
-
-      def evaluate_node(position, node)
-        @node = node
-        eval_method = "evaluate_#{position}_#{node.node_type}"
-        self.send(eval_method, node)
-      end
-
-      def prepare_node_start(node)
-        prepare_node(:start, node)
-        prepare_start(node)
-      end
-
-      def prepare_node_end(node)
-        prepare_node(:end, node)
-        prepare_end(node)
-      end
-
-      def evaluate_node_start(node)
-        evaluate_node(:start, node)
-        evaluate_start(node)
-      end
-
-      def evaluate_node_end(node)
-        evaluate_node(:end, node)
-        evaluate_end(node)
-      end
-
-      def add_error(error, file = nil, line = nil)
-        file ||= @node.file
-        line ||= @node.line
+      # add error if source code violates rails best practice.
+      #   error is the string message for violation of the rails best practice
+      #   file is the filename of source code
+      #   line is the line number of the source code which is reviewing
+      def add_error(error, file = @node.file, line = @node.line)
         @errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error)
       end
 
+      # compare two sexp nodes' to_s.
+      #     equal?(":test", :test) => true
       def equal?(node, expected)
         node.to_s == expected or node.to_s == ':' + expected.to_s
       end
