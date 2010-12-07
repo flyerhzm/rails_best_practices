@@ -3,22 +3,25 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
-    # Check to make sure use query attribute instead of nil?, blank? and present?.
+    # Make sure use query attribute instead of nil?, blank? and present?.
+    #
+    # See the best practice details here http://rails-bestpractices.com/posts/56-use-query-attribute
     #
     # Implementation:
-    # 1. check all models to save model names and association names.
-    #    model names are used for detecting
-    #    association name should not be detected as query attribute
-    # 2. check all method calls, if their subjects are model names and their messages are one of nil?,
-    #    blank?, present? or == "", not pluralize and not in the association names,
-    #    then they need to use query attribute.
+    #
+    # Prepare process: check all model files to save model names and association names.model names are used for detecting, association names should not be detected as query attribute
+    # Review process: check all method calls within conditional statements, if their subjects are model names and their messages are one of nil?, blank?, present? or == "", not pluralize and not in the association names, then they need to use query attribute.
     class UseQueryAttributeCheck < Check
 
       QUERY_METHODS = [:nil?, :blank?, :present?]
       ASSOCIATION_METHODS = [:belongs_to, :has_one, :has_many, :has_and_belongs_to_many]
 
-      def interesting_nodes
-        [:if, :class, :call]
+      def interesting_prepare_nodes
+        [:class, :call]
+      end
+
+      def interesting_review_nodes
+        [:if]
       end
 
       def interesting_prepare_files
@@ -39,7 +42,7 @@ module RailsBestPractices
         remember_association(node) if ASSOCIATION_METHODS.include? node.message
       end
 
-      def evaluate_start_if(node)
+      def review_start_if(node)
         if node = query_attribute_node(node.conditional_statement)
           subject_node = node.subject
           add_error "use query attribute (#{subject_node.subject}.#{subject_node.message}?)", node.file, node.line
