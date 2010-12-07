@@ -7,8 +7,8 @@ class Sexp
     visitor.prepare(self)
   end
 
-  def accept(visitor)
-    visitor.visit(self)
+  def review(visitor)
+    visitor.review(self)
   end
 
   def node_type

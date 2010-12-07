@@ -3,30 +3,32 @@ module RailsBestPractices
   module Core
     class CheckingVisitor
       def initialize(checks)
-        @checks ||= {}
+        @prepare_checks ||= {}
+        @review_checks ||= {}
         checks.each do |check|
-          nodes = check.interesting_nodes
-          nodes.each do |node|
-            @checks[node] ||= []
-            @checks[node] << check
-            @checks[node].uniq!
+          (check.interesting_prepare_nodes || []).each do |node|
+            @prepare_checks[node] ||= []
+            @prepare_checks[node] << check
+            @prepare_checks[node].uniq!
+          end
+          (check.interesting_review_nodes || []).each do |node|
+            @review_checks[node] ||= []
+            @review_checks[node] << check
+            @review_checks[node].uniq!
           end
         end
       end
 
-      def prepare(node)
-        checks = @checks[node.node_type]
-        checks.each {|check| check.prepare_node_start(node) if node.file =~ check.interesting_prepare_files} unless checks.nil?
-        node.visitable_children.each {|sexp| sexp.prepare(self)}
-        checks.each {|check| check.prepare_node_end(node) if node.file =~ check.interesting_prepare_files} unless checks.nil?
+      [:prepare, :review].each do |process|
+        class_eval <<-EOS
+          def #{process}(node)
+            checks = @#{process}_checks[node.node_type]
+            checks.each {|check| check.#{process}_node_start(node) if node.file =~ check.interesting_#{process}_files} unless checks.nil?
+            node.visitable_children.each {|sexp| sexp.#{process}(self)}
+            checks.each {|check| check.#{process}_node_end(node) if node.file =~ check.interesting_#{process}_files} unless checks.nil?
+          end
+        EOS
       end
-
-    	def visit(node)
-        checks = @checks[node.node_type]
-        checks.each {|check| check.evaluate_node_start(node) if node.file =~ check.interesting_files} unless checks.nil?
-    		node.visitable_children.each {|sexp| sexp.accept(self)}
-        checks.each {|check| check.evaluate_node_end(node) if node.file =~ check.interesting_files} unless checks.nil?
-    	end
     end
   end
 end

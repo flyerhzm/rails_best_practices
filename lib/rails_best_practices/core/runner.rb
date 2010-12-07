@@ -29,7 +29,7 @@ module RailsBestPractices
         puts filename if @debug
         content = parse_erb_or_haml(filename, content)
         node = parse_ruby(filename, content)
-        node.accept(@checker) if node
+        node.review(@checker) if node
       end
 
       def prepare(filename, content)
