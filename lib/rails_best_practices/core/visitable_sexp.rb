@@ -62,12 +62,20 @@ class Sexp
     end
   end
 
+  # message of call node.
+  #
+  #     s(:call, nil, :has_many, s(:arglist, s(:lit, :projects)))
+  #         => :has_many
   def message
     if [:attrasgn, :call, :defs, :iter].include? node_type
       self[2]
     end
   end
 
+  # arguments of call node.
+  #
+  #     s(:call, s(:lvar, :username), :==, s(:arglist, s(:str, "")))
+  #         => s(:arglist, s(:str, ""))
   def arguments
     if [:attrasgn, :call].include? node_type
       self[3]
