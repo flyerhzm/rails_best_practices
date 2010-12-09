@@ -50,6 +50,19 @@ class Sexp
     nodes
   end
 
+  def grep_node(options)
+    return self if options.empty?
+    node_type = options[:node_type]
+    subject = options[:subject]
+    message = options[:message]
+    arguments = options[:arguments]
+    self.recursive_children do |child|
+      if (!node_type or node_type == child.node_type) and (!subject or subject == child.subject) and (!message or message == child.message) and (!arguments or arguments == child.arguments)
+        return child
+      end
+    end
+  end
+
   def subject
     if [:attrasgn, :call, :class, :iter].include? node_type
       self[1]
