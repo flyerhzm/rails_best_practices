@@ -17,12 +17,14 @@ module RailsBestPractices
     #   if there are more than one [] method calls with the same subject and arguments,
     #   but assigned to one model's different attribute.
     #   and after these method calls, there is a save method call for that model, like
+    #
     #       def create
     #         @user = User.new(params[:user])
     #         @user.first_name = params[:full_name].split(' ', 2).first
     #         @user.last_name = params[:full_name].split(' ', 2).last
     #         @user.save
     #       end
+    #
     #   then the model needs to add a virtual attribute.
     class AddModelVirtualAttributeCheck < Check
 
@@ -36,7 +38,7 @@ module RailsBestPractices
 
       # check method define nodes to see if there are some attribute assignments that can use model virtual attribute instead in review process.
       #
-      # it will check every attribute assignment nodes and call node of message :save. If
+      # it will check every attribute assignment nodes and call node of message :save, if
       #
       # 1. there are more than one arguments who contain call node with messages :[] in attribute assignment nodes, e.g.
       #     @user.first_name = params[:full_name].split(' ').first
