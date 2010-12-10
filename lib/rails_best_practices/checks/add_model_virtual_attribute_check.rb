@@ -121,7 +121,7 @@ module RailsBestPractices
         # and the key of @attrasgns is the same as the subject of call node,
         # and the value of @aatrasgns has different message and same arguments.
         def call_assignment(node)
-          if :save == node.message
+          if [:save, :save!].include? node.message
             subject = node.subject
             add_error "add model virtual attribute (for #{subject})" if params_dup?(@attrasgns[subject].collect {|h| h[:arguments]})
           end
