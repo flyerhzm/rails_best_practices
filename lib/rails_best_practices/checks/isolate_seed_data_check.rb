@@ -3,9 +3,26 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
-    # Check a migration file to make sure not to insert data in migration, move them to seed file.
+    # Make sure not to insert data in migration, move them to seed file.
     #
-    # Implementation: check if there are :create, :create!, and :new with :save or :save! exist, the migration file needs isolate seed data.
+    # See the best practice details here http://rails-bestpractices.com/posts/20-isolating-seed-data.
+    #
+    # Implementation:
+    #
+    # Prepare process:
+    #   none
+    #
+    # Review process:
+    #   1. check all local assignment and instance assignment nodes,
+    #   if the right value is a call node with message :new,
+    #   then remember their left value as new variables.
+    #
+    #   2. check all call nodes,
+    #   if the message is :create or :create!,
+    #   then it should be isolated to db seed.
+    #   if the message is :save or :save!,
+    #   and the subject is included in new variables,
+    #   then it should be isolated to db seed.
     class IsolateSeedDataCheck < Check
 
       def interesting_review_nodes
