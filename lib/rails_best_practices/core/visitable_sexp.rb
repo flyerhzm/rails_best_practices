@@ -75,6 +75,12 @@ class Sexp
     end
   end
 
+  def right_value
+    if [:lasgn, :iasgn].include? node_type
+      self[2]
+    end
+  end
+
   # message of call node.
   #
   #     s(:call, nil, :has_many, s(:arglist, s(:lit, :projects)))
