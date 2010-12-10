@@ -27,14 +27,15 @@ module RailsBestPractices
         /config\/deploy.rb/
       end
 
-      # check call node to see if it is with message :namespace and arguments :bundler
+      # check call node in review process to see if it is with message :namespace and arguments :bundler.
       #
       # the ruby code is
+      #
       #     namespace :bundler do
       #       ...
       #     end
       #
-      # then the call noe is as follows
+      # then the call node is as follows
       #
       #     s(:call, nil, :namespace, s(:arglist, s(:lit, :bundler)))
       def review_start_call(node)
