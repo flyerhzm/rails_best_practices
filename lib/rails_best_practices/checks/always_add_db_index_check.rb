@@ -46,7 +46,6 @@ module RailsBestPractices
       # check call node in review process.
       #
       # if the message of call node is :create_table,
-      #
       # then remember the table name (@table_nodes) like
       #     {
       #       "comments" =>
@@ -54,11 +53,9 @@ module RailsBestPractices
       #     }
       #
       # if the message of call node is :integer,
-      #
       # then remember it as a foreign key of last create table name.
       #
       # if the message of call node is :type and the name of argument is _type suffixed,
-      #
       # then remember it with _id suffixed column as polymorphic foreign key.
       #
       # the remember foreign keys (@foreign_keys) like
@@ -69,7 +66,6 @@ module RailsBestPractices
       #   }
       #
       # if the message of call node is :add_index,
-      #
       # then remember it as index columns (@index_columns) like
       #
       #   {
@@ -109,13 +105,10 @@ module RailsBestPractices
       #     )
       #
       # if the subject whose first child (call) node is ActiveRecord::Schema,
-      #
       # it means we have completed the foreign keys and index columns parsing,
-      #
       # then we compare foreign keys and index columns.
       #
       # if there are any foreign keys not existed in index columns,
-      #
       # then we should add db index for that foreign keys.
       def review_end_iter(node)
         first_node = node[1]
@@ -176,12 +169,12 @@ module RailsBestPractices
 
         # remember foreign key columns
         #
-        # if the message of node is :integer, then it is a foreign key, like
+        # if the message of node is :integer,
+        # then it is a foreign key, like
         #
         #     s(:call, s(:lvar, :t), :integer, s(:arglist, s(:str, "post_id")))
         #
         # if the message of node is :string, with _type suffixed and there is a _id suffixed column,
-        #
         # then they are polymorphic foreign key
         #
         #     s(:call, s(:lvar, :t), :integer, s(:arglist, s(:str, "taggable_id")))
