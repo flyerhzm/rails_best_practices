@@ -79,12 +79,12 @@ module RailsBestPractices
       end
 
       private
+        # remember class models, just the subject of class node.
         def remember_klazz(class_node)
-          if class_node.file =~ MODLE_FILES
-            @klazzes << class_node.subject
-          end
+          @klazzes << class_node.subject
         end
 
+        # remember associations, with class to association names.
         def remember_association(association_node)
           @associations[@klazzes.last] ||= []
           @associations[@klazzes.last] << association_node.arguments[1].to_s
