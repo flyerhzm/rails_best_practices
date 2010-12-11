@@ -14,7 +14,7 @@ IsolateSeedDataCheck: { }
 AlwaysAddDbIndexCheck: { }
 UseBeforeFilterCheck: { }
 MoveCodeIntoControllerCheck: { }
-MoveCodeIntoModelCheck: { }
+MoveCodeIntoModelCheck: { call_count: 2 }
 MoveCodeIntoHelperCheck: { array_count: 3 }
 ReplaceInstanceVariableWithLocalVariableCheck: { }
 DryBundlerInCapistranoCheck: { }
