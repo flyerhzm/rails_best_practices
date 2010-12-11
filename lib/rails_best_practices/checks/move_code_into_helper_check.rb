@@ -5,14 +5,27 @@ module RailsBestPractices
   module Checks
     # Check a view file to make sure there is no complex options_for_select message call.
     #
-    # Implementation: Check if first argument of options_for_select is an array and contains more than two nodes, then it should be moved into helper.
+    # TODO: we need a better soluation, any suggestion?
+    #
+    # Implementation:
+    #
+    # Prepare process:
+    #   none
+    #
+    # Review process:
+    #   check al method calls to see if there is a complex options_for_select helper.
+    #
+    #   if the message of the call node is options_for_select,
+    #   and the first argument of the call node is array,
+    #   and the size of the array is greater than array_count defined,
+    #   then the options_for_select method should move to helper.
     class MoveCodeIntoHelperCheck < Check
-    
-      def interesting_nodes
+
+      def interesting_review_nodes
         [:call]
       end
-    
-      def interesting_files
+
+      def interesting_review_files
         VIEW_FILES
       end
 
@@ -21,15 +34,44 @@ module RailsBestPractices
         @array_count = options['array_count'] || 3
       end
 
-      def evaluate_start(node)
+      # check call node with message options_for_select (sorry we only check options_for_select helper now).
+      #
+      # if the first argument of options_for_select method call is an array,
+      # and the size of the array is more than @array_count defined,
+      # then the options_for_select helper should be moved into helper.
+      def review_start_call(node)
         add_error "move code into helper (array_count >= #{@array_count})" if complex_select_options?(node)
       end
-      
+
       private
-      
-      def complex_select_options?(node)
-        :options_for_select == node.message and :array == node.arguments[1].node_type and node.arguments[1].size > @array_count
-      end
+        # check if the arguments of options_for_select are complex.
+      #
+      # if the first argument is an array,
+      # and the size of array is greater than @array_count you defined,
+      # then it is complext, e.g.
+      #
+      #     s(:call, nil, :options_for_select,
+      #       s(:arglist,
+      #         s(:array,
+      #           s(:array,
+      #             s(:call, nil, :t, s(:arglist, s(:lit, :draft))),
+      #             s(:str, "draft")
+      #           ),
+      #           s(:array,
+      #             s(:call, nil, :t, s(:arglist, s(:lit, :published))),
+      #             s(:str, "published")
+      #           )
+      #         ),
+      #         s(:call,
+      #           s(:call, nil, :params, s(:arglist)),
+      #           :[],
+      #           s(:arglist, s(:lit, :default_state))
+      #         )
+      #       )
+      #     )
+        def complex_select_options?(node)
+          :options_for_select == node.message and :array == node.arguments[1].node_type and node.arguments[1].size > @array_count
+        end
     end
   end
 end
