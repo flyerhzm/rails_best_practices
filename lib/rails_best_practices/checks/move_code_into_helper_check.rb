@@ -5,6 +5,8 @@ module RailsBestPractices
   module Checks
     # Check a view file to make sure there is no complex options_for_select message call.
     #
+    # See the best practice details here http://rails-bestpractices.com/posts/26-move-code-into-helper.
+    #
     # TODO: we need a better soluation, any suggestion?
     #
     # Implementation:
@@ -18,7 +20,7 @@ module RailsBestPractices
     #   if the message of the call node is options_for_select,
     #   and the first argument of the call node is array,
     #   and the size of the array is greater than array_count defined,
-    #   then the options_for_select method should move to helper.
+    #   then the options_for_select method should be moved into helper.
     class MoveCodeIntoHelperCheck < Check
 
       def interesting_review_nodes
