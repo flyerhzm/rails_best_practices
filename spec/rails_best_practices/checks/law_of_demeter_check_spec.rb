@@ -5,7 +5,7 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
   before :each do
     @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::LawOfDemeterCheck.new)
   end
-  
+
   describe "belongs_to" do
     before(:each) do
       content = <<-EOF
@@ -13,7 +13,7 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
         belongs_to :user
       end
       EOF
-      @runner.check('app/models/invoice.rb', content)
+      @runner.prepare('app/models/invoice.rb', content)
     end
 
     it "should law of demeter" do
@@ -59,7 +59,7 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
         has_one :price
       end
       EOF
-      @runner.check('app/models/invoice.rb', content)
+      @runner.prepare('app/models/invoice.rb', content)
     end
 
     it "should law of demeter" do
@@ -80,13 +80,13 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
       has_many :answers, :dependent => :destroy
     end
     EOF
-    @runner.check('app/models/question.rb', content)
+    @runner.prepare('app/models/question.rb', content)
     content = <<-EOF
     class Answer < ActiveRecord::Base
       belongs_to :question, :counter_cache => true, :touch => true
     end
     EOF
-    @runner.check('app/models/answer.rb', content)
+    @runner.prepare('app/models/answer.rb', content)
     content = <<-EOF
     class CommentsController < ApplicationController
       def comment_url
