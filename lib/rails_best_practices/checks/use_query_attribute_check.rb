@@ -23,40 +23,11 @@ module RailsBestPractices
     class UseQueryAttributeCheck < Check
 
       QUERY_METHODS = [:nil?, :blank?, :present?]
-      ASSOCIATION_METHODS = [:belongs_to, :has_one, :has_many, :has_and_belongs_to_many]
 
-      def interesting_prepare_nodes
-        [:class, :call]
-      end
+      prepare_model_associations
 
       def interesting_review_nodes
         [:if]
-      end
-
-      def interesting_prepare_files
-        MODLE_FILES
-      end
-
-      def initialize
-        super
-        @klazzes = []
-        @associations = {}
-      end
-
-      # check class node to remember all class name in prepare process.
-      #
-      # the remembered class names (@klazzes) are like
-      #     [ :User, :Post ]
-      def prepare_start_class(node)
-        remember_klazz(node)
-      end
-
-      # check call node to remember all assoication names in prepare process.
-      #
-      # the remembered association names (@associations) are like
-      #     { :User => [":projects", ":location"], :Post => [":comments"] }
-      def prepare_start_call(node)
-        remember_association(node) if ASSOCIATION_METHODS.include? node.message
       end
 
       # check if node to see whose conditional statement nodes contain nodes that can use query attribute instead in review process.
@@ -79,17 +50,6 @@ module RailsBestPractices
       end
 
       private
-        # remember class models, just the subject of class node.
-        def remember_klazz(class_node)
-          @klazzes << class_node.subject
-        end
-
-        # remember associations, with class to association names.
-        def remember_association(association_node)
-          @associations[@klazzes.last] ||= []
-          @associations[@klazzes.last] << association_node.arguments[1].to_s
-        end
-
         # recursively check conditional statement nodes to see if there is a call node that may be possible query attribute.
         def query_attribute_node(conditional_statement_node)
           case conditional_statement_node.node_type
