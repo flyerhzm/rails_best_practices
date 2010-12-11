@@ -13,7 +13,7 @@ module RailsBestPractices
 
       CONTROLLER_FILES = /_controller\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
-      MODLE_FILES = /models\/.*\.rb$/
+      MODEL_FILES = /models\/.*\.rb$/
       VIEW_FILES = /views\/.*\.(erb|haml)$/
       PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)$/
 
@@ -59,6 +59,56 @@ module RailsBestPractices
         end
       end
 
+      def self.prepare_model_associations
+        class_eval <<-EOS
+          def initialize
+            super
+            @klazzes = []
+            @associations = {}
+          end
+
+          def interesting_prepare_nodes
+            [:class, :call]
+          end
+
+          def interesting_prepare_files
+            MODEL_FILES
+          end
+
+          # check class node to remember all class name in prepare process.
+          #
+          # the remembered class names (@klazzes) are like
+          #     [ :User, :Post ]
+          def prepare_start_class(node)
+            remember_klazz(node)
+          end
+
+          # check call node to remember all assoication names in prepare process.
+          #
+          # the remembered association names (@associations) are like
+          #     { :User => [":projects", ":location"], :Post => [":comments"] }
+          def prepare_start_call(node)
+            remember_association(node) if association_methods.include? node.message
+          end
+
+          # remember class models, just the subject of class node.
+          def remember_klazz(class_node)
+            @klazzes << class_node.subject
+          end
+
+          # remember associations, with class to association names.
+          def remember_association(association_node)
+            @associations[@klazzes.last] ||= []
+            @associations[@klazzes.last] << association_node.arguments[1].to_s
+          end
+
+          def association_methods
+            [:belongs_to, :has_one, :has_many, :has_and_belongs_to_many]
+          end
+
+        EOS
+      end
+
       # add error if source code violates rails best practice.
       #   error is the string message for violation of the rails best practice
       #   file is the filename of source code
@@ -69,8 +119,11 @@ module RailsBestPractices
 
       # compare two sexp nodes' to_s.
       #     equal?(":test", :test) => true
-      def equal?(node, expected)
-        node.to_s == expected or node.to_s == ':' + expected.to_s
+      #     equai?("@test", :test) => true
+      def equal?(node, expected_node)
+        actual = node.to_s.downcase
+        expected = expected_node.to_s.downcase
+        actual == expected || actual == ':' + expected || actual == '@' + expected
       end
     end
   end
