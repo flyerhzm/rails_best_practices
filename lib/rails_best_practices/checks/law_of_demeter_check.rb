@@ -3,47 +3,76 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
-    # Check to make sure not avoid the law of demeter.
-    # 
-    # Implementation: 
-    # 1. check all models to record belongs_to and has_one associations
-    # 2. check if calling belongs_to and has_one association's method or attribute
+    # Check to make sure not to avoid the law of demeter.
+    #
+    # See the best practice details here http://rails-bestpractices.com/posts/15-the-law-of-demeter.
+    #
+    # Implementation:
+    #
+    # Prepare process:
+    #   only check all model files to save model names and association names.
+    #
+    # Review process:
+    #   check all method calls to see if there is method call to the association object.
+    #   if there is a call node whose subject is an object of model (compare by name),
+    #   and whose message is an association of that model (also compare by name),
+    #   and outer the call node, it is also a call node,
+    #   then it violate the law of demeter.
     class LawOfDemeterCheck < Check
-      
-      def interesting_nodes
-        [:call, :class]
+
+      prepare_model_associations
+
+      def interesting_review_nodes
+        [:call]
       end
 
-      def initialize
-        super
-        @associations = {}
-      end
-
-      def evaluate_start(node)
-        if node.node_type == :class
-          remember_association(node)
-        elsif [:lvar, :ivar].include?(node.subject.subject.node_type) and node.subject != s(:lvar, :_erbout)
-          add_error "law of demeter" if need_delegate?(node)
+      # check the call node in review process,
+      #
+      # if the subject of the call node is also a call node,
+      # and the subject of the subject call node matchs one of the class names,
+      # and the message of the subject call node matchs one of the association name with the class name, like
+      #
+      #     s(:call,
+      #       s(:call, s(:ivar, :@invoice), :user, s(:arglist)),
+      #       :name,
+      #       s(:arglist)
+      #     )
+      #
+      # then it violates the law of demeter.
+      def review_start_call(node)
+        if [:lvar, :ivar].include?(node.subject.subject.node_type) && need_delegate?(node)
+          add_error "law of demeter"
         end
       end
 
       private
-
-      # remember belongs_to or has_one node
-      def remember_association(node)
-        (node.body.grep_nodes(:message => :belongs_to) + node.body.grep_nodes(:message => :has_one)).collect do |body_node|
-          class_name = node.subject.to_s.underscore
-          @associations[class_name] ||= []
-          @associations[class_name] << body_node.arguments[1].to_s
+        # check if the call node can use delegate to avoid violating law of demeter.
+        #
+        # if the subject of subject of the call node matchs any in model names,
+        # and the message of subject of the call node matchs any in association names,
+        # then it needs delegate.
+        #
+        # e.g. the source code is
+        #
+        #     @invoic.user.name
+        #
+        # then the call node is
+        #
+        #     s(:call, s(:call, s(:ivar, :@invoice), :user, s(:arglist)), :name, s(:arglist))
+        #
+        # as you see the subject of subject of the call node is [:ivar, @invoice],
+        # and the message of subject of the call node is :user
+        def need_delegate?(node)
+          @associations.each do |class_name, associations|
+            return true if equal?(node.subject.subject, class_name) && associations.find { |association| equal?(association, node.subject.message) }
+          end
+          false
         end
-      end
 
-      def need_delegate?(node)
-        @associations.each do |class_name, associations|
-          return true if node.subject.subject.to_s =~ /#{class_name}$/ and associations.find { |association| equal?(association, node.subject.message) }
+        # only check belongs_to and has_one association.
+        def association_methods
+          [:belongs_to, :has_one]
         end
-        false
-      end
     end
   end
 end
