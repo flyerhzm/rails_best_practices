@@ -43,7 +43,10 @@ class Sexp
     arguments = options[:arguments]
     nodes = []
     self.recursive_children do |child|
-      if (!node_type or node_type == child.node_type) and (!subject or subject == child.subject) and (!message or message == child.message) and (!arguments or arguments == child.arguments)
+      if (!node_type || (node_type.is_a?(Array) ? node_type.include?(child.node_type) : node_type == child.node_type)) &&
+         (!subject || (subject.is_a?(Array) ? subject.include?(child.subject) : subject == child.subject)) &&
+         (!message || (message.is_a?(Array) ? message.include?(child.message) : message == child.message)) &&
+         (!arguments || (arguments.is_?(Array) ? arguments.include?(child.arguments) : arguments == child.arguments))
         nodes << child
       end
     end
