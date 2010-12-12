@@ -17,16 +17,18 @@ module RailsBestPractices
     #
     #   if the call node is a finder (find, all, first or last),
     #   and the it calls the other model,
-    #   and there are arguments of finder,
+    #   and there is a hash argument for finder,
     #   then it should keep finders on its own model.
     class KeepFindersOnTheirOwnModelCheck < Check
+
+      FINDERS = [:find, :all, :first, :last]
 
       def interesting_review_nodes
         [:call]
       end
 
       def interesting_review_files
-        MODLE_FILES
+        MODEL_FILES
       end
 
       # check all the call nodes to see if there is a finder for other model.
@@ -35,7 +37,7 @@ module RailsBestPractices
       #
       # 1. the message of call node is one of the :find, :all, :first or :last
       # 2. the subject of call node is also a call node (it's the other model)
-      # 3. the size of arguments is more than 1 (complex finder)
+      # 3. the any of its arguments is a hash (complex finder)
       #
       # then it should keep finders on its own model.
       def review_start_call(node)
@@ -47,7 +49,7 @@ module RailsBestPractices
         #
         # the message of the node should be one of :find, :all, :first or :last,
         # and the subject of the node should be with message :call (this is the other model),
-        # and the arguments of the node should more than 1, like
+        # and any of its arguments is a hash, like
         #
         #     s(:call,
         #       s(:call, s(:self), :comment, s(:arglist)),
@@ -62,7 +64,7 @@ module RailsBestPractices
         #       )
         #     )
         def other_finder?(node)
-          [:find, :all, :first, :last].include?(node.message) && :call == node.subject.node_type && node.arguments.size > 1
+          FINDERS.include?(node.message) && :call == node.subject.node_type && node.arguments.children.any? { |node| :hash == node.node_type }
         end
     end
   end
