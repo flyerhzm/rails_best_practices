@@ -14,7 +14,7 @@ describe RailsBestPractices::Checks::MoveCodeIntoModelCheck do
     @runner.check('app/views/posts/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/views/posts/show.html.erb:1 - move code into model (@post)"
+    errors[0].to_s.should == "app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)"
   end
 
   it "should move code into model with haml" do
@@ -25,9 +25,9 @@ describe RailsBestPractices::Checks::MoveCodeIntoModelCheck do
     @runner.check('app/views/posts/show.html.haml', content)
     errors = @runner.errors
     errors.should_not be_empty
-    errors[0].to_s.should == "app/views/posts/show.html.haml:1 - move code into model (@post)"
+    errors[0].to_s.should == "app/views/posts/show.html.haml:1 - move code into model (@post use_count > 2)"
   end
-  
+
   it "should move code into model only check for current if conditional statement" do
     content =<<-EOF
     <% if @post.title %>

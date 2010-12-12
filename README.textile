@@ -73,7 +73,7 @@ UseModelAssociationCheck: { }
 UseScopeAccessCheck: { }
 AddModelVirtualAttributeCheck: { }
 ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }
-MoveModelLogicIntoModelCheck: { called_count: 4 }
+MoveModelLogicIntoModelCheck: { use_count: 4 }
 OveruseRouteCustomizationsCheck: { customize_count: 3 }
 NeedlessDeepNestingCheck: { nested_count: 2 }
 NotUseDefaultRouteCheck: {  }
@@ -84,7 +84,7 @@ IsolateSeedDataCheck: { }
 AlwaysAddDbIndexCheck: { }
 UseBeforeFilterCheck: { }
 MoveCodeIntoControllerCheck: { }
-MoveCodeIntoModelCheck: { call_count: 2 }
+MoveCodeIntoModelCheck: { use_count: 2 }
 MoveCodeIntoHelperCheck: { array_count: 3 }
 ReplaceInstanceVariableWithLocalVariableCheck: { }
 DryBundlerInCapistranoCheck: { }
