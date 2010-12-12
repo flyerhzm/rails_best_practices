@@ -2,6 +2,7 @@
 .*.swp
 .rvmrc
 .rspec
+.watchr
 pkg/**
 *.gem
 .bundle
