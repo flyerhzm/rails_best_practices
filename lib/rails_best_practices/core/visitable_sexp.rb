@@ -67,7 +67,7 @@ class Sexp
   end
 
   def subject
-    if [:attrasgn, :call, :class].include? node_type
+    if [:attrasgn, :call, :class, :iter].include? node_type
       self[1]
     end
   end
@@ -89,7 +89,7 @@ class Sexp
   #     s(:call, nil, :has_many, s(:arglist, s(:lit, :projects)))
   #         => :has_many
   def message
-    if [:attrasgn, :call, :defs, :iter].include? node_type
+    if [:attrasgn, :call, :defs].include? node_type
       self[2]
     end
   end
@@ -104,14 +104,20 @@ class Sexp
     end
   end
 
-  def call
-    if [:if, :arglist].include? node_type
-      self[1]
+  def block_params
+    if :iter == node_type
+      self[2]
+    end
+  end
+
+  def block_body
+    if :iter == node_type
+      self[3]
     end
   end
 
   def conditional_statement
-    if node_type == :if
+    if :if == node_type
       self[1]
     end
   end
