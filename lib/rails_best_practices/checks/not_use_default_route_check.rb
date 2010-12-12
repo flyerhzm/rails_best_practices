@@ -28,7 +28,7 @@ module RailsBestPractices
       end
 
       def interesting_review_files
-        /config\/routes.rb/
+        ROUTE_FILE
       end
 
       # check all method calls, it just compare with rails default route

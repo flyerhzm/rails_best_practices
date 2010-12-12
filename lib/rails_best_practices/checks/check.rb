@@ -16,6 +16,7 @@ module RailsBestPractices
       MODEL_FILES = /models\/.*\.rb$/
       VIEW_FILES = /views\/.*\.(erb|haml)$/
       PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)$/
+      ROUTE_FILE = /config\/routes.rb/
 
       attr_reader :errors
 
