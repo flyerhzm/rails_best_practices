@@ -64,6 +64,7 @@ class Sexp
         return child
       end
     end
+    nil
   end
 
   def subject

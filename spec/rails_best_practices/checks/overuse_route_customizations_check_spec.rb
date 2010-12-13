@@ -11,8 +11,8 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
       ActionController::Routing::Routes.draw do |map|
         map.resources :posts, :member => { :comments => :get,
                                            :create_comment => :post,
-                                           :update_comment => :post,
-                                           :delete_comment => :post }
+                                           :update_comment => :update,
+                                           :delete_comment => :delete }
       end
       EOF
       @runner.check('config/routes.rb', content)
@@ -20,13 +20,13 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
       errors.should_not be_empty
       errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
     end
-    
+
     it "should overuse route customizations with collection" do
       content = <<-EOF
       ActionController::Routing::Routes.draw do |map|
         map.resources :posts, :member => { :create_comment => :post,
-                                           :update_comment => :post,
-                                           :delete_comment => :post },
+                                           :update_comment => :update,
+                                           :delete_comment => :delete },
                               :collection => { :comments => :get }
       end
       EOF
@@ -41,8 +41,8 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
       ActionController::Routing::Routes.draw do |map|
         map.resources :categories do |category|
           category.resources :posts, :member => { :create_comment => :post,
-                                                  :update_comment => :post,
-                                                  :delete_comment => :post },
+                                                  :update_comment => :update,
+                                                  :delete_comment => :delete },
                                      :collection => { :comments => :get }
         end
       end
@@ -52,7 +52,7 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
       errors.should_not be_empty
       errors[0].to_s.should == "config/routes.rb:3 - overuse route customizations (customize_count > 3)"
     end
-    
+
     it "should not overuse route customizations without customization" do
       content = <<-EOF
       ActionController::Routing::Routes.draw do |map|
@@ -97,8 +97,8 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
         resources :posts do
           member do
             post :create_comment
-            post :update_comment
-            post :delete_comment
+            update :update_comment
+            delete :delete_comment
           end
 
           collection do
@@ -118,8 +118,8 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
       RailsBestpracticesCom::Application.routes.draw do |map|
         resources :posts do
           post :create_comment, :on => :member
-          post :update_comment, :on => :member
-          post :delete_comment, :on => :member
+          update :update_comment, :on => :member
+          delete :delete_comment, :on => :member
           get :comments, :on => :collection
         end
       end
@@ -129,7 +129,7 @@ describe RailsBestPractices::Checks::OveruseRouteCustomizationsCheck do
       errors.should_not be_empty
       errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
     end
-    
+
     it "should not overuse route customizations without customization" do
       content = <<-EOF
       RailsBestpracticesCom::Application.routes.draw do |map|
