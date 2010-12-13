@@ -46,6 +46,8 @@ module RailsBestPractices
         variable_use_count.each do |variable_node, count|
           add_error "move model logic into model (#{variable_node} use_count > #{@use_count})" if count > @use_count
         end
+
+        reset_variable_use_count
       end
     end
   end

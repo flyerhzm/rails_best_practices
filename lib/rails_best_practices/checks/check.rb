@@ -135,6 +135,11 @@ module RailsBestPractices
         @variable_use_count ||= {}
       end
 
+      # reset @variable_use_count hash.
+      def reset_variable_use_count
+        @variable_use_count = nil
+      end
+
       # find local variable or instance variable in the most inner call node, e.g.
       #
       # if the call node is
