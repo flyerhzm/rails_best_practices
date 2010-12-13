@@ -3,54 +3,68 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
-    # Check a controller file to make sure that complex model creation should not exist in controller, move it to model factory method
+    # Check a controller file to make sure that complex model creation should not exist in controller, should be replaced with factory method.
     #
-    # Implementation: check the count of variable attribute assignment calling before saving, 
-    # if more than defined attribute assignment count, then it's a complex creation.
+    # See the best practice details here http://rails-bestpractices.com/posts/6-replace-complex-creation-with-factory-method.
+    #
+    # Implementation:
+    #
+    # Prepare process:
+    #   none
+    #
+    # Review process:
+    #   check all method defines in the controller files,
+    #   if there are multiple attribute assignments apply to one subject,
+    #   and the subject is a local variable or an instance variable,
+    #   and after them there is a call node with message :save or :save!,
+    #   then these attribute assignments are complex creation, should be replaced with factory method.
     class ReplaceComplexCreationWithFactoryMethodCheck < Check
-      
-      def interesting_nodes
+
+      def interesting_review_nodes
         [:defn]
       end
-      
-      def interesting_files
+
+      def interesting_review_files
         CONTROLLER_FILES
       end
-      
+
       def initialize(options = {})
         super()
         @attrasgn_count = options['attribute_assignment_count'] || 2
       end
-      
-      def evaluate_start(node)
-        @variables = {}
-        node.recursive_children do |child|
-          case child.node_type
+
+      # check method define node to see if there are multiple attribute assignments, more than @attrasgn_count, on one local variable or instance variable before save in review process.
+      #
+      # it wll check every attrasgn nodes in method define node,
+      # if there are multiple attrasgn nodes who have the same subject,
+      # and the subject is a local variable or an instance variable,
+      # and after them, there is a call node with message :save or :save!,
+      # then these attribute assignments are complex creation, should be replaced with factory method.
+      def review_start_defn(node)
+        node.recursive_children do |child_node|
+          case child_node.node_type
           when :attrasgn
-            attribute_assignment(child)
+            remember_variable_use_count(child_node)
           when :call
-            call_assignment(child)
+            check_variable_save(child_node)
           else
           end
         end
-        @variables = nil
+        reset_variable_use_count
       end
-      
+
       private
-      
-      def attribute_assignment(node)
-        variable = node.subject
-        return if variable.nil? or ![:lvar, :ivar].include? node.subject.node_type
-        @variables[variable] ||= 0
-        @variables[variable] += 1
-      end
-      
-      def call_assignment(node)
-        if node.message == :save
-          variable = node.subject
-          add_error "replace complex creation with factory method (#{variable} attribute_assignment_count > #{@attrasgn_count})" if @variables[variable] > @attrasgn_count
+        # check the call node to see if it is with message :save or :save!,
+        # and the count attribute assignment on the subject of the call node is greater than @attrasgn_count defined,
+        # then it is a complex creation, should be replaced with factory method.
+        def check_variable_save(node)
+          if [:save, :save!].include? node.message
+            variable = node.subject
+            if variable_use_count[variable] > @attrasgn_count
+              add_error "replace complex creation with factory method (#{variable} attribute_assignment_count > #{@attrasgn_count})"
+            end
+          end
         end
-      end
     end
   end
 end
