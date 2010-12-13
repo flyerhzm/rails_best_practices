@@ -104,15 +104,16 @@ module RailsBestPractices
       #       )
       #     )
       #
-      # if the subject whose first child (call) node is ActiveRecord::Schema,
+      # if the subject of iter node is with subject ActiveRecord::Schema,
       # it means we have completed the foreign keys and index columns parsing,
       # then we compare foreign keys and index columns.
       #
       # if there are any foreign keys not existed in index columns,
       # then we should add db index for that foreign keys.
       def review_end_iter(node)
-        first_node = node[1]
+        first_node = node.subject
         if :call == first_node.node_type && s(:colon2, s(:const, :ActiveRecord), :Schema) == first_node.subject
+          remove_only_type_foreign_keys
           @foreign_keys.each do |table, foreign_key|
             table_node = @table_nodes[table]
             foreign_key.each do |column|
@@ -183,17 +184,28 @@ module RailsBestPractices
           table_name = @table_name
           foreign_key_column = node.arguments[1].to_s
           @foreign_keys[table_name] ||= []
-          if foreign_key_column =~ /_id$/
-            unless @foreign_keys[table_name].find { |foreign_key| foreign_key.include? foreign_key_column }
+          if foreign_key_column =~ /(.*?)_id$/
+            if @foreign_keys[table_name].delete("#{$1}_type")
+              @foreign_keys[table_name] << ["#{$1}_id", "#{$1}_type"]
+            else
               @foreign_keys[table_name] << foreign_key_column
             end
           elsif foreign_key_column =~ /(.*?)_type$/
-            @foreign_keys[table_name].delete("#{$1}_id")
-            @foreign_keys[table_name] << ["#{$1}_id", foreign_key_column]
+            if @foreign_keys[table_name].delete("#{$1}_id")
+              @foreign_keys[table_name] << ["#{$1}_id", "#{$1}_type"]
+            else
+              @foreign_keys[table_name] << foreign_key_column
+            end
           end
         end
 
         # check if the table's column is indexed.
+        def remove_only_type_foreign_keys
+          @foreign_keys.delete_if { |table, foreign_key|
+            foreign_key.size == 1 && foreign_key[0] =~ /_type$/
+          }
+        end
+
         def indexed?(table, column)
           index_columns = @index_columns[table]
           !index_columns || !index_columns.any? { |e| greater_than_or_equal(Array(e), Array(column)) }
