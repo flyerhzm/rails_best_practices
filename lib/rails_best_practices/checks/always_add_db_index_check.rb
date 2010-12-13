@@ -40,6 +40,7 @@ module RailsBestPractices
 
       def evaluate_end(node)
         if :iter == node.node_type && :call == node.subject.node_type && s(:colon2, s(:const, :ActiveRecord), :Schema) == node.subject.subject
+          remove_only_type_foreign_keys
           @foreign_keys.each do |table, foreign_key|
             table_node = @table_nodes[table]
             foreign_key.each do |column|
@@ -67,14 +68,25 @@ module RailsBestPractices
 
         def add_foreign_key_column(table_name, foreign_key_column)
           @foreign_keys[table_name] ||= []
-          if foreign_key_column =~ /_id$/
-            unless @foreign_keys[table_name].find { |foreign_key| foreign_key.include? foreign_key_column }
+          if foreign_key_column =~ /(.*?)_id$/
+            if @foreign_keys[table_name].delete("#{$1}_type")
+              @foreign_keys[table_name] << ["#{$1}_id", "#{$1}_type"]
+            else
               @foreign_keys[table_name] << foreign_key_column
             end
           elsif foreign_key_column =~ /(.*?)_type$/
-            @foreign_keys[table_name].delete("#{$1}_id")
-            @foreign_keys[table_name] << ["#{$1}_id", foreign_key_column]
+            if @foreign_keys[table_name].delete("#{$1}_id")
+              @foreign_keys[table_name] << ["#{$1}_id", "#{$1}_type"]
+            else
+              @foreign_keys[table_name] << foreign_key_column
+            end
           end
+        end
+
+        def remove_only_type_foreign_keys
+          @foreign_keys.delete_if { |table, foreign_key|
+            foreign_key.size == 1 && foreign_key[0] =~ /_type$/
+          }
         end
 
         def indexed?(table, column)
