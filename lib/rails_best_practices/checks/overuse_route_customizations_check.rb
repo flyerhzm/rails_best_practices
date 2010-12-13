@@ -3,52 +3,164 @@ require 'rails_best_practices/checks/check'
 
 module RailsBestPractices
   module Checks
-    # Check config/routes.rb to make sure there are no much route customizations.
+    # Check config/routes.rb file to make sure there are no overuse route customizations.
     #
-    # Implementation: check member and collection route count, if more than customize_count, then it is overuse route customizations.
+    # See the best practice details here http://rails-bestpractices.com/posts/10-overuse-route-customizations.
+    #
+    # Implementation:
+    #
+    # Prepare process:
+    #   none
+    #
+    # Review process:
+    #   the check methods are different for rails2 and rails3 syntax.
+    #
+    #   for rails2
+    #
+    #   check all call nodes in route file.
+    #   if the message of call node is resources,
+    #   and the second argument of call node is a hash,
+    #   and the count of the pair (key/value) in hash is greater than @customize_count,
+    #   then these custom routes are overuse.
+    #
+    #   for rails3
+    #
+    #   check all iter nodes in route file.
+    #   if the subject of iter node is with message resources,
+    #   and in the block body of iter node, there are more than @customize_count call nodes,
+    #   whose message is :get, :post, :update or :delete,
+    #   then these custom routes are overuse.
     class OveruseRouteCustomizationsCheck < Check
-      
-      def interesting_nodes
+
+      VERBS = [:get, :post, :update, :delete]
+
+      def interesting_review_nodes
         [:call, :iter]
       end
-      
-      def interesting_files
-        /config\/routes.rb/
+
+      def interesting_review_files
+        ROUTE_FILE
       end
 
       def initialize(options = {})
         super()
         @customize_count = options['customize_count'] || 3
       end
-      
-      def evaluate_start(node)
-        add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.subject.line if member_and_collection_count(node) > @customize_count
+
+      # check call node to see if the count of member and collection custom routes is more than @customize_count defined in review process.
+      # this is for rails2 syntax.
+      #
+      # if the message of call node is :resources,
+      # and the second argument of call node is a hash,
+      # and the count of the pair (key/value) in hash is greater than @customize_count, like
+      #
+      #     map.resources :posts, :member => { :create_comment => :post,
+      #                                        :update_comment => :update,
+      #                                        :delete_comment => :delete },
+      #                           :collection => { :comments => :get }
+      #
+      # then they are overuse route customizations.
+      def review_start_call(node)
+        if member_and_collection_count_for_rails2(node) > @customize_count
+          add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.subject.line
+        end
+      end
+
+      # check iter node to see if the count of member and collection custom routes is more than @customize_count defined in review process.
+      # this is for rails3 syntax.
+      #
+      # if the subject of iter node is with message :resources,
+      # and in the block body of iter node, there are more than @customize_count call nodes,
+      # whose message is :get, :post, :update or :delete, like
+      #
+      #     resources :posts do
+      #       member do
+      #         post :create_comment
+      #         update :update_comment
+      #         delete :delete_comment
+      #       end
+      #
+      #       collection do
+      #         get :comments
+      #       end
+      #     end
+      #
+      # then they are overuse route customizations.
+      def review_start_iter(node)
+        if member_and_collection_count_for_rails3(node) > @customize_count
+          add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.subject.line
+        end
       end
 
       private
-        def member_and_collection_count(node)
+        # check call node to calculate the count of member and collection custom routes.
+        # this is for rails2 syntax.
+        #
+        # if the message of call node is :resources,
+        # and the second argument is a hash,
+        # then calculate the pair (key/value) count,
+        # it is just the count of member and collection custom routes.
+        #
+        #     s(:call, s(:lvar, :map), :resources,
+        #       s(:arglist,
+        #         s(:lit, :posts),
+        #         s(:hash,
+        #           s(:lit, :member),
+        #           s(:hash,
+        #             s(:lit, :create_comment),
+        #             s(:lit, :post),
+        #             s(:lit, :update_comment),
+        #             s(:lit, :update),
+        #             s(:lit, :delete_comment),
+        #             s(:lit, :delete)
+        #           ),
+        #           s(:lit, :collection),
+        #           s(:hash,
+        #             s(:lit, :comments),
+        #             s(:lit, :get)
+        #           )
+        #         )
+        #       )
+        #     )
+        def member_and_collection_count_for_rails2(node)
           if :resources == node.message
-            member_and_collection_count_for_rails2(node)
-          elsif :iter == node.node_type and :resources == node.subject.message
-            member_and_collection_count_for_rails3(node)
+            hash_node = node.arguments[2]
+            if hash_node
+              (hash_node.grep_nodes(:node_type => :lit).size - hash_node.grep_nodes(:node_type => :hash).size) / 2
+            end
           end
         end
 
-        # this is the checker for rails3 style routes
+        # check iter node to calculate the count of member and collection custom routes.
+        # this is for rails3 syntax.
+        #
+        # if its subject is with message :resources,
+        # then calculate the count of call nodes, whose message is :get, :post, :update or :delete,
+        # it is just the count of member and collection custom routes.
+        #
+        #     s(:iter,
+        #       s(:call, nil, :resources, s(:arglist, s(:lit, :posts))),
+        #       nil,
+        #       s(:block,
+        #         s(:iter,
+        #           s(:call, nil, :member, s(:arglist)),
+        #           nil,
+        #           s(:block,
+        #             s(:call, nil, :post, s(:arglist, s(:lit, :create_comment))),
+        #             s(:call, nil, :post, s(:arglist, s(:lit, :update_comment))),
+        #             s(:call, nil, :post, s(:arglist, s(:lit, :delete_comment)))
+        #           )
+        #         ),
+        #         s(:iter,
+        #           s(:call, nil, :collection, s(:arglist)),
+        #           nil,
+        #           s(:call, nil, :get, s(:arglist, s(:lit, :comments)))
+        #         )
+        #       )
+        #     )
         def member_and_collection_count_for_rails3(node)
-          get_nodes = node.grep_nodes(:node_type => :call, :message => :get)
-          post_nodes = node.grep_nodes(:node_type => :call, :message => :post)
-          get_nodes.size + post_nodes.size
-        end
-        
-        # this is the checker for rails2 style routes
-        def member_and_collection_count_for_rails2(node)
-          hash_nodes = node.grep_nodes(:node_type => :hash)
-          return 0 if hash_nodes.empty?
-          hash_key_node = hash_nodes.first[1]
-          if :lit == hash_key_node.node_type and [:member, :collection].include? hash_key_node[1]
-            customize_hash = eval(hash_nodes.first.to_s)
-            (customize_hash[:member].size || 0) + (customize_hash[:collection].size || 0)
+          if :resources == node.subject.message
+            node.grep_nodes(:node_type => :call, :message => VERBS).size
           end
         end
     end
