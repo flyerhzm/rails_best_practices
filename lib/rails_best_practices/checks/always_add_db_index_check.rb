@@ -199,13 +199,14 @@ module RailsBestPractices
           end
         end
 
-        # check if the table's column is indexed.
+        # remove the non foreign keys with only _type column.
         def remove_only_type_foreign_keys
           @foreign_keys.delete_if { |table, foreign_key|
             foreign_key.size == 1 && foreign_key[0] =~ /_type$/
           }
         end
 
+        # check if the table's column is indexed.
         def indexed?(table, column)
           index_columns = @index_columns[table]
           !index_columns || !index_columns.any? { |e| greater_than_or_equal(Array(e), Array(column)) }
