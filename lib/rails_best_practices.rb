@@ -5,8 +5,8 @@ require 'rails_best_practices/core'
 module RailsBestPractices
 
   class <<self
-    def prepare_files
-      expand_dirs_to_files 'app/models'
+    def prepare_files(dir = '.')
+      expand_dirs_to_files File.join(dir, 'app/models')
     end
 
     def analyze_files(dir = '.', options = {})

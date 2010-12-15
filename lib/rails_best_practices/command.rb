@@ -42,7 +42,7 @@ end
 runner = RailsBestPractices::Core::Runner.new
 runner.set_debug if options['debug']
 
-prepare_files = RailsBestPractices::prepare_files
+prepare_files = RailsBestPractices::prepare_files(ARGV)
 files = RailsBestPractices::analyze_files(ARGV, options)
 
 if runner.checks.find { |check| check.is_a? RailsBestPractices::Checks::AlwaysAddDbIndexCheck } &&
