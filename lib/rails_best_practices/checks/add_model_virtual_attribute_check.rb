@@ -38,16 +38,16 @@ module RailsBestPractices
 
       # check method define nodes to see if there are some attribute assignments that can use model virtual attribute instead in review process.
       #
-      # it will check every attribute assignment nodes and call node of message :save, if
+      # it will check every attribute assignment nodes and call node of message :save or :save!, if
       #
       # 1. there are more than one arguments who contain call node with messages :[] in attribute assignment nodes, e.g.
       #     @user.first_name = params[:full_name].split(' ').first
       #     @user.last_name = params[:full_name].split(' ').last
       # 2. the messages of attribute assignment nodes housld be different (:first_name= , :last_name=)
       # 3. the argument of call nodes with message :[] should be same (:full_name)
-      # 4. there should be a call node with message :save after attribute assignment nodes
+      # 4. there should be a call node with message :save or :save! after attribute assignment nodes
       #     @user.save
-      # 5. and the subject of save call node should be the same with the subject of attribute assignment nodes
+      # 5. and the subject of save or save! call node should be the same with the subject of attribute assignment nodes
       #
       # then the attribute assignment nodes can add model virtual attribute instead.
       def review_start_defn(node)
@@ -98,7 +98,7 @@ module RailsBestPractices
           @attrasgns[subject] << {:message => node.message, :arguments => arguments_node}
         end
 
-        # check a call node with message :save
+        # check a call node with message :save or :save!,
         # if there exists an attribute assignment for the subject of this call node,
         # and if the arguments of this attribute assignments has duplicated entries (different message and same arguments),
         # then this node needs to add a virtual attribute.
