@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
 
   s.add_dependency("ruby_parser", ["~> 2.0.4"])
-  s.add_dependency("progressbar", ["~> 0.9.0"])
+  s.add_dependency("ruby-progressbar", ["~> 0.0.9"])
   s.add_dependency("colored", ["~> 1.2"])
   s.add_dependency("erubis", "~> 2.6.6")
   s.add_dependency("i18n")
