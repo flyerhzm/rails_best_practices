@@ -14,6 +14,7 @@ module RailsBestPractices
       CONTROLLER_FILES = /_controller\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
       MODEL_FILES = /models\/.*\.rb$/
+      MAILER_FILES = /models\/.*\.rb$|mailers\/.*\.rb/
       VIEW_FILES = /views\/.*\.(erb|haml)$/
       PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)$/
       ROUTE_FILE = /config\/routes.rb/

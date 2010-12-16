@@ -68,8 +68,20 @@ class Sexp
   end
 
   def subject
-    if [:attrasgn, :call, :class, :iter].include? node_type
+    if [:attrasgn, :call, :iter].include? node_type
       self[1]
+    end
+  end
+
+  def class_name
+    if :class == node_type
+      self[1]
+    end
+  end
+
+  def base_class
+    if :class == node_type
+      self[2]
     end
   end
 
@@ -135,7 +147,7 @@ class Sexp
     end
   end
 
-  def message_name
+  def method_name
     if :defn == node_type
       self[1]
     end
