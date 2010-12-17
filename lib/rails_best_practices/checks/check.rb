@@ -95,7 +95,7 @@ module RailsBestPractices
 
           # remember class models, just the subject of class node.
           def remember_klazz(class_node)
-            @klazzes << class_node.subject
+            @klazzes << class_node.class_name
           end
 
           # remember associations, with class to association names.
