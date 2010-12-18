@@ -4,11 +4,11 @@ describe RailsBestPractices::Checks::UseModelAssociationCheck do
   before(:each) do
     @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::UseModelAssociationCheck.new)
   end
-  
+
   it "should use model association for instance variable" do
     content = <<-EOF
     class PostsController < ApplicationController
-      
+
       def create
         @post = Post.new(params[:post])
         @post.user_id = current_user.id
@@ -16,7 +16,7 @@ describe RailsBestPractices::Checks::UseModelAssociationCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - use model association (for @post)"
@@ -32,7 +32,7 @@ describe RailsBestPractices::Checks::UseModelAssociationCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -48,7 +48,7 @@ describe RailsBestPractices::Checks::UseModelAssociationCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - use model association (for post)"
@@ -64,7 +64,7 @@ describe RailsBestPractices::Checks::UseModelAssociationCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end

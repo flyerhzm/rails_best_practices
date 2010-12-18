@@ -4,7 +4,7 @@ describe RailsBestPractices::Checks::MoveFinderToNamedScopeCheck do
   before(:each) do
     @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::MoveFinderToNamedScopeCheck.new)
   end
-  
+
   it "should move finder to named_scope" do
     content = <<-EOF
     class PostsController < ActionController::Base
@@ -20,13 +20,13 @@ describe RailsBestPractices::Checks::MoveFinderToNamedScopeCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.size.should == 2
     errors[0].to_s.should == "app/controllers/posts_controller.rb:4 - move finder to named_scope"
     errors[1].to_s.should == "app/controllers/posts_controller.rb:8 - move finder to named_scope"
   end
-  
+
   it "should not move simple finder" do
     content = <<-EOF
     class PostsController < ActionController::Base
@@ -41,10 +41,10 @@ describe RailsBestPractices::Checks::MoveFinderToNamedScopeCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     @runner.errors.should be_empty
   end
-  
+
   it "should not move namd_scope" do
     content = <<-EOF
     class PostsController < ActionController::Base
@@ -55,14 +55,14 @@ describe RailsBestPractices::Checks::MoveFinderToNamedScopeCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     @runner.errors.should be_empty
   end
-  
-  it "should not check model file" do
+
+  it "should not review model file" do
     content = <<-EOF
     class Post < ActiveRecord::Base
-      
+
       def published
         Post.find(:all, :conditions => { :state => 'public' },
                         :limit => 10, :order => 'created_at desc')
@@ -72,11 +72,11 @@ describe RailsBestPractices::Checks::MoveFinderToNamedScopeCheck do
         Post.find(:all, :conditions => { :state => 'draft' },
                         :limit => 10, :order => 'created_at desc')
       end
-                          
+
     end
     EOF
-    @runner.check('app/model/post.rb', content)
+    @runner.review('app/model/post.rb', content)
     @runner.errors.should be_empty
-    
+
   end
 end

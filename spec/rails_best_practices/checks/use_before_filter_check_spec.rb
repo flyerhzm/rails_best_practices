@@ -4,7 +4,7 @@ describe RailsBestPractices::Checks::UseBeforeFilterCheck do
   before(:each) do
     @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::UseBeforeFilterCheck.new)
   end
-  
+
   it "should use before_filter" do
     content = <<-EOF
     class PostsController < ApplicationController
@@ -29,12 +29,12 @@ describe RailsBestPractices::Checks::UseBeforeFilterCheck do
 
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/controllers/posts_controller.rb:3,7,11,16 - use before_filter for show,edit,update,destroy"
   end
-  
+
   it "should not use before_filter" do
     content = <<-EOF
     class PostsController < ApplicationController
@@ -55,7 +55,7 @@ describe RailsBestPractices::Checks::UseBeforeFilterCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -78,7 +78,7 @@ describe RailsBestPractices::Checks::UseBeforeFilterCheck do
 
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end

@@ -22,7 +22,7 @@ describe RailsBestPractices::Checks::DryBundlerInCapistranoCheck do
 
     after 'deploy:update_code', 'bundler:bundle_new_release'
     EOF
-    @runner.check('config/deploy.rb', content)
+    @runner.review('config/deploy.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "config/deploy.rb:1 - dry bundler in capistrano"
@@ -32,7 +32,7 @@ describe RailsBestPractices::Checks::DryBundlerInCapistranoCheck do
     content = <<-EOF
       require 'bundler/capistrano'
     EOF
-    @runner.check('config/deploy.rb', content)
+    @runner.review('config/deploy.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end

@@ -11,7 +11,7 @@ describe RailsBestPractices::Checks::MoveCodeIntoHelperCheck do
                                                 [t(:published), "published"]],
                                                params[:default_state] ) %>
     EOF
-    @runner.check('app/views/posts/show.html.erb', content)
+    @runner.review('app/views/posts/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/views/posts/show.html.erb:3 - move code into helper (array_count >= 2)"
@@ -21,7 +21,7 @@ describe RailsBestPractices::Checks::MoveCodeIntoHelperCheck do
     content = <<-EOF
     <%= select_tag :state, options_for_select( Post.STATES ) %>
     EOF
-    @runner.check('app/views/posts/show.html.erb', content)
+    @runner.review('app/views/posts/show.html.erb', content)
     errors = @runner.errors
     errors.should be_empty
   end

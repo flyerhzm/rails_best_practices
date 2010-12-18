@@ -26,7 +26,7 @@ describe RailsBestPractices::Checks::UseObserverCheck do
         end
       end
       EOF
-      @runner.check('app/models/project.rb', content)
+      @runner.review('app/models/project.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/models/project.rb:6 - use observer"
@@ -44,7 +44,7 @@ describe RailsBestPractices::Checks::UseObserverCheck do
         end
       end
       EOF
-      @runner.check('app/models/project.rb', content)
+      @runner.review('app/models/project.rb', content)
       errors = @runner.errors
       errors.should be_empty
     end
@@ -66,7 +66,7 @@ describe RailsBestPractices::Checks::UseObserverCheck do
         end
       end
       EOF
-      @runner.check('app/models/project.rb', content)
+      @runner.review('app/models/project.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/models/project.rb:6 - use observer"
@@ -78,7 +78,7 @@ describe RailsBestPractices::Checks::UseObserverCheck do
         after_create ProjectMailer.new
       end
       EOF
-      lambda { @runner.check('app/models/project.rb', content) }.should_not raise_error
+      lambda { @runner.review('app/models/project.rb', content) }.should_not raise_error
     end
   end
 
@@ -97,7 +97,7 @@ describe RailsBestPractices::Checks::UseObserverCheck do
         end
       end
       EOF
-      @runner.check('app/models/project.rb', content)
+      @runner.review('app/models/project.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/models/project.rb:6 - use observer"
@@ -115,7 +115,7 @@ describe RailsBestPractices::Checks::UseObserverCheck do
         end
       end
       EOF
-      @runner.check('app/models/project.rb', content)
+      @runner.review('app/models/project.rb', content)
       errors = @runner.errors
       errors.should be_empty
     end
@@ -137,7 +137,7 @@ describe RailsBestPractices::Checks::UseObserverCheck do
         end
       end
       EOF
-      @runner.check('app/models/project.rb', content)
+      @runner.review('app/models/project.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/models/project.rb:6 - use observer"
@@ -149,7 +149,7 @@ describe RailsBestPractices::Checks::UseObserverCheck do
         after_create ProjectMailer.new
       end
       EOF
-      lambda { @runner.check('app/models/project.rb', content) }.should_not raise_error
+      lambda { @runner.review('app/models/project.rb', content) }.should_not raise_error
     end
   end
 end

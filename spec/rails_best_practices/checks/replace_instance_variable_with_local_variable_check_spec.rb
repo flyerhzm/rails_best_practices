@@ -9,7 +9,7 @@ describe RailsBestPractices::Checks::ReplaceInstanceVariableWithLocalVariableChe
     content = <<-EOF
     <%= @post.title %>
     EOF
-    @runner.check('app/views/posts/_post.html.erb', content)
+    @runner.review('app/views/posts/_post.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/views/posts/_post.html.erb:1 - replace instance variable with local variable"
@@ -19,7 +19,7 @@ describe RailsBestPractices::Checks::ReplaceInstanceVariableWithLocalVariableChe
     content = <<-EOF
 = @post.title
     EOF
-    @runner.check('app/views/posts/_post.html.haml', content)
+    @runner.review('app/views/posts/_post.html.haml', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/views/posts/_post.html.haml:1 - replace instance variable with local variable"
@@ -29,7 +29,7 @@ describe RailsBestPractices::Checks::ReplaceInstanceVariableWithLocalVariableChe
     content = <<-EOF
     <%= post.title %>
     EOF
-    @runner.check('app/views/posts/_post.html.erb', content)
+    @runner.review('app/views/posts/_post.html.erb', content)
     errors = @runner.errors
     errors.should be_empty
   end

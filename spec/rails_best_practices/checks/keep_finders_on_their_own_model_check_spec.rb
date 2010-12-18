@@ -11,12 +11,12 @@ describe RailsBestPractices::Checks::KeepFindersOnTheirOwnModelCheck do
       has_many :comments
 
       def find_valid_comments
-        self.comment.find(:all, :conditions => { :is_spam => false }, 
+        self.comment.find(:all, :conditions => { :is_spam => false },
                                 :limit => 10)
       end
     end
     EOF
-    @runner.check('app/models/post.rb', content)
+    @runner.review('app/models/post.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/models/post.rb:5 - keep finders on their own model"
@@ -33,7 +33,7 @@ describe RailsBestPractices::Checks::KeepFindersOnTheirOwnModelCheck do
       end
     end
     EOF
-    @runner.check('app/models/post.rb', content)
+    @runner.review('app/models/post.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/models/post.rb:5 - keep finders on their own model"
@@ -45,12 +45,12 @@ describe RailsBestPractices::Checks::KeepFindersOnTheirOwnModelCheck do
       has_many :comments
 
       def find_valid_comments
-        self.find(:all, :conditions => { :is_spam => false }, 
+        self.find(:all, :conditions => { :is_spam => false },
                                 :limit => 10)
       end
     end
     EOF
-    @runner.check('app/models/post.rb', content)
+    @runner.review('app/models/post.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -61,12 +61,12 @@ describe RailsBestPractices::Checks::KeepFindersOnTheirOwnModelCheck do
       has_many :comments
 
       def find_valid_comments
-        Post.find(:all, :conditions => { :is_spam => false }, 
+        Post.find(:all, :conditions => { :is_spam => false },
                                 :limit => 10)
       end
     end
     EOF
-    @runner.check('app/models/post.rb', content)
+    @runner.review('app/models/post.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -81,7 +81,7 @@ describe RailsBestPractices::Checks::KeepFindersOnTheirOwnModelCheck do
       end
     end
     EOF
-    @runner.check('app/models/post.rb', content)
+    @runner.review('app/models/post.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -96,7 +96,7 @@ describe RailsBestPractices::Checks::KeepFindersOnTheirOwnModelCheck do
       end
     end
     EOF
-    @runner.check('app/models/post.rb', content)
+    @runner.review('app/models/post.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end

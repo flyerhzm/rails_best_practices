@@ -23,7 +23,7 @@ describe RailsBestPractices::Checks::MoveModelLogicIntoModelCheck do
       redirect_to post_url(@post)
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - move model logic into model (@post use_count > 4)"
@@ -42,7 +42,7 @@ describe RailsBestPractices::Checks::MoveModelLogicIntoModelCheck do
       redirect_to post_url(@post)
     end
     EOF
-    @runner.check('app/controllers/posts_controller.rb', content)
+    @runner.review('app/controllers/posts_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
