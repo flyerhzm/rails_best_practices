@@ -1,7 +1,20 @@
 # encoding: utf-8
 module RailsBestPractices
   module Core
+    # CheckingVisitor is a visitor class.
+    #
+    # it remembers all the checks for prepare and review processes according to interesting_prepare_nodes and interesting_review_nodes,
+    # then recursively iterate all sexp nodes,
+    #
+    # for prepare process
+    # if the node_type and the node filename match the interesting_prepare_nodes and interesting_prepare_files,
+    # then run the prepare for that node.
+    #
+    # for review process
+    # if the node_type and the node filename match the interesting_review_nodes and interesting_review_files,
+    # then run the reivew for that node.
     class CheckingVisitor
+      # remember all the checks for prepare and review processes according to interesting_prepare_nodes and interesting_review_nodes,
       def initialize(checks)
         @prepare_checks ||= {}
         @review_checks ||= {}
@@ -19,6 +32,13 @@ module RailsBestPractices
         end
       end
 
+      # for prepare process
+      # if the node_type and the node filename match the interesting_prepare_nodes and interesting_prepare_files,
+      # then run the prepare for that node.
+      #
+      # for review process
+      # if the node_type and the node filename match the interesting_review_nodes and interesting_review_files,
+      # then run the reivew for that node.
       [:prepare, :review].each do |process|
         class_eval <<-EOS
           def #{process}(node)
