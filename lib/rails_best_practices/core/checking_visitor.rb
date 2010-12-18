@@ -24,7 +24,7 @@ module RailsBestPractices
           def #{process}(node)
             checks = @#{process}_checks[node.node_type]
             checks.each {|check| check.#{process}_node_start(node) if node.file =~ check.interesting_#{process}_files} unless checks.nil?
-            node.visitable_children.each {|sexp| sexp.#{process}(self)}
+            node.children.each {|sexp| sexp.#{process}(self)}
             checks.each {|check| check.#{process}_node_end(node) if node.file =~ check.interesting_#{process}_files} unless checks.nil?
           end
         EOS

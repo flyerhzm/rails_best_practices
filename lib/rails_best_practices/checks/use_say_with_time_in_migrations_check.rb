@@ -66,7 +66,7 @@ module RailsBestPractices
       # then such method call should be wrapped by say or say_with_time
       def review_start_defs(node)
         block_node = node.grep_node(:node_type => :block)
-        block_node.body.each do |child_node|
+        block_node.children.each do |child_node|
           if :iter == child_node.node_type
             subject_node = child_node.subject
             if :call == subject_node.node_type && !WITH_SAY_METHODS.include?(subject_node.message)

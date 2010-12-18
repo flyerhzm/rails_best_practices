@@ -39,7 +39,7 @@ module RailsBestPractices
       # and the subject is a local variable or an instance variable,
       # then these method calls and attribute assignments should be moved into model.
       def review_start_defn(node)
-        node.grep_nodes(:node_type => [:call, :attrasgn]).each do |child_node|
+        node.grep_nodes(:node_type => [:call, :attrasgn]) do |child_node|
           remember_variable_use_count(child_node)
         end
 
