@@ -25,7 +25,7 @@ module RailsBestPractices
         @debug = true
       end
 
-      def check(filename, content)
+      def review(filename, content)
         puts filename if @debug
         content = parse_erb_or_haml(filename, content)
         node = parse_ruby(filename, content)
@@ -38,8 +38,8 @@ module RailsBestPractices
         node.prepare(@checker) if node
       end
 
-      def check_file(filename)
-        check(filename, File.read(filename))
+      def review_file(filename)
+        review(filename, File.read(filename))
       end
 
       def prepare_file(filename)
