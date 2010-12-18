@@ -4,11 +4,11 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
   before(:each) do
     @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::AddModelVirtualAttributeCheck.new)
   end
-  
+
   it "should add model virtual attribute" do
     content = <<-EOF
     class UsersController < ApplicationController
-      
+
       def create
         @user = User.new(params[:user])
         @user.first_name = params[:full_name].split(' ', 2).first
@@ -17,16 +17,16 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/users_controller.rb', content)
+    @runner.review('app/controllers/users_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for @user)"
   end
-  
+
   it "should add model virtual attribute with local assignment" do
     content = <<-EOF
     class UsersController < ApplicationController
-      
+
       def create
         user = User.new(params[:user])
         user.first_name = params[:full_name].split(' ', 2).first
@@ -35,7 +35,7 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/users_controller.rb', content)
+    @runner.review('app/controllers/users_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for user)"
@@ -53,15 +53,15 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/users_controller.rb', content)
+    @runner.review('app/controllers/users_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
-  
+
   it "should not add model virtual attribute with read" do
     content = <<-EOF
     class UsersController < ApplicationController
-      
+
       def show
         if params[:id]
           @user = User.find(params[:id])
@@ -71,7 +71,7 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/users_controller.rb', content)
+    @runner.review('app/controllers/users_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -88,7 +88,7 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/users_controller.rb', content)
+    @runner.review('app/controllers/users_controller.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for @user)"
@@ -106,7 +106,7 @@ describe RailsBestPractices::Checks::AddModelVirtualAttributeCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/users_controller.rb', content)
+    @runner.review('app/controllers/users_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end

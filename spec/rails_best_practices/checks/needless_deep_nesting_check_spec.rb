@@ -14,7 +14,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
         end
       end
       EOF
-      @runner.check('config/routes.rb', content)
+      @runner.review('config/routes.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "config/routes.rb:3 - needless deep nesting (nested_count > 2)"
@@ -28,7 +28,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
         end
       end
       EOF
-      @runner.check('config/routes.rb', content)
+      @runner.review('config/routes.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "config/routes.rb:3 - needless deep nesting (nested_count > 2)"
@@ -43,7 +43,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
         post.resources :votes
       end
       EOF
-      @runner.check('config/routes.rb', content)
+      @runner.review('config/routes.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "config/routes.rb:3 - needless deep nesting (nested_count > 2)"
@@ -59,7 +59,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
         comment.resources :favorites
       end
       EOF
-      @runner.check('config/routes.rb', content)
+      @runner.review('config/routes.rb', content)
       errors = @runner.errors
       errors.should be_empty
     end
@@ -71,7 +71,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
         comment.resources :votes
       end
       EOF
-      @runner.check('config/routes.rb', content)
+      @runner.review('config/routes.rb', content)
       errors = @runner.errors
       errors.should be_empty
     end
@@ -86,7 +86,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
         end
       end
       EOF
-      @runner.check('config/routes.rb', content)
+      @runner.review('config/routes.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "config/routes.rb:4 - needless deep nesting (nested_count > 2)"
@@ -100,7 +100,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
         end
       end
       EOF
-      @runner.check('config/routes.rb', content)
+      @runner.review('config/routes.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "config/routes.rb:4 - needless deep nesting (nested_count > 2)"
@@ -115,7 +115,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
         resources :votes
       end
       EOF
-      @runner.check('config/routes.rb', content)
+      @runner.review('config/routes.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "config/routes.rb:4 - needless deep nesting (nested_count > 2)"
@@ -132,7 +132,7 @@ describe RailsBestPractices::Checks::NeedlessDeepNestingCheck do
         resources :favorites
       end
       EOF
-      @runner.check('config/routes.rb', content)
+      @runner.review('config/routes.rb', content)
       errors = @runner.errors
       errors.should be_empty
     end

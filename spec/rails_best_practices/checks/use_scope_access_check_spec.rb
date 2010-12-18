@@ -4,15 +4,15 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
   before(:each) do
     @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Checks::UseScopeAccessCheck.new)
   end
-  
+
   context "if" do
     it "shoud use scope access" do
       content = <<-EOF
       class PostsController < ApplicationController
-      
+
         def edit
           @post = Post.find(params[:id])
-        
+
           if @post.user != current_user
             flash[:warning] = 'Access Denied'
             redirect_to posts_url
@@ -20,7 +20,7 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controllers/posts_controller.rb', content)
+      @runner.review('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
@@ -40,7 +40,7 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controllers/posts_controller.rb', content)
+      @runner.review('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
@@ -60,7 +60,7 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controllers/posts_controller.rb', content)
+      @runner.review('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
@@ -80,7 +80,7 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controllers/posts_controller.rb', content)
+      @runner.review('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
@@ -102,7 +102,7 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controllers/posts_controller.rb', content)
+      @runner.review('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
@@ -122,7 +122,7 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controllers/posts_controller.rb', content)
+      @runner.review('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
@@ -142,7 +142,7 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controllers/posts_controller.rb', content)
+      @runner.review('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
@@ -162,16 +162,16 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controllers/posts_controller.rb', content)
+      @runner.review('app/controllers/posts_controller.rb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
     end
-    
-    it "should no error in use_scope_access_check" do
+
+    it "should no error in use_scope_access_review" do
       content = <<-EOF
       class CommentsController < ApplicationController
-      
+
         def add_comment
           @current_user = User.find_by_id(session[:user_id])
           @id = params[:post_id]
@@ -187,7 +187,7 @@ describe RailsBestPractices::Checks::UseScopeAccessCheck do
         end
       end
       EOF
-      @runner.check('app/controllers/comments_controller.rb', content)
+      @runner.review('app/controllers/comments_controller.rb', content)
     end
   end
 end

@@ -15,7 +15,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
       end
     end
     EOF
-    @runner.check('db/schema.rb', content)
+    @runner.review('db/schema.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "db/schema.rb:2 - always add db index (comments => [post_id])"
@@ -32,7 +32,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
       end
     end
     EOF
-    @runner.check('db/schema.rb', content)
+    @runner.review('db/schema.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])"
@@ -48,7 +48,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
       end
     end
     EOF
-    @runner.check('db/schema.rb', content)
+    @runner.review('db/schema.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors.size.should == 1
@@ -67,7 +67,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
       add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
     end
     EOF
-    @runner.check('db/schema.rb', content)
+    @runner.review('db/schema.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "db/schema.rb:2 - always add db index (taggings => [taggable_id, taggable_type])"
@@ -85,7 +85,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
       add_index "taggings", ["taggable_id", "taggable_type"], :name => "index_taggings_on_taggable_id_and_taggable_type"
     end
     EOF
-    @runner.check('db/schema.rb', content)
+    @runner.review('db/schema.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "db/schema.rb:2 - always add db index (taggings => [tag_id])"
@@ -100,7 +100,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
       end
     end
     EOF
-    @runner.check('db/schema.rb', content)
+    @runner.review('db/schema.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -118,7 +118,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
       add_index "comments", ["user_id"], :name => "index_comments_on_user_id"
     end
     EOF
-    @runner.check('db/schema.rb', content)
+    @runner.review('db/schema.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -131,7 +131,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
       end
     end
     EOF
-    @runner.check('db/schema.rb', content)
+    @runner.review('db/schema.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -148,7 +148,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
       add_index "versions", ["versioned_id", "versioned_type"], :name => "index_versions_on_versioned_id_and_versioned_type"
     end
     EOF
-    @runner.check('db/schema.rb', content)
+    @runner.review('db/schema.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -165,7 +165,7 @@ describe RailsBestPractices::Checks::AlwaysAddDbIndexCheck do
       add_index "taggings", ["taggable_id", "taggable_type", "context"], :name => "index_taggings_on_taggable_id_and_taggable_type_and_context"
     end
     EOF
-    @runner.check('db/schema.rb', content)
+    @runner.review('db/schema.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end

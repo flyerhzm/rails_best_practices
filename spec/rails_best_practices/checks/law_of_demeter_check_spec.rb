@@ -22,7 +22,7 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
       <%= @invoice.user.address %>
       <%= @invoice.user.cellphone %>
       EOF
-      @runner.check('app/views/invoices/show.html.erb', content)
+      @runner.review('app/views/invoices/show.html.erb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
@@ -34,7 +34,7 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
 = @invoice.user.address
 = @invoice.user.cellphone
       EOF
-      @runner.check('app/views/invoices/show.html.haml', content)
+      @runner.review('app/views/invoices/show.html.haml', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/views/invoices/show.html.haml:1 - law of demeter"
@@ -46,7 +46,7 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
       <%= @invoice.user_address %>
       <%= @invoice.user_cellphone %>
       EOF
-      @runner.check('app/views/invoices/show.html.erb', content)
+      @runner.review('app/views/invoices/show.html.erb', content)
       errors = @runner.errors
       errors.should be_empty
     end
@@ -67,7 +67,7 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
       <%= @invoice.price.currency %>
       <%= @invoice.price.number %>
       EOF
-      @runner.check('app/views/invoices/show.html.erb', content)
+      @runner.review('app/views/invoices/show.html.erb', content)
       errors = @runner.errors
       errors.should_not be_empty
       errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
@@ -94,7 +94,7 @@ describe RailsBestPractices::Checks::LawOfDemeterCheck do
       end
     end
     EOF
-    @runner.check('app/controllers/comments_controller.rb', content)
+    @runner.review('app/controllers/comments_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end

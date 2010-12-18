@@ -14,7 +14,7 @@ describe RailsBestPractices::Checks::UseSayWithTimeInMigrationsCheck do
       end
     end
     EOF
-    @runner.check('db/migrate/20101010080658_update_users.rb', content)
+    @runner.review('db/migrate/20101010080658_update_users.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors.size.should == 1
@@ -35,7 +35,7 @@ describe RailsBestPractices::Checks::UseSayWithTimeInMigrationsCheck do
       end
     end
     EOF
-    @runner.check('db/migrate/20101010080658_update_users.rb', content)
+    @runner.review('db/migrate/20101010080658_update_users.rb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors.size.should == 1
@@ -54,7 +54,7 @@ describe RailsBestPractices::Checks::UseSayWithTimeInMigrationsCheck do
       end
     end
     EOF
-    @runner.check('db/migrate/20101010080658_update_users.rb', content)
+    @runner.review('db/migrate/20101010080658_update_users.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -69,7 +69,7 @@ describe RailsBestPractices::Checks::UseSayWithTimeInMigrationsCheck do
       end
     end
     EOF
-    @runner.check('db/migrate/20101010080658_create_users.rb', content)
+    @runner.review('db/migrate/20101010080658_create_users.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
@@ -106,7 +106,7 @@ describe RailsBestPractices::Checks::UseSayWithTimeInMigrationsCheck do
       end
     end
     EOF
-    @runner.check('db/migrate/20101010080658_create_users.rb', content)
+    @runner.review('db/migrate/20101010080658_create_users.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end

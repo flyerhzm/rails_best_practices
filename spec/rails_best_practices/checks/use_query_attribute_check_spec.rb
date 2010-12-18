@@ -23,7 +23,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       <%= link_to 'login', new_session_path %>
     <% end %>
     EOF
-    @runner.check('app/views/users/show.html.erb', content)
+    @runner.review('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
@@ -35,7 +35,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       <%= link_to 'login', new_session_path %>
     <% end %>
     EOF
-    @runner.check('app/views/users/show.html.erb', content)
+    @runner.review('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
@@ -47,7 +47,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       <%= link_to 'login', new_session_path %>
     <% end %>
     EOF
-    @runner.check('app/views/users/show.html.erb', content)
+    @runner.review('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
@@ -59,7 +59,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       <%= @user.login %>
     <% end %>
     EOF
-    @runner.check('app/views/users/show.html.erb', content)
+    @runner.review('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
@@ -71,7 +71,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       <%= @user.login %>
     <% end %>
     EOF
-    @runner.check('app/views/users/show.html.erb', content)
+    @runner.review('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
@@ -83,7 +83,7 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       <%= @user.login %>
     <% end %>
     EOF
-    @runner.check('app/views/users/show.html.erb', content)
+    @runner.review('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should_not be_empty
     errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
@@ -95,97 +95,97 @@ describe RailsBestPractices::Checks::UseQueryAttributeCheck do
       <%= @user.login %>
     <% end %>
     EOF
-    @runner.check('app/views/users/show.html.erb', content)
+    @runner.review('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should be_empty
   end
 
-  it "should not check for pluralize attribute" do
+  it "should not review for pluralize attribute" do
     content = <<-EOF
     <% if @user.roles.blank? %>
       <%= @user.login %>
     <% end %>
     EOF
-    @runner.check('app/views/users/show.html.erb', content)
+    @runner.review('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should be_empty
   end
 
-  it "should not check non model class" do
+  it "should not review non model class" do
     content = <<-EOF
     <% if @person.login.present? %>
       <%= @person.login %>
     <% end %>
     EOF
-    @runner.check('app/views/users/show.html.erb', content)
+    @runner.review('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should be_empty
   end
 
   context "association" do
-    it "should not check belongs_to association" do
+    it "should not review belongs_to association" do
       content = <<-EOF
       <% if @user.location.present? %>
         <%= @user.location.name %>
       <% end %>
       EOF
-      @runner.check('app/views/users/show.html.erb', content)
+      @runner.review('app/views/users/show.html.erb', content)
       errors = @runner.errors
       errors.should be_empty
     end
 
-      it "should not check belongs_to category" do
+      it "should not review belongs_to category" do
         content = <<-EOF
         <% if @user.category.present? %>
           <%= @user.category.name %>
         <% end %>
         EOF
-        @runner.check('app/views/users/show.html.erb', content)
+        @runner.review('app/views/users/show.html.erb', content)
         errors = @runner.errors
         errors.should be_empty
       end
 
-    it "should not check has_one association" do
+    it "should not review has_one association" do
       content = <<-EOF
       <% if @user.phone.present? %>
         <%= @user.phone.number %>
       <% end %>
       EOF
-      @runner.check('app/views/users/show.html.erb', content)
+      @runner.review('app/views/users/show.html.erb', content)
       errors = @runner.errors
       errors.should be_empty
     end
 
-    it "should not check has_many association" do
+    it "should not review has_many association" do
       content = <<-EOF
       <% if @user.projects.present? %>
         <%= @user.projects.first.name %>
       <% end %>
       EOF
-      @runner.check('app/views/users/show.html.erb', content)
+      @runner.review('app/views/users/show.html.erb', content)
       errors = @runner.errors
       errors.should be_empty
     end
   end
 
-  it "should not check for class method" do
+  it "should not review for class method" do
     content = <<-EOF
     <% if User.name.present? %>
       <%= User.name %>
     <% end %>
     EOF
-    @runner.check('app/views/users/show.html.erb', content)
+    @runner.review('app/views/users/show.html.erb', content)
     errors = @runner.errors
     errors.should be_empty
   end
 
-  it "should not check for non attribute call" do
+  it "should not review for non attribute call" do
     content = <<-EOF
     if @user.login(false).nil?
       puts @user.login(false)
     end
     EOF
-    @runner.check('app/models/users_controller.rb', content)
+    @runner.review('app/models/users_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty
   end
