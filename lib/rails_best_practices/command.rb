@@ -58,7 +58,7 @@ prepare_files.each do |file|
 end
 
 files.each do |file|
-  runner.check_file(file)
+  runner.review_file(file)
   bar.inc unless options['debug']
 end
 bar.finish
