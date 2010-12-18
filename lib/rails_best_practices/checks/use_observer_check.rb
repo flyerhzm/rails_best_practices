@@ -89,7 +89,7 @@ module RailsBestPractices
         # then save the class name in @mailer_names
         def remember_mailer_names(node)
           if s(:colon2, s(:const, :ActionMailer), :Base) == node.base_class
-            @mailer_names << node.class_name
+            @mailer_names << node.class_name.to_s
           end
         end
 
@@ -142,7 +142,7 @@ module RailsBestPractices
         #
         # then the call node is actionmailer deliver call.
         def deliver_mailer?(node)
-          node.grep_nodes(:node_type => :call).each do |child_node|
+          node.grep_nodes(:node_type => :call) do |child_node|
             # rails2 actionmailer deliver
             return true if child_node.message.to_s =~ /^deliver_/ && @mailer_names.include?(child_node.subject.to_s)
             # rails3 actionmailer deliver

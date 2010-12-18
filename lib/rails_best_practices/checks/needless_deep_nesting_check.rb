@@ -114,7 +114,7 @@ module RailsBestPractices
         def recursively_check(node)
           if :iter == node.node_type && :resources == node.subject.message
             @counter += 1
-            recursively_check(node.block_body)
+            recursively_check(node.body)
             @counter -= 1
           elsif :block == node.node_type
             node.children.each do |child_node|

@@ -70,7 +70,7 @@ module RailsBestPractices
       # then these duplicated first code lines should be moved to before_filter.
       def review_start_class(class_node)
         @first_sentences = {}
-        class_node.grep_nodes({:node_type => :defn}).each { |defn_node| remember_first_sentence(defn_node) }
+        class_node.grep_nodes({:node_type => :defn}) { |defn_node| remember_first_sentence(defn_node) }
         @first_sentences.each do |first_sentence, defn_nodes|
           if defn_nodes.size > 1
             add_error "use before_filter for #{defn_nodes.collect(&:method_name).join(',')}", class_node.file, defn_nodes.collect(&:line).join(',')

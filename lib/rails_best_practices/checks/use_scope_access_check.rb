@@ -74,7 +74,7 @@ module RailsBestPractices
 
           condition_node.message == :== &&
           (current_user?(condition_node.arguments[1]) || current_user?(condition_node.subject)) &&
-          (node.false_node.body.any? {|n| n.message == :redirect_to} || node.true_node.method_body.any? {|n| n.message == :redirect_to})
+          (node.false_node.grep_node(:message => :redirect_to) || node.true_node.grep_node(:message => :redirect_to))
         end
 
         # check a call node to see if it uses current_user, or current_user.id.

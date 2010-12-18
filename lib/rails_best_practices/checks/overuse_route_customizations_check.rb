@@ -126,7 +126,7 @@ module RailsBestPractices
           if :resources == node.message
             hash_node = node.arguments[2]
             if hash_node
-              (hash_node.grep_nodes(:node_type => :lit).size - hash_node.grep_nodes(:node_type => :hash).size) / 2
+              (hash_node.grep_nodes_count(:node_type => :lit) - hash_node.grep_nodes_count(:node_type => :hash)) / 2
             end
           end
         end
@@ -160,7 +160,7 @@ module RailsBestPractices
         #     )
         def member_and_collection_count_for_rails3(node)
           if :resources == node.subject.message
-            node.grep_nodes(:node_type => :call, :message => VERBS).size
+            node.grep_nodes_count(:node_type => :call, :message => VERBS)
           end
         end
     end

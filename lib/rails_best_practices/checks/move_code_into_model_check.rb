@@ -39,7 +39,7 @@ module RailsBestPractices
       # and the subject is a local variable or an instance variable,
       # then the conditional statement nodes should be moved into model.
       def review_start_if(node)
-        node.conditional_statement.grep_nodes(:node_type => [:call, :attrasgn]).each { |child_node| remember_variable_use_count(child_node) }
+        node.conditional_statement.grep_nodes(:node_type => [:call, :attrasgn]) { |child_node| remember_variable_use_count(child_node) }
 
         variable_use_count.each do |variable_node, count|
           add_error "move code into model (#{variable_node} use_count > #{@use_count})", variable_node.file, variable_node.line if count > @use_count
