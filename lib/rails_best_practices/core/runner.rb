@@ -7,8 +7,15 @@ require 'active_support/inflector'
 
 module RailsBestPractices
   module Core
+    # Runner is the main class, it can check source code of a filename with all checks (according to the configuration).
+    #
+    # the check process is partitioned into two parts,
+    #
+    # 1. prepare process, it will do some preparations for further checking, such as remember the model associations.
+    # 2. review process, it does real check, if the source code violates some best practices, the violations will be notified.
     class Runner
       attr_reader :checks
+      attr_writer :debug
 
       DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "..", "..", "rails_best_practices.yml")
       CUSTOM_CONFIG = File.join('config', 'rails_best_practices.yml')
@@ -21,31 +28,27 @@ module RailsBestPractices
         @debug = false
       end
 
-      def set_debug
-        @debug = true
+      # prepare and review a file's content with filename.
+      # the file may be a ruby, erb or haml file.
+      #
+      # filename is the filename of the code.
+      # content is the source code.
+      [:prepare, :review].each do |process|
+        class_eval <<-EOS
+          def #{process}(filename, content)                      # def review(filename, content)
+            puts filename if @debug                              #   puts filename if @debug
+            content = parse_erb_or_haml(filename, content)       #   content = parse_erb_or_haml(filename, content)
+            node = parse_ruby(filename, content)                 #   node = parse_ruby(filename, content)
+            node.#{process}(@checker) if node                    #   node.review(@checker) if node
+          end                                                    # end
+                                                                 #
+          def #{process}_file(filename)                          # def review_file(filename)
+            #{process}(filename, File.read(filename))            #   review(filename, File.read(filename)
+          end                                                    # end
+        EOS
       end
 
-      def review(filename, content)
-        puts filename if @debug
-        content = parse_erb_or_haml(filename, content)
-        node = parse_ruby(filename, content)
-        node.review(@checker) if node
-      end
-
-      def prepare(filename, content)
-        puts filename if @debug
-        node = parse_ruby(filename, content)
-        node.prepare(@checker) if node
-      end
-
-      def review_file(filename)
-        review(filename, File.read(filename))
-      end
-
-      def prepare_file(filename)
-        prepare(filename, File.read(filename))
-      end
-
+      # load all errors from checks.
       def errors
         @checks ||= []
         all_errors = @checks.collect {|check| check.errors}
@@ -53,41 +56,48 @@ module RailsBestPractices
       end
 
       private
-
-      def parse_ruby(filename, content)
-        begin
-          RubyParser.new.parse(content, filename)
-        rescue Exception => e
-          puts "#{filename} looks like it's not a valid Ruby file.  Skipping..." if @debug
-          nil
-        end
-      end
-
-      def parse_erb_or_haml(filename, content)
-        if filename =~ /.*\.erb$/
-          content = Erubis::Eruby.new(content).src
-        end
-        if filename =~ /.*\.haml$/
+        # parse ruby code.
+        #
+        # filename is the filename of the ruby code.
+        # content is the source code of ruby file.
+        def parse_ruby(filename, content)
           begin
-            require 'haml'
-            content = Haml::Engine.new(content).precompiled
-            # remove \xxx characters
-            content.gsub!(/\\\d{3}/, '')
-          rescue Haml::SyntaxError
+            RubyParser.new.parse(content, filename)
+          rescue Exception => e
+            puts "#{filename} looks like it's not a valid Ruby file.  Skipping...".red if @debug
+            nil
           end
         end
-        content
-      end
 
-      def load_checks
-        check_objects = []
-        checks = YAML.load_file @config
-        checks.each do |check|
-          klass = eval("RailsBestPractices::Checks::#{check[0]}")
-          check_objects << (check[1].empty? ? klass.new : klass.new(check[1]))
+        # parse erb or html code.
+        #
+        # filename is the filename of the erb or haml code.
+        # content is the source code of erb or haml file.
+        def parse_erb_or_haml(filename, content)
+          if filename =~ /.*\.erb$/
+            content = Erubis::Eruby.new(content).src
+          elsif filename =~ /.*\.haml$/
+            begin
+              require 'haml'
+              content = Haml::Engine.new(content).precompiled
+              # remove \xxx characters
+              content.gsub!(/\\\d{3}/, '')
+            rescue Haml::SyntaxError
+            end
+          end
+          content
         end
-        check_objects
-      end
+
+        # load all checks according to configuration.
+        def load_checks
+          check_objects = []
+          checks = YAML.load_file @config
+          checks.each do |check|
+            klass = RailsBestPractices::Checks.const_get(check[0])
+            check_objects << (check[1].empty? ? klass.new : klass.new(check[1]))
+          end
+          check_objects
+        end
     end
   end
 end
