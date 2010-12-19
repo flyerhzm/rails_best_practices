@@ -22,6 +22,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
+require 'rubygems'
 require 'progressbar'
 require 'colored'
 require 'rails_best_practices/checks'
@@ -37,8 +38,18 @@ require 'rails_best_practices/core'
 #
 # After analyzing, output the violations.
 module RailsBestPractices
+
+  DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "rails_best_practices.yml")
+
   class <<self
     attr_writer :runner
+
+    # generate configuration yaml file.
+    def generate(path)
+      @path =  path || '.'
+      FileUtils.cp DEFAULT_CONFIG, File.join(@path, 'config/rails_best_practices.yml')
+    end
+
     # start checking rails codes.
     #
     # there are two steps to check rails codes,
@@ -53,7 +64,7 @@ module RailsBestPractices
     #         see more info in command.rb.
     def start(path, options)
       @path = path || '.'
-      @runner = Core::Runner.new
+      @runner = Core::Runner.new(@path)
       @runner.debug = true if options['debug']
 
       if @runner.checks.find { |check| check.is_a? Checks::AlwaysAddDbIndexCheck } &&
