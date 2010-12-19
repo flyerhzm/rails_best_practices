@@ -25,6 +25,7 @@ module RailsBestPractices
         @errors = []
       end
 
+      # define default interesting_prepare_nodes, interesting_review_nodes, interesting_prepare_files and interesting_review_files.
       [:prepare, :review].each do |process|
         class_eval <<-EOS
           def interesting_#{process}_nodes                        # def interesting_review_nodes
@@ -34,7 +35,19 @@ module RailsBestPractices
           def interesting_#{process}_files                        # def interesting_review_files
             /.*/                                                  #   /.*/
           end                                                     # end
-                                                                  #
+        EOS
+      end
+
+      # define method prepare_node_start, prepare_node_end, review_node_start and review_node_end.
+      #
+      # they delegate the node to special process method, like
+      #
+      #     review_node_start(call_node) => review_start_call(call_node)
+      #     review_node_end(defn_node) => review_end_defn(defn_node)
+      #     prepare_node_start(calss_node) => prepare_start_class(class_node)
+      #     prepare_node_end(if_node) => prepare_end_if(if_node)
+      [:prepare, :review].each do |process|
+        class_eval <<-EOS
           def #{process}_node_start(node)                         # def review_node_start(node)
             @node = node                                          #   @node = node
             method = "#{process}_start_" + node.node_type.to_s    #   method = "review_start_" + node.node_type.to_s
@@ -49,18 +62,25 @@ module RailsBestPractices
         EOS
       end
 
+      # define all start and end process for each node type, like
+      #
+      #     prepare_start_defn
+      #     prepare_end_defn
+      #     review_start_call
+      #     review_end_call
       [:prepare, :review].each do |process|
         NODE_TYPES.each do |node|
           class_eval <<-EOS
-            def #{process}_start_#{node}(node)                    # def review_start_def(node)
+            def #{process}_start_#{node}(node)                    # def review_start_defn(node)
             end                                                   # end
                                                                   #
-            def #{process}_end_#{node}(node)                      # def review_end_def(node)
+            def #{process}_end_#{node}(node)                      # def review_end_defn(node)
             end                                                   # end
           EOS
         end
       end
 
+      # remember the model names and model associations in prepare process.
       def self.prepare_model_associations
         class_eval <<-EOS
           def initialize
@@ -104,6 +124,7 @@ module RailsBestPractices
             @associations[@klazzes.last] << association_node.arguments[1].to_s
           end
 
+          # default rails association methods.
           def association_methods
             [:belongs_to, :has_one, :has_many, :has_and_belongs_to_many]
           end
