@@ -37,6 +37,8 @@ Homepage: <http://rails-bestpractices.com>
 
 Github: <http://github.com/flyerhzm/rails_best_practices>
 
+RDoc: <http://rdoc.info/github/flyerhzm/rails_best_practices/master/frames>
+
 Google Group: <https://groups.google.com/group/rails_best_practices>
 
 Wiki: <http://github.com/flyerhzm/rails_best_practices/wiki>
