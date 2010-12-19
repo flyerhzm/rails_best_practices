@@ -17,11 +17,9 @@ module RailsBestPractices
       attr_reader :checks
       attr_accessor :debug
 
-      DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "..", "..", "rails_best_practices.yml")
-      CUSTOM_CONFIG = File.join('config', 'rails_best_practices.yml')
-
-      def initialize(*checks)
-        @config = File.exists?(CUSTOM_CONFIG) ? CUSTOM_CONFIG : DEFAULT_CONFIG
+      def initialize(path, *checks)
+        custom_config = File.join(path, 'config/rails_best_practices.yml')
+        @config = File.exists?(custom_config) ? custom_config : RailsBestPractices::DEFAULT_CONFIG
         @checks = checks unless checks.empty?
         @checks ||= load_checks
         @checker ||= CheckingVisitor.new(@checks)

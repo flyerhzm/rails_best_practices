@@ -9,6 +9,7 @@ require 'optparse'
 #         --features                   include features files
 #     -x, --exclude PATTERNS           Don't analyze files matching a pattern
 #                                      (comma-separated regexp list)
+#     -g, --generate                   Generate configuration yaml
 #     -v, --version                    Show this version
 #     -h, --help                       Show this message
 options = {}
@@ -44,7 +45,15 @@ OptionParser.new do |opts|
     end
   end
 
+  opts.on("-g", "--generate", "Generate configuration yaml") do
+    options[:generate] = true
+  end
+
   opts.parse!
 end
 
-RailsBestPractices.start(ARGV.first, options)
+if options[:generate]
+  RailsBestPractices.generate(ARGV.first)
+else
+  RailsBestPractices.start(ARGV.first, options)
+end
