@@ -3,7 +3,7 @@ module RailsBestPractices
   module Core
     # Error is the violation to rails best practice.
     #
-    # it indicts the filenname, line number and error message for the violation.
+    # it indicates the filenname, line number and error message for the violation.
     class Error
       attr_reader :filename, :line_number, :message
 
