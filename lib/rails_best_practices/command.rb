@@ -1,11 +1,19 @@
 # encoding: utf-8
 require 'optparse'
-require 'progressbar'
-require 'colored'
 
+# Usage: rails_best_practices [options] path
+#     -d, --debug                      Debug mode
+#         --vendor                     include vendor files
+#         --spec                       include spec files
+#         --test                       include test files
+#         --features                   include features files
+#     -x, --exclude PATTERNS           Don't analyze files matching a pattern
+#                                      (comma-separated regexp list)
+#     -v, --version                    Show this version
+#     -h, --help                       Show this message
 options = {}
 OptionParser.new do |opts|
-  opts.banner = "Usage: rails_best_practices [options]"
+  opts.banner = "Usage: rails_best_practices [options] path"
 
   opts.on("-d", "--debug", "Debug mode") do
     options['debug'] = true
@@ -39,36 +47,4 @@ OptionParser.new do |opts|
   opts.parse!
 end
 
-runner = RailsBestPractices::Core::Runner.new
-runner.set_debug if options['debug']
-
-prepare_files = RailsBestPractices::prepare_files(ARGV)
-files = RailsBestPractices::analyze_files(ARGV, options)
-
-if runner.checks.find { |check| check.is_a? RailsBestPractices::Checks::AlwaysAddDbIndexCheck } &&
-   !files.find { |file| file.index "db\/schema.rb" }
-  puts "AlwaysAddDbIndexCheck is disabled as there is no db/schema.rb file in your rails project.".blue
-end
-
-bar = ProgressBar.new('Analyzing', prepare_files.size + files.size)
-
-prepare_files.each do |file|
-  runner.prepare_file(file)
-  bar.inc unless options['debug']
-end
-
-files.each do |file|
-  runner.review_file(file)
-  bar.inc unless options['debug']
-end
-bar.finish
-
-runner.errors.each { |error| puts error.to_s.red }
-puts "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green
-if runner.errors.empty?
-  puts "\nNo error found. Cool!".green
-else
-  puts "\nFound #{runner.errors.size} errors.".red
-end
-
-exit runner.errors.size
+RailsBestPractices.start(ARGV.first, options)
