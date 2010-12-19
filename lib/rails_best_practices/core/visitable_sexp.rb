@@ -2,10 +2,16 @@
 require 'sexp'
 
 class Sexp
+  # prepare current node.
+  #
+  # @param [RailsBestPractices::Core::CheckingVisitor] visitor the visitor to prepare current node
   def prepare(visitor)
     visitor.prepare(self)
   end
 
+  # prepare current node.
+  #
+  # @param [RailsBestPractices::Core::CheckingVisitor] visitor the visitor to review current node
   def review(visitor)
     visitor.review(self)
   end
@@ -16,6 +22,8 @@ class Sexp
   #       s(:arglist, s(:str, "hello "), s(:str, "world"))
   #     )
   #       => [s(:arglist, s(:str, "hello "), s(:str, "world"))]
+  #
+  # @return [Array] child nodes.
   def children
     find_all { | sexp | Sexp === sexp }
   end
@@ -28,7 +36,9 @@ class Sexp
     end
   end
 
-  # grep all the recursive child ndoes with conditions, and yield each match node.
+  # grep all the recursive child nodes with conditions, and yield each match node.
+  #
+  # @param [Hash] options grep conditions
   #
   # options is the grep conditions, like
   #
@@ -54,19 +64,34 @@ class Sexp
     end
   end
 
-  # like grep_nodes, except that return the first match node.
+  # grep all the recursive child nodes with conditions, and yield the first match node.
+  #
+  # @param [Hash] options grep conditions
+  #
+  # options is the grep conditions, like
+  #
+  #     :node_type => :call,
+  #     :subject => s(:const, Post),
+  #     :message => [:find, :new],
+  #     :arguments => s(:arglist)
+  #
+  # the condition key is one of :node_type, :subject, :message or :arguments,
+  # the condition value can be Symbol, Array or Sexp.
   def grep_node(options)
     grep_nodes(options) { |node| return node }
   end
 
-  # return the count of grep_nodes.
+  # grep all the recursive child nodes with conditions, and get the count of match nodes.
+  #
+  # @param [Hash] options grep conditions
+  # @return [Integer] the count of metch nodes
   def grep_nodes_count(options)
     count = 0
     grep_nodes(options) { |node| count += 1 }
     count
   end
 
-  # return subject of attrasgan, call and iter node.
+  # Get subject of attrasgan, call and iter node.
   #
   #     s(:attrasgn,
   #       s(:call, nil, :user, s(:arglist)),
@@ -96,33 +121,39 @@ class Sexp
   #       )
   #     )
   #         => s(:call, :s(:ivar, ;@users), :each, s(:arglist))
+  #
+  # @return [Sexp] subject of attrasgn, call or iter node
   def subject
     if [:attrasgn, :call, :iter].include? node_type
       self[1]
     end
   end
 
-  # return the class name of the class node.
+  # Get the class name of the class node.
   #
   #     s(:class, :User, nil, s(:scope))
   #         => :User
+  #
+  # @return [Symbol] class name of class node
   def class_name
     if :class == node_type
       self[1]
     end
   end
 
-  # return the base class of the class node.
+  # Get the base class of the class node.
   #
   #     s(:class, :User, s(:colon2, s(:const, :ActiveRecord), :Base), s(:scope))
   #         => s(:colon2, s(:const, :ActiveRecord), :Base)
+  #
+  # @return [Sexp] base class of class node
   def base_class
     if :class == node_type
       self[2]
     end
   end
 
-  # return the left value of the lasgn or iasgn node.
+  # Get the left value of the lasgn or iasgn node.
   #
   #     s(:lasgn,
   #       :user,
@@ -143,13 +174,15 @@ class Sexp
   #       )
   #     )
   #         => :@user
+  #
+  # @return [Symbol] left value of lasgn or iasgn node
   def left_value
     if [:lasgn, :iasgn].include? node_type
       self[1]
     end
   end
 
-  # return the right value of lasgn and iasgn node.
+  # Get the right value of lasgn and iasgn node.
   #
   #     s(:lasgn,
   #       :user,
@@ -162,13 +195,15 @@ class Sexp
   #       s(:call, nil, :current_user, s(:arglist))
   #     )
   #         => s(:call, nil, :current_user, s(:arglist))
+  #
+  # @return [Sexp] right value of lasgn or iasgn node
   def right_value
     if [:lasgn, :iasgn].include? node_type
       self[2]
     end
   end
 
-  # message of attrasgn and call node.
+  # Get the message of attrasgn and call node.
   #
   #     s(:attrasgn,
   #       s(:call, nil, :user, s(:arglist)),
@@ -185,13 +220,15 @@ class Sexp
   #
   #     s(:call, nil, :has_many, s(:arglist, s(:lit, :projects)))
   #         => :has_many
+  #
+  # @return [Symbol] message of attrasgn or call node
   def message
     if [:attrasgn, :call].include? node_type
       self[2]
     end
   end
 
-  # return arguments of call node.
+  # Get arguments of call node.
   #
   #     s(:attrasgn,
   #       s(:call, nil, :post, s(:arglist)),
@@ -208,13 +245,15 @@ class Sexp
   #       s(:arglist, s(:str, ""))
   #     )
   #         => s(:arglist, s(:str, ""))
+  #
+  # @return [Sexp] arguments of attrasgn or call node
   def arguments
     if [:attrasgn, :call].include? node_type
       self[3]
     end
   end
 
-  # return the conditional statement of if node.
+  # Get the conditional statement of if node.
   #
   #     s(:if,
   #       s(:call,
@@ -234,13 +273,15 @@ class Sexp
   #       nil
   #     )
   #         => s(:call, s(:call, nil, :current_user, s(:arglist)), :present?, s(:arglist))
+  #
+  # @return [Sexp] conditional statement of if node
   def conditional_statement
     if :if == node_type
       self[1]
     end
   end
 
-  # return the body node when conditional statement is true.
+  # Get the body node when conditional statement is true.
   #
   #     s(:if,
   #       s(:call, s(:call, nil, :current_user, s(:arglist)), :login?, s(:arglist)),
@@ -248,13 +289,15 @@ class Sexp
   #       s(:call, s(:call, nil, :current_user, s(:arglist)), :email, s(:arglist))
   #     )
   #         => s(:call, s(:call, nil, :current_user, s(:arglist)), :login, s(:arglist))
+  #
+  # @return [Sexp] the body node when conditional statement is true
   def true_node
     if :if == node_type
       self[2]
     end
   end
 
-  # return the body node when conditional statement is false.
+  # Get the body node when conditional statement is false.
   #
   #     s(:if,
   #       s(:call, s(:call, nil, :current_user, s(:arglist)), :login?, s(:arglist)),
@@ -262,23 +305,27 @@ class Sexp
   #       s(:call, s(:call, nil, :current_user, s(:arglist)), :email, s(:arglist))
   #     )
   #         => s(:call, s(:call, nil, :current_user, s(:arglist)), :email, s(:arglist))
+  #
+  # @return [Sexp] the body node when conditional statement is false
   def false_node
     if :if == node_type
       self[3]
     end
   end
 
-  # return the method name of defn node.
+  # Get the method name of defn node.
   #
   #     s(:defn, :show, s(:args), s(:scope, s(:block, s(:nil))))
   #         => :show
+  #
+  # @return [Symbol] method name of defn node
   def method_name
     if :defn == node_type
       self[1]
     end
   end
 
-  # return body of iter, class and defn node.
+  # Get body of iter, class and defn node.
   #
   #     s(:iter,
   #       s(:call, nil, :resources, s(:arglist, s(:lit, :posts))),
@@ -334,6 +381,8 @@ class Sexp
   #                )
   #              )
   #            )
+  #
+  # @return [Sexp] body of iter, class or defn node
   def body
     if :iter == node_type
       self[3]
@@ -344,7 +393,9 @@ class Sexp
     end
   end
 
-  # to_s for lvar, ivar, lit, const, array and hash.
+  # to_s for lvar, ivar, lit, const, array and hash node.
+  #
+  # @return [String] to_s
   def to_s
     if [:lvar, :ivar].include? node_type
       self[1].to_s

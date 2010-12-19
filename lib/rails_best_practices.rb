@@ -45,6 +45,8 @@ module RailsBestPractices
     attr_writer :runner
 
     # generate configuration yaml file.
+    #
+    # @param [String] path where to generate the configuration yaml file
     def generate(path)
       @path =  path || '.'
       FileUtils.cp DEFAULT_CONFIG, File.join(@path, 'config/rails_best_practices.yml')
@@ -59,9 +61,8 @@ module RailsBestPractices
     #
     # if there are violations to rails best practices, output them.
     #
-    # path is the root directory of rails project.
-    # options can be debug, exclude and so on,
-    #         see more info in command.rb.
+    # @param [String] path the directory of rails project
+    # @param [Hash] options
     def start(path, options)
       @path = path || '.'
       @options = options
@@ -88,7 +89,7 @@ module RailsBestPractices
     # get all files for the process, analyze each file,
     # and increment progress bar unless debug.
     #
-    # process is the process name, prepare or review.
+    # @param [String] process the process name, prepare or review.
     def process(process)
       files = send("#{process}_files")
       files.each do |file|
@@ -97,7 +98,9 @@ module RailsBestPractices
       end
     end
 
-    # return all files for prepare process.
+    # get all files for prepare process.
+    #
+    # @return [Array] all files for prepare process
     def prepare_files
       @prepare_files ||= begin
         files = []
@@ -108,7 +111,9 @@ module RailsBestPractices
       end
     end
 
-    # return all files for review process.
+    # get all files for review process.
+    #
+    # @return [Array] all files for review process
     def review_files
       @review_files ||= begin
         files = expand_dirs_to_files(@path)
@@ -127,6 +132,9 @@ module RailsBestPractices
     end
 
     # expand all files with extenstion rb, erb, haml and builder under the dirs
+    #
+    # @param [Array] dirs what directories to expand
+    # @return [Array] all files expanded
     def expand_dirs_to_files *dirs
       extensions = ['rb', 'erb', 'haml', 'builder']
 
@@ -144,6 +152,9 @@ module RailsBestPractices
     # sort files, models first, then mailers, and sort other files by characters.
     #
     # models and mailers first as for prepare process.
+    #
+    # @param [Array] files
+    # @return [Array] sorted files
     def file_sort files
       files.sort { |a, b|
         if a =~ Checks::Check::MODEL_FILES
@@ -161,6 +172,10 @@ module RailsBestPractices
     end
 
     # ignore specific files.
+    #
+    # @param [Array] files
+    # @param [Regexp] pattern files match the pattern will be ignored
+    # @return [Array] files that not match the pattern
     def file_ignore files, pattern
       files.reject { |file| file.index(pattern) }
     end

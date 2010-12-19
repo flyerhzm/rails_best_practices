@@ -17,10 +17,16 @@ module RailsBestPractices
       attr_reader :checks
       attr_accessor :debug
 
+      # set the base path.
+      #
+      # @parem [String] path the base path
       def self.base_path=(path)
         @base_path = path
       end
 
+      # get the base path, by default, the base path is current path.
+      #
+      # @return [String] the base path
       def self.base_path
         @base_path || "."
       end
@@ -54,7 +60,9 @@ module RailsBestPractices
         EOS
       end
 
-      # load all errors from checks.
+      # get all errors from checks.
+      #
+      # @return [Array] all errors from checks
       def errors
         @checks ||= []
         all_errors = @checks.collect {|check| check.errors}

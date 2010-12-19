@@ -3,6 +3,11 @@ rails_best_practices
 
 rails_best_practices is a code metric tool to check the quality of rails codes.
 
+Donate
+------
+
+<a href='http://www.pledgie.com/campaigns/12057'><img alt='Click here to lend your support to: rails-bestpractices.com and make a donation at www.pledgie.com !' src='http://www.pledgie.com/campaigns/12057.png?skin_name=chrome' border='0' /></a>
+
 Usage
 -----
 
