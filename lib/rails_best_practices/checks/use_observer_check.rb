@@ -34,7 +34,7 @@ module RailsBestPractices
       end
 
       def interesting_prepare_files
-        MAILER_FILES
+        /#{MAILER_FILES}|#{MODEL_FILES}/
       end
 
       def interesting_review_files
