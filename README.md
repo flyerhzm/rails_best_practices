@@ -92,6 +92,7 @@ Implementation
 --------------
 
 Move code from Controller to Model
+
 1. Move finder to named_scope (rails2 only)
 2. Use model association
 3. Use scope access
@@ -100,31 +101,37 @@ Move code from Controller to Model
 6. Move Model Logic into the Model
 
 RESTful Conventions
+
 1. Overuse route customizations
 2. Needless deep nesting
 3. Not use default route
 
 Model
+
 1. Keep Finders on Their Own Model (rails2 only)
 2. the Law of Demeter
 3. Use Observer
 4. Use Query Attribute
 
 Migration
+
 1. Isolating Seed Data
 2. Always add DB index
 3. Use Say with Time in Migrations
 
 Controller
+
 1. Use before_filter
 
 View
+
 1. Move code into controller
 2. Move code into model
 3. Move code into helper
 4. Replace instance variable with local variable
 
 Deployment
+
 1. Dry bundler in capistrano
 
 Contribute
