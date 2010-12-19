@@ -8,3 +8,5 @@ pkg/**
 .bundle
 Gemfile.lock
 rdoc/**
+doc/**
+.yardoc/**
