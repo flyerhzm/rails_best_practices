@@ -10,9 +10,7 @@ At the root directory of rails app
 
     rails_best_practices .
 
-notice the period at the end, it can be the relative or absolute path of your rails app.
-
-And default rails_best_practices will do parse codes in vendor, spec, test and features directories. If you need, see the command options:
+By default rails_best_practices will do parse codes in vendor, spec, test and features directories. If you need, see the command options:
 
     $ rails_best_practices -h
     Usage: rails_best_practices [options]
@@ -31,9 +29,14 @@ Resources
 ---------
 
 Homepage: <http://rails-bestpractices.com>
-Repository: <http://github.com/flyerhzm/rails_best_practices>
+
+Github: <http://github.com/flyerhzm/rails_best_practices>
+
+Google Group: <https://groups.google.com/group/rails_best_practices>
+
 Wiki: <http://github.com/flyerhzm/rails_best_practices/wiki>
-Issues: <http://github.com/flyerhzm/rails_best_practices/issues>
+
+Issue Tracker: <http://github.com/flyerhzm/rails_best_practices/issues>
 
 Install
 -------
@@ -52,7 +55,11 @@ Then give me the error stack and the source code of the file that rails_best_pra
 Customize Configuration
 -----------------------
 
-First run <code>rails_best_practices -g</code> to generate <code>rails_best_practices.yml</code> file.
+First run
+
+    rails_best_practices -g
+
+to generate <code>rails_best_practices.yml</code> file.
 
 Now you can customize this configuration file, the default configuration is as follows:
 
@@ -84,7 +91,7 @@ You can remove or comment one check to disable it, and you can change the option
 Implementation
 --------------
 
-* Move code from Controller to Model
+Move code from Controller to Model
 1. Move finder to named_scope (rails2 only)
 2. Use model association
 3. Use scope access
@@ -92,32 +99,32 @@ Implementation
 5. Replace Complex Creation with Factory Method
 6. Move Model Logic into the Model
 
-* RESTful Conventions
+RESTful Conventions
 1. Overuse route customizations
 2. Needless deep nesting
 3. Not use default route
 
-* Model
+Model
 1. Keep Finders on Their Own Model (rails2 only)
 2. the Law of Demeter
 3. Use Observer
 4. Use Query Attribute
 
-* Migration
+Migration
 1. Isolating Seed Data
 2. Always add DB index
 3. Use Say with Time in Migrations
 
-* Controller
+Controller
 1. Use before_filter
 
-* View
+View
 1. Move code into controller
 2. Move code into model
 3. Move code into helper
 4. Replace instance variable with local variable
 
-* Deployment
+Deployment
 1. Dry bundler in capistrano
 
 Contribute
@@ -129,6 +136,7 @@ Contact Us
 ----------
 
 Follow us on twitter: <http://twitter.com/railsbp>
+
 Send us email: <team@rails-bestpractices.com>
 
 
