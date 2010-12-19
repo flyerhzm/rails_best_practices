@@ -64,8 +64,10 @@ module RailsBestPractices
     #         see more info in command.rb.
     def start(path, options)
       @path = path || '.'
-      @runner = Core::Runner.new(@path)
-      @runner.debug = true if options['debug']
+      @options = options
+      Core::Runner.base_path = @path
+      @runner = Core::Runner.new
+      @runner.debug = true if @options['debug']
 
       if @runner.checks.find { |check| check.is_a? Checks::AlwaysAddDbIndexCheck } &&
          !review_files.find { |file| file.index "db\/schema.rb" }
@@ -73,8 +75,8 @@ module RailsBestPractices
       end
 
       @bar = ProgressBar.new('Analyzing', prepare_files.size + review_files.size)
-      process("prepare", options)
-      process("review", options)
+      process("prepare")
+      process("review")
       @bar.finish
 
       output_errors
@@ -87,38 +89,41 @@ module RailsBestPractices
     # and increment progress bar unless debug.
     #
     # process is the process name, prepare or review.
-    # options is the command options.
-    def process(process, options)
-      files = send("#{process}_files", @path, options)
+    def process(process)
+      files = send("#{process}_files")
       files.each do |file|
         @runner.send("#{process}_file", file)
-        @bar.inc unless @runner.debug
+        @bar.inc unless @options['debug']
       end
     end
 
     # return all files for prepare process.
-    def prepare_files(dir = '.', options = {})
-      files = []
-      ['models', 'mailers'].each do |name|
-        files += expand_dirs_to_files(File.join(dir, 'app', name))
+    def prepare_files
+      @prepare_files ||= begin
+        files = []
+        ['models', 'mailers'].each do |name|
+          files += expand_dirs_to_files(File.join(@path, 'app', name))
+        end
+        files
       end
-      files
     end
 
     # return all files for review process.
-    def review_files(dir = '.', options = {})
-      files = expand_dirs_to_files(dir)
-      files = file_sort(files)
-      ['vendor', 'spec', 'test', 'features'].each do |pattern|
-        files = file_ignore(files, "#{pattern}/") unless options[pattern]
-      end
+    def review_files
+      @review_files ||= begin
+        files = expand_dirs_to_files(@path)
+        files = file_sort(files)
+        ['vendor', 'spec', 'test', 'features'].each do |pattern|
+          files = file_ignore(files, "#{pattern}/") unless @options[pattern]
+        end
 
-      # Exclude files based on exclude regexes if the option is set.
-      for pattern in options[:exclude]
-        files = file_ignore(files, pattern)
-      end
+        # Exclude files based on exclude regexes if the option is set.
+        for pattern in @options[:exclude]
+          files = file_ignore(files, pattern)
+        end
 
-      files
+        files
+      end
     end
 
     # expand all files with extenstion rb, erb, haml and builder under the dirs

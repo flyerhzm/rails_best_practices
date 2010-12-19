@@ -17,8 +17,16 @@ module RailsBestPractices
       attr_reader :checks
       attr_accessor :debug
 
-      def initialize(path, *checks)
-        custom_config = File.join(path, 'config/rails_best_practices.yml')
+      def self.base_path=(path)
+        @base_path = path
+      end
+
+      def self.base_path
+        @base_path || "."
+      end
+
+      def initialize(*checks)
+        custom_config = File.join(Runner.base_path, 'config/rails_best_practices.yml')
         @config = File.exists?(custom_config) ? custom_config : RailsBestPractices::DEFAULT_CONFIG
         @checks = checks unless checks.empty?
         @checks ||= load_checks
