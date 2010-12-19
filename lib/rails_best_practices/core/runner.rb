@@ -15,7 +15,7 @@ module RailsBestPractices
     # 2. review process, it does real check, if the source code violates some best practices, the violations will be notified.
     class Runner
       attr_reader :checks
-      attr_writer :debug
+      attr_accessor :debug
 
       DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "..", "..", "rails_best_practices.yml")
       CUSTOM_CONFIG = File.join('config', 'rails_best_practices.yml')
