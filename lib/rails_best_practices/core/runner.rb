@@ -19,7 +19,7 @@ module RailsBestPractices
 
       # set the base path.
       #
-      # @parem [String] path the base path
+      # @param [String] path the base path
       def self.base_path=(path)
         @base_path = path
       end
