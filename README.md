@@ -39,6 +39,8 @@ Github: <http://github.com/flyerhzm/rails_best_practices>
 
 RDoc: <http://rdoc.info/github/flyerhzm/rails_best_practices/master/frames>
 
+Team Blog <http://rails-bestpractices.com/blog/posts>
+
 Google Group: <https://groups.google.com/group/rails_best_practices>
 
 Wiki: <http://github.com/flyerhzm/rails_best_practices/wiki>
@@ -148,6 +150,8 @@ If you want to add your rails best practices into the gem, please post your best
 
 Contact Us
 ----------
+
+We provide rails consulting services, you can contact us by twitter or email.
 
 Follow us on twitter: <http://twitter.com/railsbp>
 
