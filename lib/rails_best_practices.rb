@@ -107,7 +107,7 @@ module RailsBestPractices
         ['models', 'mailers'].each do |name|
           files += expand_dirs_to_files(File.join(@path, 'app', name))
         end
-        files
+        files.compact
       end
     end
 
@@ -127,7 +127,7 @@ module RailsBestPractices
           files = file_ignore(files, pattern)
         end
 
-        files
+        files.compact
       end
     end
 
