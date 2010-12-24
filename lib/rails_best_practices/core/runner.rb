@@ -55,7 +55,7 @@ module RailsBestPractices
           end                                                    # end
                                                                  #
           def #{process}_file(filename)                          # def review_file(filename)
-            #{process}(filename, File.read(filename))            #   review(filename, File.read(filename)
+            #{process}(filename, File.read(filename))            #   review(filename, File.read(filename))
           end                                                    # end
         EOS
       end
