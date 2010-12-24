@@ -29,7 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("haml", ["~> 3.0.18"])
   s.add_development_dependency("watchr", ["~> 0.6"])
 
-  s.extra_rdoc_files = ["MIT_LICENSE", "README.textile"]
-  s.files        = Dir.glob("lib/**/*") + %w(rails_best_practices.yml MIT_LICENSE README.textile)
+  s.extra_rdoc_files = ["MIT_LICENSE", "README.md"]
+  s.files        = Dir.glob("lib/**/*") + %w(rails_best_practices.yml MIT_LICENSE README.md)
   s.require_path = 'lib'
 end
