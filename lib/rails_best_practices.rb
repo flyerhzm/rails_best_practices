@@ -121,7 +121,7 @@ module RailsBestPractices
         end
 
         # Exclude files based on exclude regexes if the option is set.
-        for pattern in @options[:exclude]
+        @options[:exclude].each do |pattern|
           files = file_ignore(files, pattern)
         end
 
