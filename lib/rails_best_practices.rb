@@ -103,11 +103,9 @@ module RailsBestPractices
     # @return [Array] all files for prepare process
     def prepare_files
       @prepare_files ||= begin
-        files = []
-        ['models', 'mailers'].each do |name|
+        ['models', 'mailers'].inject([]) { |files, name|
           files += expand_dirs_to_files(File.join(@path, 'app', name))
-        end
-        files.compact
+        }.compact
       end
     end
 
