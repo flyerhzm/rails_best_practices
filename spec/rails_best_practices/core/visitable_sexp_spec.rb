@@ -250,5 +250,10 @@ describe Sexp do
       node = @parser.parse("{:first_name => 'Richard', :last_name => 'Huang'}")
       node.to_s.should == '{"first_name" => "Richard", "last_name" => "Huang"}'
     end
+
+    it "should get to_s for colon2" do
+      node = @parser.parse("RailsBestPractices::Core")
+      node.to_s.should == "RailsBestPracticesCore"
+    end
   end
 end
