@@ -415,6 +415,8 @@ class Sexp
         key_value = !key_value
       end
       result.join("").sub(/, "$/, '') + '}'
+    elsif :colon2 == node_type
+      self[1].to_s + self[2].to_s
     end
   end
 end
