@@ -62,21 +62,21 @@ module RailsBestPractices
         EOS
       end
 
-      # define all start and end process for each node type, like
+      # method_missing to catch all start and end process for each node type, like
       #
       #     prepare_start_defn
       #     prepare_end_defn
       #     review_start_call
       #     review_end_call
-      [:prepare, :review].each do |process|
-        NODE_TYPES.each do |node|
-          class_eval <<-EOS
-            def #{process}_start_#{node}(node)                    # def review_start_defn(node)
-            end                                                   # end
-                                                                  #
-            def #{process}_end_#{node}(node)                      # def review_end_defn(node)
-            end                                                   # end
-          EOS
+      #
+      # if there is a ""debug"" method defined in check, each node will be output.
+      def method_missing(method_name, *args)
+        if method_name.to_s =~ /^(prepare|review)_start_/
+          p args if respond_to?(:debug)
+        elsif method_name.to_s =~ /^(prepare|review)_end_/
+          # nothing to do
+        else
+          super
         end
       end
 
