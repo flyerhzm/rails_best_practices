@@ -253,7 +253,7 @@ describe Sexp do
 
     it "should get to_s for colon2" do
       node = @parser.parse("RailsBestPractices::Core")
-      node.to_s.should == "RailsBestPracticesCore"
+      node.to_s.should == "RailsBestPractices::Core"
     end
   end
 end
