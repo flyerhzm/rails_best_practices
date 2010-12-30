@@ -393,7 +393,7 @@ class Sexp
     end
   end
 
-  # to_s for lvar, ivar, lit, const, array and hash node.
+  # to_s for lvar, ivar, lit, const, array, hash, and colon2 node.
   #
   # @return [String] to_s
   def to_s
@@ -416,7 +416,9 @@ class Sexp
       end
       result.join("").sub(/, "$/, '') + '}'
     elsif :colon2 == node_type
-      self[1].to_s + self[2].to_s
+      "#{self[1]}::#{self[2]}"
+    else
+      ""
     end
   end
 end
