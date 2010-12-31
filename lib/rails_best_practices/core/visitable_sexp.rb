@@ -398,13 +398,7 @@ class Sexp
   # @return [String] to_s
   def to_s
     case node_type
-    when :lvar, :ivar
-      self[1].to_s
-    when :str
-      self[1]
-    when :lit
-      self[1].to_s
-    when :const
+    when :lvar, :ivar, :str, :lit, :const
       self[1].to_s
     when :array
       "[\"#{self.children.collect(&:to_s).join('", "')}\"]"
