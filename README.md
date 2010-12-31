@@ -15,6 +15,10 @@ At the root directory of rails app
 
     rails_best_practices .
 
+or html output
+
+    rails_best_practices -f html .
+
 By default rails_best_practices will do parse codes in vendor, spec, test and features directories. If you need, see the command options:
 
     $ rails_best_practices -h
