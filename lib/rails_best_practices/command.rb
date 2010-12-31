@@ -20,6 +20,10 @@ OptionParser.new do |opts|
     options['debug'] = true
   end
 
+  opts.on("-f", "--format FORMAT", "output format") do |format|
+    options['format'] = format
+  end
+
   ['vendor', 'spec', 'test', 'features'].each do |pattern|
     opts.on("--#{pattern}", "include #{pattern} files") do
       options[pattern] = true
