@@ -25,6 +25,7 @@
 require 'rubygems'
 require 'progressbar'
 require 'colored'
+require 'haml'
 require 'rails_best_practices/checks'
 require 'rails_best_practices/core'
 
@@ -80,7 +81,8 @@ module RailsBestPractices
       process("review")
       @bar.finish
 
-      output_errors
+      #output_terminal_errors
+      output_html_errors
       exit @runner.errors.size
     end
 
@@ -179,13 +181,21 @@ module RailsBestPractices
     end
 
     # output errors if exist.
-    def output_errors
+    def output_terminal_errors
       @runner.errors.each { |error| puts error.to_s.red }
       puts "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green
       if @runner.errors.empty?
         puts "\nNo error found. Cool!".green
       else
         puts "\nFound #{@runner.errors.size} errors.".red
+      end
+    end
+
+    def output_html_errors
+      template = File.read(File.join(File.dirname(__FILE__), "..", "assets", "result.html.haml"))
+
+      File.open("rails_best_practices_output.html", "w+") do |file|
+        file.puts Haml::Engine.new(template).render(Object.new, :errors => @runner.errors)
       end
     end
   end

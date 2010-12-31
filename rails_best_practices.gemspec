@@ -18,16 +18,16 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency("ruby_parser", ["~> 2.0.4"])
-  s.add_dependency("ruby-progressbar", ["~> 0.0.9"])
-  s.add_dependency("colored", ["~> 1.2"])
+  s.add_dependency("ruby_parser", "~> 2.0.4")
+  s.add_dependency("ruby-progressbar", "~> 0.0.9")
+  s.add_dependency("colored", "~> 1.2")
   s.add_dependency("erubis", "~> 2.6.6")
+  s.add_dependency("haml", "~> 3.0.18")
   s.add_dependency("i18n")
   s.add_dependency("activesupport")
 
-  s.add_development_dependency("rspec", ["~> 2.0.1"])
-  s.add_development_dependency("haml", ["~> 3.0.18"])
-  s.add_development_dependency("watchr", ["~> 0.6"])
+  s.add_development_dependency("rspec", "~> 2.0.1")
+  s.add_development_dependency("watchr", "~> 0.6")
 
   s.extra_rdoc_files = ["MIT_LICENSE", "README.md"]
   s.files        = Dir.glob("lib/**/*") + %w(rails_best_practices.yml MIT_LICENSE README.md)
