@@ -397,17 +397,18 @@ class Sexp
   #
   # @return [String] to_s
   def to_s
-    if [:lvar, :ivar].include? node_type
+    case node_type
+    when :lvar, :ivar
       self[1].to_s
-    elsif :str == node_type
+    when :str
       self[1]
-    elsif :lit == node_type
+    when :lit
       self[1].to_s
-    elsif :const == node_type
+    when :const
       self[1].to_s
-    elsif :array == node_type
+    when :array
       "[\"#{self.children.collect(&:to_s).join('", "')}\"]"
-    elsif :hash == node_type
+    when :hash
       key_value = false # false is key, true is value
       result = ['{"']
       children.each do |child|
@@ -415,7 +416,7 @@ class Sexp
         key_value = !key_value
       end
       result.join("").sub(/, "$/, '') + '}'
-    elsif :colon2 == node_type
+    when :colon2
       "#{self[1]}::#{self[2]}"
     else
       ""
