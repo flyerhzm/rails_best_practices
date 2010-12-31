@@ -81,8 +81,11 @@ module RailsBestPractices
       process("review")
       @bar.finish
 
-      #output_terminal_errors
-      output_html_errors
+      if @options['format'] == 'html'
+        output_html_errors
+      else
+        output_terminal_errors
+      end
       exit @runner.errors.size
     end
 
