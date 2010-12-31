@@ -3,6 +3,7 @@ require 'optparse'
 
 # Usage: rails_best_practices [options] path
 #     -d, --debug                      Debug mode
+#     -f, --format FORMAT              output format
 #         --vendor                     include vendor files
 #         --spec                       include spec files
 #         --test                       include test files
