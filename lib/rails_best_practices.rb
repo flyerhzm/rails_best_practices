@@ -185,12 +185,20 @@ module RailsBestPractices
 
     # output errors if exist.
     def output_terminal_errors
-      @runner.errors.each { |error| puts error.to_s.red }
-      puts "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green
+      @runner.errors.each { |error| plain_output(error.to_s, 'red') }
+      plain_output("\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.", 'green')
       if @runner.errors.empty?
-        puts "\nNo error found. Cool!".green
+        plain_output("\nNo error found. Cool!", 'green')
       else
-        puts "\nFound #{@runner.errors.size} errors.".red
+        plain_output("\nFound #{@runner.errors.size} errors.", 'red')
+      end
+    end
+
+    def plain_output(message, color)
+      if @options["without-colorful"]
+        puts message
+      else
+        puts message.send(color)
       end
     end
 
