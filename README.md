@@ -25,6 +25,7 @@ By default rails_best_practices will do parse codes in vendor, spec, test and fe
     Usage: rails_best_practices [options]
         -d, --debug                      Debug mode
         -f, --format FORMAT              output format
+            --without-color              only output plain text without color
             --vendor                     include vendor files
             --spec                       include spec files
             --test                       include test files

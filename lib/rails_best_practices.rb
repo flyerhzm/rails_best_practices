@@ -195,7 +195,7 @@ module RailsBestPractices
     end
 
     def plain_output(message, color)
-      if @options["without-colorful"]
+      if @options["without-color"]
         puts message
       else
         puts message.send(color)
