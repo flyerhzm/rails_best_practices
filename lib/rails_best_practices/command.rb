@@ -25,8 +25,8 @@ OptionParser.new do |opts|
     options['format'] = format
   end
 
-  opts.on("--without-colorful", "only output plain text without colorful") do
-    options["without-colorful"] = true
+  opts.on("--without-color", "only output plain text without color") do
+    options["without-color"] = true
   end
 
   ['vendor', 'spec', 'test', 'features'].each do |pattern|
