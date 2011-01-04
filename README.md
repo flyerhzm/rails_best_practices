@@ -164,4 +164,4 @@ Follow us on twitter: <http://twitter.com/railsbp>
 Send us email: <team@rails-bestpractices.com>
 
 
-Copyright © 2010 Richard Huang (flyerhzm@gmail.com), released under the MIT license
+Copyright © 2009 - 2011 Richard Huang (flyerhzm@gmail.com), released under the MIT license
