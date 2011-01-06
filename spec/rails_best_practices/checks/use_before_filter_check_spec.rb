@@ -82,4 +82,24 @@ describe RailsBestPractices::Checks::UseBeforeFilterCheck do
     errors = @runner.errors
     errors.should be_empty
   end
+
+  it "should not use before_filter for protected/private methods" do
+    content =<<-EOF
+    class PostsController < ApplicationController
+      protected
+        def load_comments
+          load_post
+          @comments = @post.comments
+        end
+
+        def load_user
+          load_post
+          @user = @post.user
+        end
+    end
+    EOF
+    @runner.review('app/controllers/posts_controller.rb', content)
+    errors = @runner.errors
+    errors.should be_empty
+  end
 end

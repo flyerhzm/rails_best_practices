@@ -17,6 +17,8 @@ module RailsBestPractices
     #   if they are duplicated, then they should be moved to before_filter.
     class UseBeforeFilterCheck < Check
 
+      PROTECTED_PRIVATE_CALLS = [[:call, nil, :protected, [:arglist]], [:call, nil, :private, [:arglist]]]
+
       def interesting_review_nodes
         [:class]
       end
@@ -27,7 +29,7 @@ module RailsBestPractices
 
       # check class define node to see if there are method define nodes whose first code line are duplicated in review process.
       #
-      # it will every defn nodes in the class node,
+      # it will check every defn nodes in the class node until protected or private identification,
       # if there are defn nodes who have the same first code line, like
       #
       #     s(:class, :PostsController, s(:const, :ApplicationController),
@@ -70,7 +72,11 @@ module RailsBestPractices
       # then these duplicated first code lines should be moved to before_filter.
       def review_start_class(class_node)
         @first_sentences = {}
-        class_node.grep_nodes({:node_type => :defn}) { |defn_node| remember_first_sentence(defn_node) }
+
+        class_node.body.children.each do |child_node|
+          break if PROTECTED_PRIVATE_CALLS.include? child_node
+          remember_first_sentence(child_node) if :defn == child_node.node_type
+        end
         @first_sentences.each do |first_sentence, defn_nodes|
           if defn_nodes.size > 1
             add_error "use before_filter for #{defn_nodes.collect(&:method_name).join(',')}", class_node.file, defn_nodes.collect(&:line).join(',')
