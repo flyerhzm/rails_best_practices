@@ -16,6 +16,9 @@ module RailsBestPractices
     #   check all instance variable in partial view files,
     #   if exist, then they should be replaced with local variable
     class ReplaceInstanceVariableWithLocalVariableCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/27-replace-instance-variable-with-local-variable"
+      end
 
       def interesting_review_nodes
         [:ivar]

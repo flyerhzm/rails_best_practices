@@ -24,6 +24,9 @@ module RailsBestPractices
     #   and there is a mailer deliver call,
     #   then the method should be replaced by using observer.
     class UseObserverCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/19-use-observer"
+      end
 
       def interesting_prepare_nodes
         [:class]

@@ -19,6 +19,9 @@ module RailsBestPractices
     #   and after them there is a call node with message :save or :save!,
     #   then these attribute assignments are complex creation, should be replaced with factory method.
     class ReplaceComplexCreationWithFactoryMethodCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/6-replace-complex-creation-with-factory-method"
+      end
 
       def interesting_review_nodes
         [:defn]

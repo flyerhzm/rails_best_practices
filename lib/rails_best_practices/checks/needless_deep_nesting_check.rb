@@ -30,6 +30,9 @@ module RailsBestPractices
     #   and the @counter is greater than @nested_count defined,
     #   then it is a needless deep nesting.
     class NeedlessDeepNestingCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/11-needless-deep-nesting"
+      end
 
       def interesting_review_nodes
         [:call, :iter]

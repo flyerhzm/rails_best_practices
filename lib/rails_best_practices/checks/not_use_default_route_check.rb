@@ -22,6 +22,9 @@ module RailsBestPractices
     #
     #     match ':controller(/:action(/:id(.:format)))'
     class NotUseDefaultRouteCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/12-not-use-default-route-if-you-use-restful-design"
+      end
 
       def interesting_review_nodes
         [:call]

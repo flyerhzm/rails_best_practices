@@ -17,6 +17,9 @@ module RailsBestPractices
     #   and the subject is a local variable or instance variable,
     #   then they should be moved into model.
     class MoveCodeIntoModelCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/25-move-code-into-model"
+      end
 
       def interesting_review_nodes
         [:if]

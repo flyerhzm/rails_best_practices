@@ -18,6 +18,10 @@ module RailsBestPractices
 
       FINDERS = [:find, :all, :first, :last]
 
+      def url
+        "http://rails-bestpractices.com/posts/24-move-code-into-controller"
+      end
+
       def interesting_review_nodes
         [:call]
       end

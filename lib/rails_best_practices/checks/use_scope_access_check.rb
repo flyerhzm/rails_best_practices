@@ -19,6 +19,9 @@ module RailsBestPractices
     #   and there is redirect_to method call in if block body,
     #   then it should be replaced by using scope access.
     class UseScopeAccessCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/3-use-scope-access"
+      end
 
       def interesting_review_nodes
         [:if]

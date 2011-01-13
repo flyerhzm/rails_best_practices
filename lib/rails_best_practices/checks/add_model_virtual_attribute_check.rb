@@ -27,6 +27,9 @@ module RailsBestPractices
     #
     #   then the model needs to add a virtual attribute.
     class AddModelVirtualAttributeCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/4-add-model-virtual-attribute"
+      end
 
       def interesting_review_nodes
         [:defn]

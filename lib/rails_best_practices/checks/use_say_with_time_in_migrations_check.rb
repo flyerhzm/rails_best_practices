@@ -22,6 +22,9 @@ module RailsBestPractices
       DEFAULT_MIGRATION_METHODS = [:add_column, :add_index, :add_timestamps, :change_column, :change_column_default, :change_table, :create_table, :drop_table, :remove_column, :remove_index, :remove_timestamps, :rename_column, :rename_index, :rename_table]
       WITH_SAY_METHODS = DEFAULT_MIGRATION_METHODS + [:say, :say_with_time]
 
+      def url
+        "http://rails-bestpractices.com/posts/46-use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log"
+      end
 
       def interesting_review_nodes
         [:defs]
