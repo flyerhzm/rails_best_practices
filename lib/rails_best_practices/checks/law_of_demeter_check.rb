@@ -22,6 +22,10 @@ module RailsBestPractices
 
       prepare_model_associations
 
+      def url
+        "http://rails-bestpractices.com/posts/15-the-law-of-demeter"
+      end
+
       def interesting_review_nodes
         [:call]
       end

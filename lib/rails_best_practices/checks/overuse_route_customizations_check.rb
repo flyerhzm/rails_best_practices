@@ -34,6 +34,10 @@ module RailsBestPractices
 
       VERBS = [:get, :post, :update, :delete]
 
+      def url
+        "http://rails-bestpractices.com/posts/10-overuse-route-customizations"
+      end
+
       def interesting_review_nodes
         [:call, :iter]
       end

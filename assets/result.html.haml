@@ -35,7 +35,10 @@
       }
   %body
     %h1 rails_best_practices output
-    %h2 Please go to <a href="http://rails-bestpractices.com">http://rails-bestpractices.com</a> to see more useful Rails Best Practices.
+    %h2
+      Please go to
+      %a{:href=>"http://rails-bestpractices.com", :target=>"_blank"} http://rails-bestpractices.com
+      to see more useful Rails Best Practices.
     %h2
       - if errors.empty?
         No error found. Cool!
@@ -50,4 +53,5 @@
         %tr
           %td.filename= error.filename
           %td.line-number= error.line_number
-          %td.message= error.message
+          %td.message
+            %a{:href=>"#{error.url}", :target=>"_blank"}= error.message

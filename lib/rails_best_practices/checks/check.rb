@@ -137,7 +137,7 @@ module RailsBestPractices
       #   file is the filename of source code
       #   line is the line number of the source code which is reviewing
       def add_error(error, file = @node.file, line = @node.line)
-        @errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error)
+        @errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error, url)
       end
 
       # remember use count for the local or instance variable in the call or attrasgn node.

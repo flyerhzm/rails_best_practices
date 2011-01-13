@@ -18,6 +18,9 @@ module RailsBestPractices
     #   and the subject is a local variable or an instance variable,
     #   then they are complex model logic, and they should be moved into model.
     class MoveModelLogicIntoModelCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/7-move-model-logic-into-the-model"
+      end
 
       def interesting_review_nodes
         [:defn]

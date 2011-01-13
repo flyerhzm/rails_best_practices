@@ -19,6 +19,10 @@ module RailsBestPractices
 
       PROTECTED_PRIVATE_CALLS = [[:call, nil, :protected, [:arglist]], [:call, nil, :private, [:arglist]]]
 
+      def url
+        "http://rails-bestpractices.com/posts/22-use-before_filter"
+      end
+
       def interesting_review_nodes
         [:class]
       end

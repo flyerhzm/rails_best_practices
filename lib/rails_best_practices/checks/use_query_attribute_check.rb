@@ -26,6 +26,10 @@ module RailsBestPractices
 
       prepare_model_associations
 
+      def url
+        "http://rails-bestpractices.com/posts/56-use-query-attribute"
+      end
+
       def interesting_review_nodes
         [:if]
       end

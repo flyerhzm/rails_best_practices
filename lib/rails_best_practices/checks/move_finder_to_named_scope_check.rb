@@ -21,6 +21,10 @@ module RailsBestPractices
 
       FINDER = [:find, :all, :first, :last]
 
+      def url
+        "http://rails-bestpractices.com/posts/1-move-finder-to-named_scope"
+      end
+
       def interesting_review_nodes
         [:call]
       end

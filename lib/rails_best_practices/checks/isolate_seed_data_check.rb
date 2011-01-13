@@ -24,6 +24,9 @@ module RailsBestPractices
     #   and the subject is included in new variables,
     #   then it should be isolated to db seed.
     class IsolateSeedDataCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/20-isolating-seed-data"
+      end
 
       def interesting_review_nodes
         [:call, :lasgn, :iasgn]

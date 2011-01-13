@@ -23,6 +23,10 @@ module RailsBestPractices
 
       FINDERS = [:find, :all, :first, :last]
 
+      def url
+        "http://rails-bestpractices.com/posts/13-keep-finders-on-their-own-model"
+      end
+
       def interesting_review_nodes
         [:call]
       end

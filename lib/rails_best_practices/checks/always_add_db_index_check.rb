@@ -27,6 +27,9 @@ module RailsBestPractices
     #   if there are any foreign keys not existed in index columns,
     #   then the foreign keys should add db index.
     class AlwaysAddDbIndexCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/21-always-add-db-index"
+      end
 
       def interesting_review_nodes
         [:call, :iter]

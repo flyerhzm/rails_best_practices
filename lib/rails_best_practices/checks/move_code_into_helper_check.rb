@@ -22,6 +22,9 @@ module RailsBestPractices
     #   and the size of the array is greater than array_count defined,
     #   then the options_for_select method should be moved into helper.
     class MoveCodeIntoHelperCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/26-move-code-into-helper"
+      end
 
       def interesting_review_nodes
         [:call]

@@ -18,6 +18,9 @@ module RailsBestPractices
     #   if the message of call node is :namespace and the arguments of the call node is :bundler,
     #   then it should use bundler's capistrano recipe.
     class DryBundlerInCapistranoCheck < Check
+      def url
+        "http://rails-bestpractices.com/posts/51-dry-bundler-in-capistrano"
+      end
 
       def interesting_review_nodes
         [:call]
