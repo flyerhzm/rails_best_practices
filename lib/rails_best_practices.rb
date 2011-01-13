@@ -28,6 +28,7 @@ require 'colored'
 require 'haml'
 require 'rails_best_practices/checks'
 require 'rails_best_practices/core'
+require 'fileutils'
 
 # RailsBestPractices helps you to analyze your rails code, according to best practices on http://rails-bestpractices.
 # if it finds any violatioins to best practices, it will give you some readable suggestions.
