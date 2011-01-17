@@ -15,7 +15,7 @@ module RailsBestPractices
     # 2. review process, it does real check, if the source code violates some best practices, the violations will be notified.
     class Runner
       attr_reader :checks
-      attr_accessor :debug
+      attr_accessor :debug, :color
 
       # set the base path.
       #
@@ -78,7 +78,11 @@ module RailsBestPractices
           begin
             RubyParser.new.parse(content, filename)
           rescue Exception => e
-            puts "#{filename} looks like it's not a valid Ruby file.  Skipping...".red if @debug
+            if @debug
+              warning = "#{filename} looks like it's not a valid Ruby file.  Skipping..."
+              warning = warning.red if self.color
+              puts warning
+            end
             nil
           end
         end

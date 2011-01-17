@@ -71,10 +71,11 @@ module RailsBestPractices
       Core::Runner.base_path = @path
       @runner = Core::Runner.new
       @runner.debug = true if @options['debug']
+      @runner.color = !options['without-color']
 
       if @runner.checks.find { |check| check.is_a? Checks::AlwaysAddDbIndexCheck } &&
          !review_files.find { |file| file.index "db\/schema.rb" }
-        puts "AlwaysAddDbIndexCheck is disabled as there is no db/schema.rb file in your rails project.".blue
+        plain_output("AlwaysAddDbIndexCheck is disabled as there is no db/schema.rb file in your rails project.", 'blue')
       end
 
       @bar = ProgressBar.new('Analyzing', prepare_files.size + review_files.size)
