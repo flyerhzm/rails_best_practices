@@ -92,7 +92,7 @@ module RailsBestPractices
         # filename is the filename of the erb or haml code.
         # content is the source code of erb or haml file.
         def parse_erb_or_haml(filename, content)
-          if filename =~ /.*\.erb$/
+          if filename =~ /.*\.erb|.*\.rhtml$/
             content = Erubis::Eruby.new(content).src
           elsif filename =~ /.*\.haml$/
             begin
