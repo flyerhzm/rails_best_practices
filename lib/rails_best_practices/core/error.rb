@@ -7,7 +7,7 @@ module RailsBestPractices
     class Error
       attr_reader :filename, :line_number, :message, :url
 
-      def initialize(filename, line_number, message, url)
+      def initialize(filename, line_number, message, url = nil)
         @filename = filename
         @line_number = line_number
         @message = message
