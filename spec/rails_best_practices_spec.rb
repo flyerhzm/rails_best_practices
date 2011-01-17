@@ -26,7 +26,7 @@ describe RailsBestPractices do
     end
   end
 
-  describe "output_errors" do
+  describe "output_terminal_errors" do
     check1 = RailsBestPractices::Checks::LawOfDemeterCheck.new
     check2 = RailsBestPractices::Checks::UseQueryAttributeCheck.new
     runner = RailsBestPractices::Core::Runner.new(check1, check2)
@@ -36,7 +36,7 @@ describe RailsBestPractices do
 
     $origin_stdout = $stdout
     $stdout = StringIO.new
-    RailsBestPractices.output_errors
+    RailsBestPractices.output_terminal_errors
     result = $stdout.string
     $stdout = $origin_stdout
     result.should == ["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 errors.".red].join("\n") + "\n"
