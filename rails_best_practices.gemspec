@@ -35,7 +35,7 @@ Gem::Specification.new do |s|
 
   rails_best_practices is a code metric tool to check the quality of rails codes.
 
-  I highly recommend you go through the Rails Best Practices website first.
+  I highly recommend you browse the Rails Best Practices website first.
 
       http://rails-bestpractices.com
 
