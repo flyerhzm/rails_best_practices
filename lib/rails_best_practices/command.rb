@@ -29,6 +29,10 @@ OptionParser.new do |opts|
     options["without-color"] = true
   end
 
+  opts.on("--with-textmate", "open file by textmate in html format") do
+    options["with-textmate"] = true
+  end
+
   ['vendor', 'spec', 'test', 'features'].each do |pattern|
     opts.on("--#{pattern}", "include #{pattern} files") do
       options[pattern] = true
