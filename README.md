@@ -26,6 +26,7 @@ By default rails_best_practices will do parse codes in vendor, spec, test and fe
         -d, --debug                      Debug mode
         -f, --format FORMAT              output format
             --without-color              only output plain text without color
+            --with-textmate              open file by textmate in html format
             --vendor                     include vendor files
             --spec                       include spec files
             --test                       include test files
@@ -74,7 +75,7 @@ First run
 
     rails_best_practices -g
 
-to generate <code>rails_best_practices.yml</code> file.
+to generate `rails_best_practices.yml` file.
 
 Now you can customize this configuration file, the default configuration is as follows:
 
