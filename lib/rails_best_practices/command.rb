@@ -2,17 +2,19 @@
 require 'optparse'
 
 # Usage: rails_best_practices [options] path
-#     -d, --debug                      Debug mode
-#     -f, --format FORMAT              output format
-#         --vendor                     include vendor files
-#         --spec                       include spec files
-#         --test                       include test files
-#         --features                   include features files
-#     -x, --exclude PATTERNS           Don't analyze files matching a pattern
-#                                      (comma-separated regexp list)
-#     -g, --generate                   Generate configuration yaml
-#     -v, --version                    Show this version
-#     -h, --help                       Show this message
+#    -d, --debug                      Debug mode
+#    -f, --format FORMAT              output format
+#        --without-color              only output plain text without color
+#        --with-textmate              open file by textmate in html format
+#        --vendor                     include vendor files
+#        --spec                       include spec files
+#        --test                       include test files
+#        --features                   include features files
+#    -x, --exclude PATTERNS           Don't analyze files matching a pattern
+#                                     (comma-separated regexp list)
+#    -g, --generate                   Generate configuration yaml
+#    -v, --version                    Show this version
+#    -h, --help                       Show this message
 options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: rails_best_practices [options] path"
