@@ -62,6 +62,10 @@ Install
 Issue
 -----
 
+If you install the rails_best_practices with bundler-installed github-sourced gem, please use the following command instead.
+
+    bundle exec rails_best_practices .
+
 If you got NoMethodError or any syntax error, you should use debug mode to detect which file rails_best_practices is parsing and getting the error.
 
     rails_best_practices -d .
