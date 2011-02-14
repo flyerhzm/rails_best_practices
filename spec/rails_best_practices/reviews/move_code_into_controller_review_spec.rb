@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::MoveCodeIntoControllerReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::MoveCodeIntoControllerReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::MoveCodeIntoControllerReview.new) }
 
   it "should move code into controller" do
     content = <<-EOF
@@ -13,10 +11,9 @@ describe RailsBestPractices::Reviews::MoveCodeIntoControllerReview do
       <%=h post.content %>
     <% end %>
     EOF
-    @runner.review('app/views/posts/index.html.erb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/views/posts/index.html.erb:1 - move code into controller"
+    runner.review('app/views/posts/index.html.erb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/views/posts/index.html.erb:1 - move code into controller"
   end
 
   it "should not move code into controller" do
@@ -26,8 +23,7 @@ describe RailsBestPractices::Reviews::MoveCodeIntoControllerReview do
       <%=h post.content %>
     <% end %>
     EOF
-    @runner.review('app/views/posts/index.html.erb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/views/posts/index.html.erb', content)
+    runner.should have(0).errors
   end
 end

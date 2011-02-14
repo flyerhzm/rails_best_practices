@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodReview.new) }
 
   it "should replace complex creation with factory method" do
     content = <<-EOF
@@ -25,10 +23,9 @@ describe RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodRev
       end
     end
     EOF
-    @runner.review('app/controllers/invoices_controller.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/controllers/invoices_controller.rb:3 - replace complex creation with factory method (@invoice attribute_assignment_count > 2)"
+    runner.review('app/controllers/invoices_controller.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/controllers/invoices_controller.rb:3 - replace complex creation with factory method (@invoice attribute_assignment_count > 2)"
   end
 
   it "should not replace complex creation with factory method with simple creation" do
@@ -43,9 +40,8 @@ describe RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodRev
       end
     end
     EOF
-    @runner.review('app/controllers/invoices_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/invoices_controller.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not replace complex creation with factory method when attrasgn_count is 5" do
@@ -68,9 +64,8 @@ describe RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodRev
       end
     end
     EOF
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodReview.new('attribute_assignment_count' => 5))
-    @runner.review('app/controllers/invoices_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodReview.new('attribute_assignment_count' => 5))
+    runner.review('app/controllers/invoices_controller.rb', content)
+    runner.should have(0).errors
   end
 end

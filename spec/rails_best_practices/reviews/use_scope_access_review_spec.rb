@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::UseScopeAccessReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::UseScopeAccessReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::UseScopeAccessReview.new) }
 
   context "if" do
     it "shoud use scope access" do
@@ -20,10 +18,9 @@ describe RailsBestPractices::Reviews::UseScopeAccessReview do
         end
       end
       EOF
-      @runner.review('app/controllers/posts_controller.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
     end
 
     it "shoud use scope access by comparing with id" do
@@ -40,10 +37,9 @@ describe RailsBestPractices::Reviews::UseScopeAccessReview do
         end
       end
       EOF
-      @runner.review('app/controllers/posts_controller.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
     end
 
     it "shoud use scope access with current_user ==" do
@@ -60,10 +56,9 @@ describe RailsBestPractices::Reviews::UseScopeAccessReview do
         end
       end
       EOF
-      @runner.review('app/controllers/posts_controller.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
     end
 
     it "shoud use scope access by current_user.id ==" do
@@ -80,10 +75,9 @@ describe RailsBestPractices::Reviews::UseScopeAccessReview do
         end
       end
       EOF
-      @runner.review('app/controllers/posts_controller.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:7 - use scope access"
     end
   end
 
@@ -102,10 +96,9 @@ describe RailsBestPractices::Reviews::UseScopeAccessReview do
         end
       end
       EOF
-      @runner.review('app/controllers/posts_controller.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
     end
 
     it "shoud use scope access by comparing with id" do
@@ -122,10 +115,9 @@ describe RailsBestPractices::Reviews::UseScopeAccessReview do
         end
       end
       EOF
-      @runner.review('app/controllers/posts_controller.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
     end
 
     it "shoud use scope access with current_user ==" do
@@ -142,10 +134,9 @@ describe RailsBestPractices::Reviews::UseScopeAccessReview do
         end
       end
       EOF
-      @runner.review('app/controllers/posts_controller.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
     end
 
     it "shoud use scope access by current_user.id ==" do
@@ -162,10 +153,9 @@ describe RailsBestPractices::Reviews::UseScopeAccessReview do
         end
       end
       EOF
-      @runner.review('app/controllers/posts_controller.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
     end
 
     it "should no error in use_scope_access_review" do
@@ -187,7 +177,8 @@ describe RailsBestPractices::Reviews::UseScopeAccessReview do
         end
       end
       EOF
-      @runner.review('app/controllers/comments_controller.rb', content)
+      runner.review('app/controllers/comments_controller.rb', content)
+      runner.should have(0).errors
     end
   end
 end

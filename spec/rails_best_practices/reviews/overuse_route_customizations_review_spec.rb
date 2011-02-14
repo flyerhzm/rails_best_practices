@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::OveruseRouteCustomizationsReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::OveruseRouteCustomizationsReview.new) }
 
   describe "rails2" do
     it "should overuse route customizations" do
@@ -15,10 +13,9 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
                                            :delete_comment => :delete }
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
+      runner.review('config/routes.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
     end
 
     it "should overuse route customizations with collection" do
@@ -30,10 +27,9 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
                               :collection => { :comments => :get }
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
+      runner.review('config/routes.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
     end
 
     it "should overuse route customizations with collection 2" do
@@ -47,10 +43,9 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
         end
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "config/routes.rb:3 - overuse route customizations (customize_count > 3)"
+      runner.review('config/routes.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "config/routes.rb:3 - overuse route customizations (customize_count > 3)"
     end
 
     it "should not overuse route customizations without customization" do
@@ -59,9 +54,8 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
         map.resources :posts
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('config/routes.rb', content)
+      runner.should have(0).errors
     end
 
     it "should not overuse route customizations when customize route is only one" do
@@ -70,9 +64,8 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
         map.resources :posts, :member => { :vote => :post }
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('config/routes.rb', content)
+      runner.should have(0).errors
     end
 
     it "should not raise error for constants in routes" do
@@ -84,9 +77,8 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
         end
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('config/routes.rb', content)
+      runner.should have(0).errors
     end
   end
 
@@ -107,10 +99,9 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
         end
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
+      runner.review('config/routes.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
     end
 
     it "should overuse route customizations another way" do
@@ -124,10 +115,9 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
         end
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
+      runner.review('config/routes.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
     end
 
     it "should not overuse route customizations without customization" do
@@ -136,9 +126,8 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
         resources :posts
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('config/routes.rb', content)
+      runner.should have(0).errors
     end
 
     it "should not overuse route customizations when customize route is only one" do
@@ -151,9 +140,8 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
         end
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('config/routes.rb', content)
+      runner.should have(0).errors
     end
   end
 end

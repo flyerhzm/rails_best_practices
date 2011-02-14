@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::IsolateSeedDataReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::IsolateSeedDataReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::IsolateSeedDataReview.new) }
 
   context "create" do
     it "should isolate seed data" do
@@ -24,11 +22,9 @@ describe RailsBestPractices::Reviews::IsolateSeedDataReview do
         end
       end
       EOF
-      @runner.review('db/migrate/20090818130258_create_roles.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:8 - isolate seed data"
-      errors.size.should == 1
+      runner.review('db/migrate/20090818130258_create_roles.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:8 - isolate seed data"
     end
   end
 
@@ -52,10 +48,9 @@ describe RailsBestPractices::Reviews::IsolateSeedDataReview do
         end
       end
       EOF
-      @runner.review('db/migrate/20090818130258_create_roles.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:9 - isolate seed data"
+      runner.review('db/migrate/20090818130258_create_roles.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:9 - isolate seed data"
     end
 
     it "should isolate seed data for instance variable" do
@@ -77,10 +72,9 @@ describe RailsBestPractices::Reviews::IsolateSeedDataReview do
         end
       end
       EOF
-      @runner.review('db/migrate/20090818130258_create_roles.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:9 - isolate seed data"
+      runner.review('db/migrate/20090818130258_create_roles.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:9 - isolate seed data"
     end
   end
 
@@ -98,8 +92,7 @@ describe RailsBestPractices::Reviews::IsolateSeedDataReview do
       end
     end
     EOF
-    @runner.review('db/migrate/20090818130258_create_roles.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('db/migrate/20090818130258_create_roles.rb', content)
+    runner.should have(0).errors
   end
 end
