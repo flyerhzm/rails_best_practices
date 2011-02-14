@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency("i18n")
   s.add_dependency("activesupport")
 
+  s.add_development_dependency("rake")
   s.add_development_dependency("rspec", "~> 2.4.0")
   s.add_development_dependency("watchr", "~> 0.6")
   s.add_development_dependency("bundler", ">= 1.0.0")
