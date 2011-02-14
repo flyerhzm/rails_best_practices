@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   Review method define nodes in all controller files,
+    #   check method define nodes in all controller files,
     #   if there are more than one [] method calls with the same subject and arguments,
     #   but assigned to one model's different attribute.
     #   and after these method calls, there is a save method call for that model, like
@@ -28,17 +28,17 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/4-add-model-virtual-attribute"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:defn]
       end
 
-      def interesting_review_files
+      def interesting_files
         CONTROLLER_FILES
       end
 
-      # rewiew method define nodes to see if there are some attribute assignments that can use model virtual attribute instead in review process.
+      # check method define nodes to see if there are some attribute assignments that can use model virtual attribute instead in review process.
       #
-      # it will review every attribute assignment nodes and call node of message :save or :save!, if
+      # it will check every attribute assignment nodes and call node of message :save or :save!, if
       #
       # 1. there are more than one arguments who contain call node with messages :[] in attribute assignment nodes, e.g.
       #     @user.first_name = params[:full_name].split(' ').first
@@ -50,7 +50,7 @@ module RailsBestPractices
       # 5. and the subject of save or save! call node should be the same with the subject of attribute assignment nodes
       #
       # then the attribute assignment nodes can add model virtual attribute instead.
-      def review_start_defn(node)
+      def start_defn(node)
         @attrasgns = {}
         node.recursive_children do |child|
           case child.node_type
@@ -64,7 +64,7 @@ module RailsBestPractices
       end
 
       private
-        # review an attribute assignment node, if there is a :[] message of call node in the attribute assignment node,
+        # check an attribute assignment node, if there is a :[] message of call node in the attribute assignment node,
         # then remember this attribute assignment.
         #
         #     s(:attrasgn, s(:ivar, :@user), :first_name=,
@@ -98,7 +98,7 @@ module RailsBestPractices
           @attrasgns[subject] << {:message => node.message, :arguments => arguments_node}
         end
 
-        # review a call node with message :save or :save!,
+        # check a call node with message :save or :save!,
         # if there exists an attribute assignment for the subject of this call node,
         # and if the arguments of this attribute assignments has duplicated entries (different message and same arguments),
         # then this node needs to add a virtual attribute.

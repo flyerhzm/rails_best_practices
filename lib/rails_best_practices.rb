@@ -26,6 +26,7 @@ require 'rubygems'
 require 'progressbar'
 require 'colored'
 require 'haml'
+require 'rails_best_practices/prepares'
 require 'rails_best_practices/reviews'
 require 'rails_best_practices/core'
 require 'fileutils'
@@ -162,13 +163,13 @@ module RailsBestPractices
     # @return [Array] sorted files
     def file_sort files
       files.sort { |a, b|
-        if a =~ Reviews::Review::MODEL_FILES
+        if a =~ Core::Check::MODEL_FILES
           -1
-        elsif b =~ Reviews::Review::MODEL_FILES
+        elsif b =~ Core::Check::MODEL_FILES
           1
-        elsif a =~ Reviews::Review::MAILER_FILES
+        elsif a =~ Core::Check::MAILER_FILES
           -1
-        elsif b =~ Reviews::Review::MAILER_FILES
+        elsif b =~ Core::Check::MAILER_FILES
           1
         else
           a <=> b

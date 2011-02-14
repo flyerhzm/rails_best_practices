@@ -12,15 +12,15 @@ module RailsBestPractices
     # Review process:
     #   chech all iter nodes in route file.
     #
-    #   it is a recursively review in :iter node,
+    #   it is a recursively check in :iter node,
     #
     #   if it is a :iter node,
     #   increment @counter at the beginning of resources,
     #   decrement @counter at the end of resrouces,
-    #   recursively review nodes in iter's block body.
+    #   recursively check nodes in iter's block body.
     #
     #   if it is a :block node,
-    #   then recursively review all child nodes in block node.
+    #   then recursively check all child nodes in block node.
     #
     #   if it is a :call node,
     #   and the message of the node is :resources or :resource,
@@ -31,11 +31,11 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/11-needless-deep-nesting"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:call, :iter]
       end
 
-      def interesting_review_files
+      def interesting_files
         ROUTE_FILE
       end
 
@@ -45,9 +45,9 @@ module RailsBestPractices
         @nested_count = options['nested_count'] || 2
       end
 
-      # review all iter node in review process.
+      # check all iter node.
       #
-      # It is a recursively review,
+      # It is a recursively check,
       #
       # if it is a :iter node, like
       #
@@ -56,7 +56,7 @@ module RailsBestPractices
       #     end
       # increment @counter at the beginning of resources,
       # decrement @counter at the end of iter resources,
-      # recursively review the block body.
+      # recursively check the block body.
       #
       # if it is a :block node, like
       #
@@ -65,7 +65,7 @@ module RailsBestPractices
       #       resources :votes
       #     end
       #
-      # just recursively review each child node in block node.
+      # just recursively check each child node in block node.
       #
       # if it is a :call node with message :resources or :resource, like
       #
@@ -73,12 +73,12 @@ module RailsBestPractices
       #
       # test if the @counter is greater than or equal to @nested_count,
       # if so, it is a needless deep nesting.
-      def review_start_iter(node)
-        recursively_review(node)
+      def start_iter(node)
+        recursively_check(node)
       end
 
       private
-        # review nested route.
+        # check nested route.
         #
         # if the node type is :iter,
         # and the subject of the node is with message :resources or :resource, like
@@ -93,7 +93,7 @@ module RailsBestPractices
         #       )
         #     )
         #
-        # then increment the @counter, recursively review the block body, and decrement the @counter.
+        # then increment the @counter, recursively check the block body, and decrement the @counter.
         #
         # if the node type is :block, it is the block body of :iter node, like
         #
@@ -102,23 +102,23 @@ module RailsBestPractices
         #       s(:call, nil, :resources, s(:arglist, s(:lit, :votes)))
         #     )
         #
-        # then review the each child node in the block.
+        # then check the each child node in the block.
         #
         # if the node type is :call,
         # and the message of node is :resources or :resource, like
         #
         #     s(:call, nil, :resources, s(:arglist, s(:lit, :comments)))
         #
-        # then review if @counter is greater than or equal to @nested_count,
+        # then check if @counter is greater than or equal to @nested_count,
         # if so, it is the needless deep nesting.
-        def recursively_review(node)
+        def recursively_check(node)
           if :iter == node.node_type && :resources == node.subject.message
             @counter += 1
-            recursively_review(node.body)
+            recursively_check(node.body)
             @counter -= 1
           elsif :block == node.node_type
             node.children.each do |child_node|
-              recursively_review(child_node)
+              recursively_check(child_node)
             end
           elsif :call == node.node_type && [:resources, :resource].include?(node.message)
             add_error "needless deep nesting (nested_count > #{@nested_count})", node.file, node.line if @counter >= @nested_count

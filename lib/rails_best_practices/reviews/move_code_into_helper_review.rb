@@ -12,7 +12,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   review al method calls to see if there is a complex options_for_select helper.
+    #   check al method calls to see if there is a complex options_for_select helper.
     #
     #   if the message of the call node is options_for_select,
     #   and the first argument of the call node is array,
@@ -23,11 +23,11 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/26-move-code-into-helper"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:call]
       end
 
-      def interesting_review_files
+      def interesting_files
         VIEW_FILES
       end
 
@@ -36,17 +36,17 @@ module RailsBestPractices
         @array_count = options['array_count'] || 3
       end
 
-      # review call node with message options_for_select (sorry we only review options_for_select helper now).
+      # check call node with message options_for_select (sorry we only check options_for_select helper now).
       #
       # if the first argument of options_for_select method call is an array,
       # and the size of the array is more than @array_count defined,
       # then the options_for_select helper should be moved into helper.
-      def review_start_call(node)
+      def start_call(node)
         add_error "move code into helper (array_count >= #{@array_count})" if complex_select_options?(node)
       end
 
       private
-        # review if the arguments of options_for_select are complex.
+        # check if the arguments of options_for_select are complex.
       #
       # if the first argument is an array,
       # and the size of array is greater than @array_count you defined,

@@ -225,6 +225,11 @@ describe Sexp do
       node.to_s.should == "@user"
     end
 
+    it "should get to_s for ivar with remove_at" do
+      node = @parser.parse("@user")
+      node.to_s(:remove_at => true).should == "user"
+    end
+
     it "should get to_s for str" do
       node = @parser.parse("'user'")
       node.to_s.should == "user"

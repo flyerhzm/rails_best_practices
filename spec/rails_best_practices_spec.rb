@@ -29,7 +29,7 @@ describe RailsBestPractices do
   describe "output_terminal_errors" do
     check1 = RailsBestPractices::Reviews::LawOfDemeterReview.new
     check2 = RailsBestPractices::Reviews::UseQueryAttributeReview.new
-    runner = RailsBestPractices::Core::Runner.new(check1, check2)
+    runner = RailsBestPractices::Core::Runner.new(:reviews => [check1, check2])
     check1.add_error "law of demeter", "app/models/user.rb", 10
     check2.add_error "use query attribute", "app/models/post.rb", 100
     RailsBestPractices.runner = runner

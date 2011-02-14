@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::DryBundlerInCapistranoReview do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::DryBundlerInCapistranoReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::DryBundlerInCapistranoReview.new)
   end
 
   it "should dry bundler in capistrno" do

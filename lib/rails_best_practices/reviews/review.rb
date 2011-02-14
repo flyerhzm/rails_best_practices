@@ -1,132 +1,16 @@
 # encoding: utf-8
+require 'rails_best_practices/core/check'
 require 'rails_best_practices/core/error'
 
 module RailsBestPractices
   module Reviews
     # A Review class that takes charge of reviewing one rails best practice.
-    class Review
-      # only nodes whose node_type is in NODE_TYPE will be reviewed.
-      NODE_TYPES = [:call, :defn, :defs, :if, :class, :lasgn, :iasgn, :ivar, :lvar, :block, :iter, :const]
-
-      CONTROLLER_FILES = /_controller\.rb$/
-      MIGRATION_FILES = /db\/migrate\/.*\.rb$/
-      MODEL_FILES = /models\/.*\.rb$/
-      MAILER_FILES = /models\/.*\.rb$|mailers\/.*\.rb/
-      VIEW_FILES = /views\/.*\.(erb|haml)$/
-      PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)$/
-      ROUTE_FILE = /config\/routes.rb/
-
+    class Review < Core::Check
       attr_reader :errors
 
       def initialize
+        super
         @errors = []
-      end
-
-      # define default interesting_prepare_nodes, interesting_review_nodes, interesting_prepare_files and interesting_review_files.
-      [:prepare, :review].each do |process|
-        class_eval <<-EOS
-          def interesting_#{process}_nodes                        # def interesting_review_nodes
-            []                                                    #   []
-          end                                                     # end
-                                                                  #
-          def interesting_#{process}_files                        # def interesting_review_files
-            /.*/                                                  #   /.*/
-          end                                                     # end
-        EOS
-      end
-
-      # define method prepare_node_start, prepare_node_end, review_node_start and review_node_end.
-      #
-      # they delegate the node to special process method, like
-      #
-      #     review_node_start(call_node) => review_start_call(call_node)
-      #     review_node_end(defn_node) => review_end_defn(defn_node)
-      #     prepare_node_start(calss_node) => prepare_start_class(class_node)
-      #     prepare_node_end(if_node) => prepare_end_if(if_node)
-      [:prepare, :review].each do |process|
-        class_eval <<-EOS
-          def #{process}_node_start(node)                         # def review_node_start(node)
-            @node = node                                          #   @node = node
-            method = "#{process}_start_" + node.node_type.to_s    #   method = "review_start_" + node.node_type.to_s
-            self.send(method, node)                               #   self.send(method, node)
-          end                                                     # end
-                                                                  #
-          def #{process}_node_end(node)                           # def review_node_end(node)
-            @node = node                                          #   @node = node
-            method = "#{process}_end_" + node.node_type.to_s      #   method = "review_end_" + node.node_type.to_s
-            self.send(method, node)                               #   self.send(method, node)
-          end                                                     # end
-        EOS
-      end
-
-      # method_missing to catch all start and end process for each node type, like
-      #
-      #     prepare_start_defn
-      #     prepare_end_defn
-      #     review_start_call
-      #     review_end_call
-      #
-      # if there is a ""debug"" method defined in check, each node will be output.
-      def method_missing(method_name, *args)
-        if method_name.to_s =~ /^(prepare|review)_start_/
-          p args if respond_to?(:debug)
-        elsif method_name.to_s =~ /^(prepare|review)_end_/
-          # nothing to do
-        else
-          super
-        end
-      end
-
-      # remember the model names and model associations in prepare process.
-      def self.prepare_model_associations
-        class_eval <<-EOS
-          def initialize
-            super
-            @klazzes = []
-            @associations = {}
-          end
-
-          def interesting_prepare_nodes
-            [:class, :call]
-          end
-
-          def interesting_prepare_files
-            MODEL_FILES
-          end
-
-          # check class node to remember all class name in prepare process.
-          #
-          # the remembered class names (@klazzes) are like
-          #     [ :User, :Post ]
-          def prepare_start_class(node)
-            remember_klazz(node)
-          end
-
-          # check call node to remember all assoication names in prepare process.
-          #
-          # the remembered association names (@associations) are like
-          #     { :User => [":projects", ":location"], :Post => [":comments"] }
-          def prepare_start_call(node)
-            remember_association(node) if association_methods.include? node.message
-          end
-
-          # remember class models, just the subject of class node.
-          def remember_klazz(class_node)
-            @klazzes << class_node.class_name
-          end
-
-          # remember associations, with class to association names.
-          def remember_association(association_node)
-            @associations[@klazzes.last] ||= []
-            @associations[@klazzes.last] << association_node.arguments[1].to_s
-          end
-
-          # default rails association methods.
-          def association_methods
-            [:belongs_to, :has_one, :has_many, :has_and_belongs_to_many]
-          end
-
-        EOS
       end
 
       # add error if source code violates rails best practice.
@@ -187,7 +71,15 @@ module RailsBestPractices
         end
       end
 
+      # get the model associations from Prepares.
+      #
+      # @return [Hash]
+      def model_associations
+        @model_associations ||= Prepares.model_associations
+      end
+
       # compare two sexp nodes' to_s.
+      #
       #     equal?(":test", :test) => true
       #     equai?("@test", :test) => true
       def equal?(node, expected_node)

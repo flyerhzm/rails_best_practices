@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::NotUseDefaultRouteReview do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::NotUseDefaultRouteReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::NotUseDefaultRouteReview.new)
   end
 
   describe "rails2" do

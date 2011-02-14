@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::MoveFinderToNamedScopeReview do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::MoveFinderToNamedScopeReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::MoveFinderToNamedScopeReview.new)
   end
 
   it "should move finder to named_scope" do

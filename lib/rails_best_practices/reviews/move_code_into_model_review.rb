@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   review if there are multiple method calls or attribute assignments apply to one subject,
+    #   check if there are multiple method calls or attribute assignments apply to one subject,
     #   and the subject is a local variable or instance variable,
     #   then they should be moved into model.
     class MoveCodeIntoModelReview < Review
@@ -18,11 +18,11 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/25-move-code-into-model"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:if]
       end
 
-      def interesting_review_files
+      def interesting_files
         VIEW_FILES
       end
 
@@ -31,14 +31,14 @@ module RailsBestPractices
         @use_count = options['use_count'] || 2
       end
 
-      # review if node to see whose conditional statementnodes contain multiple call nodes with same subject who is a local variable or instance variable.
+      # check if node to see whose conditional statementnodes contain multiple call nodes with same subject who is a local variable or instance variable.
       #
-      # it will review every call and attrasgn nodes in the conditional statement nodes.
+      # it will check every call and attrasgn nodes in the conditional statement nodes.
       #
       # if there are multiple call and attrasgn nodes who have the same subject,
       # and the subject is a local variable or an instance variable,
       # then the conditional statement nodes should be moved into model.
-      def review_start_if(node)
+      def start_if(node)
         node.conditional_statement.grep_nodes(:node_type => [:call, :attrasgn]) { |child_node| remember_variable_use_count(child_node) }
 
         variable_use_count.each do |variable_node, count|

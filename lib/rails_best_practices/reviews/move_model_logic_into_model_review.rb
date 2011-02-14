@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   review all method defines in the controller files,
+    #   check all method defines in the controller files,
     #   if there are multiple method calls or attribute assignments apply to one subject,
     #   and the subject is a local variable or an instance variable,
     #   then they are complex model logic, and they should be moved into model.
@@ -19,11 +19,11 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/7-move-model-logic-into-the-model"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:defn]
       end
 
-      def interesting_review_files
+      def interesting_files
         CONTROLLER_FILES
       end
 
@@ -32,13 +32,13 @@ module RailsBestPractices
         @use_count = options['use_count'] || 4
       end
 
-      # review method define node to see if there are multiple method calls and attribute assignments (more than @use_count defined) on one local variable or instance varialbe in review process.
+      # check method define node to see if there are multiple method calls and attribute assignments (more than @use_count defined) on one local variable or instance varialbe.
       #
-      # it will review every call and attrasgn nodes,
+      # it will check every call and attrasgn nodes,
       # if there are multiple call and attrasgn nodes who have the same subject,
       # and the subject is a local variable or an instance variable,
       # then these method calls and attribute assignments should be moved into model.
-      def review_start_defn(node)
+      def start_defn(node)
         node.grep_nodes(:node_type => [:call, :attrasgn]) do |child_node|
           remember_variable_use_count(child_node)
         end

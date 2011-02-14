@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::MoveCodeIntoControllerReview do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::MoveCodeIntoControllerReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::MoveCodeIntoControllerReview.new)
   end
 
   it "should move code into controller" do

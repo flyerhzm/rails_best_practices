@@ -31,12 +31,19 @@ module RailsBestPractices
         @base_path || "."
       end
 
-      def initialize(*checks)
+      # initialize the runner.
+      #
+      # @param [Hash] options pass the prepares and reviews.
+      def initialize(options={})
         custom_config = File.join(Runner.base_path, 'config/rails_best_practices.yml')
         @config = File.exists?(custom_config) ? custom_config : RailsBestPractices::DEFAULT_CONFIG
-        @checks = checks unless checks.empty?
-        @checks ||= load_checks
-        @checker ||= CheckingVisitor.new(@checks)
+
+        prepares = Array(options[:prepares])
+        reviews = Array(options[:reviews])
+        @prepares = prepares.empty? ? load_prepares : prepares
+        @reviews = reviews.empty? ? load_reviews : reviews
+
+        @checker ||= CheckingVisitor.new(@prepares, @reviews)
         @debug = false
       end
 
@@ -60,13 +67,11 @@ module RailsBestPractices
         EOS
       end
 
-      # get all errors from checks.
+      # get all errors from reviews.
       #
-      # @return [Array] all errors from checks
+      # @return [Array] all errors from reviews
       def errors
-        @checks ||= []
-        all_errors = @checks.collect {|check| check.errors}
-        all_errors.flatten
+        @reviews.collect {|review| review.errors}.flatten
       end
 
       private
@@ -106,8 +111,13 @@ module RailsBestPractices
           content
         end
 
-        # load all checks according to configuration.
-        def load_checks
+        # load all prepares.
+        def load_prepares
+          [RailsBestPractices::Prepares::ModelPrepare.new, RailsBestPractices::Prepares::MailerPrepare.new]
+        end
+
+        # load all reviews according to configuration.
+        def load_reviews
           check_objects = []
           checks = YAML.load_file @config
           checks.each do |check|

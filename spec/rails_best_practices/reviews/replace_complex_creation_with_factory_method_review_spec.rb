@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodReview do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodReview.new)
   end
 
   it "should replace complex creation with factory method" do
@@ -68,7 +68,7 @@ describe RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodRev
       end
     end
     EOF
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodReview.new('attribute_assignment_count' => 5))
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::ReplaceComplexCreationWithFactoryMethodReview.new('attribute_assignment_count' => 5))
     @runner.review('app/controllers/invoices_controller.rb', content)
     errors = @runner.errors
     errors.should be_empty

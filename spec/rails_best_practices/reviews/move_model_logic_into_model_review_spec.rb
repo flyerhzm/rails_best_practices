@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::MoveModelLogicIntoModelReview do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::MoveModelLogicIntoModelReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::MoveModelLogicIntoModelReview.new)
   end
 
   it "should move model logic into model" do

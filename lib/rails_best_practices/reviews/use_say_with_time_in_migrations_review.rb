@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   review class method define nodes (self.up or self.down).
+    #   check class method define nodes (self.up or self.down).
     #   if there is a method call in the class method definition,
     #   and the message of method call is not say, say_with_time and default migration methods (such as add_column and create_table),
     #   then the method call should be wrapped by say or say_with_time.
@@ -23,17 +23,17 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/46-use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:defs]
       end
 
-      def interesting_review_files
+      def interesting_files
         MIGRATION_FILES
       end
 
-      # review a class method define node to see if there are method calls that need to be wrapped by :say or :say_with_time in review process.
+      # check a class method define node to see if there are method calls that need to be wrapped by :say or :say_with_time.
       #
-      # it will review the first block node,
+      # it will check the first block node,
       # if any method call whose message is not default migration methods in the block node, like
       #
       #     s(:defs, s(:self), :up, s(:args),
@@ -64,7 +64,7 @@ module RailsBestPractices
       #     )
       #
       # then such method call should be wrapped by say or say_with_time
-      def review_start_defs(node)
+      def start_defs(node)
         block_node = node.grep_node(:node_type => :block)
         block_node.children.each do |child_node|
           if :iter == child_node.node_type

@@ -10,12 +10,12 @@ module RailsBestPractices
     # Implementation:
     #
     # Prepare process:
-    #   only review all model files to save model names and association names,
+    #   only check all model files to save model names and association names,
     #   model names are saved as only when subject of call method is equal to one of the model name, then the call method may use query attribute instead,
     #   association names are saved as association attributes should not be detected as query attributes.
     #
     # Review process:
-    #   review all method calls within conditional statements, like @user.login.nil?
+    #   check all method calls within conditional statements, like @user.login.nil?
     #   if their subjects are one of the model names
     #   and their messages of first call are not pluralize and not in any of the association names
     #   and their messages of second call are one of nil?, blank?, present?, or they are == ""
@@ -24,19 +24,17 @@ module RailsBestPractices
 
       QUERY_METHODS = [:nil?, :blank?, :present?]
 
-      prepare_model_associations
-
       def url
         "http://rails-bestpractices.com/posts/56-use-query-attribute"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:if]
       end
 
-      # review if node to see whose conditional statement nodes contain nodes that can use query attribute instead in review process.
+      # check if node to see whose conditional statement nodes contain nodes that can use query attribute instead.
       #
-      # it will review every call nodes in the if nodes. If the call node is
+      # it will check every call nodes in the if nodes. If the call node is
       #
       # 1. two method calls, like @user.login.nil?
       # 2. the subject is one of the model names
@@ -46,7 +44,7 @@ module RailsBestPractices
       #    the message is == and the argument is ""
       #
       # then the call node can use query attribute instead.
-      def review_start_if(node)
+      def start_if(node)
         if node = query_attribute_node(node.conditional_statement)
           subject_node = node.subject
           add_error "use query attribute (#{subject_node.subject}.#{subject_node.message}?)", node.file, node.line
@@ -54,7 +52,7 @@ module RailsBestPractices
       end
 
       private
-        # recursively review conditional statement nodes to see if there is a call node that may be possible query attribute.
+        # recursively check conditional statement nodes to see if there is a call node that may be possible query attribute.
         def query_attribute_node(conditional_statement_node)
           case conditional_statement_node.node_type
           when :and, :or
@@ -67,7 +65,7 @@ module RailsBestPractices
           nil
         end
 
-        # review if the node may use query attribute instead.
+        # check if the node may use query attribute instead.
         #
         # if the node contains two method calls, e.g. @user.login.nil?
         #
@@ -87,31 +85,36 @@ module RailsBestPractices
           subject = node.subject.subject
           message = node.subject.message
 
-          [:arglist] == node.subject.arguments && class_attribute?(subject, message) && !pluralize?(message.to_s) &&
-            (QUERY_METHODS.include?(node.message) || compare_with_empty_string?(node))
+          [:arglist] == node.subject.arguments && is_model?(subject) && !model_association?(subject, message) &&
+            !pluralize?(message.to_s) && (QUERY_METHODS.include?(node.message) || compare_with_empty_string?(node))
         end
 
-        # review if the subject and message is one of the model's attribute.
-        # the subject should match one of the class model name, and the message should not match any of association name.
+        def is_model?(subject)
+          return false if :const == subject.node_type
+          class_name = subject.to_s(:remove_at => true).classify
+          !model_associations[class_name].nil?
+        end
+
+        # check if the subject and message is one of the model's aassociation.
+        # the subject should match one of the class model name, and the message should match one of association name.
         #
         #     subject, subject of call node, like
         #         s(:ivar, @user)
         #
         #     message, message of call node, like
         #         :login
-        def class_attribute?(subject, message)
-          @klazzes.find do |klazz|
-            subject.to_s =~ %r|#{klazz.to_s.underscore}| && !@associations[klazz].find { |association| equal?(association, message) }
-          end
+        def model_association?(subject, message)
+          class_name = subject.to_s(:remove_at => true).classify
+          !model_associations[class_name][message.to_s].nil?
         end
 
 
-        # review if the str is a pluralize string.
+        # check if the str is a pluralize string.
         def pluralize?(str)
           str.pluralize == str
         end
 
-        # review if the node is with node type :call, node message :== and node arguments {:arglist, (:str, "")}
+        # check if the node is with node type :call, node message :== and node arguments {:arglist, (:str, "")}
         #
         #     @user.login == "" => true
         def compare_with_empty_string?(node)

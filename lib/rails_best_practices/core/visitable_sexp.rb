@@ -395,10 +395,14 @@ class Sexp
 
   # to_s for lvar, ivar, lit, const, array, hash, and colon2 node.
   #
+  # @param [Hash] options
+  #   :remove_at remove the @ symbol for ivar.
   # @return [String] to_s
-  def to_s
+  def to_s(options={})
     case node_type
-    when :lvar, :ivar, :str, :lit, :const
+    when :ivar
+      options[:remove_at] ? self[1].to_s[1..-1] : self[1].to_s
+    when :lvar, :str, :lit, :const
       self[1].to_s
     when :array
       "[\"#{self.children.collect(&:to_s).join('", "')}\"]"

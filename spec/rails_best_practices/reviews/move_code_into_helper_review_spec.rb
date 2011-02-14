@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::MoveCodeIntoHelperReview do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::MoveCodeIntoHelperReview.new('array_count' => 2))
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::MoveCodeIntoHelperReview.new('array_count' => 2))
   end
 
   it "should move code into helper" do

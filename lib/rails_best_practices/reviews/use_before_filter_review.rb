@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   review all first code line in method definitions (actions),
+    #   check all first code line in method definitions (actions),
     #   if they are duplicated, then they should be moved to before_filter.
     class UseBeforeFilterReview < Review
 
@@ -20,17 +20,17 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/22-use-before_filter"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:class]
       end
 
-      def interesting_review_files
+      def interesting_files
         CONTROLLER_FILES
       end
 
-      # review class define node to see if there are method define nodes whose first code line are duplicated in review process.
+      # check class define node to see if there are method define nodes whose first code line are duplicated.
       #
-      # it will review every defn nodes in the class node until protected or private identification,
+      # it will check every defn nodes in the class node until protected or private identification,
       # if there are defn nodes who have the same first code line, like
       #
       #     s(:class, :PostsController, s(:const, :ApplicationController),
@@ -71,7 +71,7 @@ module RailsBestPractices
       #     )
       #
       # then these duplicated first code lines should be moved to before_filter.
-      def review_start_class(class_node)
+      def start_class(class_node)
         @first_sentences = {}
 
         class_node.body.children.each do |child_node|
@@ -86,7 +86,7 @@ module RailsBestPractices
       end
 
       private
-        # review method define node, and remember the first sentence.
+        # check method define node, and remember the first sentence.
         # first sentence may be :iasgn, :lasgn, :attrasgn, :call node, like
         #
         #     s(:defn, :show, s(:args),

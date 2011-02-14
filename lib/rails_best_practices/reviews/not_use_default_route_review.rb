@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   review all method call to see if any method call is the same as rails default route.
+    #   check all method call to see if any method call is the same as rails default route.
     #
     #     map.connect ':controller/:action/:id'
     #     map.connect ':controller/:action/:id.:format'
@@ -23,15 +23,15 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/12-not-use-default-route-if-you-use-restful-design"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:call]
       end
 
-      def interesting_review_files
+      def interesting_files
         ROUTE_FILE
       end
 
-      # review all method calls, it just compare with rails default route
+      # check all method calls, it just compare with rails default route
       #
       # rails2
       #
@@ -47,7 +47,7 @@ module RailsBestPractices
       #     s(:call, nil, :match,
       #       s(:arglist, s(:str, ":controller(/:action(/:id(.:format)))"))
       #     )
-      def review_start_call(node)
+      def start_call(node)
         if s(:call, s(:lvar, :map), :connect, s(:arglist, s(:str, ":controller/:action/:id"))) == node ||
            s(:call, s(:lvar, :map), :connect, s(:arglist, s(:str, ":controller/:action/:id.:format"))) == node ||
            s(:call, nil, :match, s(:arglist, s(:str, ":controller(/:action(/:id(.:format)))"))) == node
