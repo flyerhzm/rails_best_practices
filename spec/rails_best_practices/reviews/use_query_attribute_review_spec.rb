@@ -178,4 +178,13 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
     runner.review('app/models/users_controller.rb', content)
     runner.should have(0).errors
   end
+
+  it "should not raise error for common conditional statement" do
+    content = <<-EOF
+    if voteable.is_a? Answer
+      puts voteable.title
+    end
+    EOF
+    lambda { runner.review('app/models/users_controller.rb', content) }.should_not raise_error
+  end
 end

@@ -83,6 +83,7 @@ module RailsBestPractices
         def possible_query_attribute?(node)
           return false unless :call == node.subject.node_type
           subject = node.subject.subject
+          return false unless subject
           message = node.subject.message
 
           [:arglist] == node.subject.arguments && is_model?(subject) && !model_association?(subject, message) &&
