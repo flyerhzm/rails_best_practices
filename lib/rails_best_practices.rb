@@ -26,7 +26,7 @@ require 'rubygems'
 require 'progressbar'
 require 'colored'
 require 'haml'
-require 'rails_best_practices/checks'
+require 'rails_best_practices/reviews'
 require 'rails_best_practices/core'
 require 'fileutils'
 
@@ -73,9 +73,9 @@ module RailsBestPractices
       @runner.debug = true if @options['debug']
       @runner.color = !options['without-color']
 
-      if @runner.checks.find { |check| check.is_a? Checks::AlwaysAddDbIndexCheck } &&
+      if @runner.checks.find { |check| check.is_a? Reviews::AlwaysAddDbIndexReview } &&
          !review_files.find { |file| file.index "db\/schema.rb" }
-        plain_output("AlwaysAddDbIndexCheck is disabled as there is no db/schema.rb file in your rails project.", 'blue')
+        plain_output("AlwaysAddDbIndexReview is disabled as there is no db/schema.rb file in your rails project.", 'blue')
       end
 
       @bar = ProgressBar.new('Analyzing', prepare_files.size + review_files.size)
@@ -162,13 +162,13 @@ module RailsBestPractices
     # @return [Array] sorted files
     def file_sort files
       files.sort { |a, b|
-        if a =~ Checks::Check::MODEL_FILES
+        if a =~ Reviews::Review::MODEL_FILES
           -1
-        elsif b =~ Checks::Check::MODEL_FILES
+        elsif b =~ Reviews::Review::MODEL_FILES
           1
-        elsif a =~ Checks::Check::MAILER_FILES
+        elsif a =~ Reviews::Review::MAILER_FILES
           -1
-        elsif b =~ Checks::Check::MAILER_FILES
+        elsif b =~ Reviews::Review::MAILER_FILES
           1
         else
           a <=> b

@@ -111,7 +111,7 @@ module RailsBestPractices
           check_objects = []
           checks = YAML.load_file @config
           checks.each do |check|
-            klass = RailsBestPractices::Checks.const_get(check[0])
+            klass = RailsBestPractices::Reviews.const_get(check[0].gsub(/Check/, 'Review'))
             check_objects << (check[1].empty? ? klass.new : klass.new(check[1]))
           end
           check_objects
