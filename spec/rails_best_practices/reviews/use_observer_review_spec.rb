@@ -1,17 +1,19 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::UseObserverReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(
+  let(:runner) {
+    RailsBestPractices::Core::Runner.new(
       :prepares => RailsBestPractices::Prepares::MailerPrepare.new,
       :reviews => RailsBestPractices::Reviews::UseObserverReview.new
     )
+  }
 
+  before :each do
     content =<<-EOF
     class ProjectMailer < ActionMailer::Base
     end
     EOF
-    @runner.prepare('app/models/project_mailer.rb', content)
+    runner.prepare('app/models/project_mailer.rb', content)
   end
 
   describe "rails2" do
@@ -29,10 +31,9 @@ describe RailsBestPractices::Reviews::UseObserverReview do
         end
       end
       EOF
-      @runner.review('app/models/project.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/models/project.rb:6 - use observer"
+      runner.review('app/models/project.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/models/project.rb:6 - use observer"
     end
 
     it "should not use observer without callback" do
@@ -47,9 +48,8 @@ describe RailsBestPractices::Reviews::UseObserverReview do
         end
       end
       EOF
-      @runner.review('app/models/project.rb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('app/models/project.rb', content)
+      runner.should have(0).errors
     end
 
     it "should use observer with two after_create" do
@@ -69,10 +69,9 @@ describe RailsBestPractices::Reviews::UseObserverReview do
         end
       end
       EOF
-      @runner.review('app/models/project.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/models/project.rb:6 - use observer"
+      runner.review('app/models/project.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/models/project.rb:6 - use observer"
     end
 
     it "should not raise when initiate an object in callback" do
@@ -81,7 +80,7 @@ describe RailsBestPractices::Reviews::UseObserverReview do
         after_create ProjectMailer.new
       end
       EOF
-      lambda { @runner.review('app/models/project.rb', content) }.should_not raise_error
+      lambda { runner.review('app/models/project.rb', content) }.should_not raise_error
     end
   end
 
@@ -100,10 +99,9 @@ describe RailsBestPractices::Reviews::UseObserverReview do
         end
       end
       EOF
-      @runner.review('app/models/project.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/models/project.rb:6 - use observer"
+      runner.review('app/models/project.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/models/project.rb:6 - use observer"
     end
 
     it "should not use observer without callback" do
@@ -118,9 +116,8 @@ describe RailsBestPractices::Reviews::UseObserverReview do
         end
       end
       EOF
-      @runner.review('app/models/project.rb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('app/models/project.rb', content)
+      runner.should have(0).errors
     end
 
     it "should use observer with two after_create" do
@@ -140,10 +137,9 @@ describe RailsBestPractices::Reviews::UseObserverReview do
         end
       end
       EOF
-      @runner.review('app/models/project.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/models/project.rb:6 - use observer"
+      runner.review('app/models/project.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/models/project.rb:6 - use observer"
     end
 
     it "should not raise when initiate an object in callback" do
@@ -152,7 +148,7 @@ describe RailsBestPractices::Reviews::UseObserverReview do
         after_create ProjectMailer.new
       end
       EOF
-      lambda { @runner.review('app/models/project.rb', content) }.should_not raise_error
+      lambda { runner.review('app/models/project.rb', content) }.should_not raise_error
     end
   end
 end

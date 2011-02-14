@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::DryBundlerInCapistranoReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::DryBundlerInCapistranoReview.new)
-  end
+  let(:runner) { runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::DryBundlerInCapistranoReview.new) }
 
   it "should dry bundler in capistrno" do
     content = <<-EOF
@@ -22,18 +20,16 @@ describe RailsBestPractices::Reviews::DryBundlerInCapistranoReview do
 
     after 'deploy:update_code', 'bundler:bundle_new_release'
     EOF
-    @runner.review('config/deploy.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "config/deploy.rb:1 - dry bundler in capistrano"
+    runner.review('config/deploy.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "config/deploy.rb:1 - dry bundler in capistrano"
   end
 
   it "should not dry bundler in capistrano" do
     content = <<-EOF
       require 'bundler/capistrano'
     EOF
-    @runner.review('config/deploy.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('config/deploy.rb', content)
+    runner.should have(0).errors
   end
 end

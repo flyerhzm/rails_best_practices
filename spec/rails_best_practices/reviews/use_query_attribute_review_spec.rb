@@ -1,13 +1,14 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::UseQueryAttributeReview do
-
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(
+  let(:runner) {
+    RailsBestPractices::Core::Runner.new(
       :prepares => RailsBestPractices::Prepares::ModelPrepare.new,
       :reviews => RailsBestPractices::Reviews::UseQueryAttributeReview.new
     )
+  }
 
+  before :each do
     content = <<-EOF
     class User < ActiveRecord::Base
       has_many :projects
@@ -17,7 +18,7 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
     end
     EOF
-    @runner.prepare('app/models/user.rb', content)
+    runner.prepare('app/models/user.rb', content)
   end
 
   it "should use query attribute by blank call" do
@@ -26,10 +27,9 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       <%= link_to 'login', new_session_path %>
     <% end %>
     EOF
-    @runner.review('app/views/users/show.html.erb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should use query attribute by comparing empty string" do
@@ -38,10 +38,9 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       <%= link_to 'login', new_session_path %>
     <% end %>
     EOF
-    @runner.review('app/views/users/show.html.erb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should use query attribute by nil call" do
@@ -50,10 +49,9 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       <%= link_to 'login', new_session_path %>
     <% end %>
     EOF
-    @runner.review('app/views/users/show.html.erb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should use query attribute by present call" do
@@ -62,10 +60,9 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       <%= @user.login %>
     <% end %>
     EOF
-    @runner.review('app/views/users/show.html.erb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should use query attribute within and conditions" do
@@ -74,10 +71,9 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       <%= @user.login %>
     <% end %>
     EOF
-    @runner.review('app/views/users/show.html.erb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should use query attribute within or conditions" do
@@ -86,10 +82,9 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       <%= @user.login %>
     <% end %>
     EOF
-    @runner.review('app/views/users/show.html.erb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
   end
 
   it "should not use query attribute" do
@@ -98,9 +93,8 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       <%= @user.login %>
     <% end %>
     EOF
-    @runner.review('app/views/users/show.html.erb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(0).errors
   end
 
   it "should not review for pluralize attribute" do
@@ -109,9 +103,8 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       <%= @user.login %>
     <% end %>
     EOF
-    @runner.review('app/views/users/show.html.erb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(0).errors
   end
 
   it "should not review non model class" do
@@ -120,9 +113,8 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       <%= @person.login %>
     <% end %>
     EOF
-    @runner.review('app/views/users/show.html.erb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(0).errors
   end
 
   context "association" do
@@ -132,21 +124,19 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
         <%= @user.location.name %>
       <% end %>
       EOF
-      @runner.review('app/views/users/show.html.erb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('app/views/users/show.html.erb', content)
+      runner.should have(0).errors
     end
 
-      it "should not review belongs_to category" do
-        content = <<-EOF
-        <% if @user.category.present? %>
-          <%= @user.category.name %>
-        <% end %>
-        EOF
-        @runner.review('app/views/users/show.html.erb', content)
-        errors = @runner.errors
-        errors.should be_empty
-      end
+    it "should not review belongs_to category" do
+      content = <<-EOF
+      <% if @user.category.present? %>
+        <%= @user.category.name %>
+      <% end %>
+      EOF
+      runner.review('app/views/users/show.html.erb', content)
+      runner.should have(0).errors
+    end
 
     it "should not review has_one association" do
       content = <<-EOF
@@ -154,9 +144,8 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
         <%= @user.phone.number %>
       <% end %>
       EOF
-      @runner.review('app/views/users/show.html.erb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('app/views/users/show.html.erb', content)
+      runner.should have(0).errors
     end
 
     it "should not review has_many association" do
@@ -165,9 +154,8 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
         <%= @user.projects.first.name %>
       <% end %>
       EOF
-      @runner.review('app/views/users/show.html.erb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('app/views/users/show.html.erb', content)
+      runner.should have(0).errors
     end
   end
 
@@ -177,9 +165,8 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       <%= User.name %>
     <% end %>
     EOF
-    @runner.review('app/views/users/show.html.erb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(0).errors
   end
 
   it "should not review for non attribute call" do
@@ -188,8 +175,7 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
       puts @user.login(false)
     end
     EOF
-    @runner.review('app/models/users_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/models/users_controller.rb', content)
+    runner.should have(0).errors
   end
 end

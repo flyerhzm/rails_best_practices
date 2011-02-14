@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview.new) }
 
   it "should keep finders on thier own model" do
     content = <<-EOF
@@ -16,10 +14,9 @@ describe RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview do
       end
     end
     EOF
-    @runner.review('app/models/post.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/models/post.rb:5 - keep finders on their own model"
+    runner.review('app/models/post.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/models/post.rb:5 - keep finders on their own model"
   end
 
   it "should keep finders on thier own model with all method" do
@@ -33,10 +30,9 @@ describe RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview do
       end
     end
     EOF
-    @runner.review('app/models/post.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/models/post.rb:5 - keep finders on their own model"
+    runner.review('app/models/post.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/models/post.rb:5 - keep finders on their own model"
   end
 
   it "should not keep finders on thier own model with self finder" do
@@ -50,9 +46,8 @@ describe RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview do
       end
     end
     EOF
-    @runner.review('app/models/post.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/models/post.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not keep finders on thier own model with own finder" do
@@ -66,9 +61,8 @@ describe RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview do
       end
     end
     EOF
-    @runner.review('app/models/post.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/models/post.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not keep finders on their own model without finder" do
@@ -81,9 +75,8 @@ describe RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview do
       end
     end
     EOF
-    @runner.review('app/models/post.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/models/post.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not keep finders on their own model with ruby Array#find" do
@@ -96,8 +89,7 @@ describe RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview do
       end
     end
     EOF
-    @runner.review('app/models/post.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/models/post.rb', content)
+    runner.should have(0).errors
   end
 end

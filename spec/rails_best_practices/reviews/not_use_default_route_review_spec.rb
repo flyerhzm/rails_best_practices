@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::NotUseDefaultRouteReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::NotUseDefaultRouteReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::NotUseDefaultRouteReview.new) }
 
   describe "rails2" do
     it "should not use default route" do
@@ -15,11 +13,10 @@ describe RailsBestPractices::Reviews::NotUseDefaultRouteReview do
         map.connect ':controller/:action/:id.:format'
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "config/routes.rb:4 - not use default route"
-      errors[1].to_s.should == "config/routes.rb:5 - not use default route"
+      runner.review('config/routes.rb', content)
+      runner.should have(2).errors
+      runner.errors[0].to_s.should == "config/routes.rb:4 - not use default route"
+      runner.errors[1].to_s.should == "config/routes.rb:5 - not use default route"
     end
 
     it "should no not use default route" do
@@ -28,9 +25,8 @@ describe RailsBestPractices::Reviews::NotUseDefaultRouteReview do
         map.resources :posts, :member => { :push => :post }
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('config/routes.rb', content)
+      runner.should have(0).errors
     end
   end
 
@@ -43,10 +39,9 @@ describe RailsBestPractices::Reviews::NotUseDefaultRouteReview do
         match ':controller(/:action(/:id(.:format)))'
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "config/routes.rb:5 - not use default route"
+      runner.review('config/routes.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "config/routes.rb:5 - not use default route"
     end
 
     it "should no not use default route" do
@@ -55,9 +50,8 @@ describe RailsBestPractices::Reviews::NotUseDefaultRouteReview do
         resources :posts
       end
       EOF
-      @runner.review('config/routes.rb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('config/routes.rb', content)
+      runner.should have(0).errors
     end
   end
 end

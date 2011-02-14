@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::AddModelVirtualAttributeReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::AddModelVirtualAttributeReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::AddModelVirtualAttributeReview.new) }
 
   it "should add model virtual attribute" do
     content = <<-EOF
@@ -17,10 +15,9 @@ describe RailsBestPractices::Reviews::AddModelVirtualAttributeReview do
       end
     end
     EOF
-    @runner.review('app/controllers/users_controller.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for @user)"
+    runner.review('app/controllers/users_controller.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for @user)"
   end
 
   it "should add model virtual attribute with local assignment" do
@@ -35,10 +32,9 @@ describe RailsBestPractices::Reviews::AddModelVirtualAttributeReview do
       end
     end
     EOF
-    @runner.review('app/controllers/users_controller.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for user)"
+    runner.review('app/controllers/users_controller.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for user)"
   end
 
   it "should not add model virtual attribute with differen param" do
@@ -53,9 +49,8 @@ describe RailsBestPractices::Reviews::AddModelVirtualAttributeReview do
       end
     end
     EOF
-    @runner.review('app/controllers/users_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/users_controller.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not add model virtual attribute with read" do
@@ -71,9 +66,8 @@ describe RailsBestPractices::Reviews::AddModelVirtualAttributeReview do
       end
     end
     EOF
-    @runner.review('app/controllers/users_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/users_controller.rb', content)
+    runner.should have(0).errors
   end
 
   it "should add model virtual attribute with two dimension params" do
@@ -88,10 +82,9 @@ describe RailsBestPractices::Reviews::AddModelVirtualAttributeReview do
       end
     end
     EOF
-    @runner.review('app/controllers/users_controller.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for @user)"
+    runner.review('app/controllers/users_controller.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for @user)"
   end
 
   it "should no add model virtual attribute with two dimension params" do
@@ -106,8 +99,7 @@ describe RailsBestPractices::Reviews::AddModelVirtualAttributeReview do
       end
     end
     EOF
-    @runner.review('app/controllers/users_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/users_controller.rb', content)
+    runner.should have(0).errors
   end
 end

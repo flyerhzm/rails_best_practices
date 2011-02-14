@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::UseModelAssociationReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::UseModelAssociationReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::UseModelAssociationReview.new) }
 
   it "should use model association for instance variable" do
     content = <<-EOF
@@ -16,10 +14,9 @@ describe RailsBestPractices::Reviews::UseModelAssociationReview do
       end
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - use model association (for @post)"
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - use model association (for @post)"
   end
 
   it "should not use model association without association assign" do
@@ -32,9 +29,8 @@ describe RailsBestPractices::Reviews::UseModelAssociationReview do
       end
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(0).errors
   end
 
   it "should use model association for local variable" do
@@ -48,10 +44,9 @@ describe RailsBestPractices::Reviews::UseModelAssociationReview do
       end
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - use model association (for post)"
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - use model association (for post)"
   end
 
   it "should not use model association" do
@@ -64,8 +59,7 @@ describe RailsBestPractices::Reviews::UseModelAssociationReview do
       end
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(0).errors
   end
 end

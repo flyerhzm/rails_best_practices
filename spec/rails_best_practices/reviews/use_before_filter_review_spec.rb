@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::UseBeforeFilterReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::UseBeforeFilterReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::UseBeforeFilterReview.new) }
 
   it "should use before_filter" do
     content = <<-EOF
@@ -29,10 +27,9 @@ describe RailsBestPractices::Reviews::UseBeforeFilterReview do
 
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/controllers/posts_controller.rb:3,7,11,16 - use before_filter for show,edit,update,destroy"
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3,7,11,16 - use before_filter for show,edit,update,destroy"
   end
 
   it "should not use before_filter" do
@@ -55,9 +52,8 @@ describe RailsBestPractices::Reviews::UseBeforeFilterReview do
       end
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not use before_filter by nil" do
@@ -78,9 +74,8 @@ describe RailsBestPractices::Reviews::UseBeforeFilterReview do
 
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not use before_filter for protected/private methods" do
@@ -98,8 +93,7 @@ describe RailsBestPractices::Reviews::UseBeforeFilterReview do
         end
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(0).errors
   end
 end

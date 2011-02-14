@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::MoveModelLogicIntoModelReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::MoveModelLogicIntoModelReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::MoveModelLogicIntoModelReview.new) }
 
   it "should move model logic into model" do
     content = <<-EOF
@@ -23,10 +21,9 @@ describe RailsBestPractices::Reviews::MoveModelLogicIntoModelReview do
       redirect_to post_url(@post)
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - move model logic into model (@post use_count > 4)"
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - move model logic into model (@post use_count > 4)"
   end
 
   it "should not move model logic into model with simple model calling" do
@@ -42,8 +39,7 @@ describe RailsBestPractices::Reviews::MoveModelLogicIntoModelReview do
       redirect_to post_url(@post)
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(0).errors
   end
 end

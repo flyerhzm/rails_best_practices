@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::MoveFinderToNamedScopeReview do
-  before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::MoveFinderToNamedScopeReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::MoveFinderToNamedScopeReview.new) }
 
   it "should move finder to named_scope" do
     content = <<-EOF
@@ -20,11 +18,10 @@ describe RailsBestPractices::Reviews::MoveFinderToNamedScopeReview do
       end
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    errors = @runner.errors
-    errors.size.should == 2
-    errors[0].to_s.should == "app/controllers/posts_controller.rb:4 - move finder to named_scope"
-    errors[1].to_s.should == "app/controllers/posts_controller.rb:8 - move finder to named_scope"
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(2).errors
+    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:4 - move finder to named_scope"
+    runner.errors[1].to_s.should == "app/controllers/posts_controller.rb:8 - move finder to named_scope"
   end
 
   it "should not move simple finder" do
@@ -41,8 +38,8 @@ describe RailsBestPractices::Reviews::MoveFinderToNamedScopeReview do
       end
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    @runner.errors.should be_empty
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not move namd_scope" do
@@ -55,8 +52,8 @@ describe RailsBestPractices::Reviews::MoveFinderToNamedScopeReview do
       end
     end
     EOF
-    @runner.review('app/controllers/posts_controller.rb', content)
-    @runner.errors.should be_empty
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not review model file" do
@@ -75,8 +72,7 @@ describe RailsBestPractices::Reviews::MoveFinderToNamedScopeReview do
 
     end
     EOF
-    @runner.review('app/model/post.rb', content)
-    @runner.errors.should be_empty
-
+    runner.review('app/model/post.rb', content)
+    runner.should have(0).errors
   end
 end

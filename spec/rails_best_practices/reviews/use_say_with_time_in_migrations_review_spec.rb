@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview do
-  before :each do
-    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview.new)
-  end
+  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview.new) }
 
   it "should use say with time in migrations" do
     content =<<-EOF
@@ -14,11 +12,9 @@ describe RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview do
       end
     end
     EOF
-    @runner.review('db/migrate/20101010080658_update_users.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors.size.should == 1
-    errors[0].to_s.should == "db/migrate/20101010080658_update_users.rb:2 - use say with time in migrations"
+    runner.review('db/migrate/20101010080658_update_users.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "db/migrate/20101010080658_update_users.rb:2 - use say with time in migrations"
   end
 
   it "should use say with time in migrations with create_table" do
@@ -35,11 +31,9 @@ describe RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview do
       end
     end
     EOF
-    @runner.review('db/migrate/20101010080658_update_users.rb', content)
-    errors = @runner.errors
-    errors.should_not be_empty
-    errors.size.should == 1
-    errors[0].to_s.should == "db/migrate/20101010080658_update_users.rb:7 - use say with time in migrations"
+    runner.review('db/migrate/20101010080658_update_users.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "db/migrate/20101010080658_update_users.rb:7 - use say with time in migrations"
   end
 
   it "should not use say with time in migrations" do
@@ -54,9 +48,8 @@ describe RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview do
       end
     end
     EOF
-    @runner.review('db/migrate/20101010080658_update_users.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('db/migrate/20101010080658_update_users.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not use say with time when default migration message" do
@@ -69,9 +62,8 @@ describe RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview do
       end
     end
     EOF
-    @runner.review('db/migrate/20101010080658_create_users.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('db/migrate/20101010080658_create_users.rb', content)
+    runner.should have(0).errors
   end
 
   it "should not raise an error" do
@@ -106,8 +98,7 @@ describe RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview do
       end
     end
     EOF
-    @runner.review('db/migrate/20101010080658_create_users.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('db/migrate/20101010080658_create_users.rb', content)
+    runner.should have(0).errors
   end
 end

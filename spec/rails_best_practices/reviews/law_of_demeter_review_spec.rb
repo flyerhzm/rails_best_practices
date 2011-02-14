@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::LawOfDemeterReview do
 
-  before :each do
-    @runner = RailsBestPractices::Core::Runner.new(
+  let(:runner) {
+    RailsBestPractices::Core::Runner.new(
       :prepares => RailsBestPractices::Prepares::ModelPrepare.new,
       :reviews => RailsBestPractices::Reviews::LawOfDemeterReview.new
     )
-  end
+  }
 
   describe "belongs_to" do
     before(:each) do
@@ -16,7 +16,7 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
         belongs_to :user
       end
       EOF
-      @runner.prepare('app/models/invoice.rb', content)
+      runner.prepare('app/models/invoice.rb', content)
     end
 
     it "should law of demeter" do
@@ -25,10 +25,9 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
       <%= @invoice.user.address %>
       <%= @invoice.user.cellphone %>
       EOF
-      @runner.review('app/views/invoices/show.html.erb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
+      runner.review('app/views/invoices/show.html.erb', content)
+      runner.should have(3).errors
+      runner.errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
     end
 
     it "should law of demeter" do
@@ -37,10 +36,9 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
 = @invoice.user.address
 = @invoice.user.cellphone
       EOF
-      @runner.review('app/views/invoices/show.html.haml', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/views/invoices/show.html.haml:1 - law of demeter"
+      runner.review('app/views/invoices/show.html.haml', content)
+      runner.should have(3).errors
+      runner.errors[0].to_s.should == "app/views/invoices/show.html.haml:1 - law of demeter"
     end
 
     it "should no law of demeter" do
@@ -49,9 +47,8 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
       <%= @invoice.user_address %>
       <%= @invoice.user_cellphone %>
       EOF
-      @runner.review('app/views/invoices/show.html.erb', content)
-      errors = @runner.errors
-      errors.should be_empty
+      runner.review('app/views/invoices/show.html.erb', content)
+      runner.should have(0).errors
     end
   end
 
@@ -62,7 +59,7 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
         has_one :price
       end
       EOF
-      @runner.prepare('app/models/invoice.rb', content)
+      runner.prepare('app/models/invoice.rb', content)
     end
 
     it "should law of demeter" do
@@ -70,10 +67,9 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
       <%= @invoice.price.currency %>
       <%= @invoice.price.number %>
       EOF
-      @runner.review('app/views/invoices/show.html.erb', content)
-      errors = @runner.errors
-      errors.should_not be_empty
-      errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
+      runner.review('app/views/invoices/show.html.erb', content)
+      runner.should have(2).errors
+      runner.errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
     end
   end
 
@@ -83,13 +79,13 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
       has_many :answers, :dependent => :destroy
     end
     EOF
-    @runner.prepare('app/models/question.rb', content)
+    runner.prepare('app/models/question.rb', content)
     content = <<-EOF
     class Answer < ActiveRecord::Base
       belongs_to :question, :counter_cache => true, :touch => true
     end
     EOF
-    @runner.prepare('app/models/answer.rb', content)
+    runner.prepare('app/models/answer.rb', content)
     content = <<-EOF
     class CommentsController < ApplicationController
       def comment_url
@@ -97,8 +93,7 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
       end
     end
     EOF
-    @runner.review('app/controllers/comments_controller.rb', content)
-    errors = @runner.errors
-    errors.should be_empty
+    runner.review('app/controllers/comments_controller.rb', content)
+    runner.should have(0).errors
   end
 end
