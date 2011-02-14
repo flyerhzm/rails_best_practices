@@ -8,7 +8,7 @@ describe RailsBestPractices do
       dir = File.dirname(__FILE__)
       RailsBestPractices.expand_dirs_to_files(dir).should be_include(dir + '/rails_best_practices_spec.rb')
       RailsBestPractices.expand_dirs_to_files(dir).should be_include(dir + '/rails_best_practices/core/visitable_sexp_spec.rb')
-      RailsBestPractices.expand_dirs_to_files(dir).should be_include(dir + '/rails_best_practices/checks/check_spec.rb')
+      RailsBestPractices.expand_dirs_to_files(dir).should be_include(dir + '/rails_best_practices/reviews/review_spec.rb')
     end
   end
 
@@ -27,8 +27,8 @@ describe RailsBestPractices do
   end
 
   describe "output_terminal_errors" do
-    check1 = RailsBestPractices::Checks::LawOfDemeterCheck.new
-    check2 = RailsBestPractices::Checks::UseQueryAttributeCheck.new
+    check1 = RailsBestPractices::Reviews::LawOfDemeterReview.new
+    check2 = RailsBestPractices::Reviews::UseQueryAttributeReview.new
     runner = RailsBestPractices::Core::Runner.new(check1, check2)
     check1.add_error "law of demeter", "app/models/user.rb", 10
     check2.add_error "use query attribute", "app/models/post.rb", 100
