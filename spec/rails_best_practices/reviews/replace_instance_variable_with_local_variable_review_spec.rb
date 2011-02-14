@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::ReplaceInstanceVariableWithLocalVariableReview do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::ReplaceInstanceVariableWithLocalVariableReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::ReplaceInstanceVariableWithLocalVariableReview.new)
   end
 
   it "should replace instance variable with local varialbe" do

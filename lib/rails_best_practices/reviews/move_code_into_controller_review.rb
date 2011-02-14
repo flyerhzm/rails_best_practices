@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   only review all view files to see if there are finders, then the finders should be moved to controller.
+    #   only check all view files to see if there are finders, then the finders should be moved to controller.
     class MoveCodeIntoControllerReview < Review
 
       FINDERS = [:find, :all, :first, :last]
@@ -19,25 +19,25 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/24-move-code-into-controller"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:call]
       end
 
-      def interesting_review_files
+      def interesting_files
         VIEW_FILES
       end
 
-      # review call nodes in review process.
+      # check call nodes.
       #
       # if the subject of the call node is a constant,
       # and the message of the call node is one of the :find, :all, :first and :last,
       # then it is a finder and should be moved to controller.
-      def review_start_call(node)
+      def start_call(node)
         add_error "move code into controller" if finder?(node)
       end
 
       private
-        # review if the node is a finder call node.
+        # check if the node is a finder call node.
         # e.g. the following call node is a finder
         #
         #     s(:call,

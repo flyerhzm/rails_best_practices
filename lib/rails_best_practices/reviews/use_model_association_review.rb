@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   review model define nodes in all controller files,
+    #   check model define nodes in all controller files,
     #   if there is an attribute assignment node with message xxx_id=,
     #   and after it, there is a call node with message :save or :save!,
     #   and the subjects of attribute assignment node and call node are the same,
@@ -20,24 +20,24 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/2-use-model-association"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:defn]
       end
 
-      def interesting_review_files
+      def interesting_files
         CONTROLLER_FILES
       end
 
-      # review method define nodes to see if there are some attribute assignments that can use model association instead in review process.
+      # check method define nodes to see if there are some attribute assignments that can use model association instead.
       #
-      # it will review attribute assignment node with message xxx_id=, and call node with message :save or :save!
+      # it will check attribute assignment node with message xxx_id=, and call node with message :save or :save!
       #
       # 1. if there is an attribute assignment node with message xxx_id=,
       #    then remember the subject of attribute assignment node.
       # 2. after assignment, if there is a call node with message :save or :save!,
       #    and the subject of call node is one of the subject of attribute assignment node,
       #    then the attribute assignment should be replaced by using model association.
-      def review_start_defn(node)
+      def start_defn(node)
         @attrasgns = {}
         node.recursive_children do |child|
           case child.node_type
@@ -52,7 +52,7 @@ module RailsBestPractices
       end
 
       private
-        # review an attribute assignment node, if its message is xxx_id, like
+        # check an attribute assignment node, if its message is xxx_id, like
         #
         #     s(:attrasgn, s(:ivar, :@post), :user_id=,
         #       s(:arglist,
@@ -70,7 +70,7 @@ module RailsBestPractices
           end
         end
 
-        # review a call node with message :save or :save!,
+        # check a call node with message :save or :save!,
         # if the subject of call node exists in @attrasgns, like
         #
         #     s(:call, s(:ivar, :@post), :save, s(:arglist))

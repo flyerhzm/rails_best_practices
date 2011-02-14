@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::UseObserverReview do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::UseObserverReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(
+      :prepares => RailsBestPractices::Prepares::MailerPrepare.new,
+      :reviews => RailsBestPractices::Reviews::UseObserverReview.new
+    )
 
     content =<<-EOF
     class ProjectMailer < ActionMailer::Base

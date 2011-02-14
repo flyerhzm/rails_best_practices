@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview do
   before :each do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview.new)
   end
 
   it "should use say with time in migrations" do

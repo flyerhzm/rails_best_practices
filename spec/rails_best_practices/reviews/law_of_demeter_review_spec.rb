@@ -3,7 +3,10 @@ require 'spec_helper'
 describe RailsBestPractices::Reviews::LawOfDemeterReview do
 
   before :each do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::LawOfDemeterReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(
+      :prepares => RailsBestPractices::Prepares::ModelPrepare.new,
+      :reviews => RailsBestPractices::Reviews::LawOfDemeterReview.new
+    )
   end
 
   describe "belongs_to" do

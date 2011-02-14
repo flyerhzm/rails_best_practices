@@ -10,24 +10,24 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   review all instance variable in partial view files,
+    #   check all instance variable in partial view files,
     #   if exist, then they should be replaced with local variable
     class ReplaceInstanceVariableWithLocalVariableReview < Review
       def url
         "http://rails-bestpractices.com/posts/27-replace-instance-variable-with-local-variable"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:ivar]
       end
 
-      def interesting_review_files
+      def interesting_files
         PARTIAL_VIEW_FILES
       end
 
-      # review ivar node in partial view file,
+      # check ivar node in partial view file,
       # it is an instance variable, and should be replaced with local variable.
-      def review_start_ivar(node)
+      def start_ivar(node)
         add_error "replace instance variable with local variable"
       end
     end

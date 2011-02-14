@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   review all method calls in controller files.
+    #   check all method calls in controller files.
     #   if there is any call node with message find, all, first or last,
     #   and it has a hash argument,
     #   then it is a complex finder, and should be moved to model's named scope.
@@ -22,23 +22,23 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/1-move-finder-to-named_scope"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:call]
       end
 
-      def interesting_review_files
+      def interesting_files
         CONTROLLER_FILES
       end
 
-      # review call node if its message is one of :find, :all, :first or :last,
+      # check call node if its message is one of :find, :all, :first or :last,
       # and it has a hash argument,
       # then the call node is the finder that should be moved to model's named_scope.
-      def review_start_call(node)
+      def start_call(node)
         add_error "move finder to named_scope" if finder?(node)
       end
 
       private
-        # review if the call node is a finder.
+        # check if the call node is a finder.
         #
         # if the subject of call node is a constant,
         # and the message of call node is one of find, all, first or last,

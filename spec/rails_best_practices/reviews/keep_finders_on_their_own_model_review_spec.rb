@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview do
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::KeepFindersOnTheirOwnModelReview.new)
   end
 
   it "should keep finders on thier own model" do

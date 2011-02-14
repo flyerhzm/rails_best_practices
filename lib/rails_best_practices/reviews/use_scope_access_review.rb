@@ -3,14 +3,14 @@ require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices
   module Reviews
-    # Review a controller to make sure to use scope access instead of manually reviewing current_user and redirect.
+    # Review a controller to make sure to use scope access instead of manually checking current_user and redirect.
     #
     # See the best practice details here http://rails-bestpractices.com/posts/3-use-scope-access.
     #
     # Implementation:
     #
     # Review process:
-    #   review all if nodes to see
+    #   check all if nodes to see
     #
     #   if they are compared with current_user or current_user.id,
     #   and there is redirect_to method call in if block body,
@@ -20,15 +20,15 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/3-use-scope-access"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:if]
       end
 
-      def interesting_review_files
+      def interesting_files
         CONTROLLER_FILES
       end
 
-      # review if node in review process.
+      # check if node.
       #
       # if it is a method call compared with current_user or current_user.id,
       # and there is a redirect_to method call in the block body, like
@@ -39,12 +39,12 @@ module RailsBestPractices
       #     end
       #
       # then it should be replaced by using scope access.
-      def review_start_if(node)
+      def start_if(node)
         add_error "use scope access" if current_user_redirect?(node)
       end
 
       private
-        # review a if node to see
+        # check a if node to see
         #
         # if the conditional statement is compared with current_user or current_user.id,
         # and there is a redirect_to method call in the block body, like
@@ -77,7 +77,7 @@ module RailsBestPractices
           (node.false_node.grep_node(:message => :redirect_to) || node.true_node.grep_node(:message => :redirect_to))
         end
 
-        # review a call node to see if it uses current_user, or current_user.id.
+        # check a call node to see if it uses current_user, or current_user.id.
         #
         # the expected call node may be
         #

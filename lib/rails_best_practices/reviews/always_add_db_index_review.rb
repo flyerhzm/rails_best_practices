@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   only review the call nodes and at the end of iter node in db/schema file,
+    #   only check the call nodes and at the end of iter node in db/schema file,
     #   if the subject of call node is :create_table, then remember the table names
     #   if the subject of call node is :integer, then remember it as foreign key
     #   if the sujbect of call node is :string, the name of it is _type suffixed and there is an integer column _id suffixed, then remember it as polymorphic foreign key
@@ -28,11 +28,11 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/21-always-add-db-index"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:call, :iter]
       end
 
-      def interesting_review_files
+      def interesting_files
         /db\/schema.rb/
       end
 
@@ -43,7 +43,7 @@ module RailsBestPractices
         @table_nodes = {}
       end
 
-      # review call node in review process.
+      # check call node.
       #
       # if the message of call node is :create_table,
       # then remember the table name (@table_nodes) like
@@ -72,7 +72,7 @@ module RailsBestPractices
       #     "comments" =>
       #       ["post_id", "user_id"]
       #   }
-      def review_start_call(node)
+      def start_call(node)
         case node.message
         when :create_table
           remember_table_nodes(node)
@@ -84,7 +84,7 @@ module RailsBestPractices
         end
       end
 
-      # review at the end of iter node, like
+      # check at the end of iter node, like
       #
       #     s(:iter,
       #       s(:call,
@@ -110,7 +110,7 @@ module RailsBestPractices
       #
       # if there are any foreign keys not existed in index columns,
       # then we should add db index for that foreign keys.
-      def review_end_iter(node)
+      def end_iter(node)
         first_node = node.subject
         if :call == first_node.node_type && s(:colon2, s(:const, :ActiveRecord), :Schema) == first_node.subject
           remove_only_type_foreign_keys
@@ -206,13 +206,13 @@ module RailsBestPractices
           }
         end
 
-        # review if the table's column is indexed.
+        # check if the table's column is indexed.
         def indexed?(table, column)
           index_columns = @index_columns[table]
           !index_columns || !index_columns.any? { |e| greater_than_or_equal(Array(e), Array(column)) }
         end
 
-        # review if more_array is greater than less_array or equal to less_array.
+        # check if more_array is greater than less_array or equal to less_array.
         def greater_than_or_equal(more_array, less_array)
           more_size = more_array.size
           less_size = less_array.size

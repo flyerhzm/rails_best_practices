@@ -10,11 +10,11 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   1. review all local assignment and instance assignment nodes,
+    #   1. check all local assignment and instance assignment nodes,
     #   if the right value is a call node with message :new,
     #   then remember their left value as new variables.
     #
-    #   2. review all call nodes,
+    #   2. check all call nodes,
     #   if the message is :create or :create!,
     #   then it should be isolated to db seed.
     #   if the message is :save or :save!,
@@ -25,11 +25,11 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/20-isolating-seed-data"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:call, :lasgn, :iasgn]
       end
 
-      def interesting_review_files
+      def interesting_files
         MIGRATION_FILES
       end
 
@@ -38,23 +38,23 @@ module RailsBestPractices
         @new_variables = []
       end
 
-      # review local assignment node in review process.
+      # check local assignment node.
       #
       # if the right value of the node is a call node with :new message,
       # then remember it as new variables (@new_variables).
-      def review_start_lasgn(node)
+      def start_lasgn(node)
         remember_new_variable(node)
       end
 
-      # review instance assignment node in review process.
+      # check instance assignment node.
       #
       # if the right value of the node is a call node with :new message,
       # then remember it as new variables (@new_variables).
-      def review_start_iasgn(node)
+      def start_iasgn(node)
         remember_new_variable(node)
       end
 
-      # review the call node in review process.
+      # check the call node.
       #
       # if the message of the call node is :create or :create!,
       # then you should isolate it to seed data.
@@ -62,7 +62,7 @@ module RailsBestPractices
       # if the message of the call node is :save or :save!,
       # and the subject of the call node is included in @new_variables,
       # then you should isolate it to seed data.
-      def review_start_call(node)
+      def start_call(node)
         if [:create, :create!].include? node.message
           add_error("isolate seed data")
         elsif [:save, :save!].include? node.message
@@ -71,7 +71,7 @@ module RailsBestPractices
       end
 
       private
-        # review local assignment or instance assignment node,
+        # check local assignment or instance assignment node,
         # if the right vavlue is a call node with message :new,
         # then remember the left value as new variable.
         #

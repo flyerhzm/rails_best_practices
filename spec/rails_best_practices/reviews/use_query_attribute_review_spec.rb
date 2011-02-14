@@ -3,7 +3,10 @@ require 'spec_helper'
 describe RailsBestPractices::Reviews::UseQueryAttributeReview do
 
   before(:each) do
-    @runner = RailsBestPractices::Core::Runner.new(RailsBestPractices::Reviews::UseQueryAttributeReview.new)
+    @runner = RailsBestPractices::Core::Runner.new(
+      :prepares => RailsBestPractices::Prepares::ModelPrepare.new,
+      :reviews => RailsBestPractices::Reviews::UseQueryAttributeReview.new
+    )
 
     content = <<-EOF
     class User < ActiveRecord::Base

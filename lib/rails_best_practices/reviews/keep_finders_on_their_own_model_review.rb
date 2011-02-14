@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   review all call nodes in model files.
+    #   check all call nodes in model files.
     #
     #   if the call node is a finder (find, all, first or last),
     #   and the it calls the other model,
@@ -24,15 +24,15 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/13-keep-finders-on-their-own-model"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:call]
       end
 
-      def interesting_review_files
+      def interesting_files
         MODEL_FILES
       end
 
-      # review all the call nodes to see if there is a finder for other model.
+      # check all the call nodes to see if there is a finder for other model.
       #
       # if the call node is
       #
@@ -41,12 +41,12 @@ module RailsBestPractices
       # 3. the any of its arguments is a hash (complex finder)
       #
       # then it should keep finders on its own model.
-      def review_start_call(node)
+      def start_call(node)
         add_error "keep finders on their own model" if other_finder?(node)
       end
 
       private
-        # review if the call node is the finder of other model.
+        # check if the call node is the finder of other model.
         #
         # the message of the node should be one of :find, :all, :first or :last,
         # and the subject of the node should be with message :call (this is the other model),

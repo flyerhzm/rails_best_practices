@@ -10,11 +10,11 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   the review methods are different for rails2 and rails3 syntax.
+    #   the check methods are different for rails2 and rails3 syntax.
     #
     #   for rails2
     #
-    #   review all call nodes in route file.
+    #   check all call nodes in route file.
     #   if the message of call node is resources,
     #   and the second argument of call node is a hash,
     #   and the count of the pair (key/value) in hash is greater than @customize_count,
@@ -22,7 +22,7 @@ module RailsBestPractices
     #
     #   for rails3
     #
-    #   review all iter nodes in route file.
+    #   check all iter nodes in route file.
     #   if the subject of iter node is with message resources,
     #   and in the block body of iter node, there are more than @customize_count call nodes,
     #   whose message is :get, :post, :update or :delete,
@@ -35,11 +35,11 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/10-overuse-route-customizations"
       end
 
-      def interesting_review_nodes
+      def interesting_nodes
         [:call, :iter]
       end
 
-      def interesting_review_files
+      def interesting_files
         ROUTE_FILE
       end
 
@@ -48,7 +48,7 @@ module RailsBestPractices
         @customize_count = options['customize_count'] || 3
       end
 
-      # review call node to see if the count of member and collection custom routes is more than @customize_count defined in review process.
+      # check call node to see if the count of member and collection custom routes is more than @customize_count defined.
       # this is for rails2 syntax.
       #
       # if the message of call node is :resources,
@@ -61,13 +61,13 @@ module RailsBestPractices
       #                           :collection => { :comments => :get }
       #
       # then they are overuse route customizations.
-      def review_start_call(node)
+      def start_call(node)
         if member_and_collection_count_for_rails2(node) > @customize_count
           add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.subject.line
         end
       end
 
-      # review iter node to see if the count of member and collection custom routes is more than @customize_count defined in review process.
+      # check iter node to see if the count of member and collection custom routes is more than @customize_count defined.
       # this is for rails3 syntax.
       #
       # if the subject of iter node is with message :resources,
@@ -87,14 +87,14 @@ module RailsBestPractices
       #     end
       #
       # then they are overuse route customizations.
-      def review_start_iter(node)
+      def start_iter(node)
         if member_and_collection_count_for_rails3(node) > @customize_count
           add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.subject.line
         end
       end
 
       private
-        # review call node to calculate the count of member and collection custom routes.
+        # check call node to calculate the count of member and collection custom routes.
         # this is for rails2 syntax.
         #
         # if the message of call node is :resources,
@@ -132,7 +132,7 @@ module RailsBestPractices
           end
         end
 
-        # review iter node to calculate the count of member and collection custom routes.
+        # check iter node to calculate the count of member and collection custom routes.
         # this is for rails3 syntax.
         #
         # if its subject is with message :resources,
