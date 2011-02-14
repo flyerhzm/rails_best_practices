@@ -2,7 +2,6 @@ require "bundler"
 Bundler.setup
 
 require "rake"
-require "rake/rdoctask"
 require "rspec"
 require "rspec/core/rake_task"
 
@@ -33,13 +32,6 @@ end
 Rspec::Core::RakeTask.new('spec:progress') do |spec|
   spec.rspec_opts = %w(--format progress)
   spec.pattern = "spec/**/*_spec.rb"
-end
-
-Rake::RDocTask.new do |rdoc|
-  rdoc.rdoc_dir = "rdoc"
-  rdoc.title = "rails_best_practices #{RailsBestPractices::VERSION}"
-  rdoc.rdoc_files.include("README*")
-  rdoc.rdoc_files.include("lib/**/*.rb")
 end
 
 task :default => :spec
