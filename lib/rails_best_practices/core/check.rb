@@ -14,6 +14,12 @@ module RailsBestPractices
       PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)$/
       ROUTE_FILE = /config\/routes.rb/
 
+      attr_reader :errors
+
+      def initialize
+        @errors = []
+      end
+
       # default interesting nodes.
       def interesting_nodes
         []
@@ -44,6 +50,21 @@ module RailsBestPractices
       def node_end(node)
         @node = node
         self.send("end_#{node.node_type}", node)
+      end
+
+      # add error if source code violates rails best practice.
+      #   error is the string message for violation of the rails best practice
+      #   file is the filename of source code
+      #   line is the line number of the source code which is reviewing
+      def add_error(error, file = @node.file, line = @node.line)
+        @errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error, url)
+      end
+
+      # default url is empty.
+      #
+      # @return [String] the url of rails best practice
+      def url
+        ""
       end
 
       # method_missing to catch all start and end process for each node type, like

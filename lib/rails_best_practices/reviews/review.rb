@@ -6,21 +6,6 @@ module RailsBestPractices
   module Reviews
     # A Review class that takes charge of reviewing one rails best practice.
     class Review < Core::Check
-      attr_reader :errors
-
-      def initialize
-        super
-        @errors = []
-      end
-
-      # add error if source code violates rails best practice.
-      #   error is the string message for violation of the rails best practice
-      #   file is the filename of source code
-      #   line is the line number of the source code which is reviewing
-      def add_error(error, file = @node.file, line = @node.line)
-        @errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error, url)
-      end
-
       # remember use count for the local or instance variable in the call or attrasgn node.
       #
       # find the local variable or instance variable in the call or attrasgn node,

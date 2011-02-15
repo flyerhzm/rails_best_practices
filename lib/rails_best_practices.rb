@@ -26,6 +26,7 @@ require 'rubygems'
 require 'progressbar'
 require 'colored'
 require 'haml'
+require 'rails_best_practices/lexicals'
 require 'rails_best_practices/prepares'
 require 'rails_best_practices/reviews'
 require 'rails_best_practices/core'
@@ -79,9 +80,8 @@ module RailsBestPractices
         plain_output("AlwaysAddDbIndexReview is disabled as there is no db/schema.rb file in your rails project.", 'blue')
       end
 
-      @bar = ProgressBar.new('Analyzing', prepare_files.size + review_files.size)
-      process("prepare")
-      process("review")
+      @bar = ProgressBar.new('Analyzing', lexical_files.size + prepare_files.size + review_files.size)
+      ["lexical", "prepare", "review"].each { |process| send(:process, process) }
       @bar.finish
 
       if @options['format'] == 'html'
@@ -92,12 +92,12 @@ module RailsBestPractices
       exit @runner.errors.size
     end
 
-    # process prepare or reivew.
+    # process lexical, prepare or reivew.
     #
     # get all files for the process, analyze each file,
     # and increment progress bar unless debug.
     #
-    # @param [String] process the process name, prepare or review.
+    # @param [String] process the process name, lexical, prepare or review.
     def process(process)
       files = send("#{process}_files")
       files.each do |file|
@@ -136,6 +136,8 @@ module RailsBestPractices
         files.compact
       end
     end
+
+    alias :lexical_files :review_files
 
     # expand all files with extenstion rb, erb, haml and builder under the dirs
     #

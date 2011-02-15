@@ -1,6 +1,10 @@
 # encoding: utf-8
 require 'spec_helper'
 
+class TestLexical1
+end
+class TestLexical2
+end
 class TestPrepare1
   def interesting_nodes
     [:call]
@@ -42,11 +46,27 @@ class TestReview2
 end
 
 describe RailsBestPractices::Core::CheckingVisitor do
+  let(:lexical1) { TestLexical1.new }
+  let(:lexical2) { TestLexical2.new }
   let(:prepare1) { TestPrepare1.new }
   let(:prepare2) { TestPrepare2.new }
   let(:review1) { TestReview1.new }
   let(:review2) { TestReview2.new }
-  let(:visitor) { RailsBestPractices::Core::CheckingVisitor.new([prepare1, prepare2], [review1, review2]) }
+  let(:visitor) {
+    RailsBestPractices::Core::CheckingVisitor.new(
+      :lexicals => [lexical1, lexical2],
+      :prepares => [prepare1, prepare2],
+      :reviews => [review1, review2]
+    )
+  }
+
+  it "should lexical check" do
+    filename = "app/models/user.rb"
+    content = "class User; end"
+    lexical1.should_receive(:check).with(filename, content)
+    lexical2.should_receive(:check).with(filename, content)
+    visitor.lexical(filename, content)
+  end
 
   it "should prepare model associations" do
     node = stub(:node_type => :call, :children => [], :file => "app/models/user.rb")

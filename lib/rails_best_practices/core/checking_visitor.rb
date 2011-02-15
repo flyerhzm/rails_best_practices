@@ -3,31 +3,40 @@ module RailsBestPractices
   module Core
     # CheckingVisitor is a visitor class.
     #
-    # it remembers all the checks for prepare and review processes according to interesting_prepare_nodes and interesting_review_nodes,
+    # it remembers all the checks for prepare and review processes according to interesting_nodes and interesting_nodes,
     # then recursively iterate all sexp nodes,
     #
     # for prepare process
-    # if the node_type and the node filename match the interesting_prepare_nodes and interesting_prepare_files,
+    # if the node_type and the node filename match the interesting_prepare_nodes and interesting_files,
     # then run the prepare for that node.
     #
     # for review process
-    # if the node_type and the node filename match the interesting_review_nodes and interesting_review_files,
+    # if the node_type and the node filename match the interesting_review_nodes and interesting_files,
     # then run the reivew for that node.
     class CheckingVisitor
       # remember all the checks for prepare and review processes according to interesting_nodes.
       #
-      # @param [Array] prepares
-      # @param [Array] reviews
-      def initialize(prepares, reviews)
+      # @param [Hash] options
+      #     {:lexicals => [], :prepares => [], :reviews => []}
+      def initialize(options={})
+        @lexicals = options[:lexicals]
         [:prepare, :review].each do |process|
           instance_variable_set("@#{process}_checks", {})                  # @review_checks = {}
-          eval("#{process}s").each do |check|                              # reviews.each do |check|
+          options["#{process}s".to_sym].each do |check|                    # options[:reviews].each do |check|
             check.send("interesting_nodes").each do |node|                 #   check.interesting_nodes.each do |node|
               instance_variable_get("@#{process}_checks")[node] ||= []     #     @review_checks[node] ||= []
               instance_variable_get("@#{process}_checks")[node] << check   #     @review_checks[node] << check
               instance_variable_get("@#{process}_checks")[node].uniq!      #     @review_checks[node].uniq!
             end                                                            #   end
           end                                                              # end
+        end
+      end
+
+      # for lexical process
+      # check the content of files one by one.
+      def lexical(filename, content)
+        @lexicals.each do |lexical|
+          lexical.check(filename, content)
         end
       end
 
