@@ -11,10 +11,6 @@ module RailsBestPractices
     #
     # Implementation:
     #
-    # Prepare process:
-    #   check all class nodes to see if they are the subclass of ActionMailer::Base,
-    #   if so, remember the class name.
-    #
     # Review process:
     #   check all call nodes to see if they are callback definitions, like after_create, before_destroy,
     #   if so, remember the callback methods.

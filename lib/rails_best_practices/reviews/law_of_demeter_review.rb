@@ -9,9 +9,6 @@ module RailsBestPractices
     #
     # Implementation:
     #
-    # Prepare process:
-    #   only review all model files to save model names and association names.
-    #
     # Review process:
     #   check all method calls to see if there is method call to the association object.
     #   if there is a call node whose subject is an object of model (compare by name),
