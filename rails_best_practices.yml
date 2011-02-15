@@ -21,3 +21,4 @@ DryBundlerInCapistranoCheck: { }
 UseSayWithTimeInMigrationsCheck: { }
 UseQueryAttributeCheck: { }
 RemoveTrailingWhitespaceCheck: { }
+UseMultipartAlternativeAsContentTypeOfEmailCheck: {}
