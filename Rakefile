@@ -35,3 +35,4 @@ Rspec::Core::RakeTask.new('spec:progress') do |spec|
 end
 
 task :default => :spec
+task :test => :spec
