@@ -1,4 +1,5 @@
 # encoding: utf-8
+require 'rails_best_practices/core/runner'
 require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices
@@ -33,6 +34,7 @@ module RailsBestPractices
       # check defn node and find if the corresponding views exist or not?
       def start_defn(node)
         name = node.method_name
+        return unless deliver_method?(name)
         if !rails2_mailer_views_exist?(name) && !rails3_mailer_views_exist?(name)
           add_error("use multipart/alternative as content_type of email")
         end
@@ -40,19 +42,38 @@ module RailsBestPractices
 
       private
         # check if rails2's syntax mailer views exist or not according to the method name.
-        #
         # @param [String] name method name in action_mailer
         def rails2_mailer_views_exist?(name)
-          File.exist?("app/views/#{@klazz_name.to_s.underscore}/#{name}.text.plain.erb") && File.exist?("app/views/#{@klazz_name.to_s.underscore}/#{name}.text.html.erb") ||
-          (File.exist?("app/views/#{@klazz_name.to_s.underscore}/#{name}.text.plain.haml") && File.exist?("app/views/#{@klazz_name.to_s.underscore}/#{name}.text.html.haml"))
+          (exist?("#{name}.text.plain.erb") && exist?("#{name}.text.html.erb")) ||
+          (exist?("#{name}.text.plain.haml") && exist?("#{name}.text.html.haml")) ||
+          (exist?("#{name}.text.plain.rhtml") && exist?("#{name}.text.html.rhtml"))
         end
 
         # check if rails3's syntax mailer views exist or not according to the method name.
         #
         # @param [String] name method name in action_mailer
         def rails3_mailer_views_exist?(name)
-          File.exist?("app/views/#{@klazz_name.to_s.underscore}/#{name}.text.erb") && File.exist?("app/views/#{@klazz_name.to_s.underscore}/#{name}.html.erb") ||
-          (File.exist?("app/views/#{@klazz_name.to_s.underscore}/#{name}.text.haml") && File.exist?("app/views/#{@klazz_name.to_s.underscore}/#{name}.html.haml"))
+          (exist?("#{name}.text.erb") && exist?("#{name}.html.erb")) ||
+          (exist?("#{name}.text.haml") && exist?("#{name}.html.haml"))
+        end
+
+        # check if the filename existed in the mailer directory.
+        def exist?(filename)
+          File.exist? File.join(mailer_directory, filename)
+        end
+
+        # check if the method is a deliver_method.
+        #
+        # @param [String] name the name of the method
+        def deliver_method?(name)
+          Dir.entries(mailer_directory).find { |filename| filename.index name.to_s }
+        rescue
+          false
+        end
+
+        # the view directory of mailer.
+        def mailer_directory
+          File.join(Core::Runner.base_path, "app/views/#{@klazz_name.to_s.underscore}")
         end
     end
   end
