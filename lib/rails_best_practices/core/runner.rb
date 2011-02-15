@@ -40,11 +40,28 @@ module RailsBestPractices
 
         prepares = Array(options[:prepares])
         reviews = Array(options[:reviews])
+        @lexicals = load_lexicals
         @prepares = prepares.empty? ? load_prepares : prepares
         @reviews = reviews.empty? ? load_reviews : reviews
 
-        @checker ||= CheckingVisitor.new(@prepares, @reviews)
+        @checker ||= CheckingVisitor.new(:prepares => @prepares, :reviews => @reviews, :lexicals => @lexicals)
         @debug = false
+      end
+
+      # lexical analysis the file.
+      #
+      # @param [String] filename name of the file
+      # @param [String] content content of the file
+      def lexical(filename, content)
+        puts filename if @debug
+        @checker.lexical(filename, content)
+      end
+
+      # lexical analysis the file.
+      #
+      # @param [String] filename
+      def lexical_file(filename)
+        lexical(filename, File.read(filename))
       end
 
       # prepare and review a file's content with filename.
@@ -67,11 +84,11 @@ module RailsBestPractices
         EOS
       end
 
-      # get all errors from reviews.
+      # get all errors from lexicals and reviews.
       #
-      # @return [Array] all errors from reviews
+      # @return [Array] all errors from lexicals and reviews
       def errors
-        @reviews.collect {|review| review.errors}.flatten
+        (@reviews + @lexicals).collect {|check| check.errors}.flatten
       end
 
       private
@@ -109,6 +126,11 @@ module RailsBestPractices
             end
           end
           content
+        end
+
+        # load all lexical checks.
+        def load_lexicals
+          [RailsBestPractices::Lexicals::RemoveTrailingWhitespaceCheck.new]
         end
 
         # load all prepares.
