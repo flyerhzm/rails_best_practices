@@ -83,28 +83,29 @@ to generate `rails_best_practices.yml` file.
 
 Now you can customize this configuration file, the default configuration is as follows:
 
-    MoveFinderToNamedScopeReview: { }
-    UseModelAssociationReview: { }
-    UseScopeAccessReview: { }
-    AddModelVirtualAttributeReview: { }
-    ReplaceComplexCreationWithFactoryMethodReview: { attribute_assignment_count: 2 }
-    MoveModelLogicIntoModelReview: { use_count: 4 }
-    OveruseRouteCustomizationsReview: { customize_count: 3 }
-    NeedlessDeepNestingReview: { nested_count: 2 }
-    NotUseDefaultRouteReview: {  }
-    KeepFindersOnTheirOwnModelReview: { }
-    LawOfDemeterReview: { }
-    UseObserverReview: { }
-    IsolateSeedDataReview: { }
-    AlwaysAddDbIndexReview: { }
-    UseBeforeFilterReview: { }
-    MoveCodeIntoControllerReview: { }
-    MoveCodeIntoModelReview: { use_count: 2 }
-    MoveCodeIntoHelperReview: { array_count: 3 }
-    ReplaceInstanceVariableWithLocalVariableReview: { }
-    DryBundlerInCapistranoReview: { }
-    UseSayWithTimeInMigrationsReview: { }
-    UseQueryAttributeReview: { }
+    MoveFinderToNamedScopeCheck: { }
+    UseModelAssociationCheck: { }
+    UseScopeAccessCheck: { }
+    AddModelVirtualAttributeCheck: { }
+    ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }
+    MoveModelLogicIntoModelCheck: { use_count: 4 }
+    OveruseRouteCustomizationsCheck: { customize_count: 3 }
+    NeedlessDeepNestingCheck: { nested_count: 2 }
+    NotUseDefaultRouteCheck: {  }
+    KeepFindersOnTheirOwnModelCheck: { }
+    LawOfDemeterCheck: { }
+    UseObserverCheck: { }
+    IsolateSeedDataCheck: { }
+    AlwaysAddDbIndexCheck: { }
+    UseBeforeFilterCheck: { }
+    MoveCodeIntoControllerCheck: { }
+    MoveCodeIntoModelCheck: { use_count: 2 }
+    MoveCodeIntoHelperCheck: { array_count: 3 }
+    ReplaceInstanceVariableWithLocalVariableCheck: { }
+    DryBundlerInCapistranoCheck: { }
+    UseSayWithTimeInMigrationsCheck: { }
+    UseQueryAttributeCheck: { }
+    RemoveTrailingWhitespaceCheck: { }
 
 You can remove or comment one review to disable it, and you can change the options.
 
@@ -153,6 +154,10 @@ View
 Deployment
 
 1. Dry bundler in capistrano
+
+Other
+
+1. Remove Trailing Whitespace
 
 Contribute
 ----------
