@@ -106,6 +106,7 @@ Now you can customize this configuration file, the default configuration is as f
     UseSayWithTimeInMigrationsCheck: { }
     UseQueryAttributeCheck: { }
     RemoveTrailingWhitespaceCheck: { }
+    UseMultipartAlternativeAsContentTypeOfEmailCheck: {}
 
 You can remove or comment one review to disable it, and you can change the options.
 
@@ -133,6 +134,10 @@ Model
 2. the Law of Demeter
 3. Use Observer
 4. Use Query Attribute
+
+Mailer
+
+1. Use multipart/alternative as content_type of email
 
 Migration
 
