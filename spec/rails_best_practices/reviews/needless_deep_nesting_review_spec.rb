@@ -17,6 +17,18 @@ describe RailsBestPractices::Reviews::NeedlessDeepNestingReview do
       runner.errors[0].to_s.should == "config/routes.rb:3 - needless deep nesting (nested_count > 2)"
     end
 
+    it "should not needless deep nesting for shallow" do
+      content = <<-EOF
+      map.resources :posts, :shallow => true do |post|
+        post.resources :comments do |comment|
+          comment.resources :favorites
+        end
+      end
+      EOF
+      runner.review('config/routes.rb', content)
+      runner.should have(0).errors
+    end
+
     it "should needless deep nesting with resource" do
       content = <<-EOF
       map.resources :posts do |post|
@@ -82,6 +94,18 @@ describe RailsBestPractices::Reviews::NeedlessDeepNestingReview do
       runner.review('config/routes.rb', content)
       runner.should have(1).errors
       runner.errors[0].to_s.should == "config/routes.rb:4 - needless deep nesting (nested_count > 2)"
+    end
+
+    it "should not needless deep nesting for shallow" do
+      content = <<-EOF
+      resources :posts, :shallow => true do
+        resources :comments do
+          resources :favorites
+        end
+      end
+      EOF
+      runner.review('config/routes.rb', content)
+      runner.should have(0).errors
     end
 
     it "should needless deep nesting with resource" do

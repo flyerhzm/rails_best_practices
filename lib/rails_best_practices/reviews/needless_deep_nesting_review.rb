@@ -113,13 +113,13 @@ module RailsBestPractices
         # if so, it is the needless deep nesting.
         def recursively_check(node)
           if :iter == node.node_type && :resources == node.subject.message
+            options = eval(node.subject.arguments[2].to_s)
+            return if options["shallow"] == true
             @counter += 1
             recursively_check(node.body)
             @counter -= 1
           elsif :block == node.node_type
-            node.children.each do |child_node|
-              recursively_check(child_node)
-            end
+            node.children.each { |child_node| recursively_check(child_node) }
           elsif :call == node.node_type && [:resources, :resource].include?(node.message)
             add_error "needless deep nesting (nested_count > #{@nested_count})", node.file, node.line if @counter >= @nested_count
           end
