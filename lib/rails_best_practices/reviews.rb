@@ -21,3 +21,4 @@ require 'rails_best_practices/reviews/replace_instance_variable_with_local_varia
 require 'rails_best_practices/reviews/dry_bundler_in_capistrano_review'
 require 'rails_best_practices/reviews/use_say_with_time_in_migrations_review'
 require 'rails_best_practices/reviews/use_query_attribute_review'
+require 'rails_best_practices/reviews/use_multipart_alternative_as_content_type_of_email_review'

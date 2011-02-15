@@ -9,11 +9,6 @@ module RailsBestPractices
     #
     # Implementation:
     #
-    # Prepare process:
-    #   only check all model files to save model names and association names,
-    #   model names are saved as only when subject of call method is equal to one of the model name, then the call method may use query attribute instead,
-    #   association names are saved as association attributes should not be detected as query attributes.
-    #
     # Review process:
     #   check all method calls within conditional statements, like @user.login.nil?
     #   if their subjects are one of the model names
