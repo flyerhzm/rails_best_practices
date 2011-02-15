@@ -254,6 +254,16 @@ describe Sexp do
       node.to_s.should == '{"first_name" => "Richard", "last_name" => "Huang"}'
     end
 
+    it "should get to_s for hash with true/false" do
+      node = parser.parse("{:shallow => true, :index => false}")
+      node.to_s.should == '{"shallow" => true, "index" => false}'
+    end
+
+    it "should get to_s for array and hash mixed" do
+      node = parser.parse("{:only => [:show, :index]}")
+      node.to_s.should == '{"only" => ["show", "index"]}'
+    end
+
     it "should get to_s for colon2" do
       node = parser.parse("RailsBestPractices::Core")
       node.to_s.should == "RailsBestPractices::Core"
