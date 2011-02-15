@@ -400,6 +400,8 @@ class Sexp
   # @return [String] to_s
   def to_s(options={})
     case node_type
+    when :true, :false, :nil
+      self[0].to_s
     when :ivar
       options[:remove_at] ? self[1].to_s[1..-1] : self[1].to_s
     when :lvar, :str, :lit, :const
@@ -408,12 +410,17 @@ class Sexp
       "[\"#{self.children.collect(&:to_s).join('", "')}\"]"
     when :hash
       key_value = false # false is key, true is value
-      result = ['{"']
+      result = ['{']
       children.each do |child|
-        result << "#{child.to_s}#{key_value ? '", "' : '" => "'}"
+        if [:true, :false, :nil, :array, :hash].include? child.node_type
+          result << "#{child}"
+        else
+          result << "\"#{child}\""
+        end
+        result << (key_value ? ", " : " => ")
         key_value = !key_value
       end
-      result.join("").sub(/, "$/, '') + '}'
+      result.join("").sub(/, $/, '') + '}'
     when :colon2
       "#{self[1]}::#{self[2]}"
     else
