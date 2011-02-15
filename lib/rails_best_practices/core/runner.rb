@@ -130,7 +130,16 @@ module RailsBestPractices
 
         # load all lexical checks.
         def load_lexicals
-          [RailsBestPractices::Lexicals::RemoveTrailingWhitespaceCheck.new]
+          checks_from_config.inject([]) { |active_checks, check|
+            begin
+              check_name, options = *check
+              klass = RailsBestPractices::Lexicals.const_get(check_name)
+              active_checks << (options.empty? ? klass.new : klass.new(options))
+            rescue
+              # the check does not exist in the Lexicals namepace.
+            end
+            active_checks
+          }
         end
 
         # load all prepares.
@@ -140,13 +149,21 @@ module RailsBestPractices
 
         # load all reviews according to configuration.
         def load_reviews
-          check_objects = []
-          checks = YAML.load_file @config
-          checks.each do |check|
-            klass = RailsBestPractices::Reviews.const_get(check[0].gsub(/Check/, 'Review'))
-            check_objects << (check[1].empty? ? klass.new : klass.new(check[1]))
-          end
-          check_objects
+          checks_from_config.inject([]) { |active_checks, check|
+            begin
+              check_name, options = *check
+              klass = RailsBestPractices::Reviews.const_get(check_name.gsub(/Check/, 'Review'))
+              active_checks << (options.empty? ? klass.new : klass.new(options))
+            rescue
+              # the check does not exist in the Reviews namepace.
+            end
+            active_checks
+          }
+        end
+
+        # read the checks from yaml config.
+        def checks_from_config
+          @checks ||= YAML.load_file @config
         end
     end
   end
