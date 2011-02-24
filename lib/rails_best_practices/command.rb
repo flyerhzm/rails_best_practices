@@ -6,6 +6,7 @@ require 'optparse'
 #    -f, --format FORMAT              output format
 #        --without-color              only output plain text without color
 #        --with-textmate              open file by textmate in html format
+#        --with-mvim                  open file by mvim in html format
 #        --vendor                     include vendor files
 #        --spec                       include spec files
 #        --test                       include test files
@@ -33,6 +34,10 @@ OptionParser.new do |opts|
 
   opts.on("--with-textmate", "open file by textmate in html format") do
     options["with-textmate"] = true
+  end
+
+  opts.on("--with-mvim", "open file by mvim in html format") do
+    options["with-mvim"] = true
   end
 
   ['vendor', 'spec', 'test', 'features'].each do |pattern|

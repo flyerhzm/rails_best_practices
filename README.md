@@ -22,6 +22,7 @@ By default rails_best_practices will do parse codes in vendor, spec, test and fe
         -f, --format FORMAT              output format
             --without-color              only output plain text without color
             --with-textmate              open file by textmate in html format
+            --with-mvim                  open file by mvim in html format
             --vendor                     include vendor files
             --spec                       include spec files
             --test                       include test files
