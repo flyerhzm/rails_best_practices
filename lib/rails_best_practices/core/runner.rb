@@ -61,7 +61,7 @@ module RailsBestPractices
       #
       # @param [String] filename
       def lexical_file(filename)
-        lexical(filename, File.read(filename))
+        lexical(filename, File.open(filename, "r:UTF-8") { |f| f.read })
       end
 
       # prepare and review a file's content with filename.
@@ -71,16 +71,16 @@ module RailsBestPractices
       # content is the source code.
       [:prepare, :review].each do |process|
         class_eval <<-EOS
-          def #{process}(filename, content)                      # def review(filename, content)
-            puts filename if @debug                              #   puts filename if @debug
-            content = parse_erb_or_haml(filename, content)       #   content = parse_erb_or_haml(filename, content)
-            node = parse_ruby(filename, content)                 #   node = parse_ruby(filename, content)
-            node.#{process}(@checker) if node                    #   node.review(@checker) if node
-          end                                                    # end
-                                                                 #
-          def #{process}_file(filename)                          # def review_file(filename)
-            #{process}(filename, File.read(filename))            #   review(filename, File.read(filename))
-          end                                                    # end
+          def #{process}(filename, content)                                        # def review(filename, content)
+            puts filename if @debug                                                #   puts filename if @debug
+            content = parse_erb_or_haml(filename, content)                         #   content = parse_erb_or_haml(filename, content)
+            node = parse_ruby(filename, content)                                   #   node = parse_ruby(filename, content)
+            node.#{process}(@checker) if node                                      #   node.review(@checker) if node
+          end                                                                      # end
+                                                                                   #
+          def #{process}_file(filename)                                            # def review_file(filename)
+            #{process}(filename, File.open(filename, "r:UTF-8") { |f| f.read })    #   review(filename, File.open(filename, "r:UTF-8") { |f| f.read })
+          end                                                                      # end
         EOS
       end
 
