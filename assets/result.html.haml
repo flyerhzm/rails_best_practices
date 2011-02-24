@@ -54,6 +54,8 @@
           %td.filename
             - if textmate
               %a{:href=>"txmt://open/?url=file://#{File.expand_path(error.filename)}&line=#{error.line_number}"}= error.filename
+            - elsif mvim
+              %a{:href=>"mvim://open/?url=file://#{File.expand_path(error.filename)}&line=#{error.line_number}"}= error.filename
             - else
               = error.filename
           %td.line-number= error.line_number

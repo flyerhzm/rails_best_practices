@@ -211,7 +211,7 @@ module RailsBestPractices
       template = File.read(File.join(File.dirname(__FILE__), "..", "assets", "result.html.haml"))
 
       File.open("rails_best_practices_output.html", "w+") do |file|
-        file.puts Haml::Engine.new(template).render(Object.new, :errors => @runner.errors, :textmate => @options["with-textmate"])
+        file.puts Haml::Engine.new(template).render(Object.new, :errors => @runner.errors, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"])
       end
     end
   end
