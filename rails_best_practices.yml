@@ -12,7 +12,7 @@ LawOfDemeterCheck: { }
 UseObserverCheck: { }
 IsolateSeedDataCheck: { }
 AlwaysAddDbIndexCheck: { }
-UseBeforeFilterCheck: { }
+UseBeforeFilterCheck: { customize_count: 1 }
 MoveCodeIntoControllerCheck: { }
 MoveCodeIntoModelCheck: { use_count: 2 }
 MoveCodeIntoHelperCheck: { array_count: 3 }
