@@ -28,6 +28,11 @@ module RailsBestPractices
         CONTROLLER_FILES
       end
 
+      def initialize(options = {})
+        super()
+        @customize_count = options['customize_count'] || 1
+      end
+
       # check class define node to see if there are method define nodes whose first code line are duplicated.
       #
       # it will check every defn nodes in the class node until protected or private identification,
@@ -79,7 +84,7 @@ module RailsBestPractices
           remember_first_sentence(child_node) if :defn == child_node.node_type
         end
         @first_sentences.each do |first_sentence, defn_nodes|
-          if defn_nodes.size > 1
+          if defn_nodes.size > @customize_count
             add_error "use before_filter for #{defn_nodes.collect(&:method_name).join(',')}", class_node.file, defn_nodes.collect(&:line).join(',')
           end
         end
