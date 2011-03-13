@@ -35,26 +35,27 @@ module RailsBestPractices
       def start_defn(node)
         name = node.method_name
         return unless deliver_method?(name)
-        if !rails2_mailer_views_exist?(name) && !rails3_mailer_views_exist?(name)
+        if rails2_canonical_mailer_views?(name) || rails3_canonical_mailer_views?(name)
           add_error("use multipart/alternative as content_type of email")
         end
       end
 
       private
-        # check if rails2's syntax mailer views exist or not according to the method name.
-        # @param [String] name method name in action_mailer
-        def rails2_mailer_views_exist?(name)
-          (exist?("#{name}.text.plain.erb") && exist?("#{name}.text.html.erb")) ||
-          (exist?("#{name}.text.plain.haml") && exist?("#{name}.text.html.haml")) ||
-          (exist?("#{name}.text.plain.rhtml") && exist?("#{name}.text.html.rhtml"))
-        end
-
-        # check if rails3's syntax mailer views exist or not according to the method name.
+        # check if rails2's syntax mailer views are canonical.
         #
         # @param [String] name method name in action_mailer
-        def rails3_mailer_views_exist?(name)
-          (exist?("#{name}.text.erb") && exist?("#{name}.html.erb")) ||
-          (exist?("#{name}.text.haml") && exist?("#{name}.html.haml"))
+        def rails2_canonical_mailer_views?(name)
+          (exist?("#{name}.text.html.erb") && !exist?("#{name}.text.plain.erb")) ||
+          (exist?("#{name}.text.html.haml") && !exist?("#{name}.text.plain.haml")) ||
+          (exist?("#{name}.text.html.rhtml") && !exist?("#{name}.text.plain.rhtml"))
+        end
+
+        # check if rails3's syntax mailer views are canonical.
+        #
+        # @param [String] name method name in action_mailer
+        def rails3_canonical_mailer_views?(name)
+          (exist?("#{name}.html.erb") && !exist?("#{name}.text.erb")) ||
+          (exist?("#{name}.html.haml") && !exist?("#{name}.text.haml"))
         end
 
         # check if the filename existed in the mailer directory.

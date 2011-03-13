@@ -32,6 +32,24 @@ describe RailsBestPractices::Reviews::UseBeforeFilterReview do
     runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3,7,11,16 - use before_filter for show,edit,update,destroy"
   end
 
+  it "should use before_filter" do
+    content = <<-EOF
+    class PostsController < ApplicationController
+
+      def show
+        @post = Post.find(params[:id])
+      end
+
+      def edit
+        @post = Post.find(params[:id])
+      end
+    end
+    EOF
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3,7,11,16 - use before_filter for show,edit,update,destroy"
+  end
+
   it "should not use before_filter" do
     content = <<-EOF
     class PostsController < ApplicationController
