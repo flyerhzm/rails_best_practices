@@ -165,10 +165,10 @@ Other
 
 1. Remove Trailing Whitespace
 
-Customize
----------
+Customize Check List
+--------------------
 
-If you want to customize your own check list, please read this first, [How to customize your own check list?][1]
+If you want to customize your own check list (some check list only for your rails projects), please read this first, [How to customize your own check list?][1]
 
 Contribute
 ----------
