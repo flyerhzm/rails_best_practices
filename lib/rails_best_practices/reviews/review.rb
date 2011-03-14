@@ -6,6 +6,10 @@ module RailsBestPractices
   module Reviews
     # A Review class that takes charge of reviewing one rails best practice.
     class Review < Core::Check
+      # default url.
+      def url
+        "#"
+      end
       # remember use count for the local or instance variable in the call or attrasgn node.
       #
       # find the local variable or instance variable in the call or attrasgn node,
