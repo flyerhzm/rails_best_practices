@@ -4,7 +4,7 @@ describe RailsBestPractices::Core::Check do
   let(:check) { RailsBestPractices::Core::Check.new }
 
   it "should get empty interesting nodes" do
-    check.interesting_nodes.should == []
+    check.interesting_nodes.should == RailsBestPractices::Core::Check::NODE_TYPES
   end
 
   it "should match all files of interesting files" do
