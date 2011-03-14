@@ -22,7 +22,7 @@ module RailsBestPractices
 
       # default interesting nodes.
       def interesting_nodes
-        []
+        NODE_TYPES
       end
 
       # default interesting files.
