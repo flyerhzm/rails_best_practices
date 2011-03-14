@@ -165,6 +165,11 @@ Other
 
 1. Remove Trailing Whitespace
 
+Customize
+---------
+
+If you want to customize your own check list, please read this first, [How to customize your own check list?][1]
+
 Contribute
 ----------
 
@@ -181,3 +186,6 @@ Send us email: <team@rails-bestpractices.com>
 
 
 Copyright © 2009 - 2011 Richard Huang (flyerhzm@gmail.com), released under the MIT license
+
+
+[1]:https://github.com/flyerhzm/rails_best_practices/wiki/How-to-customize-your-own-check-list
