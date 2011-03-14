@@ -44,6 +44,8 @@ module RailsBestPractices
         @prepares = prepares.empty? ? load_prepares : prepares
         @reviews = reviews.empty? ? load_reviews : reviews
 
+        load_plugin_reviews
+
         @checker ||= CheckingVisitor.new(:prepares => @prepares, :reviews => @reviews, :lexicals => @lexicals)
         @debug = false
       end
@@ -159,6 +161,21 @@ module RailsBestPractices
             end
             active_checks
           }
+        end
+
+        # load all plugin reviews.
+        def load_plugin_reviews
+          begin
+            plugins = "lib/rails_best_practices/plugins/reviews"
+            if File.directory?(plugins)
+              Dir[File.expand_path(File.join(plugins, "*.rb"))].each do |review|
+                require review
+              end
+              RailsBestPractices::Plugins::Reviews.constants.each do |review|
+                @reviews << RailsBestPractices::Plugins::Reviews.const_get(review).new
+              end
+            end
+          end
         end
 
         # read the checks from yaml config.
