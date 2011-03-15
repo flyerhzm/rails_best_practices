@@ -98,7 +98,7 @@ Now you can customize this configuration file, the default configuration is as f
     UseObserverCheck: { }
     IsolateSeedDataCheck: { }
     AlwaysAddDbIndexCheck: { }
-    UseBeforeFilterCheck: { }
+    UseBeforeFilterCheck: { customize_count: 1 }
     MoveCodeIntoControllerCheck: { }
     MoveCodeIntoModelCheck: { use_count: 2 }
     MoveCodeIntoHelperCheck: { array_count: 3 }
@@ -165,10 +165,10 @@ Other
 
 1. Remove Trailing Whitespace
 
-Customize Check List
---------------------
+Write Your Own Check List
+-------------------------
 
-If you want to customize your own check list (some check list only for your rails projects), please read this first, [How to customize your own check list?][1]
+If you want to write your own check list (some check list only for your rails projects), please read this first, [How to write your own check list?][1]
 
 Contribute
 ----------
@@ -188,4 +188,4 @@ Send us email: <team@rails-bestpractices.com>
 Copyright © 2009 - 2011 Richard Huang (flyerhzm@gmail.com), released under the MIT license
 
 
-[1]:https://github.com/flyerhzm/rails_best_practices/wiki/How-to-customize-your-own-check-list
+[1]:https://github.com/flyerhzm/rails_best_practices/wiki/How-to-write-your-own-check-list
