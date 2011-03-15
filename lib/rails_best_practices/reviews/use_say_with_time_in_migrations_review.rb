@@ -17,7 +17,7 @@ module RailsBestPractices
     class UseSayWithTimeInMigrationsReview < Review
 
       DEFAULT_MIGRATION_METHODS = [:add_column, :add_index, :add_timestamps, :change_column, :change_column_default, :change_table, :create_table, :drop_table, :remove_column, :remove_index, :remove_timestamps, :rename_column, :rename_index, :rename_table]
-      WITH_SAY_METHODS = DEFAULT_MIGRATION_METHODS + [:say, :say_with_time]
+      WITH_SAY_METHODS = [:say, :say_with_time]
 
       def url
         "http://rails-bestpractices.com/posts/46-use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log"
@@ -67,11 +67,11 @@ module RailsBestPractices
       def start_defs(node)
         block_node = node.grep_node(:node_type => :block)
         block_node.children.each do |child_node|
-          if :iter == child_node.node_type
-            subject_node = child_node.subject
-            if :call == subject_node.node_type && !WITH_SAY_METHODS.include?(subject_node.message)
-              add_error("use say with time in migrations", subject_node.file, subject_node.line)
-            end
+          next if :iter != child_node.node_type || child_node.grep_nodes_count(:node_type => :call, :message => WITH_SAY_METHODS) > 0
+
+          subject_node = child_node.subject
+          if :call == subject_node.node_type && !DEFAULT_MIGRATION_METHODS.include?(subject_node.message)
+            add_error("use say with time in migrations", subject_node.file, subject_node.line)
           end
         end
       end
