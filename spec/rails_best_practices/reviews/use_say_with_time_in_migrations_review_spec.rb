@@ -52,6 +52,20 @@ describe RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview do
     runner.should have(0).errors
   end
 
+  it "should not use say with time in migrations when not first code line" do
+    content =<<-EOF
+    def self.up
+      User.find_each do |user|
+        say_with_time 'Updating user with latest data' do
+          user.do_time_consuming_stuff
+        end
+      end
+    end
+    EOF
+    runner.review('db/migrate/20101010080658_update_users.rb', content)
+    runner.should have(0).errors
+  end
+
   it "should not use say with time when default migration message" do
     content =<<-EOF
     def self.up
