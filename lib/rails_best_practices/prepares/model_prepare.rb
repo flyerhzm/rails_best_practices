@@ -33,10 +33,10 @@ module RailsBestPractices
       # the remembered association names (@associations) are like
       #     {
       #       :Project=>{
-      #         "categories"=>:has_and_belongs_to_many,
-      #         "project_manager"=>:has_one,
-      #         "portfolio"=>:belongs_to,
-      #         "milestones=>:has_many"
+      #         "categories" => {:has_and_belongs_to_many => "Category"},
+      #         "project_manager" => {:has_one => "ProjectManager"},
+      #         "portfolio" => {:belongs_to => "Portfolio"},
+      #         "milestones => {:has_many" => "Milestone"}
       #       }
       #     }
       def start_call(node)
@@ -47,8 +47,12 @@ module RailsBestPractices
       def remember_association(association_node)
         association_meta = association_node.message
         association_name = association_node.arguments[1].to_s
+        if association_node.arguments[2] && :hash == association_node.arguments[2].node_type
+          association_options = eval(association_node.arguments[2].to_s)
+          class_name = association_options["class_name"]
+        end
         @associations[@last_klazz] ||= {}
-        @associations[@last_klazz][association_name] = association_meta
+        @associations[@last_klazz][association_name] = {association_meta => class_name || association_name.classify}
       end
 
       # default rails association methods.
