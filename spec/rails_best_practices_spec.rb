@@ -33,6 +33,7 @@ describe RailsBestPractices do
     check1.add_error "law of demeter", "app/models/user.rb", 10
     check2.add_error "use query attribute", "app/models/post.rb", 100
     RailsBestPractices.runner = runner
+    RailsBestPractices.instance_variable_set("@options", {"without-color" => false})
 
     $origin_stdout = $stdout
     $stdout = StringIO.new

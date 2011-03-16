@@ -114,7 +114,7 @@ module RailsBestPractices
         def recursively_check(node)
           if :iter == node.node_type && :resources == node.subject.message
             options = eval(node.subject.arguments[2].to_s)
-            return if options["shallow"] == true
+            return if options && options["shallow"] == true
             @counter += 1
             recursively_check(node.body)
             @counter -= 1

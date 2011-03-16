@@ -127,9 +127,10 @@ module RailsBestPractices
           if :resources == node.message
             hash_node = node.arguments[2]
             if hash_node
-              (hash_node.grep_nodes_count(:node_type => :lit) - hash_node.grep_nodes_count(:node_type => :hash)) / 2
+              return (hash_node.grep_nodes_count(:node_type => :lit) - hash_node.grep_nodes_count(:node_type => :hash)) / 2
             end
           end
+          0
         end
 
         # check iter node to calculate the count of member and collection custom routes.
@@ -160,9 +161,7 @@ module RailsBestPractices
         #       )
         #     )
         def member_and_collection_count_for_rails3(node)
-          if :resources == node.subject.message
-            node.grep_nodes_count(:node_type => :call, :message => VERBS)
-          end
+          :resources == node.subject.message ? node.grep_nodes_count(:node_type => :call, :message => VERBS) : 0
         end
     end
   end
