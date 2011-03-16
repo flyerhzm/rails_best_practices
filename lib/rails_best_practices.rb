@@ -70,6 +70,8 @@ module RailsBestPractices
     def start(path, options)
       @path = path || '.'
       @options = options
+      @options[:exclude] ||= []
+
       Core::Runner.base_path = @path
       @runner = Core::Runner.new
       @runner.debug = true if @options['debug']
