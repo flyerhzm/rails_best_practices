@@ -60,7 +60,7 @@ module RailsBestPractices
         def check_variable_save(node)
           if [:save, :save!].include? node.message
             variable = node.subject
-            if variable_use_count[variable] > @attrasgn_count
+            if variable_use_count[variable].to_i > @attrasgn_count
               add_error "replace complex creation with factory method (#{variable} attribute_assignment_count > #{@attrasgn_count})"
             end
           end
