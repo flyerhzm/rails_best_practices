@@ -14,10 +14,10 @@ describe RailsBestPractices::Prepares::ModelPrepare do
     EOF
     runner.prepare('app/models/project.rb', content)
     model_associations = RailsBestPractices::Prepares.model_associations
-    model_associations["Project"]["portfolio"].should == {:belongs_to => "Portfolio"}
-    model_associations["Project"]["project_manager"].should == {:has_one => "ProjectManager"}
-    model_associations["Project"]["milestones"].should == {:has_many => "Milestone"}
-    model_associations["Project"]["categories"].should == {:has_and_belongs_to_many => "Category"}
+    model_associations.get_association("Project", "portfolio").should == {:meta => :belongs_to, :class_name => "Portfolio"}
+    model_associations.get_association("Project", "project_manager").should == {:meta => :has_one, :class_name => "ProjectManager"}
+    model_associations.get_association("Project", "milestones").should == {:meta => :has_many, :class_name => "Milestone"}
+    model_associations.get_association("Project", "categories").should == {:meta => :has_and_belongs_to_many, :class_name => "Category"}
   end
 
   context "class_name" do
@@ -29,7 +29,7 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       EOF
       runner.prepare("app/models/post.rb", content)
       model_associations = RailsBestPractices::Prepares.model_associations
-      model_associations["Post"]["author"].should == {:belongs_to => "Person"}
+      model_associations.get_association("Post", "author").should == {:meta => :belongs_to, :class_name => "Person"}
     end
 
     it "should parse has_one" do
@@ -40,7 +40,7 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       EOF
       runner.prepare("app/models/post.rb", content)
       model_associations = RailsBestPractices::Prepares.model_associations
-      model_associations["Project"]["project_manager"].should == {:has_one => "Person"}
+      model_associations.get_association("Project", "project_manager").should == {:meta => :has_one, :class_name => "Person"}
     end
 
     it "should parse has_many" do
@@ -51,7 +51,7 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       EOF
       runner.prepare("app/models/project.rb", content)
       model_associations = RailsBestPractices::Prepares.model_associations
-      model_associations["Project"]["people"].should == {:has_many => "Person"}
+      model_associations.get_association("Project", "people").should == {:meta => :has_many, :class_name => "Person"}
     end
 
     it "should parse has_and_belongs_to_many" do
@@ -62,7 +62,7 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       EOF
       runner.prepare("app/models/citizen.rb", content)
       model_associations = RailsBestPractices::Prepares.model_associations
-      model_associations["Citizen"]["nations"].should == {:has_and_belongs_to_many => "Country"}
+      model_associations.get_association("Citizen", "nations").should == {:meta => :has_and_belongs_to_many, :class_name => "Country"}
     end
   end
 end
