@@ -63,7 +63,8 @@ module RailsBestPractices
         # and the message of subject of the call node is :user
         def need_delegate?(node)
           class_name = node.subject.subject.to_s(:remove_at => true).classify
-          association_methods.include? model_associations[class_name][node.subject.message.to_s]
+          association = model_associations.get_association(class_name, node.subject.message.to_s)
+          association && association_methods.include?(association[:meta])
         end
 
         # only check belongs_to and has_one association.

@@ -85,10 +85,14 @@ module RailsBestPractices
             !pluralize?(message.to_s) && (QUERY_METHODS.include?(node.message) || compare_with_empty_string?(node))
         end
 
+        # check if the subject is one of the models.
+        #
+        #     subject, subject of call node, like
+        #         s(:ivar, @user)
         def is_model?(subject)
           return false if :const == subject.node_type
           class_name = subject.to_s(:remove_at => true).classify
-          !model_associations[class_name].nil?
+          models.include?(class_name)
         end
 
         # check if the subject and message is one of the model's aassociation.
@@ -101,7 +105,7 @@ module RailsBestPractices
         #         :login
         def model_association?(subject, message)
           class_name = subject.to_s(:remove_at => true).classify
-          !model_associations[class_name][message.to_s].nil?
+          model_associations.is_association?(class_name, message.to_s)
         end
 
 

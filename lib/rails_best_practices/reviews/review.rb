@@ -60,6 +60,13 @@ module RailsBestPractices
         end
       end
 
+      # get the models from Prepares.
+      #
+      # @return [Array]
+      def models
+        @models ||= Prepares.models
+      end
+
       # get the model associations from Prepares.
       #
       # @return [Hash]

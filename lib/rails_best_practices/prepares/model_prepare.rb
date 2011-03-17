@@ -15,17 +15,20 @@ module RailsBestPractices
       end
 
       def initialize
-        @associations = {}
+        @models = Core::Models.new
+        @model_associations = Core::ModelAssociations.new
       end
 
       # check class node to remember the last class name.
       def start_class(class_node)
         @last_klazz = class_node.class_name.to_s
+        @models << @last_klazz
       end
 
-      # assign @associations to Prepare.model_associations.
+      # assign @model_associations to Prepare.model_associations.
       def end_class(class_node)
-        Prepares.model_associations = @associations
+        Prepares.models = @models
+        Prepares.model_associations = @model_associations
       end
 
       # check call node to remember all assoications.
@@ -49,10 +52,9 @@ module RailsBestPractices
         association_name = association_node.arguments[1].to_s
         if association_node.arguments[2] && :hash == association_node.arguments[2].node_type
           association_options = eval(association_node.arguments[2].to_s)
-          class_name = association_options["class_name"]
+          association_class = association_options["class_name"]
         end
-        @associations[@last_klazz] ||= {}
-        @associations[@last_klazz][association_name] = {association_meta => class_name || association_name.classify}
+        @model_associations.add_association(@last_klazz, association_name, association_meta, association_class)
       end
 
       # default rails association methods.
