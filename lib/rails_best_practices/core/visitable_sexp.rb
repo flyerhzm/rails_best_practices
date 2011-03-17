@@ -428,14 +428,14 @@ class Sexp
     end
   end
 
-  # if the return value of these methods is nil, then return RailsBestPractices::Nil.new instead
+  # if the return value of these methods is nil, then return RailsBestPractices::Core::Nil.new instead
   [:node_type, :subject, :message, :arguments, :class_name, :base_class, :method_name, :body, :conditional_statement, :true_node, :false_node, :left_value, :right_value].each do |method|
     class_eval <<-EOS
       alias_method :origin_#{method}, :#{method}
 
       def #{method}
         ret = origin_#{method}
-        ret.nil? ? RailsBestPractices::Nil.new : ret
+        ret.nil? ? RailsBestPractices::Core::Nil.new : ret
       end
     EOS
   end
