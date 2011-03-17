@@ -94,8 +94,7 @@ module RailsBestPractices
           subject = node.subject
           arguments_node = node.arguments.grep_node(:message => :[])
           return if subject.nil? or arguments_node.nil?
-          @attrasgns[subject] ||= []
-          @attrasgns[subject] << {:message => node.message, :arguments => arguments_node}
+          attrasgns(subject) << {:message => node.message, :arguments => arguments_node}
         end
 
         # check a call node with message :save or :save!,
@@ -123,7 +122,7 @@ module RailsBestPractices
         def call_assignment(node)
           if [:save, :save!].include? node.message
             subject = node.subject
-            add_error "add model virtual attribute (for #{subject})" if params_dup?(@attrasgns[subject].collect {|h| h[:arguments]})
+            add_error "add model virtual attribute (for #{subject})" if params_dup?(attrasgns(subject).collect {|h| h[:arguments]})
           end
         end
 
@@ -131,6 +130,11 @@ module RailsBestPractices
         def params_dup?(nodes)
           return false if nodes.nil?
           !nodes.dups.empty?
+        end
+
+        # get the attrasgns of subject, or empty array.
+        def attrasgns(subject)
+          @attrasgns[subject] ||= []
         end
     end
   end
