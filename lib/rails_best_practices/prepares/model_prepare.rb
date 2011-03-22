@@ -50,9 +50,10 @@ module RailsBestPractices
       def remember_association(association_node)
         association_meta = association_node.message
         association_name = association_node.arguments[1].to_s
-        if association_node.arguments[2] && :hash == association_node.arguments[2].node_type
-          association_options = eval(association_node.arguments[2].to_s)
-          association_class = association_options["class_name"]
+        arguments_node = association_node.arguments[2]
+        if arguments_node && :hash == arguments_node.node_type
+          index = arguments_node.index(s(:lit, :class_name))
+          association_class = arguments_node[index + 1].to_s if index
         end
         @model_associations.add_association(@last_klazz, association_name, association_meta, association_class)
       end
