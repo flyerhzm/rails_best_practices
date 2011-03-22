@@ -15,7 +15,7 @@ module RailsBestPractices
     # 2. review process, it does real check, if the source code violates some best practices, the violations will be notified.
     class Runner
       attr_reader :checks
-      attr_accessor :debug, :color
+      attr_accessor :debug, :whiny, :color
 
       # set the base path.
       #
@@ -48,6 +48,7 @@ module RailsBestPractices
 
         @checker ||= CheckingVisitor.new(:prepares => @prepares, :reviews => @reviews, :lexicals => @lexicals)
         @debug = false
+        @whiny = false
       end
 
       # lexical analysis the file.
@@ -107,6 +108,7 @@ module RailsBestPractices
               warning = warning.red if self.color
               puts warning
             end
+            raise e if @whiny
             nil
           end
         end
