@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RailsBestPractices::Reviews::UseQueryAttributeReview do
   let(:runner) {
     RailsBestPractices::Core::Runner.new(
-      :prepares => RailsBestPractices::Prepares::ModelPrepare.new,
+      :prepares => [RailsBestPractices::Prepares::ModelPrepare.new, RailsBestPractices::Prepares::SchemaPrepare.new],
       :reviews => RailsBestPractices::Reviews::UseQueryAttributeReview.new
     )
   }
@@ -19,6 +19,15 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
     end
     EOF
     runner.prepare('app/models/user.rb', content)
+
+    content = <<-EOF
+    ActiveRecord::Schema.define(:version => 20110216150853) do
+      create_table "users", force => true do |t|
+        t.string :login
+      end
+    end
+    EOF
+    runner.prepare('db/schema.rb', content)
   end
 
   it "should use query attribute by blank call" do
