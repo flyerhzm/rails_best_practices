@@ -47,32 +47,32 @@ module RailsBestPractices
 
       private
         # check if the arguments of options_for_select are complex.
-      #
-      # if the first argument is an array,
-      # and the size of array is greater than @array_count you defined,
-      # then it is complext, e.g.
-      #
-      #     s(:call, nil, :options_for_select,
-      #       s(:arglist,
-      #         s(:array,
-      #           s(:array,
-      #             s(:call, nil, :t, s(:arglist, s(:lit, :draft))),
-      #             s(:str, "draft")
-      #           ),
-      #           s(:array,
-      #             s(:call, nil, :t, s(:arglist, s(:lit, :published))),
-      #             s(:str, "published")
-      #           )
-      #         ),
-      #         s(:call,
-      #           s(:call, nil, :params, s(:arglist)),
-      #           :[],
-      #           s(:arglist, s(:lit, :default_state))
-      #         )
-      #       )
-      #     )
+        #
+        # if the first argument is an array,
+        # and the size of array is greater than @array_count you defined,
+        # then it is complext, e.g.
+        #
+        #     s(:call, nil, :options_for_select,
+        #       s(:arglist,
+        #         s(:array,
+        #           s(:array,
+        #             s(:call, nil, :t, s(:arglist, s(:lit, :draft))),
+        #             s(:str, "draft")
+        #           ),
+        #           s(:array,
+        #             s(:call, nil, :t, s(:arglist, s(:lit, :published))),
+        #             s(:str, "published")
+        #           )
+        #         ),
+        #         s(:call,
+        #           s(:call, nil, :params, s(:arglist)),
+        #           :[],
+        #           s(:arglist, s(:lit, :default_state))
+        #         )
+        #       )
+        #     )
         def complex_select_options?(node)
-          :options_for_select == node.message and :array == node.arguments[1].node_type and node.arguments[1].size > @array_count
+          :options_for_select == node.message && :array == node.arguments[1].node_type && node.arguments[1].size > @array_count
         end
     end
   end
