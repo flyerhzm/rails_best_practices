@@ -15,8 +15,8 @@ describe RailsBestPractices::Core::ModelAssociations do
   end
 
   it "should check is model associatiosn" do
-    model_associations.get_association("Project", "project_manager").should be_true
-    model_associations.get_association("Project", "people").should be_true
-    model_associations.get_association("Project", "unknown").should be_false
+    model_associations.is_association?("Project", "project_manager").should be_true
+    model_associations.is_association?("Project", "people").should be_true
+    model_associations.is_association?("Project", "unknown").should be_false
   end
 end
