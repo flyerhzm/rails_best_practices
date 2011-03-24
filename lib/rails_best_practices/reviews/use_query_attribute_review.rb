@@ -65,7 +65,7 @@ module RailsBestPractices
         # if the node contains two method calls, e.g. @user.login.nil?
         #
         # for the first call, the subject should be one of the class names and
-        # the message should not be one of the association name and the message should not be pluralize.
+        # the message should be one of the attribute name.
         #
         # for the second call, the message should be one of nil?, blank? or present? or
         # it is compared with an empty string.
@@ -81,8 +81,8 @@ module RailsBestPractices
           return false unless subject
           message = node.subject.message
 
-          [:arglist] == node.subject.arguments && is_model?(subject) && !model_association?(subject, message) &&
-            !pluralize?(message.to_s) && (QUERY_METHODS.include?(node.message) || compare_with_empty_string?(node))
+          [:arglist] == node.subject.arguments && is_model?(subject) && model_attribute?(subject, message) &&
+            (QUERY_METHODS.include?(node.message) || compare_with_empty_string?(node))
         end
 
         # check if the subject is one of the models.
@@ -95,23 +95,17 @@ module RailsBestPractices
           models.include?(class_name)
         end
 
-        # check if the subject and message is one of the model's aassociation.
-        # the subject should match one of the class model name, and the message should match one of association name.
+        # check if the subject and message is one of the model's attribute.
+        # the subject should match one of the class model name, and the message should match one of attribute name.
         #
         #     subject, subject of call node, like
         #         s(:ivar, @user)
         #
         #     message, message of call node, like
         #         :login
-        def model_association?(subject, message)
+        def model_attribute?(subject, message)
           class_name = subject.to_s(:remove_at => true).classify
-          model_associations.is_association?(class_name, message.to_s)
-        end
-
-
-        # check if the str is a pluralize string.
-        def pluralize?(str)
-          str.pluralize == str
+          model_attributes.is_attribute?(class_name, message.to_s)
         end
 
         # check if the node is with node type :call, node message :== and node arguments {:arglist, (:str, "")}
