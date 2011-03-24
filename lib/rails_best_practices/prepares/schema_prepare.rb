@@ -35,7 +35,7 @@ module RailsBestPractices
 
       # assign @model_attributes to Prepares.model_attributes.
       def end_call(call_node)
-        if :create_table
+        if :create_table == call_node.message
           Prepares.model_attributes = @model_attributes
         end
       end

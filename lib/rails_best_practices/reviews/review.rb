@@ -78,7 +78,7 @@ module RailsBestPractices
       #
       # @return [Hash]
       def model_attributes
-        @model_attributes || Prepares.model_attributes
+        @model_attributes ||= Prepares.model_attributes
       end
 
       # compare two sexp nodes' to_s.
