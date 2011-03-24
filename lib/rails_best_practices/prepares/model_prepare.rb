@@ -25,7 +25,7 @@ module RailsBestPractices
         @models << @last_klazz
       end
 
-      # assign @model_associations to Prepare.model_associations.
+      # assign @model_associations to Prepares.model_associations.
       def end_class(class_node)
         Prepares.models = @models
         Prepares.model_associations = @model_associations
