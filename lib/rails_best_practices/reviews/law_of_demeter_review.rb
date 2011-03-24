@@ -67,7 +67,7 @@ module RailsBestPractices
           association = model_associations.get_association(class_name, association_name)
           attribute_name = node.message.to_s
           association && association_methods.include?(association[:meta]) &&
-            is_association_attribute?(association_name, attribute_name)
+            is_association_attribute?(association[:class_name], association_name, attribute_name)
         end
 
         # only check belongs_to and has_one association.
@@ -75,7 +75,7 @@ module RailsBestPractices
           [:belongs_to, :has_one]
         end
 
-        def is_association_attribute?(association_name, attribute_name)
+        def is_association_attribute?(association_class, association_name, attribute_name)
           if association_name =~ /able$/
             models.each do |class_name|
               if model_associations.is_association?(class_name, association_name.sub(/able$/, '')) ||
@@ -84,7 +84,7 @@ module RailsBestPractices
               end
             end
           else
-            model_attributes.is_attribute?(association_name.classify, attribute_name)
+            model_attributes.is_attribute?(association_class, attribute_name)
           end
         end
     end

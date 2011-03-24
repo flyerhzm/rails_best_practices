@@ -12,10 +12,12 @@ module RailsBestPractices
       end
 
       def get_attribute_type(model_name, attribute_name)
+        @attributes[model_name] ||= {}
         @attributes[model_name][attribute_name]
       end
 
       def is_attribute?(model_name, attribute_name)
+        @attributes[model_name] ||= {}
         !!@attributes[model_name][attribute_name]
       end
     end
