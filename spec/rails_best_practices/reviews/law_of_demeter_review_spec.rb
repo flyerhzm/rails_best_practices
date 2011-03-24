@@ -94,6 +94,42 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
     end
   end
 
+  context "polymorphic association" do
+    before :each do
+      content = <<-EOF
+      class Comment < ActiveRecord::Base
+        belongs_to :commentable, :polymorphic => true
+      end
+      EOF
+      runner.prepare('app/models/comment.rb', content)
+
+      content = <<-EOF
+      class Post < ActiveRecord::Base
+        has_many :comments
+      end
+      EOF
+      runner.prepare('app/models/comment.rb', content)
+
+      content = <<-EOF
+      ActiveRecord::Schema.define(:version => 20110216150853) do
+        create_table "posts", force => true do |t|
+          t.string :title
+        end
+      end
+      EOF
+      runner.prepare('db/schema.rb', content)
+    end
+
+    it "should law of demeter" do
+      content = <<-EOF
+      <%= @comment.commentable.title %>
+      EOF
+      runner.review('app/views/comments/index.html.erb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/views/comments/index.html.erb:1 - law of demeter"
+    end
+  end
+
   it "should no law of demeter with method call" do
     content = <<-EOF
     class Question < ActiveRecord::Base
