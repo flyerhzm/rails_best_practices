@@ -4,7 +4,7 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
 
   let(:runner) {
     RailsBestPractices::Core::Runner.new(
-      :prepares => RailsBestPractices::Prepares::ModelPrepare.new,
+      :prepares => [RailsBestPractices::Prepares::ModelPrepare.new, RailsBestPractices::Prepares::SchemaPrepare.new],
       :reviews => RailsBestPractices::Reviews::LawOfDemeterReview.new
     )
   }
@@ -17,6 +17,17 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
       end
       EOF
       runner.prepare('app/models/invoice.rb', content)
+
+      content = <<-EOF
+      ActiveRecord::Schema.define(:version => 20110216150853) do
+        create_table "users", force => true do |t|
+          t.string :name
+          t.string :address
+          t.string :cellphone
+        end
+      end
+      EOF
+      runner.prepare('db/schema.rb', content)
     end
 
     it "should law of demeter" do
@@ -60,6 +71,16 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
       end
       EOF
       runner.prepare('app/models/invoice.rb', content)
+
+      content = <<-EOF
+      ActiveRecord::Schema.define(:version => 20110216150853) do
+        create_table "prices", force => true do |t|
+          t.string :currency
+          t.integer :number
+        end
+      end
+      EOF
+      runner.prepare('db/schema.rb', content)
     end
 
     it "should law of demeter" do
