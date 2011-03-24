@@ -33,7 +33,7 @@ module RailsBestPractices
       end
 
       def interesting_files
-        /db\/schema.rb/
+        SCHEMA_FILE
       end
 
       def initialize
