@@ -74,6 +74,13 @@ module RailsBestPractices
         @model_associations ||= Prepares.model_associations
       end
 
+      # get the model attributes from Prepares.
+      #
+      # @return [Hash]
+      def model_attributes
+        @model_attributes || Prepares.model_attributes
+      end
+
       # compare two sexp nodes' to_s.
       #
       #     equal?(":test", :test) => true
