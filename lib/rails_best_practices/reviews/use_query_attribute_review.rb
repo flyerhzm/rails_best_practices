@@ -105,7 +105,8 @@ module RailsBestPractices
         #         :login
         def model_attribute?(subject, message)
           class_name = subject.to_s(:remove_at => true).classify
-          model_attributes.is_attribute?(class_name, message.to_s)
+          attribute_type = model_attributes.get_attribute_type(class_name, message.to_s)
+          attribute_type && ![:integer, :float].include?(attribute_type)
         end
 
         # check if the node is with node type :call, node message :== and node arguments {:arglist, (:str, "")}

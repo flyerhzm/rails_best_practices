@@ -24,6 +24,7 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
     ActiveRecord::Schema.define(:version => 20110216150853) do
       create_table "users", force => true do |t|
         t.string :login
+        t.integer :age
       end
     end
     EOF
@@ -100,6 +101,16 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
     content = <<-EOF
     <% if @user.login? %>
       <%= @user.login %>
+    <% end %>
+    EOF
+    runner.review('app/views/users/show.html.erb', content)
+    runner.should have(0).errors
+  end
+
+  it "should not use query attribute for number" do
+    content =<<-EOF
+    <% unless @user.age.blank? %>
+      <%= @user.age %>
     <% end %>
     EOF
     runner.review('app/views/users/show.html.erb', content)
