@@ -126,7 +126,8 @@ module RailsBestPractices
               content = Haml::Engine.new(content).precompiled
               # remove \xxx characters
               content.gsub!(/\\\d{3}/, '')
-            rescue Haml::SyntaxError
+            rescue Haml::Error
+              # do nothing, just ignore the wrong haml files.
             end
           end
           content
