@@ -201,8 +201,8 @@ module RailsBestPractices
 
         # remove the non foreign keys with only _type column.
         def remove_only_type_foreign_keys
-          @foreign_keys.delete_if { |table, foreign_key|
-            foreign_key.size == 1 && foreign_key[0] =~ /_type$/
+          @foreign_keys.each { |table, foreign_keys|
+            foreign_keys.delete_if { |key| key =~ /_type$/ }
           }
         end
 

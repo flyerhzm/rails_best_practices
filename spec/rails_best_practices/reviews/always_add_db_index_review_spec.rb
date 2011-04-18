@@ -83,6 +83,22 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (taggings => [tag_id])"
   end
 
+  it "should always add db index only _id without non related _type column" do
+    content = <<-EOF
+    ActiveRecord::Schema.define(:version => 20100603080629) do
+      create_table "websites", :force => true do |t|
+        t.integer  "user_id"
+        t.string   "icon_file_name"
+        t.integer  "icon_file_size"
+        t.string   "icon_content_type"
+      end
+    end
+    EOF
+    runner.review('db/schema.rb', content)
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (websites => [user_id])"
+  end
+
   it "should not always add db index with column has no id" do
     content = <<-EOF
     ActiveRecord::Schema.define(:version => 20100603080629) do
