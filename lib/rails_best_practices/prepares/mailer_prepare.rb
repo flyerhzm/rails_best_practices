@@ -15,7 +15,7 @@ module RailsBestPractices
       end
 
       def initialize
-        @mailer_names = []
+        @mailers = Core::Mailers.new
       end
 
       # check class node.
@@ -24,8 +24,8 @@ module RailsBestPractices
       # then remember its class name.
       def start_class(class_node)
         if s(:colon2, s(:const, :ActionMailer), :Base) == class_node.base_class
-          @mailer_names << class_node.class_name
-          Prepares.mailer_names = @mailer_names
+          @mailers << class_node.class_name.to_s
+          Prepares.mailers = @mailers
         end
       end
     end
