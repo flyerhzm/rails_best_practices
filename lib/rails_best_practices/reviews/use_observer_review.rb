@@ -112,15 +112,15 @@ module RailsBestPractices
         def deliver_mailer?(node)
           node.grep_nodes(:node_type => :call) do |child_node|
             # rails2 actionmailer deliver
-            return true if child_node.message.to_s =~ /^deliver_/ && mailer_names.include?(child_node.subject.to_s)
+            return true if child_node.message.to_s =~ /^deliver_/ && mailers.include?(child_node.subject.to_s)
             # rails3 actionmailer deliver
-            return true if :deliver == child_node.message && mailer_names.include?(child_node.subject.subject.to_s)
+            return true if :deliver == child_node.message && mailers.include?(child_node.subject.subject.to_s)
           end
           false
         end
 
-        def mailer_names
-          @mailer_names ||= Prepares.mailer_names.collect(&:to_s)
+        def mailers
+          @mailers ||= Prepares.mailers
         end
     end
   end

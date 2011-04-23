@@ -6,14 +6,22 @@ require 'rails_best_practices/prepares/schema_prepare'
 module RailsBestPractices
   module Prepares
     class <<self
-      attr_writer :models, :model_associations, :model_attributes, :mailer_names
+      attr_writer :models, :model_associations, :model_attributes, :mailers
 
-      [:models, :model_associations, :model_attributes, :mailer_names].each do |method_name|
-        class_eval <<-EOS
-        def #{method_name}
-          @#{method_name} ||= []
-        end
-        EOS
+      def models
+        @models ||= Core::Models.new
+      end
+
+      def model_associations
+        @model_associations ||= Core::ModelAssociations.new
+      end
+
+      def model_attributes
+        @model_attributes ||= Core::ModelAttributes.new
+      end
+
+      def mailers
+        @mailers ||= Core::Mailers.new
       end
     end
   end
