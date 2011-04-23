@@ -109,6 +109,7 @@ Now you can customize this configuration file, the default configuration is as f
     RemoveTrailingWhitespaceCheck: { }
     UseMultipartAlternativeAsContentTypeOfEmailCheck: {}
     SimplifyRenderInViewsCheck: {}
+    SimplifyRenderInControllersCheck: {}
 
 You can remove or comment one review to disable it, and you can change the options.
 
