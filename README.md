@@ -108,6 +108,7 @@ Now you can customize this configuration file, the default configuration is as f
     UseQueryAttributeCheck: { }
     RemoveTrailingWhitespaceCheck: { }
     UseMultipartAlternativeAsContentTypeOfEmailCheck: {}
+    SimplifyRenderInViewsCheck: {}
 
 You can remove or comment one review to disable it, and you can change the options.
 
@@ -156,6 +157,7 @@ View
 2. Move code into model
 3. Move code into helper
 4. Replace instance variable with local variable
+5. Simplify render in views
 
 Deployment
 
