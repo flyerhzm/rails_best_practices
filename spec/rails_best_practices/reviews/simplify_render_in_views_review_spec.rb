@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RailsBestPractices::Reviews::SimplifyRenderInViewsReview do
   let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::SimplifyRenderInViewsReview.new) }
 
-  it "should simplify redner simple partial" do
+  it "should simplify render simple partial" do
     content =<<-EOF
     <%= render :partial => 'sidebar' %>
     EOF
