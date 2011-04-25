@@ -13,18 +13,18 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency("ruby_parser", "~> 2.0.4")
-  s.add_dependency("ruby-progressbar", "~> 0.0.9")
-  s.add_dependency("colored", "~> 1.2")
-  s.add_dependency("erubis", "~> 2.6.6")
-  s.add_dependency("haml", "~> 3.0.18")
+  s.add_dependency("ruby_parser")
+  s.add_dependency("ruby-progressbar")
+  s.add_dependency("colored")
+  s.add_dependency("erubis")
+  s.add_dependency("haml")
   s.add_dependency("i18n")
   s.add_dependency("activesupport")
 
   s.add_development_dependency("rake")
-  s.add_development_dependency("rspec", "~> 2.4.0")
-  s.add_development_dependency("watchr", "~> 0.6")
-  s.add_development_dependency("bundler", ">= 1.0.0")
+  s.add_development_dependency("rspec")
+  s.add_development_dependency("watchr")
+  s.add_development_dependency("bundler")
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
