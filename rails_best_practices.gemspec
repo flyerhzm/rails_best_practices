@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.add_dependency("ruby-progressbar", "~> 0.0.9")
   s.add_dependency("colored", "~> 1.2")
   s.add_dependency("erubis", "~> 2.6.6")
-  s.add_dependency("haml", "~> 3.0.18")
+  s.add_dependency("haml", ">= 3.0.18", "< 3.2.0")
   s.add_dependency("i18n")
   s.add_dependency("activesupport")
 
