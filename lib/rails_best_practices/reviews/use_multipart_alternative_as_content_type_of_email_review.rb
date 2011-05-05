@@ -54,13 +54,18 @@ module RailsBestPractices
         #
         # @param [String] name method name in action_mailer
         def rails3_canonical_mailer_views?(name)
-          (exist?("#{name}.html.erb") && !exist?("#{name}.text.erb")) ||
-          (exist?("#{name}.html.haml") && !exist?("#{name}.text.haml"))
+          (exist?("#{name}.html.erb") && !haml_or_erb_exists?("#{name}.text")) ||
+          (exist?("#{name}.html.haml") && !haml_or_erb_exists?("#{name}.text") )
         end
 
         # check if the filename existed in the mailer directory.
         def exist?(filename)
           File.exist? File.join(mailer_directory, filename)
+        end
+
+        # check if haml or erb exists
+        def haml_or_erb_exists?(filename)
+          exist?("#{filename}.erb") || exist?("#{filename}.haml")
         end
 
         # check if the method is a deliver_method.
