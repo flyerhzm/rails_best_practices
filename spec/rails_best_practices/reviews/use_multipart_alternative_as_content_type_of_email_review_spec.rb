@@ -160,13 +160,25 @@ describe RailsBestPractices::Reviews::UseMultipartAlternativeAsContentTypeOfEmai
         end
 
         it "should not use multipart/alternative as content_type of email" do
-          mock_email_files(["send_email.html.haml"], "text.haml" => true, "html.haml" => true)
+          mock_email_files(["send_email.html.haml", "send_email.text.haml"], "html.haml" => true, "text.haml" => true)
           runner.review('app/mailers/project_mailer.rb', content)
           runner.should have(0).errors
         end
 
         it "should not use multiple/alternative as content_type of email when only plain text" do
           mock_email_files(["send_email.text.haml"], "text.haml" => true)
+          runner.review('app/mailers/project_mailer.rb', content)
+          runner.should have(0).errors
+        end
+      end
+
+      context "haml/erb mix" do
+        it "should not suggest using multipart/alternative when mixing html.haml and text.erb" do
+          mock_email_files(["send_email.html.haml", "send_email.text.erb"], "html.haml" => true, "text.erb" => true)
+          runner.review('app/mailers/project_mailer.rb', content)
+          runner.should have(0).errors
+
+          mock_email_files(["send_email.html.erb", "send_email.text.haml"], "html.erb" => true, "text.haml" => true)
           runner.review('app/mailers/project_mailer.rb', content)
           runner.should have(0).errors
         end
