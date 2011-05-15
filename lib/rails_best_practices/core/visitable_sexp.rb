@@ -388,6 +388,8 @@ class Sexp
       self[3]
     elsif :class == node_type
       self[3][1]
+    elsif :module == node_type
+      self[2][1]
     elsif :defn == node_type
       self[3][1]
     end

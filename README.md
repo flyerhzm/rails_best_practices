@@ -110,6 +110,7 @@ Now you can customize this configuration file, the default configuration is as f
     UseMultipartAlternativeAsContentTypeOfEmailCheck: {}
     SimplifyRenderInViewsCheck: {}
     SimplifyRenderInControllersCheck: {}
+    RemoveEmptyHelpersCheck: {}
 
 You can remove or comment one review to disable it, and you can change the options.
 
@@ -151,6 +152,11 @@ Migration
 Controller
 
 1. Use before_filter
+2. Simplify render in controllers
+
+Helper
+
+1. Remove empty helpers
 
 View
 
