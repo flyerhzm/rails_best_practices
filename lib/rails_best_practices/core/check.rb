@@ -4,9 +4,9 @@ module RailsBestPractices
     # A Check class that takes charge of checking the sexp.
     class Check
       # only nodes whose node_type is in NODE_TYPE will be reviewed.
-      NODE_TYPES = [:call, :defn, :defs, :if, :class, :lasgn, :iasgn, :ivar, :lvar, :block, :iter, :const]
+      NODE_TYPES = [:call, :defn, :defs, :if, :class, :module, :lasgn, :iasgn, :ivar, :lvar, :block, :iter, :const]
 
-      CONTROLLER_FILES = /_controller\.rb$/
+      CONTROLLER_FILES = /controllers\/.*\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
       MODEL_FILES = /models\/.*\.rb$/
       MAILER_FILES = /models\/.*mailer\.rb$|mailers\/.*mailer\.rb/
@@ -14,6 +14,7 @@ module RailsBestPractices
       PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)$/
       ROUTE_FILE = /config\/routes\.rb/
       SCHEMA_FILE = /db\/schema\.rb/
+      HELPER_FILES = /helpers.*\.rb$/
 
       attr_reader :errors
 

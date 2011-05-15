@@ -25,3 +25,4 @@ UseMultipartAlternativeAsContentTypeOfEmailCheck: {}
 SimplifyRenderInViewsCheck: {}
 SimplifyRenderInControllersCheck: {}
 RemoveTabCheck: { }
+RemoveEmptyHelpersCheck: {}
