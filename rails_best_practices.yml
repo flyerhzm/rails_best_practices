@@ -24,3 +24,4 @@ RemoveTrailingWhitespaceCheck: { }
 UseMultipartAlternativeAsContentTypeOfEmailCheck: {}
 SimplifyRenderInViewsCheck: {}
 SimplifyRenderInControllersCheck: {}
+RemoveEmptyHelpersCheck: {}
