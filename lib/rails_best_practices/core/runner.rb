@@ -91,7 +91,7 @@ module RailsBestPractices
       #
       # @return [Array] all errors from lexicals and reviews
       def errors
-        (@reviews + @lexicals).collect {|check| check.errors}.flatten
+        (@reviews + @lexicals).collect {|check| check.errors}.flatten.reject(&:ignore?)
       end
 
       private
