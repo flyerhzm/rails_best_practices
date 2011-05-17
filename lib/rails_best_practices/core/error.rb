@@ -26,7 +26,7 @@ module RailsBestPractices
 
       def code_comment
         code_line = File.new(@filename).readlines[@line_number.to_i - 1]
-        pos = code_line.index '#'
+        pos = code_line && code_line.index('#')
         pos && code_line[pos + 1..-1]
       end
     end
