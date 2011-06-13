@@ -166,19 +166,30 @@ module RailsBestPractices
     # @param [Array] files
     # @return [Array] sorted files
     def file_sort files
-      files.sort { |a, b|
-        if a =~ Core::Check::MODEL_FILES
-          -1
-        elsif b =~ Core::Check::MODEL_FILES
-          1
-        elsif a =~ Core::Check::MAILER_FILES
-          -1
-        elsif b =~ Core::Check::MAILER_FILES
-          1
-        else
-          a <=> b
-        end
-      }
+      models = []
+      mailers = []
+      files.each do |a| 
+          if a =~ Core::Check::MODEL_FILES
+            models << a
+          end
+      end
+      files.each do |a| 
+          if a =~ Core::Check::MAILER_FILES
+            mailers << a
+          end
+      end
+      files.collect! do |a| 
+          if a =~ Core::Check::MAILER_FILES || a =~ Core::Check::MODEL_FILES
+            #nil
+          else
+            a
+          end
+      end
+      files.compact!
+      models.sort
+      mailers.sort
+      files.sort
+      return models + mailers + files
     end
 
     # ignore specific files.
