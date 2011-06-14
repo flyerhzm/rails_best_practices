@@ -12,7 +12,7 @@ module RailsBestPractices
       # @param [String] content content of the file
       def check(filename, content)
         if content =~ /\t/m
-          line_no = $`.count("\t") + 1
+          line_no = $`.count("\n") + 1
           add_error("remove tab, use spaces instead", filename, line_no)
         end
       end
