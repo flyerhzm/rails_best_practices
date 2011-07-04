@@ -6,7 +6,7 @@ ReplaceComplexCreationWithFactoryMethodCheck: { attribute_assignment_count: 2 }
 MoveModelLogicIntoModelCheck: { use_count: 4 }
 OveruseRouteCustomizationsCheck: { customize_count: 3 }
 NeedlessDeepNestingCheck: { nested_count: 2 }
-NotUseDefaultRouteCheck: {  }
+NotUseDefaultRouteCheck: { }
 KeepFindersOnTheirOwnModelCheck: { }
 LawOfDemeterCheck: { }
 UseObserverCheck: { }
@@ -21,8 +21,8 @@ DryBundlerInCapistranoCheck: { }
 UseSayWithTimeInMigrationsCheck: { }
 UseQueryAttributeCheck: { }
 RemoveTrailingWhitespaceCheck: { }
-UseMultipartAlternativeAsContentTypeOfEmailCheck: {}
-SimplifyRenderInViewsCheck: {}
-SimplifyRenderInControllersCheck: {}
+UseMultipartAlternativeAsContentTypeOfEmailCheck: { }
+SimplifyRenderInViewsCheck: { }
+SimplifyRenderInControllersCheck: { }
+RemoveEmptyHelpersCheck: { }
 RemoveTabCheck: { }
-RemoveEmptyHelpersCheck: {}
