@@ -5,7 +5,12 @@ module RailsBestPractices
   module Lexicals
     # Make sure there are no tabs in files.
     #
+    # See the best practice details here http://rails-bestpractices.com/posts/81-remove-tab
     class RemoveTabCheck < Core::Check
+      def url
+        "http://rails-bestpractices.com/posts/81-remove-tab"
+      end
+
       # check if the content of file contains a tab.
       #
       # @param [String] filename name of the file

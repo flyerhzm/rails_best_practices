@@ -111,6 +111,7 @@ Now you can customize this configuration file, the default configuration is as f
     SimplifyRenderInViewsCheck: {}
     SimplifyRenderInControllersCheck: {}
     RemoveEmptyHelpersCheck: {}
+    RemoveTabCheck: {}
 
 You can remove or comment one review to disable it, and you can change the options.
 
@@ -173,6 +174,7 @@ Deployment
 Other
 
 1. Remove Trailing Whitespace
+2. Remove Tab
 
 Write Your Own Check List
 -------------------------
