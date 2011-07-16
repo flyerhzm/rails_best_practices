@@ -174,8 +174,10 @@ module RailsBestPractices
               Dir[File.expand_path(File.join(plugins, "*.rb"))].each do |review|
                 require review
               end
-              RailsBestPractices::Plugins::Reviews.constants.each do |review|
-                @reviews << RailsBestPractices::Plugins::Reviews.const_get(review).new
+              if RailsBestPractices.constants.include? :Plugins
+                RailsBestPractices::Plugins::Reviews.constants.each do |review|
+                  @reviews << RailsBestPractices::Plugins::Reviews.const_get(review).new
+                end
               end
             end
           end
