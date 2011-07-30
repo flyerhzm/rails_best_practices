@@ -206,9 +206,9 @@ module RailsBestPractices
       @runner.errors.each { |error| plain_output(error.to_s, 'red') }
       plain_output("\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.", 'green')
       if @runner.errors.empty?
-        plain_output("\nNo error found. Cool!", 'green')
+        plain_output("\nNo warning found. Cool!", 'green')
       else
-        plain_output("\nFound #{@runner.errors.size} errors.", 'red')
+        plain_output("\nFound #{@runner.errors.size} warnings.", 'red')
       end
     end
 
