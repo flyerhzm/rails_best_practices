@@ -126,7 +126,9 @@ module RailsBestPractices
       @review_files ||= begin
         files = expand_dirs_to_files(@path)
         files = file_sort(files)
-        ['vendor', 'spec', 'test', 'features'].each do |pattern|
+
+        # By default, tmp, vender, spec, test, features are ignored.
+        ['vendor', 'spec', 'test', 'features', 'tmp'].each do |pattern|
           files = file_ignore(files, "#{pattern}/") unless @options[pattern]
         end
 
