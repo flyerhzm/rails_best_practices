@@ -40,6 +40,6 @@ describe RailsBestPractices do
     RailsBestPractices.output_terminal_errors
     result = $stdout.string
     $stdout = $origin_stdout
-    result.should == ["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 errors.".red].join("\n") + "\n"
+    result.should == ["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 warnings.".red].join("\n") + "\n"
   end
 end
