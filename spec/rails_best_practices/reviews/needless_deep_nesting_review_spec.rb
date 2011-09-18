@@ -93,7 +93,7 @@ describe RailsBestPractices::Reviews::NeedlessDeepNestingReview do
       EOF
       runner.review('config/routes.rb', content)
       runner.should have(1).errors
-      runner.errors[0].to_s.should == "config/routes.rb:4 - needless deep nesting (nested_count > 2)"
+      runner.errors[0].to_s.should == "config/routes.rb:3 - needless deep nesting (nested_count > 2)"
     end
 
     it "should not needless deep nesting for shallow" do
@@ -118,7 +118,7 @@ describe RailsBestPractices::Reviews::NeedlessDeepNestingReview do
       EOF
       runner.review('config/routes.rb', content)
       runner.should have(1).errors
-      runner.errors[0].to_s.should == "config/routes.rb:4 - needless deep nesting (nested_count > 2)"
+      runner.errors[0].to_s.should == "config/routes.rb:3 - needless deep nesting (nested_count > 2)"
     end
 
     it "should needless deep nesting with block node" do
@@ -132,7 +132,7 @@ describe RailsBestPractices::Reviews::NeedlessDeepNestingReview do
       EOF
       runner.review('config/routes.rb', content)
       runner.should have(1).errors
-      runner.errors[0].to_s.should == "config/routes.rb:4 - needless deep nesting (nested_count > 2)"
+      runner.errors[0].to_s.should == "config/routes.rb:3 - needless deep nesting (nested_count > 2)"
     end
 
     it "should no needless deep nesting" do

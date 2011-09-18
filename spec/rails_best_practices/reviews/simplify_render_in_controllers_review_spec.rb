@@ -11,7 +11,7 @@ describe RailsBestPractices::Reviews::SimplifyRenderInControllersReview do
     EOF
     runner.review("app/controllers/posts_controller.rb", content)
     runner.should have(1).errors
-    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - simplify render in controllers"
+    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - simplify render in controllers"
   end
 
   it "should simplify render actions's template" do
@@ -22,7 +22,7 @@ describe RailsBestPractices::Reviews::SimplifyRenderInControllersReview do
     EOF
     runner.review("app/controllers/posts_controller.rb", content)
     runner.should have(1).errors
-    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - simplify render in controllers"
+    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - simplify render in controllers"
   end
 
   it "should simplify render an arbitrary file" do
@@ -33,7 +33,7 @@ describe RailsBestPractices::Reviews::SimplifyRenderInControllersReview do
     EOF
     runner.review("app/controllers/posts_controller.rb", content)
     runner.should have(1).errors
-    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - simplify render in controllers"
+    runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - simplify render in controllers"
   end
 
   it "should not simplify render action view" do

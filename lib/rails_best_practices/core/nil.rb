@@ -2,7 +2,11 @@
 module RailsBestPractices
   module Core
     class Nil
-      def to_s(*arguments)
+      def hash_size
+        0
+      end
+
+      def to_s
         self
       end
 

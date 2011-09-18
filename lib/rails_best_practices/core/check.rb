@@ -3,9 +3,6 @@ module RailsBestPractices
   module Core
     # A Check class that takes charge of checking the sexp.
     class Check
-      # only nodes whose node_type is in NODE_TYPE will be reviewed.
-      NODE_TYPES = [:call, :defn, :defs, :if, :class, :module, :lasgn, :iasgn, :ivar, :lvar, :block, :iter, :const]
-
       CONTROLLER_FILES = /controllers\/.*\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
       MODEL_FILES = /models\/.*\.rb$/
@@ -24,7 +21,7 @@ module RailsBestPractices
 
       # default interesting nodes.
       def interesting_nodes
-        NODE_TYPES
+        []
       end
 
       # default interesting files.
@@ -32,26 +29,26 @@ module RailsBestPractices
         /.*/
       end
 
-      # delegate to start_### according to the node_type, like
+      # delegate to start_### according to the sexp_type, like
       #
       #     start_call
-      #     start_defn
+      #     start_def
       #
       # @param [Sexp] node
       def node_start(node)
         @node = node
-        self.send("start_#{node.node_type}", node)
+        self.send("start_#{node.sexp_type}", node)
       end
 
-      # delegate to end_### according to the node_type, like
+      # delegate to end_### according to the sexp_type, like
       #
       #     end_call
-      #     end_defn
+      #     end_def
       #
       # @param [Sexp] node
       def node_end(node)
         @node = node
-        self.send("end_#{node.node_type}", node)
+        self.send("end_#{node.sexp_type}", node)
       end
 
       # add error if source code violates rails best practice.
@@ -71,8 +68,8 @@ module RailsBestPractices
 
       # method_missing to catch all start and end process for each node type, like
       #
-      #     start_defn
-      #     end_defn
+      #     start_def
+      #     end_def
       #     start_call
       #     end_call
       #

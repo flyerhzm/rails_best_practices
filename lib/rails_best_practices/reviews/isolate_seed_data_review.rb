@@ -10,14 +10,14 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   1. check all local assignment and instance assignment nodes,
-    #   if the right value is a call node with message :new,
+    #   1. check all assignment nodes,
+    #   if the right value is a call node with message "new",
     #   then remember their left value as new variables.
     #
     #   2. check all call nodes,
-    #   if the message is :create or :create!,
+    #   if the message is "create" or "create!",
     #   then it should be isolated to db seed.
-    #   if the message is :save or :save!,
+    #   if the message is "save" or "save!",
     #   and the subject is included in new variables,
     #   then it should be isolated to db seed.
     class IsolateSeedDataReview < Review
@@ -26,7 +26,7 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:call, :lasgn, :iasgn]
+        [:call, :assign]
       end
 
       def interesting_files
@@ -38,53 +38,37 @@ module RailsBestPractices
         @new_variables = []
       end
 
-      # check local assignment node.
+      # check assignment node.
       #
-      # if the right value of the node is a call node with :new message,
-      # then remember it as new variables (@new_variables).
-      def start_lasgn(node)
-        remember_new_variable(node)
-      end
-
-      # check instance assignment node.
-      #
-      # if the right value of the node is a call node with :new message,
-      # then remember it as new variables (@new_variables).
-      def start_iasgn(node)
+      # if the right value of the node is a call node with "new" message,
+      # then remember it as new variables.
+      def start_assign(node)
         remember_new_variable(node)
       end
 
       # check the call node.
       #
-      # if the message of the call node is :create or :create!,
+      # if the message of the call node is "create" or "create!",
       # then you should isolate it to seed data.
       #
-      # if the message of the call node is :save or :save!,
+      # if the message of the call node is "save" or "save!",
       # and the subject of the call node is included in @new_variables,
       # then you should isolate it to seed data.
       def start_call(node)
-        if [:create, :create!].include? node.message
+        if ["create", "create!"].include? node.message.to_s
           add_error("isolate seed data")
-        elsif [:save, :save!].include? node.message
+        elsif ["save", "save!"].include? node.message.to_s
           add_error("isolate seed data") if new_record?(node)
         end
       end
 
       private
-        # check local assignment or instance assignment node,
-        # if the right vavlue is a call node with message :new,
+        # check assignment node,
+        # if the right vavlue is a call node with message "new",
         # then remember the left value as new variable.
-        #
-        # if the local variable node is
-        #
-        #     s(:lasgn, :role, s(:call, s(:const, :Role), :new, s(:arglist, s(:hash, s(:lit, :name), s(:lvar, :name)))))
-        #
-        # then the new variables (@new_variables) is
-        #
-        #     ["role"]
         def remember_new_variable(node)
           right_value = node.right_value
-          if :call == right_value.node_type && :new == right_value.message
+          if right_value[1] && :call == right_value[1].sexp_type && "new" == right_value[1].message.to_s
             @new_variables << node.left_value.to_s
           end
         end

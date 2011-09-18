@@ -7,8 +7,6 @@ describe RailsBestPractices do
     it "should expand all files in spec directory" do
       dir = File.dirname(__FILE__)
       RailsBestPractices.expand_dirs_to_files(dir).should be_include(dir + '/rails_best_practices_spec.rb')
-      RailsBestPractices.expand_dirs_to_files(dir).should be_include(dir + '/rails_best_practices/core/visitable_sexp_spec.rb')
-      RailsBestPractices.expand_dirs_to_files(dir).should be_include(dir + '/rails_best_practices/reviews/review_spec.rb')
     end
   end
 

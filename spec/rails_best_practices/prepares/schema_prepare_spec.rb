@@ -18,11 +18,11 @@ describe RailsBestPractices::Prepares::SchemaPrepare do
     EOF
     runner.prepare("db/schema.rb", content)
     model_attributes = RailsBestPractices::Prepares.model_attributes
-    model_attributes.get_attribute_type("Post", "title").should == :string
-    model_attributes.get_attribute_type("Post", "body").should == :text
-    model_attributes.get_attribute_type("Post", "created_at").should == :datetime
-    model_attributes.get_attribute_type("Post", "user_id").should == :integer
-    model_attributes.get_attribute_type("Post", "comments_count").should == :integer
-    model_attributes.get_attribute_type("Post", "published").should == :boolean
+    model_attributes.get_attribute_type("Post", "title").should == "string"
+    model_attributes.get_attribute_type("Post", "body").should == "text"
+    model_attributes.get_attribute_type("Post", "created_at").should == "datetime"
+    model_attributes.get_attribute_type("Post", "user_id").should == "integer"
+    model_attributes.get_attribute_type("Post", "comments_count").should == "integer"
+    model_attributes.get_attribute_type("Post", "published").should == "boolean"
   end
 end

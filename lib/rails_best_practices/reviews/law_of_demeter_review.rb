@@ -16,6 +16,7 @@ module RailsBestPractices
     #   and outer the call node, it is also a call node,
     #   then it violate the law of demeter.
     class LawOfDemeterReview < Review
+      ASSOCIATION_METHODS = %w(belongs_to has_one)
 
       def url
         "http://rails-bestpractices.com/posts/15-the-law-of-demeter"
@@ -29,17 +30,10 @@ module RailsBestPractices
       #
       # if the subject of the call node is also a call node,
       # and the subject of the subject call node matchs one of the class names,
-      # and the message of the subject call node matchs one of the association name with the class name, like
-      #
-      #     s(:call,
-      #       s(:call, s(:ivar, :@invoice), :user, s(:arglist)),
-      #       :name,
-      #       s(:arglist)
-      #     )
-      #
+      # and the message of the subject call node matchs one of the association name with the class name,
       # then it violates the law of demeter.
       def start_call(node)
-        if [:lvar, :ivar].include?(node.subject.subject.node_type) && need_delegate?(node)
+        if :call == node.subject.sexp_type && need_delegate?(node)
           add_error "law of demeter"
         end
       end
@@ -50,29 +44,14 @@ module RailsBestPractices
         # if the subject of subject of the call node matchs any in model names,
         # and the message of subject of the call node matchs any in association names,
         # then it needs delegate.
-        #
-        # e.g. the source code is
-        #
-        #     @invoic.user.name
-        #
-        # then the call node is
-        #
-        #     s(:call, s(:call, s(:ivar, :@invoice), :user, s(:arglist)), :name, s(:arglist))
-        #
-        # as you see the subject of subject of the call node is [:ivar, @invoice],
-        # and the message of subject of the call node is :user
         def need_delegate?(node)
-          class_name = node.subject.subject.to_s(:remove_at => true).classify
+          return unless variable(node)
+          class_name = variable(node).to_s.sub('@', '').classify
           association_name = node.subject.message.to_s
           association = model_associations.get_association(class_name, association_name)
           attribute_name = node.message.to_s
-          association && association_methods.include?(association[:meta]) &&
-            is_association_attribute?(association[:class_name], association_name, attribute_name)
-        end
-
-        # only check belongs_to and has_one association.
-        def association_methods
-          [:belongs_to, :has_one]
+          association && ASSOCIATION_METHODS.include?(association["meta"]) &&
+            is_association_attribute?(association["class_name"], association_name, attribute_name)
         end
 
         def is_association_attribute?(association_class, association_name, attribute_name)

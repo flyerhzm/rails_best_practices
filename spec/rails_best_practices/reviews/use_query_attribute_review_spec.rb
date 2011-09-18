@@ -77,7 +77,7 @@ describe RailsBestPractices::Reviews::UseQueryAttributeReview do
 
   it "should use query attribute within and conditions" do
     content = <<-EOF
-    <% if @user.active? and @user.login.present? %>
+    <% if @user.active? && @user.login.present? %>
       <%= @user.login %>
     <% end %>
     EOF

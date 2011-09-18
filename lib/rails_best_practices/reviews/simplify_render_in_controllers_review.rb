@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   check all render method calls in controller files,
+    #   check all render method commands in controller files,
     #   if there is a key 'action', 'template' or 'file' in the argument,
     #   then they should be replaced by simplified syntax.
     class SimplifyRenderInControllersReview < Review
@@ -19,19 +19,22 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:call]
+        [:command]
       end
 
       def interesting_files
         CONTROLLER_FILES
       end
 
-      # check call node in the controller file,
+      # check command node in the controller file,
       # if its message is render and the arguments contain a key action, template or file,
       # then it should be replaced by simplified syntax.
-      def start_call(call_node)
-        if :render == call_node.message && call_node.arguments[1].to_s =~ /"(action|template|file)" =>/
-          add_error 'simplify render in controllers'
+      def start_command(node)
+        if "render" == node.message.to_s
+          keys = node.arguments.all[0].hash_keys
+          if keys && (keys.include?("action") || keys.include?("template") || keys.include?("file"))
+            add_error 'simplify render in controllers'
+          end
         end
       end
     end

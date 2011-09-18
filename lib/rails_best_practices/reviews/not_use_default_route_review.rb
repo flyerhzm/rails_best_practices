@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   check all method call to see if any method call is the same as rails default route.
+    #   check all method command_call or command node to see if it is the same as rails default route.
     #
     #     map.connect ':controller/:action/:id'
     #     map.connect ':controller/:action/:id.:format'
@@ -24,33 +24,26 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:call]
+        [:command_call, :command]
       end
 
       def interesting_files
         ROUTE_FILE
       end
 
-      # check all method calls, it just compare with rails default route
-      #
-      # rails2
-      #
-      #     s(:call, s(:lvar, :map), :connect,
-      #       s(:arglist, s(:str, ":controller/:action/:id"))
-      #     )
-      #     s(:call, s(:lvar, :map), :connect,
-      #       s(:arglist, s(:str, ":controller/:action/:id.:format"))
-      #     )
-      #
-      # rails3
-      #
-      #     s(:call, nil, :match,
-      #       s(:arglist, s(:str, ":controller(/:action(/:id(.:format)))"))
-      #     )
-      def start_call(node)
-        if s(:call, s(:lvar, :map), :connect, s(:arglist, s(:str, ":controller/:action/:id"))) == node ||
-           s(:call, s(:lvar, :map), :connect, s(:arglist, s(:str, ":controller/:action/:id.:format"))) == node ||
-           s(:call, nil, :match, s(:arglist, s(:str, ":controller(/:action(/:id(.:format)))"))) == node
+      # check all command call nodes, compare with rails2 default route
+      def start_command_call(node)
+        if "map" == node.subject.to_s && "connect" == node.message.to_s &&
+          (":controller/:action/:id" == node.arguments.all[0].to_s ||
+           ":controller/:action/:id.:format" == node.arguments.all[0].to_s)
+          add_error "not use default route"
+        end
+      end
+
+      # check all command nodes, compare with rails3 default route
+      def start_command(node)
+        if "match" == node.message.to_s &&
+          ":controller(/:action(/:id(.:format)))" == node.arguments.all[0].to_s
           add_error "not use default route"
         end
       end

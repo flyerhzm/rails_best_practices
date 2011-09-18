@@ -25,8 +25,10 @@ module RailsBestPractices
       end
 
       # check the body of module node, if it is nil, then it should be removed.
-      def start_module(module_node)
-        add_error "remove empty helpers" if module_node.body.is_a?(Core::Nil)
+      def start_module(node)
+        if s(:bodystmt, s(:stmts_add, s(:stmts_new), s(:void_stmt)), nil, nil, nil) == node.body
+          add_error "remove empty helpers", node.file, node.line
+        end
       end
     end
   end
