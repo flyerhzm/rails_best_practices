@@ -32,7 +32,8 @@ module RailsBestPractices
       def start_command(node)
         if "render" == node.message.to_s
           keys = node.arguments.all[0].hash_keys
-          if keys && (keys.include?("action") || keys.include?("template") || keys.include?("file"))
+          if keys && keys.size == 1 &&
+             (keys.include?("action") || keys.include?("template") || keys.include?("file"))
             add_error 'simplify render in controllers'
           end
         end
