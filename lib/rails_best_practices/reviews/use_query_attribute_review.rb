@@ -42,10 +42,9 @@ module RailsBestPractices
       def start_if(node)
         all_conditions = node.conditional_statement == node.conditional_statement.all_conditions ? [node.conditional_statement] : node.conditional_statement.all_conditions
         all_conditions.each do |condition_node|
-          condition_node.file = node.file
           if query_attribute_node = query_attribute_node(condition_node)
             subject_node = query_attribute_node.subject
-            add_error "use query attribute (#{subject_node.subject}.#{subject_node.message}?)", query_attribute_node.file, query_attribute_node.line
+            add_error "use query attribute (#{subject_node.subject}.#{subject_node.message}?)", node.file, query_attribute_node.line
           end
         end
       end
