@@ -20,27 +20,35 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:call]
+        [:method_add_arg, :assign]
       end
 
       def interesting_files
         VIEW_FILES
       end
 
-      # check call nodes.
+      # check method_add_arg nodes.
       #
-      # if the subject of the call node is a constant,
-      # and the message of the call node is one of the find, all, first and last,
+      # if the subject of the method_add_arg node is a constant,
+      # and the message of the method_add_arg node is one of the find, all, first and last,
       # then it is a finder and should be moved to controller.
-      def start_call(node)
+      def start_method_add_arg(node)
         add_error "move code into controller" if finder?(node)
+      end
+
+      # check assign nodes.
+      #
+      # if the subject of the right value node is a constant,
+      # and the message of the right value node is one of the find, all, first and last,
+      # then it is a finder and should be moved to controller.
+      def start_assign(node)
+        add_error "move code into controller", node.file, node.right_value.line if finder?(node.right_value)
       end
 
       private
         # check if the node is a finder call node.
         def finder?(node)
-          :var_ref == node.subject.sexp_type &&
-            :@const == node.subject[1].sexp_type && FINDERS.include?(node.message.to_s)
+          node.subject.const? && FINDERS.include?(node.message.to_s)
         end
     end
   end

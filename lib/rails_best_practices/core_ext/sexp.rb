@@ -113,8 +113,10 @@ class Sexp
   # @return [Sexp] subject node
   def subject
     case sexp_type
-    when :assign, :field, :call, :binary, :command_call, :method_add_arg, :method_add_block
+    when :assign, :field, :call, :binary, :command_call
       self[1]
+    when :method_add_arg, :method_add_block
+      self[1].subject
     end
   end
 
@@ -202,6 +204,8 @@ class Sexp
       self[2]
     when :command_call, :field, :call
       self[3]
+    when :method_add_arg, :method_add_block
+      self[1].message
     end
   end
 
@@ -648,6 +652,10 @@ class Sexp
       # TODO
       ""
     end
+  end
+
+  def const?
+    :@const == self.sexp_type || (:var_ref == self.sexp_type && :@const == self[1].sexp_type)
   end
 
   # remove the line and column info from sexp.

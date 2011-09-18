@@ -107,6 +107,16 @@ describe Sexp do
       node = parse_content(content).grep_node(:sexp_type => :command_call)
       node.subject.to_s.should == "map"
     end
+
+    it "should get subject of method_add_arg" do
+      node = parse_content("Post.find(:all)").grep_node(:sexp_type => :method_add_arg)
+      node.subject.to_s.should == "Post"
+    end
+
+    it "should get subject of method_add_block" do
+      node = parse_content("Post.save do; end").grep_node(:sexp_type => :method_add_block)
+      node.subject.to_s.should == "Post"
+    end
   end
 
   describe "class_name" do
@@ -166,6 +176,16 @@ describe Sexp do
     it "should get the message of fcall" do
       node = parse_content("test?('world')").grep_node(:sexp_type => :fcall)
       node.message.to_s.should == "test?"
+    end
+
+    it "should get the message of method_add_arg" do
+      node = parse_content("Post.find(:all)").grep_node(:sexp_type => :method_add_arg)
+      node.message.to_s.should == "find"
+    end
+
+    it "should get the message of method_add_block" do
+      node = parse_content("Post.save do; end").grep_node(:sexp_type => :method_add_block)
+      node.message.to_s.should == "save"
     end
   end
 
@@ -378,6 +398,23 @@ describe Sexp do
     it "should get to_s for label" do
       node = parse_content("{first_name: 'Richard'}").grep_node(:sexp_type => :@label)
       node.to_s.should == "first_name"
+    end
+  end
+
+  describe "const?" do
+    it "return true for const with var_ref" do
+      node = parse_content("User.find").grep_node(:sexp_type => :var_ref)
+      node.should be_const
+    end
+
+    it "return true for const with @const" do
+      node = parse_content("User.find").grep_node(:sexp_type => :@const)
+      node.should be_const
+    end
+
+    it "return false for ivar" do
+      node = parse_content("@user.find").grep_node(:sexp_type => :@ivar)
+      node.should_not be_const
     end
   end
 end

@@ -94,7 +94,7 @@ module RailsBestPractices
 
         # check if the subject is one of the models.
         def is_model?(variable_node)
-          return false if :var_ref == variable_node.sexp_type && :@const == variable_node[1].sexp_type
+          return false if variable_node.const?
           class_name = variable_node.to_s.sub(/^@/, '').classify
           models.include?(class_name)
         end
