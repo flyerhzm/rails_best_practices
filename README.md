@@ -58,7 +58,7 @@ Donating
 Install
 -------
 
-rails_best_practices gem is rewritten based on ripper instead of ruby_parser to support ruby 1.9 new syntax, *but not released yet, please check out the source codes and send me errors, thanks.*
+**rails_best_practices gem is rewritten based on ripper instead of ruby_parser to support ruby 1.9 new syntax, but not released yet, please check out the source codes and send me errors, thanks.**
 
 Ruby 1.9
 
