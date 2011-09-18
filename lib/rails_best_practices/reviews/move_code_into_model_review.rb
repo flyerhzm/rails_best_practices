@@ -10,16 +10,15 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   check if there are multiple method calls or attribute assignments apply to one subject,
-    #   and the subject is a local variable or instance variable,
-    #   then they should be moved into model.
+    #   check if, unless, elsif there are multiple method calls or attribute assignments apply to one subject,
+    #   and the subject is a variable, then they should be moved into model.
     class MoveCodeIntoModelReview < Review
       def url
         "http://rails-bestpractices.com/posts/25-move-code-into-model"
       end
 
       def interesting_nodes
-        [:if]
+        [:if, :unless, :elsif]
       end
 
       def interesting_files
@@ -31,22 +30,24 @@ module RailsBestPractices
         @use_count = options['use_count'] || 2
       end
 
-      # check if node to see whose conditional statementnodes contain multiple call nodes with same subject who is a local variable or instance variable.
+      # check if node to see whose conditional statementnodes contain multiple call nodes with same subject who is a variable.
       #
-      # it will check every call and attrasgn nodes in the conditional statement nodes.
+      # it will check every call and assignment nodes in the conditional statement nodes.
       #
-      # if there are multiple call and attrasgn nodes who have the same subject,
-      # and the subject is a local variable or an instance variable,
-      # then the conditional statement nodes should be moved into model.
+      # if there are multiple call and assignment nodes who have the same subject,
+      # and the subject is a variable, then the conditional statement nodes should be moved into model.
       def start_if(node)
-        node.conditional_statement.grep_nodes(:node_type => [:call, :attrasgn]) { |child_node| remember_variable_use_count(child_node) }
+        node.conditional_statement.grep_nodes(:sexp_type => :call) { |child_node| remember_variable_use_count(child_node) }
 
         variable_use_count.each do |variable_node, count|
-          add_error "move code into model (#{variable_node} use_count > #{@use_count})", variable_node.file, variable_node.line if count > @use_count
+          add_error "move code into model (#{variable_node} use_count > #{@use_count})" if count > @use_count
         end
 
         reset_variable_use_count
       end
+
+      alias_method :start_unless, :start_if
+      alias_method :start_elsif, :start_if
     end
   end
 end

@@ -113,6 +113,6 @@ describe RailsBestPractices::Reviews::UseSayWithTimeInMigrationsReview do
     end
     EOF
     runner.review('db/migrate/20101010080658_create_users.rb', content)
-    runner.should have(0).errors
+    runner.should have(3).errors
   end
 end

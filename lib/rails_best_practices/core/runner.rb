@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'rubygems'
-require 'ruby_parser'
+require 'ripper'
 require 'erubis'
 require 'yaml'
 require 'active_support/inflector'
@@ -77,7 +77,8 @@ module RailsBestPractices
           def #{process}(filename, content)                                        # def review(filename, content)
             puts filename if @debug                                                #   puts filename if @debug
             content = parse_erb_or_haml(filename, content)                         #   content = parse_erb_or_haml(filename, content)
-            node = parse_ruby(filename, content)                                   #   node = parse_ruby(filename, content)
+            node = parse_ruby(content)                                             #   node = parse_ruby(content)
+            node.file = filename                                                   #   node.file = filename
             node.#{process}(@checker) if node                                      #   node.review(@checker) if node
           end                                                                      # end
                                                                                    #
@@ -97,11 +98,10 @@ module RailsBestPractices
       private
         # parse ruby code.
         #
-        # filename is the filename of the ruby code.
         # content is the source code of ruby file.
-        def parse_ruby(filename, content)
+        def parse_ruby(content)
           begin
-            RubyParser.new.parse(content, filename)
+            Sexp.from_array(Ripper::SexpBuilder.new(content).parse)
           rescue Exception => e
             if @debug
               warning = "#{filename} looks like it's not a valid Ruby file.  Skipping..."

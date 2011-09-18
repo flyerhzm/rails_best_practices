@@ -6,10 +6,10 @@ module RailsBestPractices
     # Remember the model attributes.
     class SchemaPrepare < Core::Check
       # all attribute types
-      ATTRIBUTE_TYPES = [:integer, :float, :boolean, :string, :text, :date, :time, :datetime, :binary]
+      ATTRIBUTE_TYPES = %w(integer float boolean string text date time datetime binary)
 
       def interesting_nodes
-        [:call]
+        [:command, :command_call]
       end
 
       def interesting_files
@@ -17,26 +17,20 @@ module RailsBestPractices
       end
 
       def initialize
-        @model_attributes = Core::ModelAttributes.new
+        @model_attributes = Prepares.model_attributes
       end
 
-      # check call node to remember the model attributes.
-      def start_call(call_node)
-        case call_node.message
-        when :create_table
-          @last_klazz = call_node.arguments[1].to_s.classify
-        when *ATTRIBUTE_TYPES
-          attribute_name = call_node.arguments[1].to_s
-          @model_attributes.add_attribute(@last_klazz, attribute_name, call_node.message)
-        else
-          # nothing to do
+      def start_command(node)
+        if "create_table" == node.message.to_s
+          @last_klazz = node.arguments.all[0].to_s.classify
         end
       end
 
-      # assign @model_attributes to Prepares.model_attributes.
-      def end_call(call_node)
-        if :create_table == call_node.message
-          Prepares.model_attributes = @model_attributes
+      # check command_call node to remember the model attributes.
+      def start_command_call(node)
+        if ATTRIBUTE_TYPES.include? node.message.to_s
+          attribute_name = node.arguments.all[0].to_s
+          @model_attributes.add_attribute(@last_klazz, attribute_name, node.message.to_s)
         end
       end
     end

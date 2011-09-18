@@ -11,7 +11,7 @@ describe RailsBestPractices::Reviews::MoveCodeIntoHelperReview do
     EOF
     runner.review('app/views/posts/show.html.erb', content)
     runner.should have(1).errors
-    runner.errors[0].to_s.should == "app/views/posts/show.html.erb:3 - move code into helper (array_count >= 2)"
+    runner.errors[0].to_s.should == "app/views/posts/show.html.erb:1 - move code into helper (array_count >= 2)"
   end
 
   it "should not move code into helper with simple arguments" do

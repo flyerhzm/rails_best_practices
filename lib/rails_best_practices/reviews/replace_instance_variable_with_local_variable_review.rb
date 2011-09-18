@@ -18,7 +18,7 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:ivar]
+        [:var_ref]
       end
 
       def interesting_files
@@ -27,8 +27,10 @@ module RailsBestPractices
 
       # check ivar node in partial view file,
       # it is an instance variable, and should be replaced with local variable.
-      def start_ivar(node)
-        add_error "replace instance variable with local variable"
+      def start_var_ref(node)
+        if node.to_s.start_with?('@')
+          add_error "replace instance variable with local variable"
+        end
       end
     end
   end

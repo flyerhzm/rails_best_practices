@@ -10,15 +10,15 @@ module RailsBestPractices
       def url
         "#"
       end
-      # remember use count for the local or instance variable in the call or attrasgn node.
+      # remember use count for the variable in the call or assign node.
       #
-      # find the local variable or instance variable in the call or attrasgn node,
+      # find the variable in the call or assign node,
       # then save it to as key in @variable_use_count hash, and add the call count (hash value).
       def remember_variable_use_count(node)
         variable_node = variable(node)
         if variable_node
-          variable_use_count[variable_node] ||= 0
-          variable_use_count[variable_node] += 1
+          variable_use_count[variable_node.to_s] ||= 0
+          variable_use_count[variable_node.to_s] += 1
         end
       end
 
@@ -32,32 +32,13 @@ module RailsBestPractices
         @variable_use_count = nil
       end
 
-      # find local variable or instance variable in the most inner call node, e.g.
-      #
-      # if the call node is
-      #
-      #     s(:call, s(:ivar, :@post), :editors, s(:arglist)),
-      #
-      # or it is
-      #
-      #     s(:call,
-      #       s(:call, s(:ivar, :@post), :editors, s(:arglist)),
-      #       :include?,
-      #       s(:arglist, s(:call, nil, :current_user, s(:arglist)))
-      #     )
-      #
-      # then the variable both are s(:ivar, :@post).
-      #
+      # find variable in the call or field node.
       def variable(node)
-        while node.subject.node_type == :call
+        while [:call, :field, :method_add_arg, :method_add_block].include?(node.subject.sexp_type)
           node = node.subject
         end
-        subject_node = node.subject
-        if [:ivar, :lvar].include?(subject_node.node_type) and subject_node[1] != :_erbout
-          subject_node
-        else
-          nil
-        end
+        return if [:fcall, :hash].include?(node.subject.sexp_type)
+        node.subject
       end
 
       # get the models from Prepares.
@@ -79,16 +60,6 @@ module RailsBestPractices
       # @return [Hash]
       def model_attributes
         @model_attributes ||= Prepares.model_attributes
-      end
-
-      # compare two sexp nodes' to_s.
-      #
-      #     equal?(":test", :test) => true
-      #     equai?("@test", :test) => true
-      def equal?(node, expected_node)
-        actual = node.to_s.downcase
-        expected = expected_node.to_s.downcase
-        actual == expected || actual == ':' + expected || actual == '@' + expected
       end
     end
   end

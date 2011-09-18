@@ -17,14 +17,14 @@ module RailsBestPractices
     #   then you can use query attribute instead.
     class UseQueryAttributeReview < Review
 
-      QUERY_METHODS = [:nil?, :blank?, :present?]
+      QUERY_METHODS = %w(nil? blank? present?)
 
       def url
         "http://rails-bestpractices.com/posts/56-use-query-attribute"
       end
 
       def interesting_nodes
-        [:if]
+        [:if, :unless, :elsif]
       end
 
       # check if node to see whose conditional statement nodes contain nodes that can use query attribute instead.
@@ -40,21 +40,33 @@ module RailsBestPractices
       #
       # then the call node can use query attribute instead.
       def start_if(node)
-        if node = query_attribute_node(node.conditional_statement)
-          subject_node = node.subject
-          add_error "use query attribute (#{subject_node.subject}.#{subject_node.message}?)", node.file, node.line
+        all_conditions = node.conditional_statement == node.conditional_statement.all_conditions ? [node.conditional_statement] : node.conditional_statement.all_conditions
+        all_conditions.each do |condition_node|
+          condition_node.file = node.file
+          if query_attribute_node = query_attribute_node(condition_node)
+            subject_node = query_attribute_node.subject
+            add_error "use query attribute (#{subject_node.subject}.#{subject_node.message}?)", query_attribute_node.file, query_attribute_node.line
+          end
         end
       end
+
+      alias_method :start_unless, :start_if
+      alias_method :start_elsif, :start_if
 
       private
         # recursively check conditional statement nodes to see if there is a call node that may be possible query attribute.
         def query_attribute_node(conditional_statement_node)
-          case conditional_statement_node.node_type
+          case conditional_statement_node.sexp_type
           when :and, :or
-            return query_attribute_node(conditional_statement_node[1]) || query_attribute_node(conditional_statement_node[2])
+            node = query_attribute_node(conditional_statement_node[1]) || query_attribute_node(conditional_statement_node[2])
+            node.file = conditional_statement_code.file
+            return node
           when :not
-            return query_attribute_node(conditional_statement_node[1])
+            node = query_attribute_node(conditional_statement_node[1])
+            node.file = conditional_statement_node.file
           when :call
+            return conditional_statement_node if possible_query_attribute?(conditional_statement_node)
+          when :binary
             return conditional_statement_node if possible_query_attribute?(conditional_statement_node)
           end
           nil
@@ -70,50 +82,34 @@ module RailsBestPractices
         # for the second call, the message should be one of nil?, blank? or present? or
         # it is compared with an empty string.
         #
-        # the node that may use query attribute is like
-        #
-        #     s(:call, s(:call, s(:ivar, :@user), :login, s(:arglist)), :nil?, s(:arglist))
-        #
-        #
+        # the node that may use query attribute.
         def possible_query_attribute?(node)
-          return false unless :call == node.subject.node_type
-          subject = node.subject.subject
-          return false unless subject
-          message = node.subject.message
+          return false unless :call == node.subject.sexp_type
+          variable_node = variable(node)
+          message_node = node.grep_node(:subject => variable_node.to_s).message
 
-          [:arglist] == node.subject.arguments && is_model?(subject) && model_attribute?(subject, message) &&
-            (QUERY_METHODS.include?(node.message) || compare_with_empty_string?(node))
+          is_model?(variable_node) && model_attribute?(variable_node, message_node.to_s) &&
+            (QUERY_METHODS.include?(node.message.to_s) || compare_with_empty_string?(node))
         end
 
         # check if the subject is one of the models.
-        #
-        #     subject, subject of call node, like
-        #         s(:ivar, @user)
-        def is_model?(subject)
-          return false if :const == subject.node_type
-          class_name = subject.to_s(:remove_at => true).classify
+        def is_model?(variable_node)
+          return false if :var_ref == variable_node.sexp_type && :@const == variable_node[1].sexp_type
+          class_name = variable_node.to_s.sub(/^@/, '').classify
           models.include?(class_name)
         end
 
         # check if the subject and message is one of the model's attribute.
         # the subject should match one of the class model name, and the message should match one of attribute name.
-        #
-        #     subject, subject of call node, like
-        #         s(:ivar, @user)
-        #
-        #     message, message of call node, like
-        #         :login
-        def model_attribute?(subject, message)
-          class_name = subject.to_s(:remove_at => true).classify
-          attribute_type = model_attributes.get_attribute_type(class_name, message.to_s)
-          attribute_type && ![:integer, :float].include?(attribute_type)
+        def model_attribute?(variable_node, message)
+          class_name = variable_node.to_s.sub(/^@/, '').classify
+          attribute_type = model_attributes.get_attribute_type(class_name, message)
+          attribute_type && !["integer", "float"].include?(attribute_type)
         end
 
-        # check if the node is with node type :call, node message :== and node arguments {:arglist, (:str, "")}
-        #
-        #     @user.login == "" => true
+        # check if the node is with node type :binary, node message :== and node argument is empty string.
         def compare_with_empty_string?(node)
-          :call == node.node_type && :== == node.message && [:arglist, [:str, ""]] == node.arguments
+          :binary == node.sexp_type && ["==", "!="].include?(node.message.to_s) && s(:string_literal, s(:string_content)) == node.argument
         end
     end
   end

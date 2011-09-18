@@ -10,9 +10,9 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   only check the call nodes to see if there is bundler namespace in config/deploy.rb file,
+    #   only check the command nodes to see if there is bundler namespace in config/deploy.rb file,
     #
-    #   if the message of call node is :namespace and the arguments of the call node is :bundler,
+    #   if the message of command node is "namespace" and the first argument  is "bundler",
     #   then it should use bundler's capistrano recipe.
     class DryBundlerInCapistranoReview < Review
       def url
@@ -20,26 +20,16 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:call]
+        [:command]
       end
 
       def interesting_files
         /config\/deploy.rb/
       end
 
-      # check call node to see if it is with message :namespace and arguments :bundler.
-      #
-      # the ruby code is
-      #
-      #     namespace :bundler do
-      #       ...
-      #     end
-      #
-      # then the call node is as follows
-      #
-      #     s(:call, nil, :namespace, s(:arglist, s(:lit, :bundler)))
-      def start_call(node)
-        if :namespace == node.message and equal?(node.arguments[1], "bundler")
+      # check call node to see if it is with message "namespace" and argument "bundler".
+      def start_command(node)
+        if "namespace" == node.message.to_s && "bundler" == node.arguments.all[0].to_s
           add_error "dry bundler in capistrano"
         end
       end

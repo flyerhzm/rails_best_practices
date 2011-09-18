@@ -13,9 +13,6 @@ module RailsBestPractices
     #   check all first code line in method definitions (actions),
     #   if they are duplicated, then they should be moved to before_filter.
     class UseBeforeFilterReview < Review
-
-      PROTECTED_PRIVATE_CALLS = [[:call, nil, :protected, [:arglist]], [:call, nil, :private, [:arglist]]]
-
       def url
         "http://rails-bestpractices.com/posts/22-use-before_filter"
       end
@@ -35,87 +32,32 @@ module RailsBestPractices
 
       # check class define node to see if there are method define nodes whose first code line are duplicated.
       #
-      # it will check every defn nodes in the class node until protected or private identification,
-      # if there are defn nodes who have the same first code line, like
-      #
-      #     s(:class, :PostsController, s(:const, :ApplicationController),
-      #       s(:scope,
-      #         s(:block,
-      #           s(:defn, :show, s(:args),
-      #             s(:scope,
-      #               s(:block,
-      #                 s(:iasgn, :@post,
-      #                   s(:call,
-      #                     s(:call, s(:call, nil, :current_user, s(:arglist)), :posts, s(:arglist)),
-      #                     :find,
-      #                     s(:arglist,
-      #                       s(:call, s(:call, nil, :params, s(:arglist)), :[], s(:arglist, s(:lit, :id)))
-      #                     )
-      #                   )
-      #                 )
-      #               )
-      #             )
-      #           ),
-      #           s(:defn, :edit, s(:args),
-      #             s(:scope,
-      #               s(:block,
-      #                 s(:iasgn, :@post,
-      #                   s(:call,
-      #                     s(:call, s(:call, nil, :current_user, s(:arglist)), :posts, s(:arglist)),
-      #                     :find,
-      #                     s(:arglist,
-      #                       s(:call, s(:call, nil, :params, s(:arglist)), :[], s(:arglist, s(:lit, :id)))
-      #                     )
-      #                   )
-      #                 )
-      #               )
-      #             )
-      #           )
-      #         )
-      #       )
-      #     )
-      #
+      # it will check every def nodes in the class node until protected or private identification,
+      # if there are defn nodes who have the same first code line,
       # then these duplicated first code lines should be moved to before_filter.
-      def start_class(class_node)
+      def start_class(node)
         @first_sentences = {}
 
-        class_node.body.children.each do |child_node|
-          break if PROTECTED_PRIVATE_CALLS.include? child_node
-          remember_first_sentence(child_node) if :defn == child_node.node_type
+        node.body.statements.each do |statement_node|
+          break if :var_ref == statement_node.sexp_type && ["protected", "private"].include?(statement_node.to_s)
+          remember_first_sentence(statement_node) if :def == statement_node.sexp_type
         end
-        @first_sentences.each do |first_sentence, defn_nodes|
-          if defn_nodes.size > @customize_count
-            add_error "use before_filter for #{defn_nodes.collect(&:method_name).join(',')}", class_node.file, defn_nodes.collect(&:line).join(',')
+        @first_sentences.each do |first_sentence, def_nodes|
+          if def_nodes.size > @customize_count
+            add_error "use before_filter for #{def_nodes.map { |node| node.method_name.to_s }.join(',')}", node.file, def_nodes.map(&:line).join(',')
           end
         end
       end
 
       private
         # check method define node, and remember the first sentence.
-        # first sentence may be :iasgn, :lasgn, :attrasgn, :call node, like
-        #
-        #     s(:defn, :show, s(:args),
-        #       s(:scope,
-        #         s(:block,
-        #           s(:iasgn, :@post,
-        #             s(:call,
-        #               s(:call, s(:call, nil, :current_user, s(:arglist)), :posts, s(:arglist)),
-        #               :find,
-        #               s(:arglist,
-        #                 s(:call, s(:call, nil, :params, s(:arglist)), :[], s(:arglist, s(:lit, :id)))
-        #               )
-        #             )
-        #           )
-        #         )
-        #       )
-        #     )
-        #
-        # the first sentence of defn node is :iasgn node.
-        def remember_first_sentence(defn_node)
-          first_sentence = defn_node.body[1]
+        def remember_first_sentence(node)
+          first_sentence = node.body.statements.first
+          return unless first_sentence
+          first_sentence.remove_line_and_column!
           unless first_sentence == s(:nil)
             @first_sentences[first_sentence] ||= []
-            @first_sentences[first_sentence] << defn_node
+            @first_sentences[first_sentence] << node
           end
         end
     end

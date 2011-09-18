@@ -41,7 +41,7 @@ describe RailsBestPractices::Reviews::NotUseDefaultRouteReview do
       EOF
       runner.review('config/routes.rb', content)
       runner.should have(1).errors
-      runner.errors[0].to_s.should == "config/routes.rb:5 - not use default route"
+      runner.errors[0].to_s.should == "config/routes.rb:4 - not use default route"
     end
 
     it "should no not use default route" do

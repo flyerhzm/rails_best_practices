@@ -21,7 +21,7 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:if]
+        [:if, :unless, :elsif]
       end
 
       def interesting_files
@@ -31,63 +31,32 @@ module RailsBestPractices
       # check if node.
       #
       # if it is a method call compared with current_user or current_user.id,
-      # and there is a redirect_to method call in the block body, like
-      #
-      #     unless @post.user == current_user
-      #       falsh[:error] = "Access Denied"
-      #       redirect_to posts_url
-      #     end
-      #
+      # and there is a redirect_to method call in the block body,
       # then it should be replaced by using scope access.
       def start_if(node)
         add_error "use scope access" if current_user_redirect?(node)
       end
 
+      alias_method :start_unless, :start_if
+      alias_method :start_elsif, :start_if
+
       private
         # check a if node to see
         #
         # if the conditional statement is compared with current_user or current_user.id,
-        # and there is a redirect_to method call in the block body, like
-        #
-        #     s(:if,
-        #       s(:call,
-        #         s(:call, s(:ivar, :@post), :user, s(:arglist)),
-        #         :==,
-        #         s(:arglist, s(:call, nil, :current_user, s(:arglist)))
-        #       ),
-        #       nil,
-        #       s(:block,
-        #         s(:attrasgn,
-        #           s(:call, nil, :flash, s(:arglist)),
-        #           :[]=,
-        #           s(:arglist, s(:lit, :warning), s(:str, "Access Denied"))
-        #         ),
-        #         s(:call, nil, :redirect_to,
-        #           s(:arglist, s(:call, nil, :posts_url, s(:arglist)))
-        #         )
-        #       )
-        #     )
-        #
+        # and there is a redirect_to method call in the block body,
         # then it should be replaced by using scope access.
         def current_user_redirect?(node)
-          condition_node = node.conditional_statement
-
-          condition_node.message == :== &&
-          (current_user?(condition_node.arguments[1]) || current_user?(condition_node.subject)) &&
-          (node.false_node.grep_node(:message => :redirect_to) || node.true_node.grep_node(:message => :redirect_to))
+          all_conditions = node.conditional_statement == node.conditional_statement.all_conditions ? [node.conditional_statement] : node.conditional_statement.all_conditions
+          results = all_conditions.map do |condition_node|
+            ["==", "!="].include?(condition_node.message.to_s) && (current_user?(condition_node.argument) || current_user?(condition_node.subject))
+          end
+          results.any? { |result| result == true } && node.body.grep_node(:message => "redirect_to")
         end
 
         # check a call node to see if it uses current_user, or current_user.id.
-        #
-        # the expected call node may be
-        #
-        #     s(:call, nil, :current_user, s(:arglist))
-        #
-        # or
-        #
-        #     s(:call, s(:call, nil, :current_user, s(:arglist)), :id, s(:arglist))
-        def current_user?(call_node)
-          call_node.message == :current_user || (call_node.subject.message == :current_user && call_node.message == :id)
+        def current_user?(node)
+          "current_user" == node.to_s || ("current_user" == node.subject.to_s && "id" == node.message.to_s)
         end
     end
   end

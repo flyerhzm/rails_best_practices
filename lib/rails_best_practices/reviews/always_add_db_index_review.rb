@@ -10,12 +10,12 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   only check the call nodes and at the end of iter node in db/schema file,
-    #   if the subject of call node is :create_table, then remember the table names
-    #   if the subject of call node is :integer, then remember it as foreign key
-    #   if the sujbect of call node is :string, the name of it is _type suffixed and there is an integer column _id suffixed, then remember it as polymorphic foreign key
-    #   if the subject of call node is :add_index, then remember the index columns
-    #   after all of these, at the end of iter node
+    #   only check the command and command_calls nodes and at the end of program node in db/schema file,
+    #   if the subject of command node is "create_table", then remember the table names
+    #   if the subject of command_call node is "integer" and suffix with id, then remember it as foreign key
+    #   if the sujbect of command_call node is "string", the name of it is _type suffixed and there is an integer column _id suffixed, then remember it as polymorphic foreign key
+    #   if the subject of command node is "add_index", then remember the index columns
+    #   after all of these, at the end of program node
     #
     #       ActiveRecord::Schema.define(:version => 20101201111111) do
     #         ......
@@ -29,7 +29,7 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:call, :iter]
+        [:command, :command_call, :program]
       end
 
       def interesting_files
@@ -43,83 +43,46 @@ module RailsBestPractices
         @table_nodes = {}
       end
 
-      # check call node.
+      # check command_call node.
       #
-      # if the message of call node is :create_table,
-      # then remember the table name (@table_nodes) like
-      #     {
-      #       "comments" =>
-      #         s(:call, nil, :create_table, s(:arglist, s(:str, "comments"), s(:hash, s(:lit, :force), s(:true))))
-      #     }
-      #
-      # if the message of call node is :integer,
-      # then remember it as a foreign key of last create table name.
-      #
-      # if the message of call node is :type and the name of argument is _type suffixed,
-      # then remember it with _id suffixed column as polymorphic foreign key.
-      #
-      # the remember foreign keys (@foreign_keys) like
-      #
-      #   {
-      #     "taggings" =>
-      #       ["tag_id", ["taggable_id", "taggable_type"]]
-      #   }
-      #
-      # if the message of call node is :add_index,
-      # then remember it as index columns (@index_columns) like
-      #
-      #   {
-      #     "comments" =>
-      #       ["post_id", "user_id"]
-      #   }
-      def start_call(node)
-        case node.message
-        when :create_table
-          remember_table_nodes(node)
-        when :integer, :string
+      # if the message of command_call node is "create_table", then remember the table name.
+      # if the message of command_call node is "add_index", then remember it as index columns.
+      def start_command_call(node)
+        case node.message.to_s
+        when "integer", "string"
           remember_foreign_key_columns(node)
-        when :add_index
-          remember_index_columns(node)
         else
         end
       end
 
-      # check at the end of iter node, like
+      # check command node.
       #
-      #     s(:iter,
-      #       s(:call,
-      #         s(:colon2, s(:const, :ActiveRecord), :Schema),
-      #         :define,
-      #         s(:arglist, s(:hash, s(:lit, :version), s(:lit, 20100603080629)))
-      #       ),
-      #       nil,
-      #       s(:iter,
-      #         s(:call, nil, :create_table,
-      #           s(:arglist, s(:str, "comments"), s(:hash, s(:lit, :force), s(:true)))
-      #         ),
-      #         s(:lasgn, :t),
-      #         s(:block,
-      #           s(:call, s(:lvar, :t), :string, s(:arglist, s(:str, "content")))
-      #         )
-      #       )
-      #     )
+      # if the message of command node is "integer",
+      # then remember it as a foreign key of last create table name.
       #
-      # if the subject of iter node is with subject ActiveRecord::Schema,
-      # it means we have completed the foreign keys and index columns parsing,
-      # then we compare foreign keys and index columns.
+      # if the message of command node is "type" and the name of argument is _type suffixed,
+      # then remember it with _id suffixed column as polymorphic foreign key.
+      def start_command(node)
+        case node.message.to_s
+        when "create_table"
+          remember_table_nodes(node)
+        when "add_index"
+          remember_index_columns(node)
+        end
+      end
+
+      # check at the end of program node.
       #
+      # compare foreign keys and index columns,
       # if there are any foreign keys not existed in index columns,
       # then we should add db index for that foreign keys.
-      def end_iter(node)
-        first_node = node.subject
-        if :call == first_node.node_type && s(:colon2, s(:const, :ActiveRecord), :Schema) == first_node.subject
-          remove_only_type_foreign_keys
-          @foreign_keys.each do |table, foreign_key|
-            table_node = @table_nodes[table]
-            foreign_key.each do |column|
-              if indexed?(table, column)
-                add_error "always add db index (#{table} => [#{Array(column).join(', ')}])", table_node.file, table_node.line
-              end
+      def end_program(node)
+        remove_only_type_foreign_keys
+        @foreign_keys.each do |table, foreign_key|
+          table_node = @table_nodes[table]
+          foreign_key.each do |column|
+            if indexed?(table, column)
+              add_error "always add db index (#{table} => [#{Array(column).join(', ')}])", table_node.file, table_node.line
             end
           end
         end
@@ -127,62 +90,25 @@ module RailsBestPractices
 
       private
         # remember the node as index columns
-        #
-        #     s(:call, nil, :add_index,
-        #       s(:arglist,
-        #         s(:str, "comments"),
-        #         s(:array, s(:str, "post_id")),
-        #         s(:hash, s(:lit, :name), s(:str, "index_comments_on_post_id"))
-        #       )
-        #     )
-        #
-        # the remember index columns are like
-        #     {
-        #       "comments" =>
-        #         ["post_id", "user_id"]
-        #     }
         def remember_index_columns(node)
-          table_name = node.arguments[1].to_s
-          index_column = eval(node.arguments[2].to_s)
+          table_name = node.arguments.all[0].to_s
+          index_column = node.arguments.all[1].to_object
 
           @index_columns[table_name] ||= []
-          @index_columns[table_name] << (index_column.size == 1 ? index_column[0] : index_column)
+          @index_columns[table_name] << index_column
         end
 
         # remember table nodes
-        #
-        # if the node is
-        #
-        #     s(:call, nil, :create_table,
-        #       s(:arglist, s(:str, "comments"), s(:hash, s(:lit, :force), s(:true))))
-        #
-        # then the table nodes will be
-        #
-        #     {
-        #       "comments" =>
-        #         s(:call, nil, :create_table, s(:arglist, s(:str, "comments"), s(:hash, s(:lit, :force), s(:true))))
-        #     }
         def remember_table_nodes(node)
-          @table_name = node.arguments[1].to_s
+          @table_name = node.arguments.all[0].to_s
           @table_nodes[@table_name] = node
         end
 
 
         # remember foreign key columns
-        #
-        # if the message of node is :integer,
-        # then it is a foreign key, like
-        #
-        #     s(:call, s(:lvar, :t), :integer, s(:arglist, s(:str, "post_id")))
-        #
-        # if the message of node is :string, with _type suffixed and there is a _id suffixed column,
-        # then they are polymorphic foreign key
-        #
-        #     s(:call, s(:lvar, :t), :integer, s(:arglist, s(:str, "taggable_id")))
-        #     s(:call, s(:lvar, :t), :string, s(:arglist, s(:str, "taggable_type")))
         def remember_foreign_key_columns(node)
           table_name = @table_name
-          foreign_key_column = node.arguments[1].to_s
+          foreign_key_column = node.arguments.all[0].to_s
           @foreign_keys[table_name] ||= []
           if foreign_key_column =~ /(.*?)_id$/
             if @foreign_keys[table_name].delete("#{$1}_type")

@@ -13,7 +13,7 @@ module RailsBestPractices
     #   only check all view files to see if there are finders, then the finders should be moved to controller.
     class MoveCodeIntoControllerReview < Review
 
-      FINDERS = [:find, :all, :first, :last]
+      FINDERS = %w(find all first last)
 
       def url
         "http://rails-bestpractices.com/posts/24-move-code-into-controller"
@@ -30,7 +30,7 @@ module RailsBestPractices
       # check call nodes.
       #
       # if the subject of the call node is a constant,
-      # and the message of the call node is one of the :find, :all, :first and :last,
+      # and the message of the call node is one of the find, all, first and last,
       # then it is a finder and should be moved to controller.
       def start_call(node)
         add_error "move code into controller" if finder?(node)
@@ -38,15 +38,9 @@ module RailsBestPractices
 
       private
         # check if the node is a finder call node.
-        # e.g. the following call node is a finder
-        #
-        #     s(:call,
-        #       s(:const, :Post),
-        #       :find,
-        #       s(:arglist, s(:lit, :all))
-        #     )
         def finder?(node)
-          :const == node.subject.node_type && FINDERS.include?(node.message)
+          :var_ref == node.subject.sexp_type &&
+            :@const == node.subject[1].sexp_type && FINDERS.include?(node.message.to_s)
         end
     end
   end

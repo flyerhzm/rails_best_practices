@@ -9,6 +9,12 @@ describe RailsBestPractices::Core::Nil do
     end
   end
 
+  context "hash_size" do
+    it "should return 0" do
+      core_nil.hash_size.should == 0
+    end
+  end
+
   context "method_missing" do
     it "should return self" do
       core_nil.undefined.should == core_nil

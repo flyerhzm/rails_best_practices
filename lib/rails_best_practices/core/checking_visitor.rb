@@ -7,11 +7,11 @@ module RailsBestPractices
     # then recursively iterate all sexp nodes,
     #
     # for prepare process
-    # if the node_type and the node filename match the interesting_prepare_nodes and interesting_files,
+    # if the sexp_type and the node filename match the interesting_prepare_nodes and interesting_files,
     # then run the prepare for that node.
     #
     # for review process
-    # if the node_type and the node filename match the interesting_review_nodes and interesting_files,
+    # if the sexp_type and the node filename match the interesting_review_nodes and interesting_files,
     # then run the reivew for that node.
     class CheckingVisitor
       # remember all the checks for prepare and review processes according to interesting_nodes.
@@ -41,16 +41,16 @@ module RailsBestPractices
       end
 
       # for prepare process
-      # if the node_type and the node filename match the interesting_nodes and interesting_files,
+      # if the sexp_type and the node filename match the interesting_nodes and interesting_files,
       # then run the prepare for that node.
       #
       # for review process
-      # if the node_type and the node filename match the interesting_nodes and interesting_files,
+      # if the sexp_type and the node filename match the interesting_nodes and interesting_files,
       # then run the reivew for that node.
       [:prepare, :review].each do |process|
         class_eval <<-EOS
           def #{process}(node)                                         # def review(node)
-            checks = @#{process}_checks[node.node_type]                #   checks = @review_checks[node.node_type]
+            checks = @#{process}_checks[node.sexp_type]                #   checks = @review_checks[node.sexp_type]
             if checks                                                  #   if checks
               checks.each { |check|                                    #     checks.each { |check|
                 if node.file =~ check.interesting_files                #      if node.file =~ check.interesting_files
@@ -58,7 +58,10 @@ module RailsBestPractices
                 end                                                    #       end
               }                                                        #     }
             end                                                        #   end
-            node.children.each {|sexp| sexp.#{process}(self)}          #   node.children.each {|sexp| sexp.review(self)}
+            node.children.each { |sexp|                                #   node.children.each { |sexp|
+              sexp.file = node.file                                    #     sexp.filename = node.file
+              sexp.#{process}(self)                                    #     sexp.review(self)
+            }                                                          #   }
             if checks                                                  #   if checks
               checks.each { |check|                                    #     checks.each { |check|
                 if node.file =~ check.interesting_files                #       if node.file =~ check.interesting_files

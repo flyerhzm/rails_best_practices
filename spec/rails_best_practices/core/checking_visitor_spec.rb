@@ -69,28 +69,28 @@ describe RailsBestPractices::Core::CheckingVisitor do
   end
 
   it "should prepare model associations" do
-    node = stub(:node_type => :call, :children => [], :file => "app/models/user.rb")
+    node = stub(:sexp_type => :call, :children => [], :file => "app/models/user.rb")
     prepare1.should_receive(:node_start).with(node)
     prepare1.should_receive(:node_end).with(node)
     visitor.prepare(node)
   end
 
   it "should prepare mailer names" do
-    node = stub(:node_type => :class, :children => [], :file => "app/mailers/user_mailer.rb")
+    node = stub(:sexp_type => :class, :children => [], :file => "app/mailers/user_mailer.rb")
     prepare2.should_receive(:node_start).with(node)
     prepare2.should_receive(:node_end).with(node)
     visitor.prepare(node)
   end
 
   it "should review controller method definitions" do
-    node = stub(:node_type => :defn, :children => [], :file => "app/controllers/users_controller.rb")
+    node = stub(:sexp_type => :defn, :children => [], :file => "app/controllers/users_controller.rb")
     review1.should_receive(:node_start).with(node)
     review1.should_receive(:node_end).with(node)
     visitor.review(node)
   end
 
   it "should review view calls" do
-    node = stub(:node_type => :call, :children => [], :file => "app/views/users/new.html.erb")
+    node = stub(:sexp_type => :call, :children => [], :file => "app/views/users/new.html.erb")
     review2.should_receive(:node_start).with(node)
     review2.should_receive(:node_end).with(node)
     visitor.review(node)

@@ -12,7 +12,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   check all call nodes to see if they are callback definitions, like after_create, before_destroy,
+    #   check all command nodes to see if they are callback definitions, like after_create, before_destroy,
     #   if so, remember the callback methods.
     #
     #   check all method define nodes to see
@@ -25,7 +25,7 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:defn, :call]
+        [:def, :command]
       end
 
       def interesting_files
@@ -37,15 +37,11 @@ module RailsBestPractices
         @callbacks = []
       end
 
-      # check a call node.
+      # check a command node.
       #
-      # if it is a callback definition, like
-      #
-      #     after_create :send_create_notification
-      #     before_destroy :send_destroy_notification
-      #
-      # then remember its callback methods (:send_create_notification).
-      def start_call(node)
+      # if it is a callback definition,
+      # then remember its callback methods.
+      def start_command(node)
         remember_callback(node)
       end
 
@@ -54,67 +50,53 @@ module RailsBestPractices
       # if it is callback method,
       # and there is a actionmailer deliver call in the method define node,
       # then it should be replaced by using observer.
-      def start_defn(node)
-        if callback_method?(node) and deliver_mailer?(node)
+      def start_def(node)
+        if callback_method?(node) && deliver_mailer?(node)
           add_error "use observer"
         end
       end
 
       private
-        # check a call node, if it is a callback definition, such as after_create, before_create, like
-        #
-        #     s(:call, nil, :after_create,
-        #       s(:arglist, s(:lit, :send_create_notification))
-        #     )
-        #
+        # check a command node, if it is a callback definition, such as after_create, before_create,
         # then save the callback methods in @callbacks
-        #
-        #     @callbacks => [:send_create_notification]
         def remember_callback(node)
           if node.message.to_s =~ /^after_|^before_/
-            node.arguments[1..-1].each do |argument|
+            node.arguments.all.each do |argument|
               # ignore callback like after_create Comment.new
-              @callbacks << argument.to_s if :lit == argument.node_type
+              @callbacks << argument.to_s if :symbol_literal == argument.sexp_type
             end
           end
         end
 
         # check a defn node to see if the method name exists in the @callbacks.
         def callback_method?(node)
-          @callbacks.find { |callback| equal?(callback, node.method_name) }
+          @callbacks.find { |callback| callback == node.method_name.to_s }
         end
 
-        # check a defn node to see if it contains a actionmailer deliver call.
+        # check a def node to see if it contains a actionmailer deliver call.
         #
         # for rails2
         #
         # if the message of call node is deliver_xxx,
-        # and the subject of the call node exists in @callbacks, like
-        #
-        #     s(:call, s(:const, :ProjectMailer), :deliver_notification,
-        #       s(:arglist, s(:self), s(:lvar, :member))
-        #     )
+        # and the subject of the call node exists in @callbacks,
         #
         # for rails3
         #
         # if the message of call node is deliver,
-        # and the subject of the call node is with subject node who exists in @callbacks, like
-        #
-        #     s(:call,
-        #       s(:call, s(:const, :ProjectMailer), :notification,
-        #         s(:arglist, s(:self), s(:lvar, :member))
-        #       ),
-        #       :deliver,
-        #       s(:arglist)
-        #     )
+        # and the subject of the call node is with subject node who exists in @callbacks,
         #
         # then the call node is actionmailer deliver call.
         def deliver_mailer?(node)
-          node.grep_nodes(:node_type => :call) do |child_node|
+          node.grep_nodes(:sexp_type => :call) do |child_node|
             # rails2 actionmailer deliver
             return true if child_node.message.to_s =~ /^deliver_/ && mailers.include?(child_node.subject.to_s)
             # rails3 actionmailer deliver
-            return true if :deliver == child_node.message && mailers.include?(child_node.subject.subject.to_s)
+            if "deliver" == child_node.message.to_s
+              if :method_add_arg == child_node.subject.sexp_type &&
+                mailers.include?(child_node.subject[1].subject.to_s)
+                return true
+              end
+            end
           end
           false
         end

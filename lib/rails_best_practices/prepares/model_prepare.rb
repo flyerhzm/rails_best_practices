@@ -5,9 +5,10 @@ module RailsBestPractices
   module Prepares
     # Remember the model associations.
     class ModelPrepare < Core::Check
+      ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many)
 
       def interesting_nodes
-        [:class, :call]
+        [:class, :command]
       end
 
       def interesting_files
@@ -15,23 +16,17 @@ module RailsBestPractices
       end
 
       def initialize
-        @models = Core::Models.new
-        @model_associations = Core::ModelAssociations.new
+        @models = Prepares.models
+        @model_associations = Prepares.model_associations
       end
 
       # check class node to remember the last class name.
-      def start_class(class_node)
-        @last_klazz = class_node.class_name.to_s
+      def start_class(node)
+        @last_klazz= node.class_name.to_s
         @models << @last_klazz
       end
 
-      # assign @model_associations to Prepares.model_associations.
-      def end_class(class_node)
-        Prepares.models = @models
-        Prepares.model_associations = @model_associations
-      end
-
-      # check call node to remember all assoications.
+      # check command node to remember all assoications.
       #
       # the remembered association names (@associations) are like
       #     {
@@ -42,25 +37,20 @@ module RailsBestPractices
       #         "milestones => {:has_many" => "Milestone"}
       #       }
       #     }
-      def start_call(node)
-        remember_association(node) if association_methods.include? node.message
+      def start_command(node)
+        remember_association(node) if ASSOCIATION_METHODS.include? node.message.to_s
       end
 
       # remember associations, with class to association names.
-      def remember_association(association_node)
-        association_meta = association_node.message
-        association_name = association_node.arguments[1].to_s
-        arguments_node = association_node.arguments[2]
-        if arguments_node && :hash == arguments_node.node_type
-          index = arguments_node.index(s(:lit, :class_name))
-          association_class = arguments_node[index + 1].to_s if index
+      def remember_association(node)
+        association_meta = node.message.to_s
+        association_name = node.arguments.all[0].to_s
+        arguments_node = node.arguments.all[1]
+        if arguments_node && :bare_assoc_hash == arguments_node.sexp_type
+          association_class = arguments_node.hash_value("class_name").to_s
         end
+        association_class ||= association_name.classify
         @model_associations.add_association(@last_klazz, association_name, association_meta, association_class)
-      end
-
-      # default rails association methods.
-      def association_methods
-        [:belongs_to, :has_one, :has_many, :has_and_belongs_to_many]
       end
     end
   end

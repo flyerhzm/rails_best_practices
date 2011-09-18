@@ -19,7 +19,7 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:class, :defn]
+        [:class, :def]
       end
 
       def interesting_files
@@ -28,12 +28,12 @@ module RailsBestPractices
 
       # check class node to remember the ActionMailer class name.
       def start_class(node)
-        @klazz_name = node.class_name
+        @klazz_name = node.class_name.to_s
       end
 
-      # check defn node and find if the corresponding views exist or not?
-      def start_defn(node)
-        name = node.method_name
+      # check def node and find if the corresponding views exist or not?
+      def start_def(node)
+        name = node.method_name.to_s
         return unless deliver_method?(name)
         if rails2_canonical_mailer_views?(name) || rails3_canonical_mailer_views?(name)
           add_error("use multipart/alternative as content_type of email")

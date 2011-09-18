@@ -15,17 +15,16 @@ module RailsBestPractices
       end
 
       def initialize
-        @mailers = Core::Mailers.new
+        @mailers = Prepares.mailers
       end
 
       # check class node.
       #
       # if it is a subclass of ActionMailer::Base,
       # then remember its class name.
-      def start_class(class_node)
-        if s(:colon2, s(:const, :ActionMailer), :Base) == class_node.base_class
-          @mailers << class_node.class_name.to_s
-          Prepares.mailers = @mailers
+      def start_class(node)
+        if "ActionMailer::Base" == node.base_class.to_s
+          @mailers << node.class_name.to_s
         end
       end
     end

@@ -12,8 +12,8 @@ module RailsBestPractices
     # Review process:
     #   check all method defines in the controller files,
     #   if there are multiple attribute assignments apply to one subject,
-    #   and the subject is a local variable or an instance variable,
-    #   and after them there is a call node with message :save or :save!,
+    #   and the subject is a variable,
+    #   and after them there is a call node with message "save" or "save!",
     #   then these attribute assignments are complex creation, should be replaced with factory method.
     class ReplaceComplexCreationWithFactoryMethodReview < Review
       def url
@@ -21,7 +21,7 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:defn]
+        [:def]
       end
 
       def interesting_files
@@ -30,21 +30,23 @@ module RailsBestPractices
 
       def initialize(options = {})
         super()
-        @attrasgn_count = options['attribute_assignment_count'] || 2
+        @assigns_count = options['attribute_assignment_count'] || 2
       end
 
-      # check method define node to see if there are multiple attribute assignments, more than @attrasgn_count, on one local variable or instance variable before save.
+      # check method define node to see if there are multiple assignments, more than @assigns_count, on one variable before save.
       #
       # it wll check every attrasgn nodes in method define node,
-      # if there are multiple attrasgn nodes who have the same subject,
-      # and the subject is a local variable or an instance variable,
-      # and after them, there is a call node with message :save or :save!,
+      # if there are multiple assign nodes who have the same subject,
+      # and the subject is a variable,
+      # and after them, there is a call node with message "save" or "save!",
       # then these attribute assignments are complex creation, should be replaced with factory method.
-      def start_defn(node)
+      def start_def(node)
         node.recursive_children do |child_node|
-          case child_node.node_type
-          when :attrasgn
-            remember_variable_use_count(child_node)
+          case child_node.sexp_type
+          when :assign
+            if :"." == child_node.subject[2]
+              remember_variable_use_count(child_node)
+            end
           when :call
             check_variable_save(child_node)
           else
@@ -54,14 +56,14 @@ module RailsBestPractices
       end
 
       private
-        # check the call node to see if it is with message :save or :save!,
-        # and the count attribute assignment on the subject of the call node is greater than @attrasgn_count defined,
+        # check the call node to see if it is with message "save" or "save!",
+        # and the count attribute assignment on the subject of the call node is greater than @assign_count defined,
         # then it is a complex creation, should be replaced with factory method.
         def check_variable_save(node)
-          if [:save, :save!].include? node.message
-            variable = node.subject
-            if variable_use_count[variable].to_i > @attrasgn_count
-              add_error "replace complex creation with factory method (#{variable} attribute_assignment_count > #{@attrasgn_count})"
+          if ["save", "save!"].include? node.message.to_s
+            variable = node.subject.to_s
+            if variable_use_count[variable].to_i > @assigns_count
+              add_error "replace complex creation with factory method (#{variable} attribute_assignment_count > #{@assigns_count})"
             end
           end
         end

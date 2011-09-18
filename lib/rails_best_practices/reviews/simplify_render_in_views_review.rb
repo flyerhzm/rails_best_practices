@@ -10,7 +10,7 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   check all render method calls in view files,
+    #   check all render method commands in view files,
     #   if there is a key 'partial' in the argument, then they should be replaced by simplified syntax.
     class SimplifyRenderInViewsReview < Review
       def url
@@ -18,19 +18,22 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:call]
+        [:command]
       end
 
       def interesting_files
         VIEW_FILES
       end
 
-      # check call node in view file,
+      # check command node in view file,
       # if its message is render and the arguments contain a key partial,
       # then it should be replaced by simplified syntax.
-      def start_call(call_node)
-        if :render == call_node.message && call_node.arguments[1].to_s =~ /"partial" =>/
-          add_error 'simplify render in views'
+      def start_command(node)
+        if "render" == node.message.to_s
+          hash_node =  node.arguments.all[0]
+          if hash_node && hash_node.hash_keys && hash_node.hash_keys.include?("partial")
+            add_error 'simplify render in views'
+          end
         end
       end
     end

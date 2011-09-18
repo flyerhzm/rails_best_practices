@@ -12,10 +12,10 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   check al method calls to see if there is a complex options_for_select helper.
+    #   check al method method_add_arg nodes to see if there is a complex options_for_select helper.
     #
-    #   if the message of the call node is options_for_select,
-    #   and the first argument of the call node is array,
+    #   if the message of the method_add_arg node is options_for_select,
+    #   and the first argument of the method_add_arg node is array,
     #   and the size of the array is greater than array_count defined,
     #   then the options_for_select method should be moved into helper.
     class MoveCodeIntoHelperReview < Review
@@ -24,7 +24,7 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:call]
+        [:method_add_arg]
       end
 
       def interesting_files
@@ -36,12 +36,12 @@ module RailsBestPractices
         @array_count = options['array_count'] || 3
       end
 
-      # check call node with message options_for_select (sorry we only check options_for_select helper now).
+      # check method_add_arg node with message options_for_select (sorry we only check options_for_select helper now).
       #
       # if the first argument of options_for_select method call is an array,
       # and the size of the array is more than @array_count defined,
       # then the options_for_select helper should be moved into helper.
-      def start_call(node)
+      def start_method_add_arg(node)
         add_error "move code into helper (array_count >= #{@array_count})" if complex_select_options?(node)
       end
 
@@ -50,29 +50,11 @@ module RailsBestPractices
         #
         # if the first argument is an array,
         # and the size of array is greater than @array_count you defined,
-        # then it is complext, e.g.
-        #
-        #     s(:call, nil, :options_for_select,
-        #       s(:arglist,
-        #         s(:array,
-        #           s(:array,
-        #             s(:call, nil, :t, s(:arglist, s(:lit, :draft))),
-        #             s(:str, "draft")
-        #           ),
-        #           s(:array,
-        #             s(:call, nil, :t, s(:arglist, s(:lit, :published))),
-        #             s(:str, "published")
-        #           )
-        #         ),
-        #         s(:call,
-        #           s(:call, nil, :params, s(:arglist)),
-        #           :[],
-        #           s(:arglist, s(:lit, :default_state))
-        #         )
-        #       )
-        #     )
+        # then it is complext.
         def complex_select_options?(node)
-          :options_for_select == node.message && :array == node.arguments[1].node_type && node.arguments[1].size > @array_count
+          "options_for_select" == node[1].message.to_s &&
+            :array == node.arguments.all[0].sexp_type &&
+            node.arguments.all[0].array_size > @array_count
         end
     end
   end
