@@ -58,6 +58,8 @@ Donating
 Install
 -------
 
+Ruby 1.9
+
     gem install rails_best_practices
 
 or add in Gemfile
@@ -65,6 +67,8 @@ or add in Gemfile
     gem "rails_best_practices"
 
 rails_best_practices gem is rewritten based on ripper instead of ruby_parser to support ruby 1.9 new syntax, so if you still want to use rails_best_practices gem in ruby 1.8, please add ripper gem dependency before rails_best_practices.
+
+Ruby 1.8
 
     gem install ripper
     gem install rails_best_practices
