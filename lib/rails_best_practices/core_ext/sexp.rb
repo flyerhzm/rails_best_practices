@@ -233,7 +233,9 @@ class Sexp
     when :command_call
       self[4]
     when :method_add_arg
-      self[2][1]
+      self[2].arguments
+    when :arg_paren
+      self[1]
     when :array
       self
     end
@@ -536,7 +538,9 @@ class Sexp
   def hash_size
     case sexp_type
     when :hash
-      self[1][1].size
+      self[1].size
+    when :assoclist_from_args
+      self[1].size
     when :bare_assoc_hash
       self[1].size
     end

@@ -53,6 +53,7 @@ module RailsBestPractices
       # test if the @counter is greater than or equal to @nested_count,
       # if so, it is a needless deep nesting.
       def start_method_add_block(node)
+        @file = node.file
         recursively_check(node)
       end
 
@@ -72,12 +73,11 @@ module RailsBestPractices
             return if hash_node && "true" == hash_node.hash_value("shallow").to_s
             @counter += 1
             node.block.statements.each do |stmt_node|
-              stmt_node.file = node.file
               recursively_check(stmt_node)
             end
             @counter -= 1
           elsif [:command_call, :command].include?(node.sexp_type) && ["resources", "resource"].include?(node.message.to_s)
-            add_error "needless deep nesting (nested_count > #{@nested_count})", node.file, node.line if @counter >= @nested_count
+            add_error "needless deep nesting (nested_count > #{@nested_count})", @file, node.line if @counter >= @nested_count
           end
         end
     end
