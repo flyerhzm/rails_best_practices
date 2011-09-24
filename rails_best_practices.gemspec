@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency("ruby_parser")
+  s.add_dependency("sexp_processor")
   s.add_dependency("ruby-progressbar")
   s.add_dependency("colored")
   s.add_dependency("erubis")
