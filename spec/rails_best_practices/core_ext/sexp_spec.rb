@@ -402,19 +402,29 @@ describe Sexp do
   end
 
   describe "const?" do
-    it "return true for const with var_ref" do
+    it "should return true for const with var_ref" do
       node = parse_content("User.find").grep_node(:sexp_type => :var_ref)
       node.should be_const
     end
 
-    it "return true for const with @const" do
+    it "should return true for const with @const" do
       node = parse_content("User.find").grep_node(:sexp_type => :@const)
       node.should be_const
     end
 
-    it "return false for ivar" do
+    it "should return false for ivar" do
       node = parse_content("@user.find").grep_node(:sexp_type => :@ivar)
       node.should_not be_const
+    end
+  end
+
+  describe "remove_line_and_column" do
+    it "should remove" do
+      s(:@ident, "test", s(2, 12)).remove_line_and_column.should_equal s(:@ident, "test")
+    end
+
+    it "should remove child nodes" do
+      s(:const_ref, s(:@const, "Demo", s(1, 12))).remove_line_and_column.should_equal s(:const_def, s(:@const, "Demo"))
     end
   end
 end
