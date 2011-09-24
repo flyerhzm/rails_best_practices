@@ -25,7 +25,7 @@ class Sexp
       :var_ref, :const_ref, :class, :module, :if, :unless, :elsif, :binary].include? sexp_type
       self[1].line
     else
-      self.last.first
+      self.last.first if self.last.is_a? Array
     end
   end
 
@@ -638,8 +638,6 @@ class Sexp
       else
         self[1].to_s
       end
-    when :xstring_add
-      self[2].to_s
     when :args_add
       if s(:args_new) == self[1]
         self[2].to_s
@@ -652,8 +650,7 @@ class Sexp
       self[1].to_s[0..-2]
     when :aref
       "#{self[1]}[#{self[2]}]"
-    when :string_embexpr
-      # TODO
+    else
       ""
     end
   end
@@ -663,14 +660,18 @@ class Sexp
   end
 
   # remove the line and column info from sexp.
-  def remove_line_and_column!
-    last_node = self.last
+  def remove_line_and_column
+    node = self.clone
+    last_node = node.last
     if Sexp === last_node && last_node.size == 2 && last_node.first.is_a?(Integer) && last_node.last.is_a?(Integer)
-      self.delete_at(-1)
+      node.delete_at(-1)
     end
-    self.children.each do |child|
-      child.remove_line_and_column!
+    node.sexp_body.each_with_index do |child, index|
+      if Sexp === child
+        node[index+1] = child.remove_line_and_column
+      end
     end
+    node
   end
 
   # if the return value of these methods is nil, then return RailsBestPractices::Core::Nil.new instead
