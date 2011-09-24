@@ -64,11 +64,11 @@ module RailsBestPractices
 
       private
         # check assignment node,
-        # if the right vavlue is a call node with message "new",
+        # if the right vavlue is a method_add_arg node with message "new",
         # then remember the left value as new variable.
         def remember_new_variable(node)
           right_value = node.right_value
-          if right_value[1] && :call == right_value[1].sexp_type && "new" == right_value[1].message.to_s
+          if :method_add_arg == right_value.sexp_type && "new" == right_value.message.to_s
             @new_variables << node.left_value.to_s
           end
         end
