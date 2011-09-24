@@ -54,7 +54,7 @@ module RailsBestPractices
         def remember_first_sentence(node)
           first_sentence = node.body.statements.first
           return unless first_sentence
-          first_sentence.remove_line_and_column!
+          first_sentence = first_sentence.remove_line_and_column
           unless first_sentence == s(:nil)
             @first_sentences[first_sentence] ||= []
             @first_sentences[first_sentence] << node
