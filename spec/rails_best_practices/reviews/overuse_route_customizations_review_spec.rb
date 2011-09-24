@@ -32,7 +32,7 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
       runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
     end
 
-    it "should overuse route customizations with collection 2" do
+    it "should overuse route customizations with hash member and collection" do
       content = <<-EOF
       ActionController::Routing::Routes.draw do |map|
         map.resources :categories do |category|
@@ -40,6 +40,20 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
                                                   :update_comment => :update,
                                                   :delete_comment => :delete },
                                      :collection => { :comments => :get }
+        end
+      end
+      EOF
+      runner.review('config/routes.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "config/routes.rb:3 - overuse route customizations (customize_count > 3)"
+    end
+
+    it "should overuse route customizations with array member and collection" do
+      content = <<-EOF
+      ActionController::Routing::Routes.draw do |map|
+        map.resources :categories do |category|
+          category.resources :posts, :member => [:create_comment, :update_comment, :delete_comment],
+                                     :collection => [:comments]
         end
       end
       EOF

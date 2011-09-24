@@ -86,7 +86,9 @@ module RailsBestPractices
           if "resources" == node.message.to_s
             hash_node = node.arguments.all[1]
             if hash_node && :bare_assoc_hash == hash_node.sexp_type
-              return hash_node.hash_value("member").hash_size + hash_node.hash_value("collection").hash_size
+              member_node = hash_node.hash_value("member")
+              collection_node = hash_node.hash_value("collection")
+              return (member_node.hash_size || member_node.array_size) + (collection_node.hash_size || collection_node.array_size)
             end
           end
           0
