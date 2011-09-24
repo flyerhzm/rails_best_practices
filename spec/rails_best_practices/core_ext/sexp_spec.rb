@@ -6,6 +6,7 @@ describe Sexp do
       content = <<-EOF
       class Demo
         def test
+          ActiveRecord::Base.connection
         end
       end
       EOF
@@ -18,6 +19,14 @@ describe Sexp do
 
     it "should return def line" do
       @node.grep_node(:sexp_type => :def).line.should == 2
+    end
+
+    it "should return const line" do
+      @node.grep_node(:sexp_type => :const_ref).line.should == 1
+    end
+
+    it "should return const path line" do
+      @node.grep_node(:sexp_type => :const_path_ref).line.should == 3
     end
   end
 
