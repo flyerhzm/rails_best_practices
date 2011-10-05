@@ -120,6 +120,21 @@ class Sexp
     end
   end
 
+  # Get the module name of the module node.
+  #
+  #     s(:module,
+  #       s(:const_ref, s(:@const, "Admin", s(1, 7))),
+  #       s(:bodystmt, s(:stmts_add, s(:stmts_new), s(:void_stmt)), nil, nil, nil)
+  #     )
+  #         => s(:const_ref, s(:@const, "Admin", s(1, 7))),
+  #
+  # @return [Sexp] module name node
+  def module_name
+    if :module == sexp_type
+      self[1]
+    end
+  end
+
   # Get the class name of the class node.
   #
   #     s(:class,
