@@ -5,9 +5,10 @@ module RailsBestPractices
   module Prepares
     # Remember the mailer names.
     class MailerPrepare < Core::Check
+      include Core::Check::Classable
 
       def interesting_nodes
-        [:class]
+        [:class, :module]
       end
 
       def interesting_files
@@ -24,7 +25,7 @@ module RailsBestPractices
       # then remember its class name.
       def start_class(node)
         if "ActionMailer::Base" == node.base_class.to_s
-          @mailers << node.class_name.to_s
+          @mailers << class_name(node)
         end
       end
     end

@@ -83,6 +83,32 @@ module RailsBestPractices
           super
         end
       end
+
+      module Classable
+        # remember module name.
+        def start_module(node)
+          modules << node.module_name
+        end
+
+        # end of the module.
+        def end_module(node)
+          modules.pop
+        end
+
+        # get the class name with module name.
+        def class_name(node)
+          class_name = node.class_name.to_s
+          if modules.empty?
+            class_name
+          else
+            modules.map { |modu| "#{modu}::" }.join("") + class_name
+          end
+        end
+
+        def modules
+          @moduels ||= []
+        end
+      end
     end
   end
 end

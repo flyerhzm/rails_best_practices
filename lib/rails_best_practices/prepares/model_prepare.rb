@@ -5,10 +5,12 @@ module RailsBestPractices
   module Prepares
     # Remember models and model associations.
     class ModelPrepare < Core::Check
+      include Core::Check::Classable
+
       ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many)
 
       def interesting_nodes
-        [:class, :command]
+        [:class, :command, :module]
       end
 
       def interesting_files
@@ -22,7 +24,7 @@ module RailsBestPractices
 
       # check class node to remember the last class name.
       def start_class(node)
-        @last_klazz= node.class_name.to_s
+        @last_klazz= class_name(node)
         @models << @last_klazz
       end
 

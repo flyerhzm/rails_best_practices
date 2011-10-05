@@ -34,6 +34,28 @@ describe RailsBestPractices::Prepares::ModelPrepare do
     lambda { runner.prepare('app/models/event_subscription.rb', content) }.should_not raise_error
   end
 
+  it "class_name with modules ::" do
+    content =<<-EOF
+    class Blog::Post < ActiveRecord::Base
+    end
+    EOF
+    runner.prepare("app/models/admin/post.rb", content)
+    models = RailsBestPractices::Prepares.models
+    models.should == ["Blog::Post"]
+  end
+
+  it "class_name with modules" do
+    content =<<-EOF
+    module Blog
+      class Post < ActiveRecord::Base
+      end
+    end
+    EOF
+    runner.prepare("app/models/admin/post.rb", content)
+    models = RailsBestPractices::Prepares.models
+    models.should == ["Blog::Post"]
+  end
+
   context "class_name" do
     it "should parse belongs_to" do
       content =<<-EOF
