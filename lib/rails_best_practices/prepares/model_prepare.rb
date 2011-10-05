@@ -3,7 +3,7 @@ require 'rails_best_practices/core/check'
 
 module RailsBestPractices
   module Prepares
-    # Remember the model associations.
+    # Remember models and model associations.
     class ModelPrepare < Core::Check
       ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many)
 
@@ -30,11 +30,11 @@ module RailsBestPractices
       #
       # the remembered association names (@associations) are like
       #     {
-      #       :Project=>{
-      #         "categories" => {:has_and_belongs_to_many => "Category"},
-      #         "project_manager" => {:has_one => "ProjectManager"},
-      #         "portfolio" => {:belongs_to => "Portfolio"},
-      #         "milestones => {:has_many" => "Milestone"}
+      #       "Project" => {
+      #         "categories" => {"has_and_belongs_to_many" => "Category"},
+      #         "project_manager" => {"has_one" => "ProjectManager"},
+      #         "portfolio" => {"belongs_to" => "Portfolio"},
+      #         "milestones => {"has_many" => "Milestone"}
       #       }
       #     }
       def start_command(node)
