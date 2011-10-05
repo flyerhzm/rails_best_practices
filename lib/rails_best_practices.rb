@@ -112,7 +112,7 @@ module RailsBestPractices
     # @return [Array] all files for prepare process
     def prepare_files
       @prepare_files ||= begin
-        ['app/models', 'app/mailers', 'db/schema.rb'].inject([]) { |files, name|
+        ['app/models', 'app/mailers', 'db/schema.rb', 'app/controllers'].inject([]) { |files, name|
           files += expand_dirs_to_files(File.join(@path, name))
         }.compact
       end

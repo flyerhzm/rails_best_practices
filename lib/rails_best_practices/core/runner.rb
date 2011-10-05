@@ -151,7 +151,7 @@ module RailsBestPractices
 
         # load all prepares.
         def load_prepares
-          [Prepares::ModelPrepare.new, Prepares::MailerPrepare.new, Prepares::SchemaPrepare.new]
+          [Prepares::ModelPrepare.new, Prepares::MailerPrepare.new, Prepares::SchemaPrepare.new, Prepares::ControllerPrepare.new]
         end
 
         # load all reviews according to configuration.

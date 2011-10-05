@@ -374,12 +374,22 @@ describe Sexp do
       node = parse_content("['first_name', 'last_name']").grep_node(:sexp_type => :array)
       node.array_size.should == 2
     end
+
+    it "should get 0" do
+      node = parse_content("[]").grep_node(:sexp_type => :array)
+      node.array_size.should == 0
+    end
   end
 
   describe "to_object" do
     it "should to array" do
       node = parse_content("['first_name', 'last_name']").grep_node(:sexp_type => :array)
       node.to_object.should == ["first_name", "last_name"]
+    end
+
+    it "should to empty array" do
+      node = parse_content("[]").grep_node(:sexp_type => :array)
+      node.to_object.should == []
     end
 
     it "should to string" do
