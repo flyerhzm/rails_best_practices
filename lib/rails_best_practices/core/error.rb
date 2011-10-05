@@ -17,6 +17,18 @@ module RailsBestPractices
       def to_s
         "#{@filename}:#{@line_number} - #{@message}"
       end
+
+      def ignore?
+        code_comment =~ /ignore_rbp/
+      end
+
+    private
+
+      def code_comment
+        code_line = File.new(@filename).readlines[@line_number.to_i - 1]
+        pos = code_line && code_line.index('#')
+        pos && code_line[pos + 1..-1]
+      end
     end
   end
 end
