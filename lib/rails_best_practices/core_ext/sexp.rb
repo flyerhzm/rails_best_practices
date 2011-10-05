@@ -593,14 +593,16 @@ class Sexp
     if :array == sexp_type
       first_node = self[1]
       array_size = 0
-      while true
-        array_size += 1
-        first_node = s(:args_new) == first_node[1] ? first_node[2] : first_node[1]
-        if :args_add != first_node.sexp_type
-          if :array == first_node.sexp_type
-            array_size += first_node.array_size
+      if first_node
+        while true
+          array_size += 1
+          first_node = s(:args_new) == first_node[1] ? first_node[2] : first_node[1]
+          if :args_add != first_node.sexp_type
+            if :array == first_node.sexp_type
+              array_size += first_node.array_size
+            end
+            break
           end
-          break
         end
       end
       array_size
@@ -621,7 +623,11 @@ class Sexp
   def to_object
     case sexp_type
     when :array
-      arguments.all.map(&:to_s)
+      if nil == self[1]
+        []
+      else
+        arguments.all.map(&:to_s)
+      end
     else
       to_s
     end
