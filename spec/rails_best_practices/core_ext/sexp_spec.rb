@@ -128,6 +128,13 @@ describe Sexp do
     end
   end
 
+  describe "module_name" do
+    it "should get module name of module node" do
+      node = parse_content("module Admin; end").grep_node(:sexp_type => :module)
+      node.module_name.to_s.should == "Admin"
+    end
+  end
+
   describe "class_name" do
     it "should get class name of class node" do
       node = parse_content("class User; end").grep_node(:sexp_type => :class)
