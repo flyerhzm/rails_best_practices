@@ -40,7 +40,7 @@ module RailsBestPractices
       end
 
       def interesting_files
-        ROUTE_FILE
+        ROUTE_FILES
       end
 
       def initialize(options = {})
