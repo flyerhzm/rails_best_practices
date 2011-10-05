@@ -22,6 +22,40 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
     methods.get_methods("PostsController").should == ["index", "show"]
   end
 
+  it "should parse controller methods with module ::" do
+    content =<<-EOF
+    class Admin::Blog::PostsController < ApplicationController
+      def index
+      end
+
+      def show
+      end
+    end
+    EOF
+    runner.prepare('app/controllers/admin/posts_controller.rb', content)
+    methods = RailsBestPractices::Prepares.controller_methods
+    methods.get_methods("Admin::Blog::PostsController").should == ["index", "show"]
+  end
+
+  it "should parse controller methods with module" do
+    content =<<-EOF
+    module Admin
+      module Blog
+        class PostsController < ApplicationController
+          def index
+          end
+
+          def show
+          end
+        end
+      end
+    end
+    EOF
+    runner.prepare('app/controllers/admin/posts_controller.rb', content)
+    methods = RailsBestPractices::Prepares.controller_methods
+    methods.get_methods("Admin::Blog::PostsController").should == ["index", "show"]
+  end
+
   describe "inherited_resources" do
     it "extend inherited_resources" do
       content =<<-EOF
