@@ -5,7 +5,6 @@ PATH
       activesupport
       colored
       erubis
-      haml
       i18n
       ruby-progressbar
       sexp_processor
@@ -38,6 +37,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
+  haml
   rails_best_practices!
   rake
   ripper
