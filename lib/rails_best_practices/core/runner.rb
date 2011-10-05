@@ -126,6 +126,8 @@ module RailsBestPractices
               content = Haml::Engine.new(content).precompiled
               # remove \xxx characters
               content.gsub!(/\\\d{3}/, '')
+            rescue LoadError
+              raise "In order to parse #{filename}, please install the haml gem"
             rescue Haml::Error
               # do nothing, just ignore the wrong haml files.
             end

@@ -25,7 +25,6 @@
 require 'rubygems'
 require 'progressbar'
 require 'colored'
-require 'haml'
 require 'rails_best_practices/lexicals'
 require 'rails_best_practices/prepares'
 require 'rails_best_practices/reviews'
@@ -223,10 +222,12 @@ module RailsBestPractices
     end
 
     def output_html_errors
-      template = File.read(File.join(File.dirname(__FILE__), "..", "assets", "result.html.haml"))
+      require 'erubis'
+      template = File.read(File.join(File.dirname(__FILE__), "..", "assets", "result.html.erb"))
 
       File.open("rails_best_practices_output.html", "w+") do |file|
-        file.puts Haml::Engine.new(template).render(Object.new, :errors => @runner.errors, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"])
+        eruby = Erubis::Eruby.new(template)
+        file.puts eruby.evaluate(:errors => @runner.errors, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"])
       end
     end
   end

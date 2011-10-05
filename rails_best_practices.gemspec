@@ -17,13 +17,13 @@ Gem::Specification.new do |s|
   s.add_dependency("ruby-progressbar")
   s.add_dependency("colored")
   s.add_dependency("erubis")
-  s.add_dependency("haml")
   s.add_dependency("i18n")
   s.add_dependency("activesupport")
 
   s.add_development_dependency("rake")
   s.add_development_dependency("rspec")
   s.add_development_dependency("watchr")
+  s.add_development_dependency("haml")
   s.add_development_dependency("bundler")
 
   s.files         = `git ls-files`.split("\n")
