@@ -9,7 +9,7 @@ module RailsBestPractices
       MAILER_FILES = /models\/.*mailer\.rb$|mailers\/.*mailer\.rb/
       VIEW_FILES = /views\/.*\.(erb|haml)$/
       PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)$/
-      ROUTE_FILE = /config\/routes\.rb/
+      ROUTE_FILES = /config\/routes(.*)?\.rb/
       SCHEMA_FILE = /db\/schema\.rb/
       HELPER_FILES = /helpers.*\.rb$/
 

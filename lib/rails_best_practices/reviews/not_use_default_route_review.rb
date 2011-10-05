@@ -28,7 +28,7 @@ module RailsBestPractices
       end
 
       def interesting_files
-        ROUTE_FILE
+        ROUTE_FILES
       end
 
       # check all command call nodes, compare with rails2 default route
