@@ -234,6 +234,8 @@ class Sexp
       self[4]
     when :method_add_arg
       self[2].arguments
+    when :method_add_block
+      self[1].arguments
     when :arg_paren
       self[1]
     when :array
@@ -620,6 +622,8 @@ class Sexp
     case sexp_type
     when :array
       arguments.all.map(&:to_s)
+    else
+      to_s
     end
   end
 
