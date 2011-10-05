@@ -222,15 +222,12 @@ module RailsBestPractices
     end
 
     def output_html_errors
-      template = File.read(File.join(File.dirname(__FILE__), "..", "assets", "result.html.haml"))
+      require 'erubis'
+      template = File.read(File.join(File.dirname(__FILE__), "..", "assets", "result.html.erb"))
 
-      begin
-        require 'haml'
-        File.open("rails_best_practices_output.html", "w+") do |file|
-          file.puts Haml::Engine.new(template).render(Object.new, :errors => @runner.errors, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"])
-        end
-      rescue LoadError
-        raise "Please install the haml gem for HTML formatting"
+      File.open("rails_best_practices_output.html", "w+") do |file|
+        eruby = Erubis::Eruby.new(template)
+        file.puts eruby.evaluate(:errors => @runner.errors, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"])
       end
     end
   end
