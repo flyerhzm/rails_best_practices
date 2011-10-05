@@ -8,7 +8,7 @@ module RailsBestPractices
       DEFAULT_ACTIONS = %w(index show new create edit update destroy)
 
       def interesting_nodes
-        [:class, :def, :command, :var_ref]
+        [:module, :class, :def, :command, :var_ref]
       end
 
       def interesting_files
@@ -16,17 +16,35 @@ module RailsBestPractices
       end
 
       def initialize
+        @modules = []
         @methods = Prepares.controller_methods
         @inherited_resources = false
+      end
+
+      def start_module(node)
+        @modules << node.module_name
+      end
+
+      def end_module(node)
+        @modules.pop
       end
 
       # check class node to remember the class name.
       # also check if the controller is inherit from InheritedResources::Base.
       def start_class(node)
-        @class_name = node.class_name.to_s
+        @class_name = class_name(node)
         if "InheritedResources::Base" == node.base_class.to_s
           @inherited_resources = true
           @actions = DEFAULT_ACTIONS
+        end
+      end
+
+      def class_name(node)
+        class_name = node.class_name.to_s
+        if @modules.empty?
+          class_name
+        else
+          @modules.map { |modu| "#{modu}::" }.join("") + class_name
         end
       end
 

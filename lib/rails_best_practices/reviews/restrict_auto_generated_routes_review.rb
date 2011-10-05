@@ -23,11 +23,16 @@ module RailsBestPractices
       end
 
       def interesting_nodes
-        [:command, :command_call]
+        [:command, :command_call, :method_add_block]
       end
 
       def interesting_files
         ROUTE_FILES
+      end
+
+      def initialize
+        super
+        @namespaces = []
       end
 
       # check if the generated routes have the corresponding actions in controller for rails3 routes.
@@ -36,6 +41,20 @@ module RailsBestPractices
           check_resources(node)
         elsif "resource" == node.message.to_s
           check_resource(node)
+        end
+      end
+
+      # remember the namespace.
+      def start_method_add_block(node)
+        if "namespace" == node.message.to_s
+          @namespaces << node.arguments.all[0].to_s
+        end
+      end
+
+      # end of namespace call.
+      def end_method_add_block(node)
+        if "namespace" == node.message.to_s
+          @namespaces.pop
         end
       end
 
@@ -69,12 +88,22 @@ module RailsBestPractices
             options = node.arguments.all[1]
             if options.hash_keys.include?("controller")
               name = options.hash_value("controller").to_s
-              "#{name.split("/").map(&:camelize).join("::")}Controller"
             else
-              "#{node.arguments.all[0].to_s.camelize}Controller"
+              name = node.arguments.all[0].to_s.tableize
             end
           else
-            "#{node.arguments.all[0].to_s.camelize}Controller"
+            name = node.arguments.all[0].to_s.tableize
+          end
+          namespaced_class_name(name)
+        end
+
+        # get the class name with namespace.
+        def namespaced_class_name(name)
+          class_name = "#{name.split("/").map(&:camelize).join("::")}Controller"
+          if @namespaces.empty?
+            class_name
+          else
+            @namespaces.map { |namespace| "#{namespace.camelize}::" }.join("") + class_name
           end
         end
 
