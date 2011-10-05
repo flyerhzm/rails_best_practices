@@ -9,6 +9,7 @@ require 'rails_best_practices/core/model_associations'
 require 'rails_best_practices/core/model_attributes'
 require 'rails_best_practices/core/mailers'
 require 'rails_best_practices/core/methods'
+require 'rails_best_practices/core/controllers'
 
 require 'rails_best_practices/core_ext/sexp'
 require 'rails_best_practices/core_ext/enumerable'

@@ -24,8 +24,8 @@ module RailsBestPractices
 
       # check class node to remember the last class name.
       def start_class(node)
-        @last_klazz= class_name(node)
-        @models << @last_klazz
+        @class_name= class_name(node)
+        @models << @class_name
       end
 
       # check command node to remember all assoications.
@@ -52,7 +52,7 @@ module RailsBestPractices
           association_class = arguments_node.hash_value("class_name").to_s
         end
         association_class ||= association_name.classify
-        @model_associations.add_association(@last_klazz, association_name, association_meta, association_class)
+        @model_associations.add_association(@class_name, association_name, association_meta, association_class)
       end
     end
   end
