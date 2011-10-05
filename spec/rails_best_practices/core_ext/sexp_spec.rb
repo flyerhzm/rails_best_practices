@@ -213,6 +213,11 @@ describe Sexp do
       node = parse_content("User.find(:all)").grep_node(:sexp_type => :method_add_arg)
       node.arguments.sexp_type.should == :args_add_block
     end
+
+    it "should get the arguments of method_add_block" do
+      node = parse_content("Post.save(false) do; end").grep_node(:sexp_type => :method_add_block)
+      node.arguments.sexp_type.should == :args_add_block
+    end
   end
 
   describe "argument" do
@@ -372,9 +377,14 @@ describe Sexp do
   end
 
   describe "to_object" do
-    it "should to_object" do
+    it "should to array" do
       node = parse_content("['first_name', 'last_name']").grep_node(:sexp_type => :array)
       node.to_object.should == ["first_name", "last_name"]
+    end
+
+    it "should to string" do
+      node = parse_content("'richard'").grep_node(:sexp_type => :string_literal)
+      node.to_object.should == "richard"
     end
   end
 
