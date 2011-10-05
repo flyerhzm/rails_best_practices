@@ -99,7 +99,7 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
   describe "rails3" do
     it "should overuse route customizations" do
       content = <<-EOF
-      RailsBestpracticesCom::Application.routes.draw do |map|
+      RailsBestpracticesCom::Application.routes.draw do
         resources :posts do
           member do
             post :create_comment
@@ -120,7 +120,7 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
 
     it "should overuse route customizations another way" do
       content = <<-EOF
-      RailsBestpracticesCom::Application.routes.draw do |map|
+      RailsBestpracticesCom::Application.routes.draw do
         resources :posts do
           post :create_comment, :on => :member
           update :update_comment, :on => :member
@@ -136,7 +136,7 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
 
     it "should not overuse route customizations without customization" do
       content = <<-EOF
-      RailsBestpracticesCom::Application.routes.draw do |map|
+      RailsBestpracticesCom::Application.routes.draw do
         resources :posts
       end
       EOF
@@ -146,7 +146,7 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
 
     it "should not overuse route customizations when customize route is only one" do
       content = <<-EOF
-      RailsBestpracticesCom::Application.routes.draw do |map|
+      RailsBestpracticesCom::Application.routes.draw do
         resources :posts do
           member do
             post :vote

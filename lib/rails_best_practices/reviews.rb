@@ -25,3 +25,4 @@ require 'rails_best_practices/reviews/use_multipart_alternative_as_content_type_
 require 'rails_best_practices/reviews/simplify_render_in_views_review'
 require 'rails_best_practices/reviews/simplify_render_in_controllers_review'
 require 'rails_best_practices/reviews/remove_empty_helpers_review'
+require 'rails_best_practices/reviews/restrict_auto_generated_routes_review'

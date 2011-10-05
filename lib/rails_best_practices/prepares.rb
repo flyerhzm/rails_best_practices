@@ -2,6 +2,7 @@
 require 'rails_best_practices/prepares/model_prepare'
 require 'rails_best_practices/prepares/mailer_prepare'
 require 'rails_best_practices/prepares/schema_prepare'
+require 'rails_best_practices/prepares/controller_prepare'
 
 module RailsBestPractices
   module Prepares
@@ -22,6 +23,14 @@ module RailsBestPractices
 
       def mailers
         @mailers ||= Core::Mailers.new
+      end
+
+      def controller_methods
+        @controller_methods ||= Core::Methods.new
+      end
+
+      def clear
+        @models = @model_associations = @model_attributes = @mailers = @controller_methods = nil
       end
     end
   end
