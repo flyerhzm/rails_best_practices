@@ -25,12 +25,16 @@ module RailsBestPractices
         @mailers ||= Core::Mailers.new
       end
 
+      def controllers
+        @controllers ||= Core::Controllers.new
+      end
+
       def controller_methods
         @controller_methods ||= Core::Methods.new
       end
 
       def clear
-        @models = @model_associations = @model_attributes = @mailers = @controller_methods = nil
+        @models = @model_associations = @model_attributes = @mailers = @controllers = @controller_methods = nil
       end
     end
   end

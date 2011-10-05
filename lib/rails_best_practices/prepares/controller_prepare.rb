@@ -18,6 +18,7 @@ module RailsBestPractices
       end
 
       def initialize
+        @controllers = Prepares.controllers
         @methods = Prepares.controller_methods
         @inherited_resources = false
       end
@@ -26,6 +27,7 @@ module RailsBestPractices
       # also check if the controller is inherit from InheritedResources::Base.
       def start_class(node)
         @class_name = class_name(node)
+        @controllers << @class_name
         if "InheritedResources::Base" == node.base_class.to_s
           @inherited_resources = true
           @actions = DEFAULT_ACTIONS
