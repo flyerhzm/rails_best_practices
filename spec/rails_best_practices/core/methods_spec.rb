@@ -6,16 +6,16 @@ describe RailsBestPractices::Core::Methods do
   before :each do
     methods.add_method("Post", "create")
     methods.add_method("Post", "destroy")
-    methods.add_method("Post", "save_or_update", "protected")
-    methods.add_method("Post", "find_by_sql", "private")
+    methods.add_method("Post", "save_or_update", {}, "protected")
+    methods.add_method("Post", "find_by_sql", {}, "private")
     methods.add_method("Comment", "create")
   end
 
   it "should get_methods" do
-    methods.get_methods("Post").should == ["create", "destroy"]
-    methods.get_methods("Post", "protected").should == ["save_or_update"]
-    methods.get_methods("Post", "private").should == ["find_by_sql"]
-    methods.get_methods("Comment").should == ["create"]
+    methods.get_methods("Post").map(&:name).should == ["create", "destroy"]
+    methods.get_methods("Post", "protected").map(&:name).should == ["save_or_update"]
+    methods.get_methods("Post", "private").map(&:name).should == ["find_by_sql"]
+    methods.get_methods("Comment").map(&:name).should == ["create"]
   end
 
   it "should has_method?" do
@@ -26,5 +26,10 @@ describe RailsBestPractices::Core::Methods do
     methods.should_not be_has_method("Post", "find_by_sql")
     methods.should be_has_method("Post", "find_by_sql", "private")
     methods.should_not be_has_method("Comment", "destroy")
+  end
+
+  it "should get_method" do
+    methods.get_method("Post", "create", "public").should_not be_nil
+    methods.get_method("Post", "create", "protected").should be_nil
   end
 end

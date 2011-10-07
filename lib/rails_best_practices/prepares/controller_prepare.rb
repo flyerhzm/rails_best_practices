@@ -63,12 +63,17 @@ module RailsBestPractices
       #
       # the remembered methods (@methods) are like
       #     {
-      #       "PostsController" => ["create", "destroy"],
-      #       "CommentsController" => ["create"]
+      #       "PostsController" => {
+      #         "save" => {"file" => "app/controllers/posts_controller.rb", "line" => 10, "unused" => false},
+      #         "find" => {"file" => "app/controllers/posts_controller.rb", "line" => 10, "unused" => false}
+      #       },
+      #       "CommentsController" => {
+      #         "create" => {"file" => "app/controllers/comments_controller.rb", "line" => 10, "unused" => false},
+      #       }
       #     }
       def start_def(node)
         method_name = node.method_name.to_s
-        @methods.add_method(@class_name, method_name, access_control)
+        @methods.add_method(@class_name, method_name, {"file" => node.file, "line" => node.line}, access_control)
       end
     end
   end
