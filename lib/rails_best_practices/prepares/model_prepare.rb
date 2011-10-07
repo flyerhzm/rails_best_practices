@@ -34,12 +34,17 @@ module RailsBestPractices
       #
       # the remembered methods (@methods) are like
       #     {
-      #       "Post" => ["save", "find"],
-      #       "Comment" => ["create"]
+      #       "Post" => {
+      #         "save" => {"file" => "app/models/post.rb", "line" => 10, "unused" => false, "unused" => false},
+      #         "find" => {"file" => "app/models/post.rb", "line" => 10, "unused" => false, "unused" => false}
+      #       },
+      #       "Comment" => {
+      #         "create" => {"file" => "app/models/comment.rb", "line" => 10, "unused" => false, "unused" => false},
+      #       }
       #     }
       def start_def(node)
         method_name = node.method_name.to_s
-        @methods.add_method(@class_name, method_name, access_control)
+        @methods.add_method(@class_name, method_name, {"file" => node.file, "line" => node.line}, access_control)
       end
 
       # check command node to remember all assoications.
