@@ -3,6 +3,7 @@ module RailsBestPractices
   module Core
     # A Check class that takes charge of checking the sexp.
     class Check
+
       CONTROLLER_FILES = /controllers\/.*\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
       MODEL_FILES = /models\/.*\.rb$/
@@ -37,6 +38,9 @@ module RailsBestPractices
       # @param [Sexp] node
       def node_start(node)
         @node = node
+        Array(self.class.callbacks["start_#{node.sexp_type}"]).each do |callback|
+          self.instance_exec node, &callback
+        end
         self.send("start_#{node.sexp_type}", node)
       end
 
@@ -48,6 +52,9 @@ module RailsBestPractices
       # @param [Sexp] node
       def node_end(node)
         @node = node
+        Array(self.class.callbacks["end_#{node.sexp_type}"]).each do |callback|
+          self.instance_exec node, &callback
+        end
         self.send("end_#{node.sexp_type}", node)
       end
 
@@ -84,15 +91,30 @@ module RailsBestPractices
         end
       end
 
-      module Classable
-        # remember module name.
-        def start_module(node)
-          modules << node.module_name
+      class <<self
+        def callbacks
+          @callbacks ||= {}
         end
 
-        # end of the module.
-        def end_module(node)
-          modules.pop
+        def add_callback(name, &block)
+          callbacks[name] ||= []
+          callbacks[name] << block
+        end
+      end
+
+      module Classable
+        def self.included(base)
+          base.class_eval do
+            # remember module name
+            add_callback "start_module" do |node|
+              modules << node.module_name
+            end
+
+            # end of the module.
+            add_callback "end_module" do
+              modules.pop
+            end
+          end
         end
 
         # get the class name with module name.
@@ -107,6 +129,26 @@ module RailsBestPractices
 
         def modules
           @moduels ||= []
+        end
+      end
+
+      module AccessControl
+        def self.included(base)
+          base.class_eval do
+            # remember the current access control for methods.
+            add_callback "start_var_ref" do |node|
+              case node.to_s
+              when "public" then @access_control = "public"
+              when "protected" then @access_control = "protected"
+              when "private" then @access_control = "private"
+              else
+              end
+            end
+          end
+
+          def access_control
+            @access_control ||= "public"
+          end
         end
       end
     end

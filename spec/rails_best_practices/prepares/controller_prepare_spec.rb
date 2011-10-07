@@ -20,6 +20,25 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
       methods.get_methods("PostsController").should == ["index", "show"]
     end
 
+    it "should parse model methods with access control" do
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def index; end
+        def show; end
+        protected
+        def resources; end
+        private
+        def resource; end
+      end
+      EOF
+      runner.prepare('app/controllers/posts_controller.rb', content)
+      methods = RailsBestPractices::Prepares.controller_methods
+      methods.get_methods("PostsController").should == ["index", "show"]
+      methods.get_methods("PostsController", "public").should == ["index", "show"]
+      methods.get_methods("PostsController", "protected").should == ["resources"]
+      methods.get_methods("PostsController", "private").should == ["resource"]
+    end
+
     it "should parse controller methods with module ::" do
       content =<<-EOF
       class Admin::Blog::PostsController < ApplicationController

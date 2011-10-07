@@ -6,11 +6,12 @@ module RailsBestPractices
     # Remember models and model associations.
     class ModelPrepare < Core::Check
       include Core::Check::Classable
+      include Core::Check::AccessControl
 
       ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many)
 
       def interesting_nodes
-        [:module, :class, :def, :command]
+        [:module, :class, :def, :command, :var_ref]
       end
 
       def interesting_files
@@ -29,6 +30,18 @@ module RailsBestPractices
         @models << @class_name
       end
 
+      # check ref node to remember all methods.
+      #
+      # the remembered methods (@methods) are like
+      #     {
+      #       "Post" => ["save", "find"],
+      #       "Comment" => ["create"]
+      #     }
+      def start_def(node)
+        method_name = node.method_name.to_s
+        @methods.add_method(@class_name, method_name, access_control)
+      end
+
       # check command node to remember all assoications.
       #
       # the remembered association names (@associations) are like
@@ -42,18 +55,6 @@ module RailsBestPractices
       #     }
       def start_command(node)
         remember_association(node) if ASSOCIATION_METHODS.include? node.message.to_s
-      end
-
-      # check ref node to remember all methods.
-      #
-      # the remembered methods (@methods) are like
-      #     {
-      #       "Post" => ["save", "find"],
-      #       "Comment" => ["create"]
-      #     }
-      def start_def(node)
-        method_name = node.method_name.to_s
-        @methods.add_method(@class_name, method_name)
       end
 
       # remember associations, with class to association names.
