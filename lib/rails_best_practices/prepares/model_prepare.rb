@@ -10,7 +10,7 @@ module RailsBestPractices
       ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many)
 
       def interesting_nodes
-        [:class, :command, :module]
+        [:module, :class, :def, :command]
       end
 
       def interesting_files
@@ -20,6 +20,7 @@ module RailsBestPractices
       def initialize
         @models = Prepares.models
         @model_associations = Prepares.model_associations
+        @methods = Prepares.model_methods
       end
 
       # check class node to remember the last class name.
@@ -41,6 +42,18 @@ module RailsBestPractices
       #     }
       def start_command(node)
         remember_association(node) if ASSOCIATION_METHODS.include? node.message.to_s
+      end
+
+      # check ref node to remember all methods.
+      #
+      # the remembered methods (@methods) are like
+      #     {
+      #       "Post" => ["save", "find"],
+      #       "Comment" => ["create"]
+      #     }
+      def start_def(node)
+        method_name = node.method_name.to_s
+        @methods.add_method(@class_name, method_name)
       end
 
       # remember associations, with class to association names.

@@ -21,6 +21,10 @@ module RailsBestPractices
         @model_attributes ||= Core::ModelAttributes.new
       end
 
+      def model_methods
+        @model_methods ||= Core::Methods.new
+      end
+
       def mailers
         @mailers ||= Core::Mailers.new
       end
@@ -34,7 +38,9 @@ module RailsBestPractices
       end
 
       def clear
-        @models = @model_associations = @model_attributes = @mailers = @controllers = @controller_methods = nil
+        instance_variables.each do |instance_variable|
+          instance_variable_set(instance_variable, nil)
+        end
       end
     end
   end
