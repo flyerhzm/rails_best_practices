@@ -38,9 +38,10 @@ module RailsBestPractices
         custom_config = File.join(Runner.base_path, 'config/rails_best_practices.yml')
         @config = File.exists?(custom_config) ? custom_config : RailsBestPractices::DEFAULT_CONFIG
 
+        lexicals = Array(options[:lexicals])
         prepares = Array(options[:prepares])
         reviews = Array(options[:reviews])
-        @lexicals = load_lexicals
+        @lexicals = lexicals.empty? ? load_lexicals : lexicals
         @prepares = prepares.empty? ? load_prepares : prepares
         @reviews = reviews.empty? ? load_reviews : reviews
 
