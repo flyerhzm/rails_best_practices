@@ -109,6 +109,25 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       methods.get_methods("Post").should == ["save", "find"]
     end
 
+    it "should parse model methods with access control" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def save; end
+        def find; end
+        protected
+        def create_or_update; end
+        private
+        def find_by_sql; end
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      methods = RailsBestPractices::Prepares.model_methods
+      methods.get_methods("Post").should == ["save", "find"]
+      methods.get_methods("Post", "public").should == ["save", "find"]
+      methods.get_methods("Post", "protected").should == ["create_or_update"]
+      methods.get_methods("Post", "private").should == ["find_by_sql"]
+    end
+
     it "should parse model methods with module ::" do
       content =<<-EOF
       class Admin::Blog::Post < ActiveRecord::Base

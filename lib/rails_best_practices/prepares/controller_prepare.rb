@@ -6,6 +6,7 @@ module RailsBestPractices
     # Remember controllers and controller methods
     class ControllerPrepare < Core::Check
       include Core::Check::Classable
+      include Core::Check::AccessControl
 
       DEFAULT_ACTIONS = %w(index show new create edit update destroy)
 
@@ -67,7 +68,7 @@ module RailsBestPractices
       #     }
       def start_def(node)
         method_name = node.method_name.to_s
-        @methods.add_method(@class_name, method_name)
+        @methods.add_method(@class_name, method_name, access_control)
       end
     end
   end
