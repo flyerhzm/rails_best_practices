@@ -11,11 +11,8 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
     it "should parse controller methods" do
       content =<<-EOF
       class PostsController < ApplicationController
-        def index
-        end
-
-        def show
-        end
+        def index; end
+        def show; end
       end
       EOF
       runner.prepare('app/controllers/posts_controller.rb', content)
@@ -26,11 +23,8 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
     it "should parse controller methods with module ::" do
       content =<<-EOF
       class Admin::Blog::PostsController < ApplicationController
-        def index
-        end
-
-        def show
-        end
+        def index; end
+        def show; end
       end
       EOF
       runner.prepare('app/controllers/admin/posts_controller.rb', content)
@@ -43,11 +37,8 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
       module Admin
         module Blog
           class PostsController < ApplicationController
-            def index
-            end
-
-            def show
-            end
+            def index; end
+            def show; end
           end
         end
       end

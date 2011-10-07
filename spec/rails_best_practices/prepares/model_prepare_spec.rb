@@ -96,6 +96,48 @@ describe RailsBestPractices::Prepares::ModelPrepare do
     end
   end
 
+  context "methods" do
+    it "should parse model methods" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def save; end
+        def find; end
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      methods = RailsBestPractices::Prepares.model_methods
+      methods.get_methods("Post").should == ["save", "find"]
+    end
+
+    it "should parse model methods with module ::" do
+      content =<<-EOF
+      class Admin::Blog::Post < ActiveRecord::Base
+        def save; end
+        def find; end
+      end
+      EOF
+      runner.prepare("app/models/admin/blog/post.rb", content)
+      methods = RailsBestPractices::Prepares.model_methods
+      methods.get_methods("Admin::Blog::Post").should == ["save", "find"]
+    end
+
+    it "should parse model methods with module" do
+      content =<<-EOF
+      module Admin
+        module Blog
+          class Post < ActiveRecord::Base
+            def save; end
+            def find; end
+          end
+        end
+      end
+      EOF
+      runner.prepare("app/models/admin/blog/post.rb", content)
+      methods = RailsBestPractices::Prepares.model_methods
+      methods.get_methods("Admin::Blog::Post").should == ["save", "find"]
+    end
+  end
+
   context "no error" do
     it "should raised for finder_sql option" do
       content =<<-EOF

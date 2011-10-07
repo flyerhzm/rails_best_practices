@@ -62,8 +62,8 @@ module RailsBestPractices
       #
       # the remembered methods (@methods) are like
       #     {
-      #       "Post" => ["create", "destroy"],
-      #       "Comment" => ["create"]
+      #       "PostsController" => ["create", "destroy"],
+      #       "CommentsController" => ["create"]
       #     }
       def start_def(node)
         method_name = node.method_name.to_s
