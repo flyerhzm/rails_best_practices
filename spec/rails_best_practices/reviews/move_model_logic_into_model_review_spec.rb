@@ -16,9 +16,9 @@ describe RailsBestPractices::Reviews::MoveModelLogicIntoModelReview do
         else
           @post.popular = 0
         end
-      end
 
-      redirect_to post_url(@post)
+        redirect_to post_url(@post)
+      end
     end
     EOF
     runner.review('app/controllers/posts_controller.rb', content)
@@ -34,9 +34,26 @@ describe RailsBestPractices::Reviews::MoveModelLogicIntoModelReview do
         @post = Post.find(params[:id])
         @post.update_attributes(:is_published, true)
         @post.approved_by = current_user
-      end
 
-      redirect_to post_url(@post)
+        redirect_to post_url(@post)
+      end
+    end
+    EOF
+    runner.review('app/controllers/posts_controller.rb', content)
+    runner.should have(0).errors
+  end
+
+  it "should not move model logic into model with self calling" do
+    content = <<-EOF
+    class PostsController < ApplicationController
+
+      def publish
+        self.step1
+        self.step2
+        self.step3
+        self.step4
+        self.step5
+      end
     end
     EOF
     runner.review('app/controllers/posts_controller.rb', content)
