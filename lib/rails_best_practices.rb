@@ -83,6 +83,7 @@ module RailsBestPractices
 
       @bar = ProgressBar.new('Analyzing', lexical_files.size + prepare_files.size + review_files.size)
       ["lexical", "prepare", "review"].each { |process| send(:process, process) }
+      @runner.on_complete
       @bar.finish
 
       if @options['format'] == 'html'

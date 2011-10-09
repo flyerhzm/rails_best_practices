@@ -65,28 +65,48 @@ module RailsBestPractices
       #
       # @param [String] filename
       def lexical_file(filename)
-        lexical(filename, File.open(filename, "r:UTF-8") { |f| f.read })
+        lexical(filename, read_file(filename))
       end
 
-      # prepare and review a file's content with filename.
-      # the file may be a ruby, erb or haml file.
+      # parepare a file's content with filename.
       #
-      # filename is the filename of the code.
-      # content is the source code.
-      [:prepare, :review].each do |process|
-        class_eval <<-EOS
-          def #{process}(filename, content)                                        # def review(filename, content)
-            puts filename if @debug                                                #   puts filename if @debug
-            content = parse_erb_or_haml(filename, content)                         #   content = parse_erb_or_haml(filename, content)
-            node = parse_ruby(content)                                             #   node = parse_ruby(content)
-            node.file = filename                                                   #   node.file = filename
-            node.#{process}(@checker) if node                                      #   node.review(@checker) if node
-          end                                                                      # end
-                                                                                   #
-          def #{process}_file(filename)                                            # def review_file(filename)
-            #{process}(filename, File.open(filename, "r:UTF-8") { |f| f.read })    #   review(filename, File.open(filename, "r:UTF-8") { |f| f.read })
-          end                                                                      # end
-        EOS
+      # @param [String] filename name of the file
+      # @param [String] content content of the file
+      def prepare(filename, content)
+        puts filename if @debug
+        node = parse_ruby(content)
+        if node
+          node.file = filename
+          node.prepare(@checker)
+        end
+      end
+
+      # parapare the file.
+      #
+      # @param [String] filename
+      def prepare_file(filename)
+        prepare(filename, read_file(filename))
+      end
+
+      # review a file's content with filename.
+      #
+      # @param [String] filename name of the file
+      # @param [String] content content of the file
+      def review(filename, content)
+        puts filename if @debug
+        content = parse_erb_or_haml(filename, content)
+        node = parse_ruby(content)
+        if node
+          node.file = filename
+          node.review(@checker)
+        end
+      end
+
+      # review the file.
+      #
+      # @param [String] filename
+      def review_file(filename)
+        review(filename, read_file(filename))
       end
 
       # get all errors from lexicals and reviews.
@@ -94,6 +114,14 @@ module RailsBestPractices
       # @return [Array] all errors from lexicals and reviews
       def errors
         (@reviews + @lexicals).collect {|check| check.errors}.flatten
+      end
+
+      # provide a handler after all files reviewed.
+      def on_complete
+        content = "class RailsBestPractices::Complete; end"
+        node = parse_ruby(content)
+        node.file = 'rails_best_practices.complete'
+        node.review(@checker)
       end
 
       private
@@ -189,6 +217,14 @@ module RailsBestPractices
         # read the checks from yaml config.
         def checks_from_config
           @checks ||= YAML.load_file @config
+        end
+
+        # read the file content.
+        #
+        # @param [String] filename
+        # @return [String] file conent
+        def read_file(filename)
+          File.open(filename, "r:UTF-8") { |f| f.read }
         end
     end
   end
