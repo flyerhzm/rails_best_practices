@@ -33,7 +33,7 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
       EOF
       runner.prepare('app/controllers/posts_controller.rb', content)
       methods = RailsBestPractices::Prepares.controller_methods
-      methods.get_methods("PostsController").map(&:name).should == ["index", "show"]
+      methods.get_methods("PostsController").map(&:name).should == ["index", "show", "resources", "resource"]
       methods.get_methods("PostsController", "public").map(&:name).should == ["index", "show"]
       methods.get_methods("PostsController", "protected").map(&:name).should == ["resources"]
       methods.get_methods("PostsController", "private").map(&:name).should == ["resource"]

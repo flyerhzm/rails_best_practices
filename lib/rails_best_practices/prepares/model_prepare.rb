@@ -26,7 +26,6 @@ module RailsBestPractices
 
       # check class node to remember the last class name.
       def start_class(node)
-        @class_name= class_name(node)
         @models << @class_name
       end
 
@@ -44,7 +43,7 @@ module RailsBestPractices
       #     }
       def start_def(node)
         method_name = node.method_name.to_s
-        @methods.add_method(@class_name, method_name, {"file" => node.file, "line" => node.line}, access_control)
+        @methods.add_method(@class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
       end
 
       # check command node to remember all assoications.
