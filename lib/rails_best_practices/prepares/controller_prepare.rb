@@ -27,7 +27,6 @@ module RailsBestPractices
       # check class node to remember the class name.
       # also check if the controller is inherit from InheritedResources::Base.
       def start_class(node)
-        @class_name = class_name(node)
         @controllers << @class_name
         if "InheritedResources::Base" == node.base_class.to_s
           @inherited_resources = true
@@ -73,7 +72,7 @@ module RailsBestPractices
       #     }
       def start_def(node)
         method_name = node.method_name.to_s
-        @methods.add_method(@class_name, method_name, {"file" => node.file, "line" => node.line}, access_control)
+        @methods.add_method(@class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
       end
     end
   end

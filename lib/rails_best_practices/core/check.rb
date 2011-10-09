@@ -14,12 +14,6 @@ module RailsBestPractices
       SCHEMA_FILE = /db\/schema\.rb/
       HELPER_FILES = /helpers.*\.rb$/
 
-      attr_reader :errors
-
-      def initialize
-        @errors = []
-      end
-
       # default interesting nodes.
       def interesting_nodes
         []
@@ -52,18 +46,24 @@ module RailsBestPractices
       # @param [Sexp] node
       def node_end(node)
         @node = node
+        self.send("end_#{node.sexp_type}", node)
         Array(self.class.callbacks["end_#{node.sexp_type}"]).each do |callback|
           self.instance_exec node, &callback
         end
-        self.send("end_#{node.sexp_type}", node)
       end
 
       # add error if source code violates rails best practice.
-      #   error is the string message for violation of the rails best practice
-      #   file is the filename of source code
-      #   line is the line number of the source code which is reviewing
+      #
+      # @params [String] error, is the string message for violation of the rails best practice
+      # @params [String] file, is the filename of source code
+      # @params [Integer] line, is the line number of the source code which is reviewing
       def add_error(error, file = @node.file, line = @node.line)
-        @errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error, url)
+        errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error, url)
+      end
+
+      # errors that vialote the rails best practices.
+      def errors
+        @errors ||= []
       end
 
       # default url is empty.
@@ -92,16 +92,22 @@ module RailsBestPractices
       end
 
       class <<self
+        # callbacks for start_xxx and end_xxx.
         def callbacks
           @callbacks ||= {}
         end
 
+        # add a callback.
+        #
+        # @params [String] name, callback name, can be start_xxx or end_xxx
+        # @params [Proc] block, be executed when callbacks are called
         def add_callback(name, &block)
           callbacks[name] ||= []
           callbacks[name] << block
         end
       end
 
+      # Helper to parse the class name.
       module Classable
         def self.included(base)
           base.class_eval do
@@ -111,13 +117,28 @@ module RailsBestPractices
             end
 
             # end of the module.
-            add_callback "end_module" do
+            add_callback "end_module" do |node|
               modules.pop
+            end
+
+            # remember the class anem
+            add_callback "start_class" do |node|
+              @class_name = class_name(node)
+            end
+
+            # end of the class
+            add_callback "end_class" do |node|
+              @class_name = nil
             end
           end
         end
 
-        # get the class name with module name.
+        # get the current class name.
+        def current_class_name
+          @class_name
+        end
+
+        # parse the class name.
         def class_name(node)
           class_name = node.class_name.to_s
           if modules.empty?
@@ -127,11 +148,13 @@ module RailsBestPractices
           end
         end
 
+        # modules.
         def modules
           @moduels ||= []
         end
       end
 
+      # Helper to parse the access control.
       module AccessControl
         def self.included(base)
           base.class_eval do
@@ -144,10 +167,21 @@ module RailsBestPractices
               else
               end
             end
+
+            # set access control to "public" by default.
+            add_callback "start_class" do |node|
+              @access_control = "public"
+            end
+
+            # set access control to "public" by default.
+            add_callback "start_module" do |node|
+              @access_control = "public"
+            end
           end
 
-          def access_control
-            @access_control ||= "public"
+          # get the current acces control.
+          def current_access_control
+            @access_control
           end
         end
       end

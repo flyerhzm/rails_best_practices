@@ -122,7 +122,7 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       EOF
       runner.prepare("app/models/post.rb", content)
       methods = RailsBestPractices::Prepares.model_methods
-      methods.get_methods("Post").map(&:name).should == ["save", "find"]
+      methods.get_methods("Post").map(&:name).should == ["save", "find", "create_or_update", "find_by_sql"]
       methods.get_methods("Post", "public").map(&:name).should == ["save", "find"]
       methods.get_methods("Post", "protected").map(&:name).should == ["create_or_update"]
       methods.get_methods("Post", "private").map(&:name).should == ["find_by_sql"]

@@ -38,4 +38,26 @@ describe RailsBestPractices::Core::Check do
       check.node_end(node)
     end
   end
+
+  context "callback" do
+    it "should add callback to start_call" do
+      execute = false
+      check.class.add_callback "start_call" do
+        execute = true
+      end
+      node = stub(:sexp_type => :call)
+      check.node_start(node)
+      execute.should be_true
+    end
+
+    it "should ad callbacks to end_call" do
+      execute = false
+      check.class.add_callback "end_call" do
+        execute = true
+      end
+      node = stub(:sexp_type => :call)
+      check.node_end(node)
+      execute.should be_true
+    end
+  end
 end
