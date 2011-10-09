@@ -7,7 +7,7 @@ module RailsBestPractices
       end
 
       def add_method(model_name, method_name, meta={}, access_control="public")
-        methods(model_name) << Method.new(method_name, access_control, meta)
+        methods(model_name) << Method.new(model_name, method_name, access_control, meta)
       end
 
       def get_methods(model_name, access_control=nil)
@@ -20,25 +20,27 @@ module RailsBestPractices
 
       def has_method?(model_name, method_name, access_control=nil)
         if access_control
-          !!methods(model_name).find { |method| method.name == method_name && method.access_control == access_control }
+          !!methods(model_name).find { |method| method.method_name == method_name && method.access_control == access_control }
         else
-          !!methods(model_name).find { |method| method.name == method_name }
+          !!methods(model_name).find { |method| method.method_name == method_name }
         end
       end
 
       def get_method(model_name, method_name, access_control=nil)
         if access_control
-          methods(model_name).find { |method| method.name == method_name && method.access_control == access_control }
+          methods(model_name).find { |method| method.method_name == method_name && method.access_control == access_control }
         else
-          methods(model_name).find { |method| method.name == method_name }
+          methods(model_name).find { |method| method.method_name == method_name }
         end
       end
 
-      def get_unused_methods(model_name, access_control=nil)
-        if access_control
-          methods(model_name).select { |method| method.access_control == access_control && !method.used }
-        else
-          methods(model_name).select { |method| !method.used }
+      def get_all_unused_methods(access_control=nil)
+        @methods.inject([]) do |unused_methods, (model_name, methods)|
+          unused_methods += if access_control
+            methods.select { |method| method.access_control == access_control && !method.used }
+          else
+            methods.select { |method| !method.used }
+          end
         end
       end
 
@@ -49,10 +51,11 @@ module RailsBestPractices
     end
 
     class Method
-      attr_reader :access_control, :name, :used, :file, :line
+      attr_reader :access_control, :class_name, :method_name, :used, :file, :line
 
-      def initialize(method_name, access_control, meta)
-        @name = method_name
+      def initialize(class_name, method_name, access_control, meta)
+        @class_name = class_name
+        @method_name = method_name
         @file = meta["file"]
         @line = meta["line"]
         @access_control = access_control

@@ -17,7 +17,7 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
       EOF
       runner.prepare('app/controllers/posts_controller.rb', content)
       methods = RailsBestPractices::Prepares.controller_methods
-      methods.get_methods("PostsController").map(&:name).should == ["index", "show"]
+      methods.get_methods("PostsController").map(&:method_name).should == ["index", "show"]
     end
 
     it "should parse model methods with access control" do
@@ -33,10 +33,10 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
       EOF
       runner.prepare('app/controllers/posts_controller.rb', content)
       methods = RailsBestPractices::Prepares.controller_methods
-      methods.get_methods("PostsController").map(&:name).should == ["index", "show", "resources", "resource"]
-      methods.get_methods("PostsController", "public").map(&:name).should == ["index", "show"]
-      methods.get_methods("PostsController", "protected").map(&:name).should == ["resources"]
-      methods.get_methods("PostsController", "private").map(&:name).should == ["resource"]
+      methods.get_methods("PostsController").map(&:method_name).should == ["index", "show", "resources", "resource"]
+      methods.get_methods("PostsController", "public").map(&:method_name).should == ["index", "show"]
+      methods.get_methods("PostsController", "protected").map(&:method_name).should == ["resources"]
+      methods.get_methods("PostsController", "private").map(&:method_name).should == ["resource"]
     end
 
     it "should parse controller methods with module ::" do
@@ -48,7 +48,7 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
       EOF
       runner.prepare('app/controllers/admin/posts_controller.rb', content)
       methods = RailsBestPractices::Prepares.controller_methods
-      methods.get_methods("Admin::Blog::PostsController").map(&:name).should == ["index", "show"]
+      methods.get_methods("Admin::Blog::PostsController").map(&:method_name).should == ["index", "show"]
     end
 
     it "should parse controller methods with module" do
@@ -64,7 +64,7 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
       EOF
       runner.prepare('app/controllers/admin/posts_controller.rb', content)
       methods = RailsBestPractices::Prepares.controller_methods
-      methods.get_methods("Admin::Blog::PostsController").map(&:name).should == ["index", "show"]
+      methods.get_methods("Admin::Blog::PostsController").map(&:method_name).should == ["index", "show"]
     end
 
     context "inherited_resources" do
@@ -75,7 +75,7 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
         EOF
         runner.prepare('app/controllers/posts_controller.rb', content)
         methods = RailsBestPractices::Prepares.controller_methods
-        methods.get_methods("PostsController").map(&:name).should == ["index", "show", "new", "create", "edit", "update", "destroy"]
+        methods.get_methods("PostsController").map(&:method_name).should == ["index", "show", "new", "create", "edit", "update", "destroy"]
       end
 
       it "extend inherited_resources with actions" do
@@ -86,7 +86,7 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
         EOF
         runner.prepare('app/controllers/posts_controller.rb', content)
         methods = RailsBestPractices::Prepares.controller_methods
-        methods.get_methods("PostsController").map(&:name).should == ["index", "show"]
+        methods.get_methods("PostsController").map(&:method_name).should == ["index", "show"]
       end
 
       it "DSL inherit_resources" do
@@ -97,7 +97,7 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
         EOF
         runner.prepare('app/controllers/posts_controller.rb', content)
         methods = RailsBestPractices::Prepares.controller_methods
-        methods.get_methods("PostsController").map(&:name).should == ["index", "show", "new", "create", "edit", "update", "destroy"]
+        methods.get_methods("PostsController").map(&:method_name).should == ["index", "show", "new", "create", "edit", "update", "destroy"]
       end
     end
   end
