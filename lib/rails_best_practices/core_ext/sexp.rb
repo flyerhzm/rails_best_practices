@@ -593,6 +593,39 @@ class Sexp
     end
   end
 
+  # Get the hash values.
+  #
+  #     s(:hash,
+  #       s(:assoclist_from_args,
+  #         s(
+  #           s(:assoc_new, s(:@label, "first_name:", s(1, 1)), s(:string_literal, s(:string_add, s(:string_content), s(:@tstring_content, "Richard", s(1, 14))))),
+  #           s(:assoc_new, s(:@label, "last_name:", s(1, 24)), s(:string_literal, s(:string_add, s(:string_content), s(:@tstring_content, "Huang", s(1, 36)))))
+  #         )
+  #       )
+  #     )
+  #         => [
+  #              s(:string_literal, s(:string_add, s(:string_content), s(:@tstring_content, "Richard", s(1, 14)))),
+  #              s(:string_literal, s(:string_add, s(:string_content), s(:@tstring_content, "Huang", s(1, 36))))
+  #            ]
+  #
+  # @return [Array] hash values
+  def hash_values
+    pair_nodes = case sexp_type
+                 when :bare_assoc_hash
+                   self[1]
+                 when :hash
+                   self[1][1]
+                 else
+                 end
+    if pair_nodes
+      values = []
+      pair_nodes.size.times do |i|
+        values << pair_nodes[i][2]
+      end
+      values
+    end
+  end
+
   # Get the array size.
   #
   #     s(:array,
@@ -621,6 +654,30 @@ class Sexp
         end
       end
       array_size
+    end
+  end
+
+  # Get the array values.
+  #
+  #     s(:array,
+  #       s(:args_add,
+  #         s(:args_add, s(:args_new), s(:string_literal, s(:string_add, s(:string_content), s(:@tstring_content, "first_name", s(1, 2))))),
+  #         s(:string_literal, s(:string_add, s(:string_content), s(:@tstring_content, "last_name", s(1, 16))))
+  #       )
+  #     )
+  #         => [
+  #              s(:string_literal, s(:string_add, s(:string_content), s(:@tstring_content, "first_name", s(1, 2)))),
+  #              s(:string_literal, s(:string_add, s(:string_content), s(:@tstring_content, "last_name", s(1, 16))))
+  #            ]
+  #
+  # @return [Array] array values
+  def array_values
+    if :array == sexp_type
+      if nil == self[1]
+        []
+      else
+        arguments.all
+      end
     end
   end
 
