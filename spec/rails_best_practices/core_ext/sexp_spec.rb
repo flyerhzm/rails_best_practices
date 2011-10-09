@@ -365,14 +365,26 @@ describe Sexp do
   end
 
   describe "hash_keys" do
-    it "should get value for hash node" do
+    it "should get hash_keys for hash node" do
       node = parse_content("{first_name: 'Richard', last_name: 'Huang'}").grep_node(:sexp_type => :hash)
       node.hash_keys.should == ["first_name", "last_name"]
     end
 
-    it "should get value for bare_assoc_hash" do
+    it "should get hash_keys for bare_assoc_hash" do
       node = parse_content("add_user :user, first_name: 'Richard', last_name: 'Huang'").grep_node(:sexp_type => :bare_assoc_hash)
       node.hash_keys.should == ["first_name", "last_name"]
+    end
+  end
+
+  describe "hash_values" do
+    it "should get hash_values for hash node" do
+      node = parse_content("{first_name: 'Richard', last_name: 'Huang'}").grep_node(:sexp_type => :hash)
+      node.hash_values.map(&:to_s).should == ["Richard", "Huang"]
+    end
+
+    it "should get hash_values for bare_assoc_hash" do
+      node = parse_content("add_user :user, first_name: 'Richard', last_name: 'Huang'").grep_node(:sexp_type => :bare_assoc_hash)
+      node.hash_values.map(&:to_s).should == ["Richard", "Huang"]
     end
   end
 
@@ -385,6 +397,18 @@ describe Sexp do
     it "should get 0" do
       node = parse_content("[]").grep_node(:sexp_type => :array)
       node.array_size.should == 0
+    end
+  end
+
+  describe "array_values" do
+    it "should get array values" do
+      node = parse_content("['first_name', 'last_name']").grep_node(:sexp_type => :array)
+      node.array_values.map(&:to_s).should == ["first_name", "last_name"]
+    end
+
+    it "should get empty array values" do
+      node = parse_content("[]").grep_node(:sexp_type => :array)
+      node.array_values.should == []
     end
   end
 
