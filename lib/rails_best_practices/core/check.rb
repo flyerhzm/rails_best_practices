@@ -54,9 +54,9 @@ module RailsBestPractices
 
       # add error if source code violates rails best practice.
       #
-      # @params [String] error, is the string message for violation of the rails best practice
-      # @params [String] file, is the filename of source code
-      # @params [Integer] line, is the line number of the source code which is reviewing
+      # @param [String] error, is the string message for violation of the rails best practice
+      # @param [String] file, is the filename of source code
+      # @param [Integer] line, is the line number of the source code which is reviewing
       def add_error(error, file = @node.file, line = @node.line)
         errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error, url)
       end
@@ -99,8 +99,8 @@ module RailsBestPractices
 
         # add a callback.
         #
-        # @params [String] name, callback name, can be start_xxx or end_xxx
-        # @params [Proc] block, be executed when callbacks are called
+        # @param [String] name, callback name, can be start_xxx or end_xxx
+        # @param [Proc] block, be executed when callbacks are called
         def add_callback(name, &block)
           callbacks[name] ||= []
           callbacks[name] << block
@@ -151,6 +151,19 @@ module RailsBestPractices
         # modules.
         def modules
           @moduels ||= []
+        end
+      end
+
+      # Helper to add callback after all files reviewed.
+      module Completeable
+        def self.included(base)
+          base.class_eval do
+            add_callback "end_class" do |node|
+              if "RailsBestPractices::Complete" == class_name(node)
+                on_complete
+              end
+            end
+          end
         end
       end
 
