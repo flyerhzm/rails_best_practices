@@ -5,7 +5,7 @@ module RailsBestPractices
   module Prepares
     # Remember the mailer names.
     class MailerPrepare < Core::Check
-      include Core::Check::Classable
+      include Core::Check::Klassable
 
       def interesting_nodes
         [:class, :module]
@@ -24,8 +24,8 @@ module RailsBestPractices
       # if it is a subclass of ActionMailer::Base,
       # then remember its class name.
       def start_class(node)
-        if "ActionMailer::Base" == node.base_class.to_s
-          @mailers << current_class_name
+        if "ActionMailer::Base" == current_extend_class_name
+          @mailers << @klass.to_s
         end
       end
     end

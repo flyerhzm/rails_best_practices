@@ -15,7 +15,7 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       EOF
       runner.prepare("app/models/admin/post.rb", content)
       models = RailsBestPractices::Prepares.models
-      models.should == ["Blog::Post"]
+      models.map(&:to_s).should == ["Blog::Post"]
     end
 
     it "class_name with modules" do
@@ -27,7 +27,7 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       EOF
       runner.prepare("app/models/admin/post.rb", content)
       models = RailsBestPractices::Prepares.models
-      models.should == ["Blog::Post"]
+      models.map(&:to_s).should == ["Blog::Post"]
     end
   end
 

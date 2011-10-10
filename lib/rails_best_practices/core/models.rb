@@ -1,7 +1,7 @@
 # encoding: utf-8
 module RailsBestPractices
   module Core
-    class Models < Array
+    class Models < Klasses
     end
   end
 end

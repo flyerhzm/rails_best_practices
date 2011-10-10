@@ -9,6 +9,6 @@ describe RailsBestPractices::Prepares::MailerPrepare do
     end
     EOF
     runner.prepare('app/mailers/project_mailer.rb', content)
-    RailsBestPractices::Prepares.mailers.should == ["ProjectMailer"]
+    RailsBestPractices::Prepares.mailers.map(&:to_s).should == ["ProjectMailer"]
   end
 end

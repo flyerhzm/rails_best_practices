@@ -5,8 +5,8 @@ module RailsBestPractices
   module Prepares
     # Remember controllers and controller methods
     class ControllerPrepare < Core::Check
-      include Core::Check::Classable
-      include Core::Check::AccessControl
+      include Core::Check::Klassable
+      include Core::Check::Accessable
 
       DEFAULT_ACTIONS = %w(index show new create edit update destroy)
 
@@ -27,8 +27,8 @@ module RailsBestPractices
       # check class node to remember the class name.
       # also check if the controller is inherit from InheritedResources::Base.
       def start_class(node)
-        @controllers << @class_name
-        if "InheritedResources::Base" == node.base_class.to_s
+        @controllers << @klass
+        if "InheritedResources::Base" == current_extend_class_name
           @inherited_resources = true
           @actions = DEFAULT_ACTIONS
         end
@@ -38,7 +38,7 @@ module RailsBestPractices
       def end_class(node)
         if @inherited_resources
           @actions.each do |action|
-            @methods.add_method(@class_name, action)
+            @methods.add_method(current_class_name, action)
           end
         end
       end
@@ -72,7 +72,7 @@ module RailsBestPractices
       #     }
       def start_def(node)
         method_name = node.method_name.to_s
-        @methods.add_method(@class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+        @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
       end
     end
   end

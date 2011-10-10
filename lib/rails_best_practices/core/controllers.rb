@@ -1,7 +1,7 @@
 # encoding: utf-8
 module RailsBestPractices
   module Core
-    class Controllers < Array
+    class Controllers < Klasses
     end
   end
 end
