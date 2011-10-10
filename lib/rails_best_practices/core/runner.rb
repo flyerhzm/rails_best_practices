@@ -74,7 +74,7 @@ module RailsBestPractices
       # @param [String] content content of the file
       def prepare(filename, content)
         puts filename if @debug
-        node = parse_ruby(content)
+        node = parse_ruby(filename, content)
         if node
           node.file = filename
           node.prepare(@checker)
@@ -95,7 +95,7 @@ module RailsBestPractices
       def review(filename, content)
         puts filename if @debug
         content = parse_erb_or_haml(filename, content)
-        node = parse_ruby(content)
+        node = parse_ruby(filename, content)
         if node
           node.file = filename
           node.review(@checker)
@@ -118,17 +118,19 @@ module RailsBestPractices
 
       # provide a handler after all files reviewed.
       def on_complete
+        filename = "rails_best_practices.complete"
         content = "class RailsBestPractices::Complete; end"
-        node = parse_ruby(content)
-        node.file = 'rails_best_practices.complete'
+        node = parse_ruby(filename, content)
+        node.file = filename
         node.review(@checker)
       end
 
       private
         # parse ruby code.
         #
-        # content is the source code of ruby file.
-        def parse_ruby(content)
+        # @param [String] filename is the filename of ruby file.
+        # @param [String] content is the source code of ruby file.
+        def parse_ruby(filename, content)
           begin
             Sexp.from_array(Ripper::SexpBuilder.new(content).parse)
           rescue Exception => e
@@ -144,8 +146,8 @@ module RailsBestPractices
 
         # parse erb or html code.
         #
-        # filename is the filename of the erb or haml code.
-        # content is the source code of erb or haml file.
+        # @param [String] filename is the filename of the erb or haml code.
+        # @param [String] content is the source code of erb or haml file.
         def parse_erb_or_haml(filename, content)
           if filename =~ /.*\.erb|.*\.rhtml$/
             content = Erubis::Eruby.new(content).src
