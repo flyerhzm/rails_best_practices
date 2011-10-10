@@ -108,12 +108,12 @@ module RailsBestPractices
       end
 
       # Helper to parse the class name.
-      module Classable
+      module Klassable
         def self.included(base)
           base.class_eval do
             # remember module name
             add_callback "start_module" do |node|
-              modules << node.module_name
+              modules << node.module_name.to_s
             end
 
             # end of the module.
@@ -123,29 +123,24 @@ module RailsBestPractices
 
             # remember the class anem
             add_callback "start_class" do |node|
-              @class_name = class_name(node)
+              @klass = Core::Klass.new(node.class_name.to_s, node.base_class.to_s, modules)
             end
 
             # end of the class
             add_callback "end_class" do |node|
-              @class_name = nil
+              @klass = nil
             end
           end
         end
 
         # get the current class name.
         def current_class_name
-          @class_name
+          @klass.to_s
         end
 
-        # parse the class name.
-        def class_name(node)
-          class_name = node.class_name.to_s
-          if modules.empty?
-            class_name
-          else
-            modules.map { |modu| "#{modu}::" }.join("") + class_name
-          end
+        # get the current extend class name.
+        def current_extend_class_name
+          @klass.extend_class_name
         end
 
         # modules.
@@ -159,7 +154,7 @@ module RailsBestPractices
         def self.included(base)
           base.class_eval do
             add_callback "end_class" do |node|
-              if "RailsBestPractices::Complete" == class_name(node)
+              if "RailsBestPractices::Complete" == node.class_name.to_s
                 on_complete
               end
             end
@@ -168,7 +163,7 @@ module RailsBestPractices
       end
 
       # Helper to parse the access control.
-      module AccessControl
+      module Accessable
         def self.included(base)
           base.class_eval do
             # remember the current access control for methods.

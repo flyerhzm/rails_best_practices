@@ -5,8 +5,8 @@ module RailsBestPractices
   module Prepares
     # Remember models and model associations.
     class ModelPrepare < Core::Check
-      include Core::Check::Classable
-      include Core::Check::AccessControl
+      include Core::Check::Klassable
+      include Core::Check::Accessable
 
       ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many)
 
@@ -26,7 +26,7 @@ module RailsBestPractices
 
       # check class node to remember the last class name.
       def start_class(node)
-        @models << @class_name
+        @models << @klass
       end
 
       # check ref node to remember all methods.
@@ -43,7 +43,7 @@ module RailsBestPractices
       #     }
       def start_def(node)
         method_name = node.method_name.to_s
-        @methods.add_method(@class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+        @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
       end
 
       # check command node to remember all assoications.
@@ -70,7 +70,7 @@ module RailsBestPractices
           association_class = arguments_node.hash_value("class_name").to_s
         end
         association_class ||= association_name.classify
-        @model_associations.add_association(@class_name, association_name, association_meta, association_class)
+        @model_associations.add_association(current_class_name, association_name, association_meta, association_class)
       end
     end
   end
