@@ -4,10 +4,14 @@ module RailsBestPractices
     class Methods
       def initialize
         @methods = {}
+        @possible_methods = {}
       end
 
       def add_method(model_name, method_name, meta={}, access_control="public")
         methods(model_name) << Method.new(model_name, method_name, access_control, meta)
+        if access_control == "public"
+          @possible_methods[method_name] = false
+        end
       end
 
       def get_methods(model_name, access_control=nil)
@@ -26,6 +30,10 @@ module RailsBestPractices
         end
       end
 
+      def possible_used(method_name)
+        @possible_methods[method_name] = true
+      end
+
       def get_method(model_name, method_name, access_control=nil)
         if access_control
           methods(model_name).find { |method| method.method_name == method_name && method.access_control == access_control }
@@ -35,13 +43,13 @@ module RailsBestPractices
       end
 
       def get_all_unused_methods(access_control=nil)
-        @methods.inject([]) do |unused_methods, (model_name, methods)|
+        @methods.inject([]) { |unused_methods, (model_name, methods)|
           unused_methods += if access_control
             methods.select { |method| method.access_control == access_control && !method.used }
           else
             methods.select { |method| !method.used }
           end
-        end
+        }.reject { |method| @possible_methods[method.method_name] }
       end
 
       private
