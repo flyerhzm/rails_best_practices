@@ -108,6 +108,20 @@ describe RailsBestPractices::Reviews::NeedlessDeepNestingReview do
       runner.should have(0).errors
     end
 
+    it "should not needless deep nesting for shallow 4 levels" do
+      content = <<-EOF
+      resources :applications, shallow: true, only: [:index, :show, :create] do
+        resources :events, only: [:index, :show, :create, :subscribe, :push] do
+          resources :executions, only: [:index, :show] do
+            resources :execution_statuses, only: :index
+          end
+        end
+      end
+      EOF
+      runner.review('config/routes.rb', content)
+      runner.should have(0).errors
+    end
+
     it "should needless deep nesting with resource" do
       content = <<-EOF
       resources :posts do
