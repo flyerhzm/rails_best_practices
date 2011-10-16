@@ -41,6 +41,7 @@ module RailsBestPractices
         @controller_methods ||= Core::Methods.new
       end
 
+      # Clear all prepare objects.
       def clear
         instance_variables.each do |instance_variable|
           instance_variable_set(instance_variable, nil)

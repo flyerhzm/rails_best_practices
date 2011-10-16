@@ -1,12 +1,18 @@
 # encoding: utf-8
 module RailsBestPractices
   module Core
+    # Klass container.
     class Klasses < Array
+      # If include the class.
+      #
+      # @param [String] class name
+      # @return [Boolean] include or not
       def include?(class_name)
         find { |klass| klass.to_s == class_name }
       end
     end
 
+    # Class info includes clas name, extend class name and module names.
     class Klass
       attr_reader :class_name, :extend_class_name
 

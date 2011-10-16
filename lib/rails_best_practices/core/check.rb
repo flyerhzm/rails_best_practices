@@ -168,11 +168,8 @@ module RailsBestPractices
           base.class_eval do
             # remember the current access control for methods.
             add_callback "start_var_ref" do |node|
-              case node.to_s
-              when "public" then @access_control = "public"
-              when "protected" then @access_control = "protected"
-              when "private" then @access_control = "private"
-              else
+              if %w(public protected private).include? node.to_s
+                @access_control = node.to_s
               end
             end
 
