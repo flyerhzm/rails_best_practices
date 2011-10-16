@@ -25,7 +25,7 @@ module RailsBestPractices
       # then remember its class name.
       def start_class(node)
         if "ActionMailer::Base" == current_extend_class_name
-          @mailers << @klass.to_s
+          @mailers << @klass
         end
       end
     end
