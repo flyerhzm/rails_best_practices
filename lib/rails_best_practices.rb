@@ -221,7 +221,7 @@ module RailsBestPractices
 
       File.open("rails_best_practices_output.html", "w+") do |file|
         eruby = Erubis::Eruby.new(template)
-        file.puts eruby.evaluate(:errors => @runner.errors, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"])
+        file.puts eruby.evaluate(:errors => @runner.errors, :error_types => error_types, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"])
       end
     end
 
@@ -235,6 +235,11 @@ module RailsBestPractices
       else
         puts message.send(color)
       end
+    end
+
+    # unique error types.
+    def error_types
+      @runner.errors.map(&:type).uniq
     end
   end
 end

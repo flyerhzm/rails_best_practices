@@ -3,7 +3,6 @@
   <head>
     <meta charset='UTF-8' />
     <title>Output of rails_best_practices</title>
-
     <style type="text/css">
       body {
         color: #333;
@@ -34,6 +33,10 @@
       table tr:hover {
         background-color: #FFFFC0;
       }
+      ul li {
+       list-style: none;
+       display: none;
+      }
     </style>
   </head>
   <body>
@@ -50,6 +53,11 @@
         Found <%= @errors.size %> errors.
       <% end %>
     </h2>
+    <ul>
+      <% @error_types.each do |error_type| %>
+        <li><input type="checkbox" value="<%= error_type.split(':').last %>" /><%= error_type.split(':').last %></li>
+      <% end %>
+    </ul>
     <table>
       <tr>
         <th>Filename</th>
@@ -57,7 +65,7 @@
         <th>Warning Message</th>
       </tr>
       <% @errors.each do |error| %>
-        <tr>
+        <tr class="<%= error.type.split(':').last %>">
           <td class='filename'>
             <% if @textmate %>
               <a href='txmt://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.filename %></a>
@@ -74,5 +82,20 @@
         </tr>
       <% end %>
     </table>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $('ul li').show();
+        $('input[type=checkbox]').prop('checked', true).click(function() {
+          if ($(this).attr('checked')) {
+            $(this).prop('checked', true);
+            $('.'+$(this).val()).show();
+          } else {
+            $(this).prop('checked', false);
+            $('.'+$(this).val()).hide();
+          }
+        });
+      });
+    </script>
   </body>
 </html>
