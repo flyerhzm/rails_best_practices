@@ -203,7 +203,7 @@ module RailsBestPractices
       files.reject { |file| file.index(pattern) }
     end
 
-    # output errors if exist.
+    # output errors on terminal.
     def output_terminal_errors
       @runner.errors.each { |error| plain_output(error.to_s, 'red') }
       plain_output("\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.", 'green')
@@ -214,14 +214,7 @@ module RailsBestPractices
       end
     end
 
-    def plain_output(message, color)
-      if @options["without-color"]
-        puts message
-      else
-        puts message.send(color)
-      end
-    end
-
+    # output errors with html format.
     def output_html_errors
       require 'erubis'
       template = File.read(File.join(File.dirname(__FILE__), "..", "assets", "result.html.erb"))
@@ -229,6 +222,18 @@ module RailsBestPractices
       File.open("rails_best_practices_output.html", "w+") do |file|
         eruby = Erubis::Eruby.new(template)
         file.puts eruby.evaluate(:errors => @runner.errors, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"])
+      end
+    end
+
+    # plain output with color.
+    #
+    # @param [String] message to output
+    # @param [String] color
+    def plain_output(message, color)
+      if @options["without-color"]
+        puts message
+      else
+        puts message.send(color)
       end
     end
   end

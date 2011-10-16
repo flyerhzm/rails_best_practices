@@ -1,58 +1,94 @@
 # encoding: utf-8
 module RailsBestPractices
   module Core
+    # Method container.
     class Methods
       def initialize
         @methods = {}
         @possible_methods = {}
       end
 
-      def add_method(model_name, method_name, meta={}, access_control="public")
-        return if model_name == ""
-        methods(model_name) << Method.new(model_name, method_name, access_control, meta)
+      # Add a method.
+      #
+      # @param [String] class name
+      # @param [String] method name
+      # @param [Hash] method meta, file and line, {"file" => "app/models/post.rb", "line" => 5}
+      # @param [String] access control, public, protected or private
+      def add_method(class_name, method_name, meta={}, access_control="public")
+        return if class_name == ""
+        methods(class_name) << Method.new(class_name, method_name, access_control, meta)
         if access_control == "public"
           @possible_methods[method_name] = false
         end
       end
 
-      def get_methods(model_name, access_control=nil)
+      # Get methods of a class.
+      #
+      # @param [String] class name
+      # @param [String] access control
+      # @return [Array] all methods of a class for such access control, if access control is nil, return all public/protected/private methods
+      def get_methods(class_name, access_control=nil)
         if access_control
-          methods(model_name).select { |method| method.access_control == access_control }
+          methods(class_name).select { |method| method.access_control == access_control }
         else
-          methods(model_name)
+          methods(class_name)
         end
       end
 
-      def has_method?(model_name, method_name, access_control=nil)
+      # If a class has a method.
+      #
+      # @param [String] class name
+      # @param [String] method name
+      # @param [String] access control
+      # @return [Boolean] has a method or not
+      def has_method?(class_name, method_name, access_control=nil)
         if access_control
-          !!methods(model_name).find { |method| method.method_name == method_name && method.access_control == access_control }
+          !!methods(class_name).find { |method| method.method_name == method_name && method.access_control == access_control }
         else
-          !!methods(model_name).find { |method| method.method_name == method_name }
+          !!methods(class_name).find { |method| method.method_name == method_name }
         end
       end
 
-      def mark_protected_method_used(model_name, method_name)
-        klass = Prepares.klasses.find { |klass| klass.to_s == model_name }
+      # Mark parent class' method as used.
+      #
+      # @param [String] class name
+      # @param [String] method name
+      def mark_extend_class_method_used(class_name, method_name)
+        klass = Prepares.klasses.find { |klass| klass.to_s == class_name }
         if klass && klass.extend_class_name
-          method = get_method(klass.extend_class_name, method_name, "protected")
+          mark_extend_class_method_used(klass.extend_class_name, method_name)
+          method = get_method(klass.extend_class_name, method_name)
           method.mark_used if method
         end
       end
 
+      # remomber the method name, the method is probably be used for the class' public method.
+      #
+      # @param [String] method name
       def possible_public_used(method_name)
         @possible_methods[method_name] = true
       end
 
-      def get_method(model_name, method_name, access_control=nil)
+      # Get a method in a class.
+      #
+      # @param [String] class name
+      # @param [String] method name
+      # @param [String] access control
+      # @return [Method] Method object
+      def get_method(class_name, method_name, access_control=nil)
         if access_control
-          methods(model_name).find { |method| method.method_name == method_name && method.access_control == access_control }
+          methods(class_name).find { |method| method.method_name == method_name && method.access_control == access_control }
         else
-          methods(model_name).find { |method| method.method_name == method_name }
+          methods(class_name).find { |method| method.method_name == method_name }
         end
       end
 
+      # Get all unused methods.
+      #
+      # @param [String] access control
+      # @return [Array] array of Method
       def get_all_unused_methods(access_control=nil)
-        @methods.inject([]) { |unused_methods, (model_name, methods)|
+        @methods.inject([]) { |unused_methods, (class_name, methods)|
           unused_methods += if access_control
             methods.select { |method| method.access_control == access_control && !method.used }
           else
@@ -62,11 +98,16 @@ module RailsBestPractices
       end
 
       private
-        def methods(model_name)
-          @methods[model_name] ||= []
+        # Methods of a class.
+        #
+        # @param [String] class name
+        # @return [Array] array of methods
+        def methods(class_name)
+          @methods[class_name] ||= []
         end
     end
 
+    # Method info includes class name, method name, access control, file, line, used.
     class Method
       attr_reader :access_control, :class_name, :method_name, :used, :file, :line
 
@@ -79,6 +120,7 @@ module RailsBestPractices
         @used = false
       end
 
+      # Mark this method as used.
       def mark_used
         @used = true
       end
