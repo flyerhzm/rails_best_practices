@@ -26,7 +26,9 @@ module RailsBestPractices
 
       # check class node to remember the last class name.
       def start_class(node)
-        @models << @klass
+        if "ActionMailer::Base" != current_extend_class_name
+          @models << @klass
+        end
       end
 
       # check ref node to remember all methods.
@@ -42,8 +44,10 @@ module RailsBestPractices
       #       }
       #     }
       def start_def(node)
-        method_name = node.method_name.to_s
-        @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+        if @klass && "ActionMailer::Base" != current_extend_class_name
+          method_name = node.method_name.to_s
+          @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+        end
       end
 
       # check command node to remember all assoications.
@@ -61,17 +65,18 @@ module RailsBestPractices
         remember_association(node) if ASSOCIATION_METHODS.include? node.message.to_s
       end
 
-      # remember associations, with class to association names.
-      def remember_association(node)
-        association_meta = node.message.to_s
-        association_name = node.arguments.all[0].to_s
-        arguments_node = node.arguments.all[1]
-        if arguments_node && :bare_assoc_hash == arguments_node.sexp_type
-          association_class = arguments_node.hash_value("class_name").to_s
+      private
+        # remember associations, with class to association names.
+        def remember_association(node)
+          association_meta = node.message.to_s
+          association_name = node.arguments.all[0].to_s
+          arguments_node = node.arguments.all[1]
+          if arguments_node && :bare_assoc_hash == arguments_node.sexp_type
+            association_class = arguments_node.hash_value("class_name").to_s
+          end
+          association_class ||= association_name.classify
+          @model_associations.add_association(current_class_name, association_name, association_meta, association_class)
         end
-        association_class ||= association_name.classify
-        @model_associations.add_association(current_class_name, association_name, association_meta, association_class)
-      end
     end
   end
 end
