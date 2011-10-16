@@ -8,6 +8,7 @@ module RailsBestPractices
       end
 
       def add_method(model_name, method_name, meta={}, access_control="public")
+        return if model_name == ""
         methods(model_name) << Method.new(model_name, method_name, access_control, meta)
         if access_control == "public"
           @possible_methods[method_name] = false
@@ -30,7 +31,15 @@ module RailsBestPractices
         end
       end
 
-      def possible_used(method_name)
+      def mark_protected_method_used(model_name, method_name)
+        klass = Prepares.klasses.find { |klass| klass.to_s == model_name }
+        if klass && klass.extend_class_name
+          method = get_method(klass.extend_class_name, method_name, "protected")
+          method.mark_used if method
+        end
+      end
+
+      def possible_public_used(method_name)
         @possible_methods[method_name] = true
       end
 
@@ -49,7 +58,7 @@ module RailsBestPractices
           else
             methods.select { |method| !method.used }
           end
-        }.reject { |method| @possible_methods[method.method_name] }
+        }.reject { |method| method.access_control == "public" && @possible_methods[method.method_name] }
       end
 
       private

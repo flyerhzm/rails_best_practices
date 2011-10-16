@@ -9,6 +9,10 @@ module RailsBestPractices
     class <<self
       attr_writer :models, :model_associations, :model_attributes, :mailers
 
+      def klasses
+        models + mailers + controllers
+      end
+
       def models
         @models ||= Core::Models.new
       end
