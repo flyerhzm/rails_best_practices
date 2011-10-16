@@ -157,6 +157,30 @@ describe RailsBestPractices::Prepares::ModelPrepare do
     end
   end
 
+  context "scope" do
+    it "should treat named_scope as method" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        named_scope :active, :conditions => {:active => true}
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      methods = RailsBestPractices::Prepares.model_methods
+      methods.get_methods("Post").map(&:method_name).should == ["active"]
+    end
+
+    it "should treat scope as method" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        scope :active, where(:active => true)
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      methods = RailsBestPractices::Prepares.model_methods
+      methods.get_methods("Post").map(&:method_name).should == ["active"]
+    end
+  end
+
   context "no error" do
     it "should raised for finder_sql option" do
       content =<<-EOF

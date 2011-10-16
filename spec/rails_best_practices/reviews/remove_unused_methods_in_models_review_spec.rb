@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
   let(:runner) { RailsBestPractices::Core::Runner.new(
     :prepares => [RailsBestPractices::Prepares::ModelPrepare.new, RailsBestPractices::Prepares::ControllerPrepare.new],
-    :reviews => RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview.new
+    :reviews => RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview.new({'except_methods' => ['set_cache']})
   ) }
 
   context "private" do
@@ -28,6 +28,18 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.on_complete
       runner.should have(1).errors
       runner.errors[0].to_s.should == "app/models/post.rb:4 - remove unused methods (Post#find_by_sql)"
+    end
+
+    it "should not remove unused methods with except_methods" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def set_cache; end
+      end
+      EOF
+      runner.prepare('app/models/post.rb', content)
+      runner.review('app/models/post.rb', content)
+      runner.on_complete
+      runner.should have(0).errors
     end
 
     it "should not remove unused methods with var_ref" do
@@ -319,6 +331,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
         end
       end
       EOF
+      runner.review("app/controllers/posts_controller.rb", content)
       runner.on_complete
       runner.should have(0).errors
     end
@@ -333,7 +346,42 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.review("app/models/post.rb", content)
       runner.on_complete
       runner.should have(1).errors
-      runner.errors[1].to_s.should == "app/models/post.rb:2 - remove unused method (Post#active)"
+      runner.errors[0].to_s.should == "app/models/post.rb:2 - remove unused methods (Post#active)"
+    end
+  end
+
+  context "scope" do
+    it "should not remove unused scope" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        scope :active, where(:active => true)
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def index
+          @posts = Post.active
+        end
+      end
+      EOF
+      runner.review("app/controllers/posts_controller.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
+    it "should remove unused named_scope" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        scope :active, where(:active => true)
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      runner.on_complete
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/models/post.rb:2 - remove unused methods (Post#active)"
     end
   end
 end
