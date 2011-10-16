@@ -54,11 +54,11 @@ module RailsBestPractices
 
       # add error if source code violates rails best practice.
       #
-      # @param [String] error, is the string message for violation of the rails best practice
+      # @param [String] message, is the string message for violation of the rails best practice
       # @param [String] file, is the filename of source code
       # @param [Integer] line, is the line number of the source code which is reviewing
-      def add_error(error, file = @node.file, line = @node.line)
-        errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", error, url)
+      def add_error(message, file = @node.file, line = @node.line)
+        errors << RailsBestPractices::Core::Error.new("#{file}", "#{line}", message, self.class.to_s, url)
       end
 
       # errors that vialote the rails best practices.

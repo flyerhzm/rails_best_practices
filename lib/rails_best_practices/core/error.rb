@@ -5,12 +5,13 @@ module RailsBestPractices
     #
     # it indicates the filenname, line number and error message for the violation.
     class Error
-      attr_reader :filename, :line_number, :message, :url
+      attr_reader :filename, :line_number, :message, :type, :url
 
-      def initialize(filename, line_number, message, url = nil)
+      def initialize(filename, line_number, message, type, url = nil)
         @filename = filename
         @line_number = line_number
         @message = message
+        @type = type
         @url = url
       end
 
