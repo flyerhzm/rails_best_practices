@@ -32,8 +32,10 @@ module RailsBestPractices
       end
 
       def start_command(node)
-        mark_used(node.message)
-        node.arguments.all.each { |argument| mark_used(argument) }
+        unless %w(named_scope scope).include? node.message.to_s
+          mark_used(node.message)
+          node.arguments.all.each { |argument| mark_used(argument) }
+        end
       end
 
       def start_method_add_arg(node)

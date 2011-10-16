@@ -50,7 +50,7 @@ module RailsBestPractices
         end
       end
 
-      # check command node to remember all assoications.
+      # check command node to remember all assoications or named_scope/scope methods.
       #
       # the remembered association names (@associations) are like
       #     {
@@ -62,7 +62,12 @@ module RailsBestPractices
       #       }
       #     }
       def start_command(node)
-        remember_association(node) if ASSOCIATION_METHODS.include? node.message.to_s
+        if %w(named_scope scope).include? node.message.to_s
+          method_name = node.arguments.all[0].to_s
+          @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+        elsif ASSOCIATION_METHODS.include? node.message.to_s
+          remember_association(node)
+        end
       end
 
       private
