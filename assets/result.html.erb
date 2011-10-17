@@ -12,11 +12,14 @@
       h1 {
         color: ##4E4E4E;
       }
+      p {
+        margin: 5px 0;
+      }
       table {
         background: white;
         border: 1px solid #666;
         border-collapse: collapse;
-        margin: 20px 0;
+        margin: 10px 0;
         font-size: 14px;
       }
       table th, table td {
@@ -33,26 +36,33 @@
       table tr:hover {
         background-color: #FFFFC0;
       }
+      ul {
+        clear: both;
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+      }
       ul li {
        list-style: none;
        display: none;
+       float: left;
       }
     </style>
   </head>
   <body>
     <h1>rails_best_practices output</h1>
-    <h2>
+    <p>
       Please go to
       <a href='http://rails-bestpractices.com' target='_blank'>http://rails-bestpractices.com</a>
       to see more useful Rails Best Practices.
-    </h2>
-    <h2>
+    </p>
+    <p>
       <% if @errors.empty? %>
         No error found. Cool!
       <% else %>
         Found <%= @errors.size %> errors.
       <% end %>
-    </h2>
+    </p>
     <ul>
       <% @error_types.each do |error_type| %>
         <li><input type="checkbox" value="<%= error_type.split(':').last %>" /><%= error_type.split(':').last %></li>
