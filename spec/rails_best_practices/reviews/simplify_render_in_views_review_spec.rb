@@ -14,7 +14,7 @@ describe RailsBestPractices::Reviews::SimplifyRenderInViewsReview do
 
   it "should simplify render partial with object" do
     content =<<-EOF
-    <%= render :partial => 'posts/post', :object => @post %>
+    <%= render :partial => 'post', :object => @post %>
     EOF
     runner.review('app/views/posts/index.html.erb', content)
     runner.should have(1).errors
@@ -32,7 +32,7 @@ describe RailsBestPractices::Reviews::SimplifyRenderInViewsReview do
 
   it "should simplify render partial with local variables" do
     content =<<-EOF
-    <%= render :partial => 'comments/comment', :locals => { :parent => post } %>
+    <%= render :partial => 'comment', :locals => { :parent => post } %>
     EOF
     runner.review('app/views/posts/index.html.erb', content)
     runner.should have(1).errors
@@ -66,7 +66,15 @@ describe RailsBestPractices::Reviews::SimplifyRenderInViewsReview do
 
   it "should not simplify render partial with local variables" do
     content =<<-EOF
-    <%= render 'comments/comment', :parent => post %>
+    <%= render 'comment', :parent => post %>
+    EOF
+    runner.review('app/views/posts/index.html.erb', content)
+    runner.should have(0).errors
+  end
+
+  it "should not simplify render partial with complex partial" do
+    content =<<-EOF
+    <%= render :partial => 'shared/post', :object => @post %>
     EOF
     runner.review('app/views/posts/index.html.erb', content)
     runner.should have(0).errors

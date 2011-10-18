@@ -31,7 +31,9 @@ module RailsBestPractices
       def start_command(node)
         if "render" == node.message.to_s
           hash_node =  node.arguments.all[0]
-          if hash_node && hash_node.hash_keys && hash_node.hash_keys.include?("partial")
+          if hash_node && :bare_assoc_hash == hash_node.sexp_type &&
+            hash_node.hash_keys.include?("partial") &&
+            !hash_node.hash_value("partial").to_s.include?('/')
             add_error 'simplify render in views'
           end
         end
