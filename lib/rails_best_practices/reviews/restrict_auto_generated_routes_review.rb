@@ -86,7 +86,7 @@ module RailsBestPractices
 
         # get the controller name.
         def controller_name(node)
-          if node.arguments.all.size > 1 && :bare_assoc_hash == node.arguments.all[1].sexp_type
+          if option_with_hash(node)
             options = node.arguments.all[1]
             if options.hash_keys.include?("controller")
               name = options.hash_value("controller").to_s
@@ -113,7 +113,7 @@ module RailsBestPractices
         def resources_methods(node)
           resources_methods = RESOURCES_METHODS
 
-          if node.arguments.all.size > 1
+          if option_with_hash(node)
             options = node.arguments.all[1]
             if options.hash_keys.include?("only")
               Array(options.hash_value("only").to_object)
@@ -131,7 +131,7 @@ module RailsBestPractices
         def resource_methods(node)
           resource_methods = RESOURCE_METHODS
 
-          if node.arguments.all.size > 1
+          if option_with_hash(node)
             options = node.arguments.all[1]
             if options.hash_keys.include?("only")
               Array(options.hash_value("only").to_object)
@@ -143,6 +143,10 @@ module RailsBestPractices
           else
             resource_methods
           end
+        end
+
+        def option_with_hash(node)
+          node.arguments.all.size > 1 && :bare_assoc_hash == node.arguments.all[1].sexp_type
         end
     end
   end
