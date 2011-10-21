@@ -27,7 +27,7 @@ module RailsBestPractices
 
       def initialize(options = {})
         super()
-        @customize_count = options['customize_count'] || 1
+        @customize_count = options['customize_count'] || 2
       end
 
       # check class define node to see if there are method define nodes whose first code line are duplicated.
