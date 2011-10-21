@@ -86,7 +86,7 @@ module RailsBestPractices
 
         # get the controller name.
         def controller_name(node)
-          if node.arguments.all.size > 1
+          if node.arguments.all.size > 1 && :bare_assoc_hash == node.arguments.all[1].sexp_type
             options = node.arguments.all[1]
             if options.hash_keys.include?("controller")
               name = options.hash_value("controller").to_s
