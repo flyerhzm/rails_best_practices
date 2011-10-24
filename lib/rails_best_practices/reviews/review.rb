@@ -16,7 +16,8 @@ module RailsBestPractices
       # then save it to as key in @variable_use_count hash, and add the call count (hash value).
       def remember_variable_use_count(node)
         variable_node = variable(node)
-        if variable_node && "self" != variable_node.to_s
+        if variable_node && "self" != variable_node.to_s && @last_variable_node != variable_node
+          @last_variable_node = variable_node
           variable_use_count[variable_node.to_s] ||= 0
           variable_use_count[variable_node.to_s] += 1
         end

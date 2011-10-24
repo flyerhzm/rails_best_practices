@@ -5,7 +5,7 @@ describe RailsBestPractices::Reviews::MoveCodeIntoModelReview do
 
   it "should move code into model" do
     content =<<-EOF
-    <% if current_user && (current_user == @post.user || @post.editors.include?(current_user)) %>
+    <% if current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user)) %>
       <%= link_to 'Edit this post', edit_post_url(@post) %>
     <% end %>
     EOF
@@ -16,7 +16,7 @@ describe RailsBestPractices::Reviews::MoveCodeIntoModelReview do
 
   it "should move code into model with haml" do
     content =<<-EOF
-- if current_user && (current_user == @post.user || @post.editors.include?(current_user))
+- if current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user))
   = link_to 'Edit this post', edit_post_url(@post)
     EOF
     runner.review('app/views/posts/show.html.haml', content)
@@ -44,6 +44,15 @@ describe RailsBestPractices::Reviews::MoveCodeIntoModelReview do
     <% end %>
     EOF
     runner.review('app/views/posts/show.html.erb', content)
+    runner.should have(0).errors
+  end
+
+  it "should not move code into model for multiple calls on same variable node" do
+    content =<<-EOF
+    <% if !job.company.blank? && job.company.title? %>
+    <% end %>
+    EOF
+    runner.review('app/views/jobs/show.html.erb', content)
     runner.should have(0).errors
   end
 end
