@@ -73,6 +73,10 @@
         <th>Filename</th>
         <th>Line Number</th>
         <th>Warning Message</th>
+        <% if @git %>
+          <th>Git Commit</th>
+          <th>Git Username</th>
+        <% end %>
       </tr>
       <% @errors.each do |error| %>
         <tr class="<%= error.type.split(':').last %>">
@@ -89,6 +93,10 @@
           <td class='message'>
             <a href='<%= error.url %>' target='_blank'><%= error.message %></a>
           </td>
+          <% if @git %>
+            <td class='git_commit'><%= error.git_commit %></td>
+            <td class='git_usename'><%= error.git_username %></td>
+          <% end %>
         </tr>
       <% end %>
     </table>

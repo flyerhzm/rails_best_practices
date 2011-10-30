@@ -40,6 +40,10 @@ OptionParser.new do |opts|
     options["with-mvim"] = true
   end
 
+  opts.on("--with-git", "display git commit and username, only support html format") do
+    options["with-git"] = true
+  end
+
   ['vendor', 'spec', 'test', 'features'].each do |pattern|
     opts.on("--#{pattern}", "include #{pattern} files") do
       options[pattern] = true
