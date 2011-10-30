@@ -410,6 +410,11 @@ describe Sexp do
       node = parse_content("[]").grep_node(:sexp_type => :array)
       node.array_values.should == []
     end
+
+    it "should get array value with qwords" do
+      node = parse_content("%w(first_name last_name)").grep_node(:sexp_type => :qwords_add)
+      node.array_values.map(&:to_s).should == ["first_name", "last_name"]
+    end
   end
 
   describe "to_object" do
