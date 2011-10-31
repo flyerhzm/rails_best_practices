@@ -202,7 +202,7 @@ module RailsBestPractices
         # load all plugin reviews.
         def load_plugin_reviews
           begin
-            plugins = "#{Runner.base_path}lib/rails_best_practices/plugins/reviews"
+            plugins = File.join(Runner.base_path, 'lib', 'rails_best_practices', 'plugins', 'reviews')
             if File.directory?(plugins)
               Dir[File.expand_path(File.join(plugins, "*.rb"))].each do |review|
                 require review
