@@ -10,7 +10,7 @@ module RailsBestPractices
       EXCEPT_METHODS = %w(initialize validate to_xml to_json)
 
       def interesting_nodes
-        [:module, :class, :call, :fcall, :command, :method_add_arg, :var_ref]
+        [:module, :class, :call, :fcall, :command, :command_call, :method_add_arg, :var_ref]
       end
 
       def initialize(options={})
@@ -29,6 +29,10 @@ module RailsBestPractices
 
       def start_var_ref(node)
         mark_used(node)
+      end
+
+      def start_command_call(node)
+        mark_used(node.message)
       end
 
       def start_command(node)
