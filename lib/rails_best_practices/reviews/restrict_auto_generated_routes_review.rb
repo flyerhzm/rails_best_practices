@@ -88,7 +88,7 @@ module RailsBestPractices
         def controller_name(node)
           if option_with_hash(node)
             options = node.arguments.all[1]
-            if options.hash_keys.include?("controller")
+            if options.hash_keys && options.hash_keys.include?("controller")
               name = options.hash_value("controller").to_s
             else
               name = node.arguments.all[0].to_s.tableize
