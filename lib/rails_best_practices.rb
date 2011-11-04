@@ -206,7 +206,11 @@ module RailsBestPractices
 
     # output errors on terminal.
     def output_terminal_errors
-      @runner.errors.each { |error| plain_output(error.to_s, 'red') }
+      @runner.errors.each do |error|
+        message = error.to_s
+        message = "#{message} (#{error.url})" if @options['with-urls']
+        plain_output(message, 'red')
+      end
       plain_output("\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.", 'green')
       if @runner.errors.empty?
         plain_output("\nNo warning found. Cool!", 'green')

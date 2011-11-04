@@ -32,6 +32,10 @@ OptionParser.new do |opts|
     options["without-color"] = true
   end
 
+  opts.on("--with-urls", "show rails-bestpractices.com urls in text output") do
+    options["with-urls"] = true
+  end
+
   opts.on("--with-textmate", "open file by textmate in html format") do
     options["with-textmate"] = true
   end
