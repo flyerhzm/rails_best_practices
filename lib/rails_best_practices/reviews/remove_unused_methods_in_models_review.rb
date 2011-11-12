@@ -3,7 +3,14 @@ require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices
   module Reviews
-    # Find out unused methods
+    # Find out unused methods in models.
+    #
+    # Implemenation:
+    #
+    # Review process:
+    #   remember all method calls,
+    #   at end, check if all defined methods are called,
+    #   if not, non called methods are unused.
     class RemoveUnusedMethodsInModelsReview < Review
       include Klassable
       include Completeable
@@ -20,22 +27,28 @@ module RailsBestPractices
         @except_methods = EXCEPT_METHODS + options['except_methods']
       end
 
+      # remember the message of call node.
       def start_call(node)
         mark_used(node.message)
       end
 
+      # remember the message of fcall node.
       def start_fcall(node)
         mark_used(node.message)
       end
 
+      # remember name of var_ref node.
       def start_var_ref(node)
         mark_used(node)
       end
 
+      # remember the message of command call node.
       def start_command_call(node)
         mark_used(node.message)
       end
 
+      # remember the message of command node.
+      # remember the argument of alias_method and alias_method_chain as well.
       def start_command(node)
         case node.message.to_s
         when "named_scope", "scope"
@@ -51,17 +64,28 @@ module RailsBestPractices
         end
       end
 
+      # remember the old method of alias node.
       def start_alias(node)
         mark_used(node.old_method)
       end
 
+      # remember the first argument for try and send method.
       def start_method_add_arg(node)
-        if "try" == node.message.to_s
+        case node.message.to_s
+        when "try"
           method_name = node.arguments.all[0].to_s
           call_method(method_name)
+        when "send"
+          if Core::Nil === node.arguments.all[0].grep_node(:sexp_type => :string_embexpr)
+            method_name = node.arguments.all[0].to_s
+            call_method(method_name)
+          end
+        else
+          # nothing
         end
       end
 
+      # get all unused methods at the end of review process.
       def on_complete
         @model_methods.get_all_unused_methods.each do |method|
           if !@except_methods.include?(method.method_name) && method.method_name !~ /=$/
