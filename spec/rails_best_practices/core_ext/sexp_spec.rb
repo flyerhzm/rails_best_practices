@@ -239,6 +239,11 @@ describe Sexp do
       node = parse_content("puts 'hello', 'world'").grep_node(:sexp_type => :args_add_block)
       node.all.map(&:to_s).should == ["hello", "world"]
     end
+
+    it "no error for args_add_star" do
+      node = parse_content("send(:\"\#{route}_url\", *args)").grep_node(:sexp_type => :args_add_block)
+      lambda { node.all }.should_not raise_error
+    end
   end
 
   describe "conditional_statement" do
