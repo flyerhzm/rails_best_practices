@@ -294,7 +294,7 @@ class Sexp
     when :args_add_block, :array
       node = self[1]
       while true
-        if :args_add == node.sexp_type
+        if [:args_add, :args_add_star].include? node.sexp_type
           nodes.unshift node[2]
           node = node[1]
         elsif :args_new == node.sexp_type

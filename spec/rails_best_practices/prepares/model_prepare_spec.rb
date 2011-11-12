@@ -212,7 +212,7 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       EOF
       runner.prepare("app/models/post.rb", content)
       methods = RailsBestPractices::Prepares.model_methods
-      methods.get_methods("Post").map(&:method_name).should == ["method", "method_with_feature"]
+      methods.get_methods("Post").map(&:method_name).should == ["method_with_feature", "method"]
     end
   end
 
