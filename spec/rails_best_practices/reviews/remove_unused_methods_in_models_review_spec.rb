@@ -384,4 +384,69 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.errors[0].to_s.should == "app/models/post.rb:2 - remove unused methods (Post#active)"
     end
   end
+
+  context "alias" do
+    it "should not remove unused method with alias" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def old; end
+        alias new old
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def show
+          @post.new
+        end
+      end
+      EOF
+      runner.review("app/controllers/posts_controller.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
+     it "should not remove unused method with symbol alias" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def old; end
+        alias :new :old
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def show
+          @post.new
+        end
+      end
+      EOF
+      runner.review("app/controllers/posts_controller.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
+    it "should not remove unused method with alias_method" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def old; end
+        alias_method :new, :old
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def show
+          @post.new
+        end
+      end
+      EOF
+      runner.review("app/controllers/posts_controller.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+  end
 end

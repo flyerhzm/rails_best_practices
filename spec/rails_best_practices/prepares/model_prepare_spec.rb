@@ -181,6 +181,30 @@ describe RailsBestPractices::Prepares::ModelPrepare do
     end
   end
 
+  context "alias" do
+    it "should treat alias as method" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        alias :new :old
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      methods = RailsBestPractices::Prepares.model_methods
+      methods.get_methods("Post").map(&:method_name).should == ["new"]
+    end
+
+    it "should treat alias_method as method" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        alias_method :new, :old
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      methods = RailsBestPractices::Prepares.model_methods
+      methods.get_methods("Post").map(&:method_name).should == ["new"]
+    end
+  end
+
   context "no error" do
     it "should raised for finder_sql option" do
       content =<<-EOF

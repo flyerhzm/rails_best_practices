@@ -695,6 +695,28 @@ class Sexp
     end
   end
 
+  # old method for alias node.
+  #
+  #     s(:alias,
+  #       s(:symbol_literal, s(:@ident, "new", s(1, 6))),
+  #       s(:symbol_literal, s(:@ident, "old", s(1, 10)))
+  #     )
+  #         => s(:symbol_literal, s(:@ident, "old", s(1, 10))),
+  def old_method
+    self[2]
+  end
+
+  # new method for alias node.
+  #
+  #     s(:alias,
+  #       s(:symbol_literal, s(:@ident, "new", s(1, 6))),
+  #       s(:symbol_literal, s(:@ident, "old", s(1, 10)))
+  #     )
+  #         => s(:symbol_literal, s(:@ident, "new", s(1, 6))),
+  def new_method
+    self[1]
+  end
+
   # To object.
   #
   #     s(:array,

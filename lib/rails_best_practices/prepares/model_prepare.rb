@@ -11,7 +11,7 @@ module RailsBestPractices
       ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many)
 
       def interesting_nodes
-        [:module, :class, :def, :command, :var_ref]
+        [:module, :class, :def, :command, :var_ref, :alias]
       end
 
       def interesting_files
@@ -62,12 +62,20 @@ module RailsBestPractices
       #       }
       #     }
       def start_command(node)
-        if %w(named_scope scope).include? node.message.to_s
+        case node.message.to_s
+        when *%w(named_scope scope alias_method)
           method_name = node.arguments.all[0].to_s
           @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
-        elsif ASSOCIATION_METHODS.include? node.message.to_s
+        when *ASSOCIATION_METHODS
           remember_association(node)
+        else
         end
+      end
+
+      # check alias node to remembr the alias methods.
+      def start_alias(node)
+        method_name = node.new_method.to_s
+        @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
       end
 
       private
