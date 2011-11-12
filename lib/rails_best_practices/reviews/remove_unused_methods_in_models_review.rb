@@ -10,7 +10,7 @@ module RailsBestPractices
       EXCEPT_METHODS = %w(initialize validate to_xml to_json assign_attributes)
 
       def interesting_nodes
-        [:module, :class, :call, :fcall, :command, :command_call, :method_add_arg, :var_ref]
+        [:module, :class, :call, :fcall, :command, :command_call, :method_add_arg, :var_ref, :alias]
       end
 
       def initialize(options={})
@@ -36,10 +36,19 @@ module RailsBestPractices
       end
 
       def start_command(node)
-        unless %w(named_scope scope).include? node.message.to_s
+        case node.message.to_s
+        when "named_scope", "scope"
+          # nothing
+        when "alias_method"
+          mark_used(node.arguments.all[1])
+        else
           mark_used(node.message)
           node.arguments.all.each { |argument| mark_used(argument) }
         end
+      end
+
+      def start_alias(node)
+        mark_used(node.old_method)
       end
 
       def start_method_add_arg(node)

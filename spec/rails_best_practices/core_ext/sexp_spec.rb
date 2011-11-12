@@ -417,6 +417,36 @@ describe Sexp do
     end
   end
 
+  describe "alias" do
+    context "method" do
+      before do
+        @node = parse_content("alias new old").grep_node(:sexp_type => :alias)
+      end
+
+      it "should get old_method" do
+        @node.old_method.to_s.should == "old"
+      end
+
+      it "should get new_method" do
+        @node.new_method.to_s.should == "new"
+      end
+    end
+
+    context "symbol" do
+      before do
+        @node = parse_content("alias :new :old").grep_node(:sexp_type => :alias)
+      end
+
+      it "should get old_method" do
+        @node.old_method.to_s.should == "old"
+      end
+
+      it "should get new_method" do
+        @node.new_method.to_s.should == "new"
+      end
+    end
+  end
+
   describe "to_object" do
     it "should to array" do
       node = parse_content("['first_name', 'last_name']").grep_node(:sexp_type => :array)
