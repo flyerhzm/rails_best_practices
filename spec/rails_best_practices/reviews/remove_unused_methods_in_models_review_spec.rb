@@ -300,6 +300,27 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.on_complete
       runner.should have(1).errors
     end
+
+    it "should remove unused methods for send variable" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def first; end
+      end
+      EOF
+      runner.prepare('app/models/post.rb', content)
+      runner.review('app/models/post.rb', content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def find
+          type = "first"
+          Post.new.send(type)
+        end
+      end
+      EOF
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.on_complete
+      runner.should have(1).errors
+    end
   end
 
   context "protected" do

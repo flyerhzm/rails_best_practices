@@ -76,7 +76,7 @@ module RailsBestPractices
           method_name = node.arguments.all[0].to_s
           call_method(method_name)
         when "send"
-          if Core::Nil === node.arguments.all[0].grep_node(:sexp_type => :string_embexpr)
+          if [:symbol_literal, :string_literal].include?(node.arguments.all[0].sexp_type)
             method_name = node.arguments.all[0].to_s
             call_method(method_name)
           end
