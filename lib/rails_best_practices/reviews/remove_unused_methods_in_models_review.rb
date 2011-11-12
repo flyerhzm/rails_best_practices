@@ -110,7 +110,8 @@ module RailsBestPractices
           if @model_methods.has_method?(current_class_name, method_name)
             @model_methods.get_method(current_class_name, method_name).mark_used
           end
-          @model_methods.mark_extend_class_method_used(current_class_name, method_name)
+          @model_methods.mark_parent_class_method_used(current_class_name, method_name)
+          @model_methods.mark_subclasses_method_used(current_class_name, method_name)
           @model_methods.possible_public_used(method_name)
         end
     end
