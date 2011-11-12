@@ -203,6 +203,17 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       methods = RailsBestPractices::Prepares.model_methods
       methods.get_methods("Post").map(&:method_name).should == ["new"]
     end
+
+    it "should treat alias_method_chain as method" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        alias_method_chain :method, :feature
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      methods = RailsBestPractices::Prepares.model_methods
+      methods.get_methods("Post").map(&:method_name).should == ["method", "method_with_feature"]
+    end
   end
 
   context "no error" do

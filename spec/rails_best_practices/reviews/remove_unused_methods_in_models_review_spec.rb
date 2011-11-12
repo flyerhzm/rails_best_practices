@@ -448,5 +448,26 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.on_complete
       runner.should have(0).errors
     end
+
+    it "should not remove unused method with alias_method_chain" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def method_with_feature; end
+        alias_method_chain :method, :feature
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def show
+          @post.method
+        end
+      end
+      EOF
+      runner.review("app/controllers/posts_controller.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
   end
 end
