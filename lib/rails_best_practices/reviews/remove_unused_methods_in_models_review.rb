@@ -3,6 +3,7 @@ require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices
   module Reviews
+    # Find out unused methods
     class RemoveUnusedMethodsInModelsReview < Review
       include Klassable
       include Completeable
@@ -41,6 +42,9 @@ module RailsBestPractices
           # nothing
         when "alias_method"
           mark_used(node.arguments.all[1])
+        when "alias_method_chain"
+          method, feature = *node.arguments.all.map(&:to_s)
+          call_method("#{method}_with_#{feature}")
         else
           mark_used(node.message)
           node.arguments.all.each { |argument| mark_used(argument) }

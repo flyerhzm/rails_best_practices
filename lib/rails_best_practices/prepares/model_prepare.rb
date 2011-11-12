@@ -66,6 +66,10 @@ module RailsBestPractices
         when *%w(named_scope scope alias_method)
           method_name = node.arguments.all[0].to_s
           @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+        when "alias_method_chain"
+          method, feature = *node.arguments.all.map(&:to_s)
+          @methods.add_method(current_class_name, "#{method}_with_#{feature}", {"file" => node.file, "line" => node.line}, current_access_control)
+          @methods.add_method(current_class_name, "#{method}", {"file" => node.file, "line" => node.line}, current_access_control)
         when *ASSOCIATION_METHODS
           remember_association(node)
         else
