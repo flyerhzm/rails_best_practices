@@ -259,6 +259,47 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.on_complete
       runner.should have(0).errors
     end
+
+    it "should not remove unused methods for send" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def find(user_id); end
+      end
+      EOF
+      runner.prepare('app/models/post.rb', content)
+      runner.review('app/models/post.rb', content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def find
+          Post.new.send(:find, current_user.id)
+        end
+      end
+      EOF
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
+    it "should remove unused methods for send string_embexpre" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def find_first; end
+      end
+      EOF
+      runner.prepare('app/models/post.rb', content)
+      runner.review('app/models/post.rb', content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def find
+          type = "first"
+          Post.new.send("find_\#{type}")
+        end
+      end
+      EOF
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.on_complete
+      runner.should have(1).errors
+    end
   end
 
   context "protected" do
