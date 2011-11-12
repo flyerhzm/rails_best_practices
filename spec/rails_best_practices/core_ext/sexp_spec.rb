@@ -8,6 +8,7 @@ describe Sexp do
         def test
           ActiveRecord::Base.connection
         end
+        alias :test_new :test
       end
       EOF
       @node = parse_content(content)
@@ -27,6 +28,10 @@ describe Sexp do
 
     it "should return const path line" do
       @node.grep_node(:sexp_type => :const_path_ref).line.should == 3
+    end
+
+    it "should return alias line" do
+      @node.grep_node(:sexp_type => :alias).line.should == 5
     end
   end
 
