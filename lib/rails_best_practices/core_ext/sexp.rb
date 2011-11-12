@@ -23,8 +23,10 @@ class Sexp
   def line
     if [:def, :command, :command_call, :call, :fcall, :method_add_arg, :method_add_block,
       :var_ref, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :binary,
-      :alias, :symbol_literal, :symbol].include? sexp_type
+      :alias, :symbol_literal, :symbol, :aref].include? sexp_type
       self[1].line
+    elsif :array == sexp_type
+      array_values[0].line
     else
       self.last.first if self.last.is_a? Array
     end
