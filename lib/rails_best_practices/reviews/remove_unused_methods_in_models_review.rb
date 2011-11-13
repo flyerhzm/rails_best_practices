@@ -15,7 +15,7 @@ module RailsBestPractices
       include Klassable
       include Completeable
 
-      EXCEPT_METHODS = %w(initialize validate to_xml to_json assign_attributes)
+      EXCEPT_METHODS = %w(initialize validate to_xml to_json assign_attributes after_find after_initialize)
 
       def interesting_nodes
         [:module, :class, :call, :fcall, :command, :command_call, :method_add_arg, :var_ref, :alias, :bare_assoc_hash]
