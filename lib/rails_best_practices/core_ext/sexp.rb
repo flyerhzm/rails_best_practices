@@ -22,8 +22,11 @@ class Sexp
   #       => 2
   def line
     if [:def, :command, :command_call, :call, :fcall, :method_add_arg, :method_add_block,
-      :var_ref, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :binary].include? sexp_type
+      :var_ref, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :binary,
+      :alias, :symbol_literal, :symbol, :aref].include? sexp_type
       self[1].line
+    elsif :array == sexp_type
+      array_values[0].line
     else
       self.last.first if self.last.is_a? Array
     end
@@ -294,7 +297,7 @@ class Sexp
     when :args_add_block, :array
       node = self[1]
       while true
-        if :args_add == node.sexp_type
+        if [:args_add, :args_add_star].include? node.sexp_type
           nodes.unshift node[2]
           node = node[1]
         elsif :args_new == node.sexp_type
@@ -693,6 +696,28 @@ class Sexp
       end
       values
     end
+  end
+
+  # old method for alias node.
+  #
+  #     s(:alias,
+  #       s(:symbol_literal, s(:@ident, "new", s(1, 6))),
+  #       s(:symbol_literal, s(:@ident, "old", s(1, 10)))
+  #     )
+  #         => s(:symbol_literal, s(:@ident, "old", s(1, 10))),
+  def old_method
+    self[2]
+  end
+
+  # new method for alias node.
+  #
+  #     s(:alias,
+  #       s(:symbol_literal, s(:@ident, "new", s(1, 6))),
+  #       s(:symbol_literal, s(:@ident, "old", s(1, 10)))
+  #     )
+  #         => s(:symbol_literal, s(:@ident, "new", s(1, 6))),
+  def new_method
+    self[1]
   end
 
   # To object.

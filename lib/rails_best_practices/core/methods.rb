@@ -53,11 +53,23 @@ module RailsBestPractices
       #
       # @param [String] class name
       # @param [String] method name
-      def mark_extend_class_method_used(class_name, method_name)
+      def mark_parent_class_method_used(class_name, method_name)
         klass = Prepares.klasses.find { |klass| klass.to_s == class_name }
         if klass && klass.extend_class_name
-          mark_extend_class_method_used(klass.extend_class_name, method_name)
+          mark_parent_class_method_used(klass.extend_class_name, method_name)
           method = get_method(klass.extend_class_name, method_name)
+          method.mark_used if method
+        end
+      end
+
+      # Mark sub classes' method as used.
+      #
+      # @param [String] class name
+      # @param [String] method name
+      def mark_subclasses_method_used(class_name, method_name)
+        Prepares.klasses.select { |klass| klass.extend_class_name == class_name }.each do |klass|
+          mark_subclasses_method_used(klass.to_s, method_name)
+          method = get_method(klass.to_s, method_name)
           method.mark_used if method
         end
       end

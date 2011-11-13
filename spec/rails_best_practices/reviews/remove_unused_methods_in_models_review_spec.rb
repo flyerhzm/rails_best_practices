@@ -259,6 +259,68 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.on_complete
       runner.should have(0).errors
     end
+
+    it "should not remove unused methods for send" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def find(user_id); end
+      end
+      EOF
+      runner.prepare('app/models/post.rb', content)
+      runner.review('app/models/post.rb', content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def find
+          Post.new.send(:find, current_user.id)
+        end
+      end
+      EOF
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
+    it "should remove unused methods for send string_embexpre" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def find_first; end
+      end
+      EOF
+      runner.prepare('app/models/post.rb', content)
+      runner.review('app/models/post.rb', content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def find
+          type = "first"
+          Post.new.send("find_\#{type}")
+        end
+      end
+      EOF
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.on_complete
+      runner.should have(1).errors
+    end
+
+    it "should remove unused methods for send variable" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def first; end
+      end
+      EOF
+      runner.prepare('app/models/post.rb', content)
+      runner.review('app/models/post.rb', content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def find
+          type = "first"
+          Post.new.send(type)
+        end
+      end
+      EOF
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.on_complete
+      runner.should have(1).errors
+    end
   end
 
   context "protected" do
@@ -382,6 +444,92 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.on_complete
       runner.should have(1).errors
       runner.errors[0].to_s.should == "app/models/post.rb:2 - remove unused methods (Post#active)"
+    end
+  end
+
+  context "alias" do
+    it "should not remove unused method with alias" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def old; end
+        alias new old
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def show
+          @post.new
+        end
+      end
+      EOF
+      runner.review("app/controllers/posts_controller.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
+     it "should not remove unused method with symbol alias" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def old; end
+        alias :new :old
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def show
+          @post.new
+        end
+      end
+      EOF
+      runner.review("app/controllers/posts_controller.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
+    it "should not remove unused method with alias_method" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def old; end
+        alias_method :new, :old
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def show
+          @post.new
+        end
+      end
+      EOF
+      runner.review("app/controllers/posts_controller.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
+    it "should not remove unused method with alias_method_chain" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def method_with_feature; end
+        alias_method_chain :method, :feature
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      content =<<-EOF
+      class PostsController < ApplicationController
+        def show
+          @post.method
+        end
+      end
+      EOF
+      runner.review("app/controllers/posts_controller.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
     end
   end
 end
