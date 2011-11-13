@@ -163,7 +163,7 @@ Model
 2. the Law of Demeter
 3. Use Observer
 4. Use Query Attribute
-5. Remove Unused Methods In Models (Experiment, not available by default configuration)
+5. Remove Unused Methods In Models
 
 Mailer
 

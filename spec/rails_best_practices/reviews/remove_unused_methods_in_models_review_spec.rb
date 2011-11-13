@@ -532,4 +532,22 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.should have(0).errors
     end
   end
+
+  context "methods hash" do
+    it "should not remove unused method with methods hash" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def to_xml(options = {})
+          super options.merge(:exclude => :visible, :methods => [:is_discussion_conversation])
+        end
+
+        def is_discussion_conversation; end
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+  end
 end

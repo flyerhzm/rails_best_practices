@@ -15,10 +15,10 @@ module RailsBestPractices
       include Klassable
       include Completeable
 
-      EXCEPT_METHODS = %w(initialize validate to_xml to_json assign_attributes)
+      EXCEPT_METHODS = %w(initialize validate to_xml to_json assign_attributes after_find after_initialize)
 
       def interesting_nodes
-        [:module, :class, :call, :fcall, :command, :command_call, :method_add_arg, :var_ref, :alias]
+        [:module, :class, :call, :fcall, :command, :command_call, :method_add_arg, :var_ref, :alias, :bare_assoc_hash]
       end
 
       def initialize(options={})
@@ -67,6 +67,17 @@ module RailsBestPractices
       # remember the old method of alias node.
       def start_alias(node)
         mark_used(node.old_method)
+      end
+
+      # remember hash values for hash key "methods".
+      #
+      #     def to_xml(options = {})
+      #       super options.merge(:exclude => :visible, :methods => [:is_discussion_conversation])
+      #     end
+      def start_bare_assoc_hash(node)
+        if node.hash_keys.include? "methods"
+          mark_used(node.hash_value("methods"))
+        end
       end
 
       # remember the first argument for try and send method.
