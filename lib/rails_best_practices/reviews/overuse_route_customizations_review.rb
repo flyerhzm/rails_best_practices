@@ -88,7 +88,7 @@ module RailsBestPractices
             if hash_node && :bare_assoc_hash == hash_node.sexp_type
               member_node = hash_node.hash_value("member")
               collection_node = hash_node.hash_value("collection")
-              return (member_node.hash_size || member_node.array_size) + (collection_node.hash_size || collection_node.array_size)
+              return (member_node.hash_size || member_node.array_size || 0) + (collection_node.hash_size || collection_node.array_size || 0)
             end
           end
           0
