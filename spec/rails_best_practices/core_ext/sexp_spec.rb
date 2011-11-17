@@ -8,6 +8,7 @@ describe Sexp do
         def test
           ActiveRecord::Base.connection
         end
+        alias :test_new :test
       end
       EOF
       @node = parse_content(content)
@@ -27,6 +28,10 @@ describe Sexp do
 
     it "should return const path line" do
       @node.grep_node(:sexp_type => :const_path_ref).line.should == 3
+    end
+
+    it "should return alias line" do
+      @node.grep_node(:sexp_type => :alias).line.should == 5
     end
   end
 
@@ -239,6 +244,11 @@ describe Sexp do
       node = parse_content("puts 'hello', 'world'").grep_node(:sexp_type => :args_add_block)
       node.all.map(&:to_s).should == ["hello", "world"]
     end
+
+    it "no error for args_add_star" do
+      node = parse_content("send(:\"\#{route}_url\", *args)").grep_node(:sexp_type => :args_add_block)
+      lambda { node.all }.should_not raise_error
+    end
   end
 
   describe "conditional_statement" do
@@ -414,6 +424,36 @@ describe Sexp do
     it "should get array value with qwords" do
       node = parse_content("%w(first_name last_name)").grep_node(:sexp_type => :qwords_add)
       node.array_values.map(&:to_s).should == ["first_name", "last_name"]
+    end
+  end
+
+  describe "alias" do
+    context "method" do
+      before do
+        @node = parse_content("alias new old").grep_node(:sexp_type => :alias)
+      end
+
+      it "should get old_method" do
+        @node.old_method.to_s.should == "old"
+      end
+
+      it "should get new_method" do
+        @node.new_method.to_s.should == "new"
+      end
+    end
+
+    context "symbol" do
+      before do
+        @node = parse_content("alias :new :old").grep_node(:sexp_type => :alias)
+      end
+
+      it "should get old_method" do
+        @node.old_method.to_s.should == "old"
+      end
+
+      it "should get new_method" do
+        @node.new_method.to_s.should == "new"
+      end
     end
   end
 

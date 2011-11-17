@@ -81,7 +81,7 @@ module RailsBestPractices
         plain_output("AlwaysAddDbIndexReview is disabled as there is no db/schema.rb file in your rails project.", 'blue')
       end
 
-      @bar = ProgressBar.new('Analyzing Source Codes', lexical_files.size + prepare_files.size + review_files.size)
+      @bar = ProgressBar.new('Source Codes', lexical_files.size + prepare_files.size + review_files.size)
       ["lexical", "prepare", "review"].each { |process| send(:process, process) }
       @runner.on_complete
       @bar.finish
@@ -217,12 +217,14 @@ module RailsBestPractices
 
     # load git commit and git username info.
     def load_git_info
-      git_progressbar = ProgressBar.new('Analyzing Git Info', @runner.errors.size)
+      git_progressbar = ProgressBar.new('Git Info', @runner.errors.size)
       @runner.errors.each do |error|
-        git_info = `cd #{@runner.class.base_path}; git blame #{error.filename[@runner.class.base_path.size..-1]} | sed -n #{error.line_number}p`
-        git_commit, git_username = git_info.split(/\d{4}-\d{2}-\d{2}/).first.split("(")
-        error.git_commit = git_commit.split(" ").first.strip
-        error.git_username = git_username.strip
+        git_info = `cd #{@runner.class.base_path}; git blame #{error.filename[@runner.class.base_path.size..-1]} | sed -n #{error.line_number.split(',').first}p`
+        unless git_info == ""
+          git_commit, git_username = git_info.split(/\d{4}-\d{2}-\d{2}/).first.split("(")
+          error.git_commit = git_commit.split(" ").first.strip
+          error.git_username = git_username.strip
+        end
         git_progressbar.inc unless @options['debug']
       end
       git_progressbar.finish
