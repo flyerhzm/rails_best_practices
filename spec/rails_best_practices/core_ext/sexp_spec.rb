@@ -523,6 +523,20 @@ describe Sexp do
     end
   end
 
+  describe "present?" do
+    it "should return true" do
+      node = parse_content("hello world")
+      node.should be_present
+    end
+  end
+
+  describe "blank?" do
+    it "should return false" do
+      node = parse_content("hello world")
+      node.should_not be_blank
+    end
+  end
+
   describe "remove_line_and_column" do
     it "should remove" do
       s(:@ident, "test", s(2, 12)).remove_line_and_column.should_equal s(:@ident, "test")
