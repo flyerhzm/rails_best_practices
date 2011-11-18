@@ -20,4 +20,16 @@ describe RailsBestPractices::Core::Nil do
       core_nil.undefined.should == core_nil
     end
   end
+
+  context "present?" do
+    it "should return false" do
+      core_nil.should_not be_present
+    end
+  end
+
+  context "blank?" do
+    it "should return true" do
+      core_nil.should be_blank
+    end
+  end
 end

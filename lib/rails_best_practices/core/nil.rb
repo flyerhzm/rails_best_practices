@@ -18,6 +18,16 @@ module RailsBestPractices
         self
       end
 
+      # false
+      def present?
+        false
+      end
+
+      # true
+      def blank?
+        true
+      end
+
       # return self.
       def method_missing(method_sym, *arguments, &block)
         self

@@ -782,8 +782,19 @@ class Sexp
     end
   end
 
+  # check if the self node is a const.
   def const?
     :@const == self.sexp_type || (:var_ref == self.sexp_type && :@const == self[1].sexp_type)
+  end
+
+  # true
+  def present?
+    true
+  end
+
+  # false
+  def blank?
+    false
   end
 
   # remove the line and column info from sexp.
