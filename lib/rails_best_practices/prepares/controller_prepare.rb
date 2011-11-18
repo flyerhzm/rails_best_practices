@@ -8,15 +8,10 @@ module RailsBestPractices
       include Core::Check::Klassable
       include Core::Check::Accessable
 
+      interesting_nodes :class, :var_ref, :command, :def
+      interesting_files CONTROLLER_FILES
+
       DEFAULT_ACTIONS = %w(index show new create edit update destroy)
-
-      def interesting_nodes
-        [:module, :class, :def, :command, :var_ref]
-      end
-
-      def interesting_files
-        CONTROLLER_FILES
-      end
 
       def initialize
         @controllers = Prepares.controllers

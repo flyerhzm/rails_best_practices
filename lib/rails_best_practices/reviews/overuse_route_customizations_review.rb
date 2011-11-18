@@ -28,19 +28,13 @@ module RailsBestPractices
     #   whose message is get, post, update or delete,
     #   then these custom routes are overuse.
     class OveruseRouteCustomizationsReview < Review
+      interesting_nodes :command_call, :method_add_block
+      interesting_files ROUTE_FILES
 
       VERBS = %w(get post update delete)
 
       def url
         "http://rails-bestpractices.com/posts/10-overuse-route-customizations"
-      end
-
-      def interesting_nodes
-        [:command_call, :method_add_block]
-      end
-
-      def interesting_files
-        ROUTE_FILES
       end
 
       def initialize(options = {})

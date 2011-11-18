@@ -14,16 +14,11 @@ module RailsBestPractices
     #   check class node to remember the class name,
     #   and check the method definition nodes to see if the corresponding mailer views exist or not.
     class UseMultipartAlternativeAsContentTypeOfEmailReview < Review
+      interesting_nodes :class, :def
+      interesting_files MAILER_FILES
+
       def url
         "http://rails-bestpractices.com/posts/41-use-multipart-alternative-as-content_type-of-email"
-      end
-
-      def interesting_nodes
-        [:class, :def]
-      end
-
-      def interesting_files
-        MAILER_FILES
       end
 
       # check class node to remember the ActionMailer class name.

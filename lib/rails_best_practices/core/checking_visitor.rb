@@ -53,7 +53,7 @@ module RailsBestPractices
             checks = @#{process}_checks[node.sexp_type]                #   checks = @review_checks[node.sexp_type]
             if checks                                                  #   if checks
               checks.each { |check|                                    #     checks.each { |check|
-                if node.file =~ check.interesting_files                #      if node.file =~ check.interesting_files
+                if check.parse_file?(node.file)                        #      if check.parse_file?(node.file)
                   check.node_start(node)                               #         check.node_start(node)
                 end                                                    #       end
               }                                                        #     }
@@ -64,7 +64,7 @@ module RailsBestPractices
             }                                                          #   }
             if checks                                                  #   if checks
               checks.each { |check|                                    #     checks.each { |check|
-                if node.file =~ check.interesting_files                #       if node.file =~ check.interesting_files
+                if check.parse_file?(node.file)                        #      if check.parse_file?(node.file)
                   check.node_end(node)                                 #         check.node_end(node)
                 end                                                    #       end
               }                                                        #     }

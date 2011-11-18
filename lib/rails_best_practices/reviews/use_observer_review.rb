@@ -20,16 +20,11 @@ module RailsBestPractices
     #   and there is a mailer deliver call,
     #   then the method should be replaced by using observer.
     class UseObserverReview < Review
+      interesting_nodes :def, :command
+      interesting_files MODEL_FILES
+
       def url
         "http://rails-bestpractices.com/posts/19-use-observer"
-      end
-
-      def interesting_nodes
-        [:def, :command]
-      end
-
-      def interesting_files
-        MODEL_FILES
       end
 
       def initialize

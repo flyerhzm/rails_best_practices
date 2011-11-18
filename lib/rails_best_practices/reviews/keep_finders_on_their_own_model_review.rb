@@ -17,19 +17,13 @@ module RailsBestPractices
     #   and there is a hash argument for finder,
     #   then it should keep finders on its own model.
     class KeepFindersOnTheirOwnModelReview < Review
+      interesting_nodes :method_add_arg
+      interesting_files MODEL_FILES
 
       FINDERS = %w(find all first last)
 
       def url
         "http://rails-bestpractices.com/posts/13-keep-finders-on-their-own-model"
-      end
-
-      def interesting_nodes
-        [:method_add_arg]
-      end
-
-      def interesting_files
-        MODEL_FILES
       end
 
       # check all the call nodes to see if there is a finder for other model.

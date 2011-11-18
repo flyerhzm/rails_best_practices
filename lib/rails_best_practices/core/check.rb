@@ -4,6 +4,7 @@ module RailsBestPractices
     # A Check class that takes charge of checking the sexp.
     class Check
 
+      ALL_FILES = /.*/
       CONTROLLER_FILES = /controllers\/.*\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
       MODEL_FILES = /models\/.*\.rb$/
@@ -12,16 +13,25 @@ module RailsBestPractices
       PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)$/
       ROUTE_FILES = /config\/routes(.*)?\.rb/
       SCHEMA_FILE = /db\/schema\.rb/
-      HELPER_FILES = /helpers.*\.rb$/
+      HELPER_FILES = /helpers\/.*\.rb$/
+      DEPLOY_FILES = /config\/deploy.*\.rb/
 
-      # default interesting nodes.
+      # interesting nodes that the check will parse.
       def interesting_nodes
-        []
+        self.class.interesting_nodes
       end
 
-      # default interesting files.
+      # interesting files that the check will parse.
       def interesting_files
-        /.*/
+        self.class.interesting_files
+      end
+
+      # check if the check will need to parse the node file.
+      #
+      # @param [String] the file name of node.
+      # @return [Boolean] true if the check will need to parse the file.
+      def parse_file?(node_file)
+        interesting_files.any? { |pattern| node_file =~ pattern }
       end
 
       # delegate to start_### according to the sexp_type, like
@@ -92,6 +102,18 @@ module RailsBestPractices
       end
 
       class <<self
+        def interesting_nodes(*nodes)
+          @interesting_nodes ||= []
+          @interesting_nodes += nodes
+          @interesting_nodes.uniq
+        end
+
+        def interesting_files(*file_patterns)
+          @interesting_files ||= []
+          @interesting_files += file_patterns
+          @interesting_files.uniq
+        end
+
         # callbacks for start_xxx and end_xxx.
         def callbacks
           @callbacks ||= {}
@@ -111,6 +133,8 @@ module RailsBestPractices
       module Klassable
         def self.included(base)
           base.class_eval do
+            interesting_nodes :module, :class
+
             # remember module name
             add_callback "start_module" do |node|
               modules << node.module_name.to_s
@@ -153,6 +177,9 @@ module RailsBestPractices
       module Completeable
         def self.included(base)
           base.class_eval do
+            interesting_nodes :class
+            interesting_files /rails_best_practices\.complete/
+
             add_callback "end_class" do |node|
               if "RailsBestPractices::Complete" == node.class_name.to_s
                 on_complete
@@ -166,6 +193,8 @@ module RailsBestPractices
       module Accessable
         def self.included(base)
           base.class_eval do
+            interesting_nodes :var_ref, :class, :module
+
             # remember the current access control for methods.
             add_callback "start_var_ref" do |node|
               if %w(public protected private).include? node.to_s

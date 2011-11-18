@@ -12,16 +12,11 @@ module RailsBestPractices
     # Review process:
     #   check all helper files, if the body of module is nil, then the helper file should be removed.
     class RemoveEmptyHelpersReview < Review
+      interesting_nodes :module
+      interesting_files HELPER_FILES
+
       def url
         "http://rails-bestpractices.com/posts/72-remove-empty-helpers"
-      end
-
-      def interesting_files
-        HELPER_FILES
-      end
-
-      def interesting_nodes
-        [:module]
       end
 
       # check the body of module node, if it is nil, then it should be removed.

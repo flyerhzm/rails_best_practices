@@ -13,16 +13,11 @@ module RailsBestPractices
     #   check all render method commands in view files,
     #   if there is a key 'partial' in the argument, then they should be replaced by simplified syntax.
     class SimplifyRenderInViewsReview < Review
+      interesting_nodes :command
+      interesting_files VIEW_FILES
+
       def url
         "http://rails-bestpractices.com/posts/61-simplify-render-in-views"
-      end
-
-      def interesting_nodes
-        [:command]
-      end
-
-      def interesting_files
-        VIEW_FILES
       end
 
       # check command node in view file,

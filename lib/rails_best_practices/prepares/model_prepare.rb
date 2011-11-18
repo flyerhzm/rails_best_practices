@@ -8,15 +8,10 @@ module RailsBestPractices
       include Core::Check::Klassable
       include Core::Check::Accessable
 
+      interesting_nodes :class, :def, :command, :var_ref, :alias
+      interesting_files MODEL_FILES
+
       ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many)
-
-      def interesting_nodes
-        [:module, :class, :def, :command, :var_ref, :alias]
-      end
-
-      def interesting_files
-        MODEL_FILES
-      end
 
       def initialize
         @models = Prepares.models

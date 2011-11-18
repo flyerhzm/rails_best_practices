@@ -21,16 +21,11 @@ module RailsBestPractices
     #   and the subject is included in new variables,
     #   then it should be isolated to db seed.
     class IsolateSeedDataReview < Review
+      interesting_nodes :call, :assign
+      interesting_files MIGRATION_FILES
+
       def url
         "http://rails-bestpractices.com/posts/20-isolating-seed-data"
-      end
-
-      def interesting_nodes
-        [:call, :assign]
-      end
-
-      def interesting_files
-        MIGRATION_FILES
       end
 
       def initialize

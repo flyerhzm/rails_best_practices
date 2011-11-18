@@ -7,8 +7,8 @@ describe RailsBestPractices::Core::Check do
     check.interesting_nodes.should == []
   end
 
-  it "should match all files of interesting files" do
-    check.interesting_files.should == /.*/
+  it "should match none of interesting files" do
+    check.interesting_files.should == []
   end
 
   context "node_start" do

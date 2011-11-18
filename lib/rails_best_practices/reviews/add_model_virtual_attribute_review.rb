@@ -16,16 +16,11 @@ module RailsBestPractices
     #   and after these method calls, there is a save method call for that model,
     #   then the model needs to add a virtual attribute.
     class AddModelVirtualAttributeReview < Review
+      interesting_nodes :def
+      interesting_files CONTROLLER_FILES
+
       def url
         "http://rails-bestpractices.com/posts/4-add-model-virtual-attribute"
-      end
-
-      def interesting_nodes
-        [:def]
-      end
-
-      def interesting_files
-        CONTROLLER_FILES
       end
 
       # check method define nodes to see if there are some attribute assignments that can use model virtual attribute instead in review process.

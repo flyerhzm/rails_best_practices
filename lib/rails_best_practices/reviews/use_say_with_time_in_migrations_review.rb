@@ -15,19 +15,13 @@ module RailsBestPractices
     #   and the message of method call is not say, say_with_time and default migration methods (such as add_column and create_table),
     #   then the method call should be wrapped by say or say_with_time.
     class UseSayWithTimeInMigrationsReview < Review
+      interesting_nodes :defs
+      interesting_files MIGRATION_FILES
 
       WITH_SAY_METHODS = %w(say say_with_time)
 
       def url
         "http://rails-bestpractices.com/posts/46-use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log"
-      end
-
-      def interesting_nodes
-        [:defs]
-      end
-
-      def interesting_files
-        MIGRATION_FILES
       end
 
       # check a class method define node to see if there are method calls that need to be wrapped by say or say_with_time.

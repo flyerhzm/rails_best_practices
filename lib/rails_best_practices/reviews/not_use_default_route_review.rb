@@ -19,16 +19,11 @@ module RailsBestPractices
     #
     #     match ':controller(/:action(/:id(.:format)))'
     class NotUseDefaultRouteReview < Review
+      interesting_nodes :command_call, :command
+      interesting_files ROUTE_FILES
+
       def url
         "http://rails-bestpractices.com/posts/12-not-use-default-route-if-you-use-restful-design"
-      end
-
-      def interesting_nodes
-        [:command_call, :command]
-      end
-
-      def interesting_files
-        ROUTE_FILES
       end
 
       # check all command call nodes, compare with rails2 default route

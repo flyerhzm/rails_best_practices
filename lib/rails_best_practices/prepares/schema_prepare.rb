@@ -5,16 +5,11 @@ module RailsBestPractices
   module Prepares
     # Remember the model attributes.
     class SchemaPrepare < Core::Check
+      interesting_nodes :command, :command_call
+      interesting_files SCHEMA_FILE
+
       # all attribute types
       ATTRIBUTE_TYPES = %w(integer float boolean string text date time datetime binary)
-
-      def interesting_nodes
-        [:command, :command_call]
-      end
-
-      def interesting_files
-        SCHEMA_FILE
-      end
 
       def initialize
         @model_attributes = Prepares.model_attributes

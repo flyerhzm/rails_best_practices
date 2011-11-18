@@ -16,14 +16,13 @@ module RailsBestPractices
     #   and outer the call node, it is also a call node,
     #   then it violate the law of demeter.
     class LawOfDemeterReview < Review
+      interesting_nodes :call
+      interesting_files ALL_FILES
+
       ASSOCIATION_METHODS = %w(belongs_to has_one)
 
       def url
         "http://rails-bestpractices.com/posts/15-the-law-of-demeter"
-      end
-
-      def interesting_nodes
-        [:call]
       end
 
       # check the call node,

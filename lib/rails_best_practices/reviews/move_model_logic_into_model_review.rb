@@ -15,16 +15,11 @@ module RailsBestPractices
     #   and the subject is a variable,
     #   then they are complex model logic, and they should be moved into model.
     class MoveModelLogicIntoModelReview < Review
+      interesting_nodes :def
+      interesting_files CONTROLLER_FILES
+
       def url
         "http://rails-bestpractices.com/posts/7-move-model-logic-into-the-model"
-      end
-
-      def interesting_nodes
-        [:def]
-      end
-
-      def interesting_files
-        CONTROLLER_FILES
       end
 
       def initialize(options = {})
