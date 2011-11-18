@@ -15,16 +15,11 @@ module RailsBestPractices
     #   if the message of command node is "namespace" and the first argument  is "bundler",
     #   then it should use bundler's capistrano recipe.
     class DryBundlerInCapistranoReview < Review
+      interesting_nodes :command
+      interesting_files DEPLOY_FILES
+
       def url
         "http://rails-bestpractices.com/posts/51-dry-bundler-in-capistrano"
-      end
-
-      def interesting_nodes
-        [:command]
-      end
-
-      def interesting_files
-        /config\/deploy.rb/
       end
 
       # check call node to see if it is with message "namespace" and argument "bundler".

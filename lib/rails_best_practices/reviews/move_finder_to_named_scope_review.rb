@@ -15,19 +15,13 @@ module RailsBestPractices
     #   and it has a hash argument,
     #   then it is a complex finder, and should be moved to model's named scope.
     class MoveFinderToNamedScopeReview < Review
+      interesting_nodes :method_add_arg
+      interesting_files CONTROLLER_FILES
 
       FINDERS = %w(find all first last)
 
       def url
         "http://rails-bestpractices.com/posts/1-move-finder-to-named_scope"
-      end
-
-      def interesting_nodes
-        [:method_add_arg]
-      end
-
-      def interesting_files
-        CONTROLLER_FILES
       end
 
       # check method_add_ag node if its message is one of find, all, first or last,

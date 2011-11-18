@@ -16,16 +16,11 @@ module RailsBestPractices
     #   and there is redirect_to method call in if block body,
     #   then it should be replaced by using scope access.
     class UseScopeAccessReview < Review
+      interesting_nodes :if, :unless, :elsif
+      interesting_files CONTROLLER_FILES
+
       def url
         "http://rails-bestpractices.com/posts/3-use-scope-access"
-      end
-
-      def interesting_nodes
-        [:if, :unless, :elsif]
-      end
-
-      def interesting_files
-        CONTROLLER_FILES
       end
 
       # check if node.

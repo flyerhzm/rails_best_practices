@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
-  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::AlwaysAddDbIndexReview.new) }
+  let(:runner) { RailsBestPractices::Core::Runner.new(
+    :reviews => RailsBestPractices::Reviews::AlwaysAddDbIndexReview.new
+  ) }
 
   it "should always add db index" do
     content = <<-EOF
@@ -14,6 +16,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(2).errors
     runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (comments => [post_id])"
     runner.errors[1].to_s.should == "db/schema.rb:2 - always add db index (comments => [user_id])"
@@ -30,6 +33,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(1).errors
     runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])"
   end
@@ -45,6 +49,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(1).errors
     runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])"
   end
@@ -62,6 +67,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(1).errors
     runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (taggings => [taggable_id, taggable_type])"
   end
@@ -79,6 +85,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(1).errors
     runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (taggings => [tag_id])"
   end
@@ -95,6 +102,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(1).errors
     runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (websites => [user_id])"
   end
@@ -109,6 +117,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(0).errors
   end
 
@@ -126,6 +135,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(0).errors
   end
 
@@ -138,6 +148,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(0).errors
   end
 
@@ -154,6 +165,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(0).errors
   end
 
@@ -170,6 +182,7 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     end
     EOF
     runner.review('db/schema.rb', content)
+    runner.on_complete
     runner.should have(0).errors
   end
 end

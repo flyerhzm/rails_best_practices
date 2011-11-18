@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
   let(:runner) { RailsBestPractices::Core::Runner.new(
-    :prepares => [RailsBestPractices::Prepares::ModelPrepare.new, RailsBestPractices::Prepares::ControllerPrepare.new],
+    :prepares => RailsBestPractices::Prepares::ModelPrepare.new,
     :reviews => RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview.new({'except_methods' => ['set_cache']})
   ) }
 

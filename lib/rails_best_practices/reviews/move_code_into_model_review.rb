@@ -13,16 +13,11 @@ module RailsBestPractices
     #   check if, unless, elsif there are multiple method calls or attribute assignments apply to one subject,
     #   and the subject is a variable, then they should be moved into model.
     class MoveCodeIntoModelReview < Review
+      interesting_nodes :if, :unless, :elsif
+      interesting_files VIEW_FILES
+
       def url
         "http://rails-bestpractices.com/posts/25-move-code-into-model"
-      end
-
-      def interesting_nodes
-        [:if, :unless, :elsif]
-      end
-
-      def interesting_files
-        VIEW_FILES
       end
 
       def initialize(options={})

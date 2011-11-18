@@ -15,11 +15,10 @@ module RailsBestPractices
       include Klassable
       include Completeable
 
-      EXCEPT_METHODS = %w(initialize validate to_xml to_json assign_attributes after_find after_initialize)
+      interesting_nodes :call, :fcall, :var_ref, :command_call, :command, :alias, :bare_assoc_hash, :method_add_arg
+      interesting_files ALL_FILES
 
-      def interesting_nodes
-        [:module, :class, :call, :fcall, :command, :command_call, :method_add_arg, :var_ref, :alias, :bare_assoc_hash]
-      end
+      EXCEPT_METHODS = %w(initialize validate to_xml to_json assign_attributes after_find after_initialize)
 
       def initialize(options={})
         super()

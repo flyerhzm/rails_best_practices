@@ -13,16 +13,11 @@ module RailsBestPractices
     #   check all first code line in method definitions (actions),
     #   if they are duplicated, then they should be moved to before_filter.
     class UseBeforeFilterReview < Review
+      interesting_nodes :class
+      interesting_files CONTROLLER_FILES
+
       def url
         "http://rails-bestpractices.com/posts/22-use-before_filter"
-      end
-
-      def interesting_nodes
-        [:class]
-      end
-
-      def interesting_files
-        CONTROLLER_FILES
       end
 
       def initialize(options = {})

@@ -24,16 +24,11 @@ module RailsBestPractices
     #   and the @counter is greater than @nested_count defined,
     #   then it is a needless deep nesting.
     class NeedlessDeepNestingReview < Review
+      interesting_nodes :method_add_block
+      interesting_files ROUTE_FILES
+
       def url
         "http://rails-bestpractices.com/posts/11-needless-deep-nesting"
-      end
-
-      def interesting_nodes
-        [:method_add_block]
-      end
-
-      def interesting_files
-        ROUTE_FILES
       end
 
       def initialize(options = {})

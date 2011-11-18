@@ -14,16 +14,11 @@ module RailsBestPractices
     #   if there is a key 'action', 'template' or 'file' in the argument,
     #   then they should be replaced by simplified syntax.
     class SimplifyRenderInControllersReview < Review
+      interesting_nodes :command
+      interesting_files CONTROLLER_FILES
+
       def url
         "http://rails-bestpractices.com/posts/62-simplify-render-in-controllers"
-      end
-
-      def interesting_nodes
-        [:command]
-      end
-
-      def interesting_files
-        CONTROLLER_FILES
       end
 
       # check command node in the controller file,

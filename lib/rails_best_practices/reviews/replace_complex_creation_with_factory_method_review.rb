@@ -16,16 +16,11 @@ module RailsBestPractices
     #   and after them there is a call node with message "save" or "save!",
     #   then these attribute assignments are complex creation, should be replaced with factory method.
     class ReplaceComplexCreationWithFactoryMethodReview < Review
+      interesting_nodes :def
+      interesting_files CONTROLLER_FILES
+
       def url
         "http://rails-bestpractices.com/posts/6-replace-complex-creation-with-factory-method"
-      end
-
-      def interesting_nodes
-        [:def]
-      end
-
-      def interesting_files
-        CONTROLLER_FILES
       end
 
       def initialize(options = {})

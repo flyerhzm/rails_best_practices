@@ -12,19 +12,13 @@ module RailsBestPractices
     # Review process:
     #   only check all view files to see if there are finders, then the finders should be moved to controller.
     class MoveCodeIntoControllerReview < Review
+      interesting_nodes :method_add_arg, :assign
+      interesting_files VIEW_FILES
 
       FINDERS = %w(find all first last)
 
       def url
         "http://rails-bestpractices.com/posts/24-move-code-into-controller"
-      end
-
-      def interesting_nodes
-        [:method_add_arg, :assign]
-      end
-
-      def interesting_files
-        VIEW_FILES
       end
 
       # check method_add_arg nodes.

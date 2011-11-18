@@ -5,44 +5,24 @@ class TestLexical1
 end
 class TestLexical2
 end
-class TestPrepare1
-  def interesting_nodes
-    [:call]
-  end
-
-  def interesting_files
-    RailsBestPractices::Core::Check::MODEL_FILES
-  end
+class TestPrepare1 < RailsBestPractices::Core::Check
+  interesting_nodes :call
+  interesting_files MODEL_FILES
 end
 
-class TestPrepare2
-  def interesting_nodes
-    [:class]
-  end
-
-  def interesting_files
-    RailsBestPractices::Core::Check::MAILER_FILES
-  end
+class TestPrepare2 < RailsBestPractices::Core::Check
+  interesting_nodes :class
+  interesting_files MAILER_FILES
 end
 
-class TestReview1
-  def interesting_nodes
-    [:defn]
-  end
-
-  def interesting_files
-    RailsBestPractices::Core::Check::CONTROLLER_FILES
-  end
+class TestReview1 < RailsBestPractices::Core::Check
+  interesting_nodes :defn
+  interesting_files CONTROLLER_FILES
 end
 
-class TestReview2
-  def interesting_nodes
-    [:call]
-  end
-
-  def interesting_files
-    RailsBestPractices::Core::Check::VIEW_FILES
-  end
+class TestReview2 < RailsBestPractices::Core::Check
+  interesting_nodes :call
+  interesting_files VIEW_FILES
 end
 
 describe RailsBestPractices::Core::CheckingVisitor do
