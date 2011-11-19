@@ -21,8 +21,12 @@ module RailsBestPractices
         @action_name = action_name
       end
 
+      def controller_name_with_namespaces
+        namespaces.map { |namespace| "#{namespace.camelize}::" }.join("") + "#{controller_name.camelize}Controller"
+      end
+
       def to_s
-        namespaces.map { |namespace| "#{namespace.camelize}::" }.join("") + "#{controller_name.camelize}Controller\##{action_name}"
+        "#{controller_name_with_namespaces}\##{action_name}"
       end
     end
   end
