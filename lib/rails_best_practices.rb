@@ -77,11 +77,11 @@ module RailsBestPractices
       @runner.color = !options['without-color']
 
       if @runner.checks.find { |check| check.is_a? Reviews::AlwaysAddDbIndexReview } &&
-         !review_files.find { |file| file.index "db\/schema.rb" }
+         !parse_files.find { |file| file.index "db\/schema.rb" }
         plain_output("AlwaysAddDbIndexReview is disabled as there is no db/schema.rb file in your rails project.", 'blue')
       end
 
-      @bar = ProgressBar.new('Source Codes', lexical_files.size + prepare_files.size + review_files.size)
+      @bar = ProgressBar.new('Source Codes', parse_files.size * 3)
       ["lexical", "prepare", "review"].each { |process| send(:process, process) }
       @runner.on_complete
       @bar.finish
@@ -102,29 +102,17 @@ module RailsBestPractices
     #
     # @param [String] process the process name, lexical, prepare or review.
     def process(process)
-      files = send("#{process}_files")
-      files.each do |file|
+      parse_files.each do |file|
         @runner.send("#{process}_file", file)
         @bar.inc unless @options['debug']
       end
     end
 
-    # get all files for prepare process.
+    # get all files for parsing.
     #
-    # @return [Array] all files for prepare process
-    def prepare_files
-      @prepare_files ||= begin
-        ['app/models', 'app/mailers', 'db/schema.rb', 'app/controllers'].inject([]) { |files, name|
-          files += expand_dirs_to_files(File.join(@path, name))
-        }.compact
-      end
-    end
-
-    # get all files for review process.
-    #
-    # @return [Array] all files for review process
-    def review_files
-      @review_files ||= begin
+    # @return [Array] all files for parsing
+    def parse_files
+      @parse_files ||= begin
         files = expand_dirs_to_files(@path)
         files = file_sort(files)
 
@@ -141,8 +129,6 @@ module RailsBestPractices
         files.compact
       end
     end
-
-    alias :lexical_files :review_files
 
     # expand all files with extenstion rb, erb, haml and builder under the dirs
     #
