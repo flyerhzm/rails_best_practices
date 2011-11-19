@@ -11,7 +11,7 @@ module RailsBestPractices
       MAILER_FILES = /models\/.*mailer\.rb$|mailers\/.*mailer\.rb/
       VIEW_FILES = /views\/.*\.(erb|haml)$/
       PARTIAL_VIEW_FILES = /views\/.*\/_.*\.(erb|haml)$/
-      ROUTE_FILES = /config\/routes(.*)?\.rb/
+      ROUTE_FILES = /config\/routes.*\.rb/
       SCHEMA_FILE = /db\/schema\.rb/
       HELPER_FILES = /helpers\/.*\.rb$/
       DEPLOY_FILES = /config\/deploy.*\.rb/
@@ -185,6 +185,102 @@ module RailsBestPractices
                 on_complete
               end
             end
+          end
+        end
+      end
+
+      module Callable
+        def self.included(base)
+          base.class_eval do
+            interesting_nodes :call, :fcall, :var_ref, :command_call, :command, :alias, :bare_assoc_hash, :method_add_arg
+
+            # remembe the message of call node.
+            add_callback "start_call" do |node|
+              mark_used(node.message)
+            end
+
+            # remembe the message of fcall node.
+            add_callback "start_fcall" do |node|
+              mark_used(node.message)
+            end
+
+            # remembe name of var_ref node.
+            add_callback "start_var_ref" do |node|
+              mark_used(node)
+            end
+
+            # remember the message of command node.
+            # remember the argument of alias_method and alias_method_chain as well.
+            add_callback "start_command" do |node|
+              case node.message.to_s
+              when "named_scope", "scope"
+                # nothing
+              when "alias_method"
+                mark_used(node.arguments.all[1])
+              when "alias_method_chain"
+                method, feature = *node.arguments.all.map(&:to_s)
+                call_method("#{method}_with_#{feature}")
+              else
+                mark_used(node.message)
+                node.arguments.all.each { |argument| mark_used(argument) }
+              end
+            end
+
+            # remembe the message of command call node.
+            add_callback "start_command_call" do |node|
+              mark_used(node.message)
+            end
+
+            # remember the old method of alias node.
+            add_callback "start_alias" do |node|
+              mark_used(node.old_method)
+            end
+
+            # remember hash values for hash key "methods".
+            #
+            #     def to_xml(options = {})
+            #       super options.merge(:exclude => :visible, :methods => [:is_discussion_conversation])
+            #     end
+            add_callback "start_bare_assoc_hash" do |node|
+              if node.hash_keys.include? "methods"
+                mark_used(node.hash_value("methods"))
+              end
+            end
+
+            # remember the first argument for try and send method.
+            add_callback "start_method_add_arg" do |node|
+              case node.message.to_s
+              when "try"
+                mark_used(node.arguments.all.first)
+              when "send"
+                if [:symbol_literal, :string_literal].include?(node.arguments.all[0].sexp_type)
+                  mark_used(node.arguments.all.first)
+                end
+              else
+                # nothing
+              end
+            end
+
+            private
+              def mark_used(method_node)
+                if :bare_assoc_hash == method_node.sexp_type
+                  method_node.hash_values.each { |value_node| mark_used(value_node) }
+                elsif :array == method_node.sexp_type
+                  method_node.array_values.each { |value_node| mark_used(value_node) }
+                else
+                  method_name = method_node.to_s
+                end
+                call_method(method_name)
+              end
+
+              def call_method(method_name, class_name=current_class_name)
+                if methods.has_method?(class_name, method_name)
+                  methods.get_method(class_name, method_name).mark_used
+                end
+                methods.mark_parent_class_method_used(class_name, method_name)
+                methods.mark_subclasses_method_used(class_name, method_name)
+                methods.possible_public_used(method_name)
+              end
           end
         end
       end
