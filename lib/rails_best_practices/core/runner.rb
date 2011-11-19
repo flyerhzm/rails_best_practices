@@ -4,6 +4,8 @@ require 'ripper'
 require 'erubis'
 require 'yaml'
 require 'active_support/inflector'
+require 'active_support/core_ext/object/blank'
+require 'active_support/core_ext/object/try'
 
 module RailsBestPractices
   module Core
@@ -182,7 +184,7 @@ module RailsBestPractices
 
         # load all prepares.
         def load_prepares
-          [Prepares::ModelPrepare.new, Prepares::MailerPrepare.new, Prepares::SchemaPrepare.new, Prepares::ControllerPrepare.new]
+          Prepares.constants.map { |prepare| Prepares.const_get(prepare).new }
         end
 
         # load all reviews according to configuration.
