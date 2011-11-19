@@ -17,6 +17,17 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes.map(&:to_s).should == ["PostsController#index", "PostsController#show", "PostsController#new", "PostsController#create", "PostsController#edit", "PostsController#update", "PostsController#destroy"]
       end
 
+      it "should add multiple resources route" do
+        content =<<-EOF
+        ActionController::Routing::Routes.draw do |map|
+          map.resources :posts, :users
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 14
+      end
+
       it "should add resources route with only option" do
         content =<<-EOF
         ActionController::Routing::Routes.draw do |map|
@@ -63,6 +74,18 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes.size.should == 0
       end
 
+      it "should add resource routes with get/post/put/delete routes" do
+        content =<<-EOF
+        ActionController::Routing::Routes.draw do |map|
+          map.resources :posts, :only => [:show], :collection => { :list => :get }, :member => { :create => :post, :update => :put, :destroy => :delete }
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 5
+        routes.map(&:to_s).should == ["PostsController#show", "PostsController#create", "PostsController#update", "PostsController#destroy", "PostsController#list"]
+      end
+
       it "should add route with nested routes" do
         content =<<-EOF
         ActionController::Routing::Routes.draw do |map|
@@ -103,6 +126,17 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes = RailsBestPractices::Prepares.routes
         routes.size.should == 6
         routes.map(&:to_s).should == ["PostsController#show", "PostsController#new", "PostsController#create", "PostsController#edit", "PostsController#update", "PostsController#destroy"]
+      end
+
+      it "should add multiple resource route" do
+        content =<<-EOF
+        ActionController::Routing::Routes.draw do |map|
+          map.resource :posts, :users
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 12
       end
 
       it "should add resource route with only option" do
@@ -189,6 +223,17 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes.map(&:to_s).should == ["PostsController#index", "PostsController#show", "PostsController#new", "PostsController#create", "PostsController#edit", "PostsController#update", "PostsController#destroy"]
       end
 
+      it "should add multiple resources route" do
+        content =<<-EOF
+        RailsBestPracticesCom::Application.routes.draw do
+          resources :posts, :users
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 14
+      end
+
       it "should add resources route with only option" do
         content =<<-EOF
         RailsBestPracticesCom::Application.routes.draw do
@@ -271,6 +316,17 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes.map(&:to_s).should == ["PostsController#show", "PostsController#new", "PostsController#create", "PostsController#edit", "PostsController#update", "PostsController#destroy"]
       end
 
+      it "should add multiple resource route" do
+        content =<<-EOF
+        RailsBestPracticesCom::Application.routes.draw do
+          resource :posts, :users
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 12
+      end
+
       it "should add resource route with only option" do
         content =<<-EOF
         RailsBestPracticesCom::Application.routes.draw do
@@ -315,6 +371,23 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         runner.prepare('config/routes.rb', content)
         routes = RailsBestPractices::Prepares.routes
         routes.size.should == 0
+      end
+
+      it "should add resource routes with get/post/put/delete routes" do
+        content =<<-EOF
+        RailsBestPracticesCom::Application.routes.draw do
+          resources :posts, :only => [:show] do
+            get :list, :on => :collection
+            post :create, :on => :member
+            put :update, :on => :member
+            delete :destroy, :on => :memeber
+          end
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 5
+        routes.map(&:to_s).should == ["PostsController#show", "PostsController#list", "PostsController#create", "PostsController#update", "PostsController#destroy"]
       end
 
       it "should add route with nested routes" do

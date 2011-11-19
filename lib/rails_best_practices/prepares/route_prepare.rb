@@ -23,11 +23,14 @@ module RailsBestPractices
           add_resources_routes(node)
         when "resource"
           add_resource_routes(node)
+        when "get", "post", "put", "delete"
+          action_name = node.arguments.all.first
+          @routes.add_route(current_namespaces, current_resource_name, action_name)
         when "match", "root"
           options = node.arguments.all.first
           route_node = options.hash_values.detect { |value_node| :string_literal == value_node.sexp_type && value_node.to_s.include?('#') }
           controller_name, action_name = route_node.to_s.split('#')
-          @routes.add_route(@namespaces, controller_name.underscore, action_name)
+          @routes.add_route(current_namespaces, controller_name.underscore, action_name)
         else
           # nothing to do
         end
@@ -46,7 +49,7 @@ module RailsBestPractices
           options = node.arguments.all.last
           controller_name = options.hash_value("controller").to_s
           action_name = options.hash_value("action").to_s
-          @routes.add_route(@namespaces, controller_name, action_name)
+          @routes.add_route(current_namespaces, controller_name, action_name)
         end
       end
 
@@ -67,17 +70,34 @@ module RailsBestPractices
       [:resources, :resource].each do |route_name|
         class_eval <<-EOF
         def add_#{route_name}_routes(node)
-          resource_name = node.arguments.all.first.to_s
-          options = node.arguments.all.last
-          action_names = if options.hash_value("only").present?
-                           get_#{route_name}_actions(options.hash_value("only").to_object)
-                         elsif options.hash_value("except").present?
-                           self.class.const_get(:#{route_name.upcase}_ACTIONS) - get_#{route_name}_actions(options.hash_value("except").to_object)
-                         else
-                           self.class.const_get(:#{route_name.upcase}_ACTIONS)
-                         end
-          action_names.each do |action_name|
-            @routes.add_route(@namespaces.dup, resource_name, action_name)
+          resource_names = node.arguments.all.select { |argument| :symbol_literal == argument.sexp_type }
+          resource_names.each do |resource_name|
+            @resource_name = node.arguments.all.first.to_s
+            options = node.arguments.all.last
+            action_names = if options.hash_value("only").present?
+                             get_#{route_name}_actions(options.hash_value("only").to_object)
+                           elsif options.hash_value("except").present?
+                             self.class.const_get(:#{route_name.upcase}_ACTIONS) - get_#{route_name}_actions(options.hash_value("except").to_object)
+                           else
+                             self.class.const_get(:#{route_name.upcase}_ACTIONS)
+                           end
+            action_names.each do |action_name|
+              @routes.add_route(current_namespaces, current_resource_name, action_name)
+            end
+
+            if options.hash_value("member").present?
+              action_names = options.hash_value("member").hash_keys
+              action_names.each do |action_name|
+                @routes.add_route(current_namespaces, current_resource_name, action_name)
+              end
+            end
+
+            if options.hash_value("collection").present?
+              action_names = options.hash_value("collection").hash_keys
+              action_names.each do |action_name|
+                @routes.add_route(current_namespaces, current_resource_name, action_name)
+              end
+            end
           end
         end
 
@@ -91,7 +111,18 @@ module RailsBestPractices
             action_names
           end
         end
+
+        def add_customize_routes
+        end
         EOF
+      end
+
+      def current_namespaces
+        @namespaces.dup
+      end
+
+      def current_resource_name
+        @resource_name
       end
     end
   end
