@@ -90,15 +90,17 @@ module RailsBestPractices
               @routes.add_route(current_namespaces, current_resource_name, action_name)
             end
 
-            if options.hash_value("member").present?
-              action_names = options.hash_value("member").hash_keys
+            member_routes = options.hash_value("member")
+            if member_routes.present?
+              action_names = :array == member_routes.sexp_type ? member_routes.to_object : member_routes.hash_keys
               action_names.each do |action_name|
                 @routes.add_route(current_namespaces, current_resource_name, action_name)
               end
             end
 
-            if options.hash_value("collection").present?
-              action_names = options.hash_value("collection").hash_keys
+            collection_routes = options.hash_value("collection")
+            if collection_routes.present?
+              action_names = :array == collection_routes.sexp_type ? collection_routes.to_object : collection_routes.hash_keys
               action_names.each do |action_name|
                 @routes.add_route(current_namespaces, current_resource_name, action_name)
               end
