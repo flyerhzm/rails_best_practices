@@ -27,11 +27,17 @@ module RailsBestPractices
           action_name = node.arguments.all.first.to_s
           @routes.add_route(current_namespaces, current_resource_name, action_name)
         when "match", "root"
-          options = node.arguments.all.first
-          route_node = options.hash_values.find { |value_node| :string_literal == value_node.sexp_type && value_node.to_s.include?('#') }
-          if route_node.present?
-            controller_name, action_name = route_node.to_s.split('#')
-            @routes.add_route(current_namespaces, controller_name.underscore, action_name)
+          options = node.arguments.all.last
+          if options.hash_value("controller").present?
+            controller_name = options.hash_value("controller").to_s
+            action_name = options.hash_value("action").present? ? options.hash_value("action").to_s : "*"
+            @routes.add_route(current_namespaces, controller_name, action_name)
+          else
+            route_node = options.hash_values.find { |value_node| :string_literal == value_node.sexp_type && value_node.to_s.include?('#') }
+            if route_node.present?
+              controller_name, action_name = route_node.to_s.split('#')
+              @routes.add_route(current_namespaces, controller_name.underscore, action_name)
+            end
           end
         else
           # nothing to do
@@ -50,7 +56,7 @@ module RailsBestPractices
         else
           options = node.arguments.all.last
           controller_name = options.hash_value("controller").to_s
-          action_name = options.hash_value("action").to_s
+          action_name = options.hash_value("action").present? ? options.hash_value("action").to_s : "*"
           @routes.add_route(current_namespaces, controller_name, action_name)
         end
       end
