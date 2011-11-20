@@ -86,10 +86,22 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes.size.should == 0
       end
 
-      it "should add resource routes with get/post/put/delete routes" do
+      it "should add resource routes with hash collection/member routes" do
         content =<<-EOF
         ActionController::Routing::Routes.draw do |map|
           map.resources :posts, :only => [:show], :collection => { :list => :get }, :member => { :create => :post, :update => :put, :destroy => :delete }
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 5
+        routes.map(&:to_s).should == ["PostsController#show", "PostsController#create", "PostsController#update", "PostsController#destroy", "PostsController#list"]
+      end
+
+      it "should add resource routes with array collection/member routes" do
+        content =<<-EOF
+        ActionController::Routing::Routes.draw do |map|
+          map.resources :posts, :only => [:show], :collection => [:list], :member => [:create, :update, :destroy]
         end
         EOF
         runner.prepare('config/routes.rb', content)
