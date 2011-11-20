@@ -78,7 +78,7 @@ module RailsBestPractices
         # it is just the count of member and collection custom routes.
         def member_and_collection_count_for_rails2(node)
           if "resources" == node.message.to_s
-            hash_node = node.arguments.all[1]
+            hash_node = node.arguments.all.last
             if hash_node && :bare_assoc_hash == hash_node.sexp_type
               member_node = hash_node.hash_value("member")
               collection_node = hash_node.hash_value("collection")

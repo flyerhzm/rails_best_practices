@@ -1,7 +1,9 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
-  let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => RailsBestPractices::Reviews::OveruseRouteCustomizationsReview.new) }
+  let(:runner) { RailsBestPractices::Core::Runner.new(
+    :reviews => RailsBestPractices::Reviews::OveruseRouteCustomizationsReview.new
+  ) }
 
   describe "rails2" do
     it "should overuse route customizations" do
@@ -18,13 +20,27 @@ describe RailsBestPractices::Reviews::OveruseRouteCustomizationsReview do
       runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
     end
 
-    it "should overuse route customizations with collection" do
+    it "should overuse route customizations with member" do
       content = <<-EOF
       ActionController::Routing::Routes.draw do |map|
         map.resources :posts, :member => { :create_comment => :post,
                                            :update_comment => :update,
-                                           :delete_comment => :delete },
-                              :collection => { :comments => :get }
+                                           :delete_comment => :delete,
+                                           :disable_comment => :post }
+      end
+      EOF
+      runner.review('config/routes.rb', content)
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
+    end
+
+    it "should overuse route customizations with collection" do
+      content = <<-EOF
+      ActionController::Routing::Routes.draw do |map|
+        map.resources :posts, :collection => { :list_comments => :get,
+                                               :update_comments => :get,
+                                               :delete_comments => :get,
+                                               :disable_comments  => :get }
       end
       EOF
       runner.review('config/routes.rb', content)
