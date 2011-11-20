@@ -189,6 +189,7 @@ module RailsBestPractices
         end
       end
 
+      # Helper to add callbacks to mark the methods are used.
       module Callable
         def self.included(base)
           base.class_eval do
@@ -281,6 +282,30 @@ module RailsBestPractices
                 methods.mark_subclasses_method_used(class_name, method_name)
                 methods.possible_public_used(method_name)
               end
+          end
+        end
+      end
+
+      # Helper to indicate if the controller is inherited from InheritedResources.
+      module InheritedResourcesable
+        def self.included(base)
+          base.class_eval do
+            interesting_nodes :class, :var_ref
+            interesting_files CONTROLLER_FILES
+
+            # check if the controller is inherit from InheritedResources::Base.
+            add_callback "start_class" do |node|
+              if "InheritedResources::Base" == current_extend_class_name
+                @inherited_resources = true
+              end
+            end
+
+            # check if there is a DSL call inherit_resources.
+            add_callback "start_var_ref" do |node|
+              if "inherit_resources" == node.to_s
+                @inherited_resources = true
+              end
+            end
           end
         end
       end

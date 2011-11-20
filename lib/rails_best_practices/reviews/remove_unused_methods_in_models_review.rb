@@ -35,9 +35,10 @@ module RailsBestPractices
         end
       end
 
-      def methods
-        @model_methods
-      end
+      protected
+        def methods
+          @model_methods
+        end
     end
   end
 end

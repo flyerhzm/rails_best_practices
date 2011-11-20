@@ -24,13 +24,15 @@ module RailsBestPractices
         when "resource"
           add_resource_routes(node)
         when "get", "post", "put", "delete"
-          action_name = node.arguments.all.first
+          action_name = node.arguments.all.first.to_s
           @routes.add_route(current_namespaces, current_resource_name, action_name)
         when "match", "root"
           options = node.arguments.all.first
-          route_node = options.hash_values.detect { |value_node| :string_literal == value_node.sexp_type && value_node.to_s.include?('#') }
-          controller_name, action_name = route_node.to_s.split('#')
-          @routes.add_route(current_namespaces, controller_name.underscore, action_name)
+          route_node = options.hash_values.find { |value_node| :string_literal == value_node.sexp_type && value_node.to_s.include?('#') }
+          if route_node.present?
+            controller_name, action_name = route_node.to_s.split('#')
+            @routes.add_route(current_namespaces, controller_name.underscore, action_name)
+          end
         else
           # nothing to do
         end
@@ -74,6 +76,9 @@ module RailsBestPractices
           resource_names.each do |resource_name|
             @resource_name = node.arguments.all.first.to_s
             options = node.arguments.all.last
+            if options.hash_value("controller").present?
+              @resource_name = options.hash_value("controller").to_s
+            end
             action_names = if options.hash_value("only").present?
                              get_#{route_name}_actions(options.hash_value("only").to_object)
                            elsif options.hash_value("except").present?
@@ -81,7 +86,7 @@ module RailsBestPractices
                            else
                              self.class.const_get(:#{route_name.upcase}_ACTIONS)
                            end
-            action_names.each do |action_name|
+            Array(action_names).each do |action_name|
               @routes.add_route(current_namespaces, current_resource_name, action_name)
             end
 
