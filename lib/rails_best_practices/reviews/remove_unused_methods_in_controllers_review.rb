@@ -12,12 +12,14 @@ module RailsBestPractices
       interesting_nodes :class
       interesting_files CONTROLLER_FILES
 
+      EXCEPT_METHODS = %w(rescue_action)
       INHERITED_RESOURCES_METHODS = %w(resource collection begin_of_association_chain build_resource)
 
       def initialize(options={})
         @controller_methods = Prepares.controller_methods
         @routes = Prepares.routes
         @inherited_resources = false
+        @except_methods = EXCEPT_METHODS + options['except_methods']
       end
 
       # mark custom inherited_resources methods as used.
@@ -32,10 +34,17 @@ module RailsBestPractices
       # get all unused methods at the end of review process.
       def on_complete
         @routes.each do |route|
-          call_method(route.action_name, route.controller_name_with_namespaces)
+          if "*" == route.action_name
+            action_names = @controller_methods.get_methods(route.controller_name_with_namespaces).map(&:method_name)
+            action_names.each { |action_name| call_method(action_name, route.controller_name_with_namespaces) }
+          else
+            call_method(route.action_name, route.controller_name_with_namespaces)
+          end
         end
         @controller_methods.get_all_unused_methods.each do |method|
-          add_error "remove unused methods (#{method.class_name}##{method.method_name})", method.file, method.line
+          if !@except_methods.include?(method.method_name)
+            add_error "remove unused methods (#{method.class_name}##{method.method_name})", method.file, method.line
+          end
         end
       end
 

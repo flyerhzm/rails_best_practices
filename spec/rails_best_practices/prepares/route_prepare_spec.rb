@@ -221,6 +221,17 @@ describe RailsBestPractices::Prepares::RoutePrepare do
       routes.map(&:to_s).should == ["VotesController#create"]
     end
 
+    it "should add connect route with all actions" do
+      content =<<-EOF
+      ActionController::Routing::Routes.draw do |map|
+        map.connect 'internal/:action/*whatever', :controller => "internal"
+      end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.map(&:to_s).should == ["InternalController#*"]
+    end
+
     it "should add named route" do
       content =<<-EOF
       ActionController::Routing::Routes.draw do |map|
@@ -463,6 +474,17 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         runner.prepare('config/routes.rb', content)
         routes = RailsBestPractices::Prepares.routes
         routes.map(&:to_s).should == ["AuthenticationsController#create"]
+      end
+
+      it "should add match route with all actions" do
+        content =<<-EOF
+        RailsBestPracticesCom::Application.routes.draw do
+          match 'internal/:action/*whatever', :controller => "internal"
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.map(&:to_s).should == ["InternalController#*"]
       end
 
       it "should add root route" do
