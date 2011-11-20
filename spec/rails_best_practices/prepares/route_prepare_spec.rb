@@ -28,6 +28,18 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes.size.should == 14
       end
 
+      it "should add resources route with explict controller" do
+        content =<<-EOF
+        ActionController::Routing::Routes.draw do |map|
+          map.resources :posts, :controller => :blog_posts
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 7
+        routes.map(&:to_s).should == ["BlogPostsController#index", "BlogPostsController#show", "BlogPostsController#new", "BlogPostsController#create", "BlogPostsController#edit", "BlogPostsController#update", "BlogPostsController#destroy"]
+      end
+
       it "should add resources route with only option" do
         content =<<-EOF
         ActionController::Routing::Routes.draw do |map|
@@ -232,6 +244,18 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         runner.prepare('config/routes.rb', content)
         routes = RailsBestPractices::Prepares.routes
         routes.size.should == 14
+      end
+
+      it "should add resources route with explict controller" do
+        content =<<-EOF
+        RailsBestPracticesCom::Application.routes.draw do
+          resources :posts, :controller => :blog_posts
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 7
+        routes.map(&:to_s).should == ["BlogPostsController#index", "BlogPostsController#show", "BlogPostsController#new", "BlogPostsController#create", "BlogPostsController#edit", "BlogPostsController#update", "BlogPostsController#destroy"]
       end
 
       it "should add resources route with only option" do
