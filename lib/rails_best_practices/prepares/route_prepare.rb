@@ -88,9 +88,9 @@ module RailsBestPractices
             action_names = if options.hash_value("only").present?
                              get_#{route_name}_actions(options.hash_value("only").to_object)
                            elsif options.hash_value("except").present?
-                             self.class.const_get(:#{route_name.upcase}_ACTIONS) - get_#{route_name}_actions(options.hash_value("except").to_object)
+                             self.class.const_get(:#{route_name.to_s.upcase}_ACTIONS) - get_#{route_name}_actions(options.hash_value("except").to_object)
                            else
-                             self.class.const_get(:#{route_name.upcase}_ACTIONS)
+                             self.class.const_get(:#{route_name.to_s.upcase}_ACTIONS)
                            end
             Array(action_names).each do |action_name|
               @routes.add_route(current_namespaces, current_resource_name, action_name)
@@ -117,7 +117,7 @@ module RailsBestPractices
         def get_#{route_name}_actions(action_names)
           case action_names
           when "all"
-            self.class.const_get(:#{route_name.upcase}_ACTIONS)
+            self.class.const_get(:#{route_name.to_s.upcase}_ACTIONS)
           when "none"
             []
           else
