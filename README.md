@@ -1,6 +1,7 @@
 rails_best_practices
 ====================
 
+<a href="http://travis-ci.org/flyerhzm/rails_best_practices"><img src="https://secure.travis-ci.org/flyerhzm/rails_best_practices.png?branch=master" /></a>
 rails_best_practices is a code metric tool to check the quality of rails codes.
 
 Usage
