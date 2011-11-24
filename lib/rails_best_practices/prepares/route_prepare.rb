@@ -93,7 +93,7 @@ module RailsBestPractices
                            else
                              self.class.const_get(:#{route_name.to_s.upcase}_ACTIONS)
                            end
-            Array(action_names).each do |action_name|
+            action_names.each do |action_name|
               @routes.add_route(current_namespaces, current_resource_name, action_name)
             end
 
@@ -122,7 +122,7 @@ module RailsBestPractices
           when "none"
             []
           else
-            action_names
+            Array(action_names)
           end
         end
 
