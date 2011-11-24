@@ -464,39 +464,50 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes = RailsBestPractices::Prepares.routes
         routes.map(&:to_s).should == ["Admin::Test::PostsController#index"]
       end
+    end
 
-      it "should add match route" do
-        content =<<-EOF
-        RailsBestPracticesCom::Application.routes.draw do
-          match '/auth/:provider/callback' => 'authentications#create'
-        end
-        EOF
-        runner.prepare('config/routes.rb', content)
-        routes = RailsBestPractices::Prepares.routes
-        routes.map(&:to_s).should == ["AuthenticationsController#create"]
+    it "should add match route" do
+      content =<<-EOF
+      RailsBestPracticesCom::Application.routes.draw do
+        match '/auth/:provider/callback' => 'authentications#create'
       end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.map(&:to_s).should == ["AuthenticationsController#create"]
+    end
 
-      it "should add match route with all actions" do
-        content =<<-EOF
-        RailsBestPracticesCom::Application.routes.draw do
-          match 'internal/:action/*whatever', :controller => "internal"
-        end
-        EOF
-        runner.prepare('config/routes.rb', content)
-        routes = RailsBestPractices::Prepares.routes
-        routes.map(&:to_s).should == ["InternalController#*"]
+    it "should add match route with all actions" do
+      content =<<-EOF
+      RailsBestPracticesCom::Application.routes.draw do
+        match 'internal/:action/*whatever', :controller => "internal"
       end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.map(&:to_s).should == ["InternalController#*"]
+    end
 
-      it "should add root route" do
-        content =<<-EOF
-        RailsBestPracticesCom::Application.routes.draw do
-          root :to => 'home#index'
-        end
-        EOF
-        runner.prepare('config/routes.rb', content)
-        routes = RailsBestPractices::Prepares.routes
-        routes.map(&:to_s).should == ["HomeController#index"]
+    it "should add root route" do
+      content =<<-EOF
+      RailsBestPracticesCom::Application.routes.draw do
+        root :to => 'home#index'
       end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.map(&:to_s).should == ["HomeController#index"]
+    end
+
+    it "should do nothing for default route" do
+      content =<<-EOF
+      RailsBestPracticesCom::Application.routes.draw do
+        match ':controller(/:action(/:id(.:format)))'
+      end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.size.should == 0
     end
   end
 end
