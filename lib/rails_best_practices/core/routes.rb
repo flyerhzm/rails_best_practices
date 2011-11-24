@@ -17,7 +17,9 @@ module RailsBestPractices
 
       def initialize(namespaces, controller_name, action_name)
         @namespaces = namespaces
-        @controller_name = controller_name
+        entities = controller_name.split('/')
+        @namespaces += entities[0..-2] if entities.size > 1
+        @controller_name = entities.last
         @action_name = action_name
       end
 

@@ -466,19 +466,20 @@ describe RailsBestPractices::Prepares::RoutePrepare do
       end
     end
 
-    it "should add route for direct get/post", :focus => true do
+    it "should add route for direct get/post" do
       content =<<-EOF
       RailsBestPracticesCom::Application.routes.draw do
         get 'posts/show'
         post '/posts' => 'posts#create'
         put '/posts/:id' => 'posts#update'
         delete '/post/:id' => 'posts#destroy'
+        get '/agb' => 'high_voltage/pages#show', :id => 'agb'
       end
       EOF
       runner.prepare('config/routes.rb', content)
       routes = RailsBestPractices::Prepares.routes
-      routes.size.should == 4
-      routes.map(&:to_s).should == ["PostsController#show", "PostsController#create", "PostsController#update", "PostsController#destroy"]
+      routes.size.should == 5
+      routes.map(&:to_s).should == ["PostsController#show", "PostsController#create", "PostsController#update", "PostsController#destroy", "HighVoltage::PagesController#show"]
     end
 
     it "should add match route" do
