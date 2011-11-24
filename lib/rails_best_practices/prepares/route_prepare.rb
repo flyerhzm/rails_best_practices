@@ -24,8 +24,19 @@ module RailsBestPractices
         when "resource"
           add_resource_routes(node)
         when "get", "post", "put", "delete"
-          action_name = node.arguments.all.first.to_s
-          @routes.add_route(current_namespaces, current_resource_name, action_name)
+          first_argument = node.arguments.all.first
+          if current_resource_name.present?
+            action_name = first_argument.to_s
+            @routes.add_route(current_namespaces, current_resource_name, action_name)
+          else
+            if :bare_assoc_hash == first_argument.sexp_type
+              route_node = first_argument.hash_values.first
+              controller_name, action_name = route_node.to_s.split('#')
+            else
+              controller_name, action_name = first_argument.to_s.split('/')
+            end
+            @routes.add_route(current_namespaces, controller_name.underscore, action_name)
+          end
         when "match", "root"
           options = node.arguments.all.last
           return if :string_literal == options.sexp_type
