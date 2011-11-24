@@ -28,6 +28,7 @@ module RailsBestPractices
           @routes.add_route(current_namespaces, current_resource_name, action_name)
         when "match", "root"
           options = node.arguments.all.last
+          return if :string_literal == options.sexp_type
           if options.hash_value("controller").present?
             controller_name = options.hash_value("controller").to_s
             action_name = options.hash_value("action").present? ? options.hash_value("action").to_s : "*"
