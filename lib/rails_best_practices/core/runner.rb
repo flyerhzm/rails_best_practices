@@ -134,7 +134,6 @@ module RailsBestPractices
         # @param [String] content is the source code of ruby file.
         def parse_ruby(filename, content)
           begin
-            content = content.force_encoding("ASCII-8BIT") if content.respond_to?(:force_encoding)
             Sexp.from_array(Ripper::SexpBuilder.new(content).parse)
           rescue Exception => e
             if @debug
