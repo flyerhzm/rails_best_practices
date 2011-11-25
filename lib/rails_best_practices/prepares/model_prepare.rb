@@ -11,18 +11,19 @@ module RailsBestPractices
       interesting_nodes :class, :def, :command, :var_ref, :alias
       interesting_files MODEL_FILES
 
-      ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many)
+      ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many embeds_many embeds_one embedded_in)
 
       def initialize
         @models = Prepares.models
         @model_associations = Prepares.model_associations
+        @model_attributes = Prepares.model_attributes
         @methods = Prepares.model_methods
       end
 
-      # check class node to remember the last class name.
+      # remember the class name.
       def start_class(node)
         if "ActionMailer::Base" != current_extend_class_name
-          @models << @klass
+          @models << current_class_name
         end
       end
 
@@ -65,6 +66,11 @@ module RailsBestPractices
           method, feature = *node.arguments.all.map(&:to_s)
           @methods.add_method(current_class_name, "#{method}_with_#{feature}", {"file" => node.file, "line" => node.line}, current_access_control)
           @methods.add_method(current_class_name, "#{method}", {"file" => node.file, "line" => node.line}, current_access_control)
+        when "field"
+          arguments = node.arguments.all
+          attribute_name = arguments.first.to_s
+          attribute_type = arguments.last.hash_value("type").present? ? arguments.last.hash_value("type").to_s : "String"
+          @model_attributes.add_attribute(current_class_name, attribute_name, attribute_type)
         when *ASSOCIATION_METHODS
           remember_association(node)
         else
@@ -81,9 +87,9 @@ module RailsBestPractices
         # remember associations, with class to association names.
         def remember_association(node)
           association_meta = node.message.to_s
-          association_name = node.arguments.all[0].to_s
-          arguments_node = node.arguments.all[1]
-          if arguments_node && :bare_assoc_hash == arguments_node.sexp_type
+          association_name = node.arguments.all.first.to_s
+          arguments_node = node.arguments.all.last
+          if arguments_node.hash_value("class_name").present?
             association_class = arguments_node.hash_value("class_name").to_s
           end
           association_class ||= association_name.classify

@@ -17,14 +17,14 @@ module RailsBestPractices
 
       def start_command(node)
         if "create_table" == node.message.to_s
-          @last_klazz = node.arguments.all[0].to_s.classify
+          @last_klazz = node.arguments.all.first.to_s.classify
         end
       end
 
       # check command_call node to remember the model attributes.
       def start_command_call(node)
         if ATTRIBUTE_TYPES.include? node.message.to_s
-          attribute_name = node.arguments.all[0].to_s
+          attribute_name = node.arguments.all.first.to_s
           @model_attributes.add_attribute(@last_klazz, attribute_name, node.message.to_s)
         end
       end
