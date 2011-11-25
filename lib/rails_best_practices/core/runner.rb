@@ -134,6 +134,7 @@ module RailsBestPractices
         # @param [String] content is the source code of ruby file.
         def parse_ruby(filename, content)
           begin
+            content = content.force_encoding("ASCII-8BIT") if content.respond_to?(:force_encoding)
             Sexp.from_array(Ripper::SexpBuilder.new(content).parse)
           rescue Exception => e
             if @debug
@@ -151,7 +152,7 @@ module RailsBestPractices
         # @param [String] filename is the filename of the erb or haml code.
         # @param [String] content is the source code of erb or haml file.
         def parse_erb_or_haml(filename, content)
-          if filename =~ /.*\.erb|.*\.rhtml$/
+          if filename =~ /.*\.erb$|.*\.rhtml$/
             content = Erubis::Eruby.new(content).src
           elsif filename =~ /.*\.haml$/
             begin
