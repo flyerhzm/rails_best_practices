@@ -25,9 +25,9 @@ module RailsBestPractices
           add_resource_routes(node)
         when "get", "post", "put", "delete"
           first_argument = node.arguments.all.first
-          if current_resource_name.present?
+          if current_controller_name.present?
             action_name = first_argument.to_s
-            @routes.add_route(current_namespaces, current_resource_name, action_name)
+            @routes.add_route(current_namespaces, current_controller_name, action_name)
           else
             if :bare_assoc_hash == first_argument.sexp_type
               route_node = first_argument.hash_values.first
@@ -67,9 +67,11 @@ module RailsBestPractices
           # nothing to do
         else
           options = node.arguments.all.last
-          controller_name = options.hash_value("controller").to_s
+          if options.hash_value("controller").present?
+            @controller_name = options.hash_value("controller").to_s
+          end
           action_name = options.hash_value("action").present? ? options.hash_value("action").to_s : "*"
-          @routes.add_route(current_namespaces, controller_name, action_name)
+          @routes.add_route(current_namespaces, current_controller_name, action_name)
         end
       end
 
@@ -77,6 +79,11 @@ module RailsBestPractices
       def start_method_add_block(node)
         if "namespace" == node.message.to_s
           @namespaces << node.arguments.all.first.to_s
+        elsif "with_options" == node.message.to_s
+          argument = node.arguments.all.last
+          if :bare_assoc_hash == argument.sexp_type && argument.hash_value("controller").present?
+            @controller_name = argument.hash_value("controller").to_s
+          end
         end
       end
 
@@ -92,10 +99,10 @@ module RailsBestPractices
         def add_#{route_name}_routes(node)
           resource_names = node.arguments.all.select { |argument| :symbol_literal == argument.sexp_type }
           resource_names.each do |resource_name|
-            @resource_name = node.arguments.all.first.to_s
+            @controller_name = node.arguments.all.first.to_s
             options = node.arguments.all.last
             if options.hash_value("controller").present?
-              @resource_name = options.hash_value("controller").to_s
+              @controller_name = options.hash_value("controller").to_s
             end
             action_names = if options.hash_value("only").present?
                              get_#{route_name}_actions(options.hash_value("only").to_object)
@@ -105,14 +112,14 @@ module RailsBestPractices
                              self.class.const_get(:#{route_name.to_s.upcase}_ACTIONS)
                            end
             action_names.each do |action_name|
-              @routes.add_route(current_namespaces, current_resource_name, action_name)
+              @routes.add_route(current_namespaces, current_controller_name, action_name)
             end
 
             member_routes = options.hash_value("member")
             if member_routes.present?
               action_names = :array == member_routes.sexp_type ? member_routes.to_object : member_routes.hash_keys
               action_names.each do |action_name|
-                @routes.add_route(current_namespaces, current_resource_name, action_name)
+                @routes.add_route(current_namespaces, current_controller_name, action_name)
               end
             end
 
@@ -120,7 +127,7 @@ module RailsBestPractices
             if collection_routes.present?
               action_names = :array == collection_routes.sexp_type ? collection_routes.to_object : collection_routes.hash_keys
               action_names.each do |action_name|
-                @routes.add_route(current_namespaces, current_resource_name, action_name)
+                @routes.add_route(current_namespaces, current_controller_name, action_name)
               end
             end
           end
@@ -146,8 +153,8 @@ module RailsBestPractices
         @namespaces.dup
       end
 
-      def current_resource_name
-        @resource_name
+      def current_controller_name
+        @controller_name
       end
     end
   end
