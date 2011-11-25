@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview do
   let(:runner) { RailsBestPractices::Core::Runner.new(
     :prepares => [RailsBestPractices::Prepares::ControllerPrepare.new, RailsBestPractices::Prepares::RoutePrepare.new],
-    :reviews => RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview.new({'except_methods' => []})
+    :reviews => RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview.new({'except_methods' => ["ExceptableController#*"]})
   ) }
 
   context "private/protected" do
@@ -113,6 +113,18 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview do
       EOF
       runner.prepare('app/controllers/internal_controller.rb', content)
       runner.review('app/controllers/internal_controller.rb', content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
+    it "should not remove unused methods if they are except_methods" do
+      content =<<-EOF
+      class ExceptableController < ApplicationController
+        def list; end
+      end
+      EOF
+      runner.prepare('app/controllers/exceptable_controller.rb', content)
+      runner.review('app/controllers/exceptable_controller.rb', content)
       runner.on_complete
       runner.should have(0).errors
     end
