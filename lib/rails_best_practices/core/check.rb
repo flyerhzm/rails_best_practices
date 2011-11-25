@@ -16,6 +16,12 @@ module RailsBestPractices
       HELPER_FILES = /helpers\/.*\.rb$/
       DEPLOY_FILES = /config\/deploy.*\.rb/
 
+      def initialize(options={})
+        options.each do |key, value|
+          instance_variable_set("@#{key}", value)
+        end
+      end
+
       # interesting nodes that the check will parse.
       def interesting_nodes
         self.class.interesting_nodes
@@ -304,6 +310,27 @@ module RailsBestPractices
             add_callback "start_var_ref" do |node|
               if "inherit_resources" == node.to_s
                 @inherited_resources = true
+              end
+            end
+          end
+        end
+      end
+
+      # Helper to check except methods.
+      module Exceptable
+        def self.included(base)
+          base.class_eval do
+            def except_methods
+              @except_methods + internal_except_methods
+            end
+
+            # check if the method is in the except methods list.
+            def excepted?(method)
+              except_methods.any? do |except_method|
+                class_name, method_name = except_method.split('#')
+                (class_name == '*' && method_name == method.method_name) ||
+                  (method_name == '*' && class_name == method.class_name) ||
+                  (class_name == method.class_name && method_name == method.method_name)
               end
             end
           end

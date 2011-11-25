@@ -15,21 +15,19 @@ module RailsBestPractices
       include Klassable
       include Completeable
       include Callable
+      include Exceptable
 
       interesting_files ALL_FILES
 
-      EXCEPT_METHODS = %w(initialize validate to_xml to_json assign_attributes after_find after_initialize)
-
       def initialize(options={})
-        super()
+        super
         @model_methods = Prepares.model_methods
-        @except_methods = EXCEPT_METHODS + options['except_methods']
       end
 
       # get all unused methods at the end of review process.
       def on_complete
         @model_methods.get_all_unused_methods.each do |method|
-          if !@except_methods.include?(method.method_name) && method.method_name !~ /=$/
+          if !excepted?(method) && method.method_name !~ /=$/
             add_error "remove unused methods (#{method.class_name}##{method.method_name})", method.file, method.line
           end
         end
@@ -38,6 +36,10 @@ module RailsBestPractices
       protected
         def methods
           @model_methods
+        end
+
+        def internal_except_methods
+          %w(initialize validate to_xml to_json assign_attributes after_find after_initialize).map { |method_name| "*\##{method_name}" }
         end
     end
   end
