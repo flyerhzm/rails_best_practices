@@ -94,6 +94,44 @@ describe RailsBestPractices::Prepares::ModelPrepare do
         model_associations.get_association("Citizen", "nations").should == {"meta" => "has_and_belongs_to_many", "class_name" => "Country"}
       end
     end
+
+    context "mongoid embed" do
+      it "should parse embeds_many" do
+        content =<<-EOF
+        class Person
+          include Mongoid::Document
+          embeds_many :addresses
+        end
+        EOF
+        runner.prepare("app/models/person.rb", content)
+        model_associations = RailsBestPractices::Prepares.model_associations
+        model_associations.get_association("Person", "addresses").should == {"meta" => "embeds_many", "class_name" => "Address"}
+      end
+
+      it "should parse embeds_one" do
+        content =<<-EOF
+        class Lush
+          include Mongoid::Document
+          embeds_one :whiskey, class_name: "Drink", inverse_of: :alcoholic
+        end
+        EOF
+        runner.prepare("app/models/lush.rb", content)
+        model_associations = RailsBestPractices::Prepares.model_associations
+        model_associations.get_association("Lush", "whiskey").should == {"meta" => "embeds_one", "class_name" => "Drink"}
+      end
+
+      it "should parse embedded_in" do
+        content =<<-EOF
+        class Drink
+          include Mongoid::Document
+          embedded_in :alcoholic, class_name: "Lush", inverse_of: :whiskey
+        end
+        EOF
+        runner.prepare("app/models/drink.rb", content)
+        model_associations = RailsBestPractices::Prepares.model_associations
+        model_associations.get_association("Drink", "alcoholic").should == {"meta" => "embedded_in", "class_name" => "Lush"}
+      end
+    end
   end
 
   context "methods" do
@@ -213,6 +251,28 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       runner.prepare("app/models/post.rb", content)
       methods = RailsBestPractices::Prepares.model_methods
       methods.get_methods("Post").map(&:method_name).should == ["method_with_feature", "method"]
+    end
+  end
+
+  context "attributes" do
+    it "should parse mongoid field" do
+      content =<<-EOF
+      class Post
+        include Mongoid::Document
+        field :title
+        field :tags, type: Array
+        field :comments_count, type: Integer
+        field :deleted_at, type: DateTime
+        field :active, type: Boolean
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      model_attributes = RailsBestPractices::Prepares.model_attributes
+      model_attributes.get_attribute_type("Post", "title").should == "String"
+      model_attributes.get_attribute_type("Post", "tags").should == "Array"
+      model_attributes.get_attribute_type("Post", "comments_count").should == "Integer"
+      model_attributes.get_attribute_type("Post", "deleted_at").should == "DateTime"
+      model_attributes.get_attribute_type("Post", "active").should == "Boolean"
     end
   end
 
