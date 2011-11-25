@@ -242,6 +242,19 @@ describe RailsBestPractices::Prepares::RoutePrepare do
       routes = RailsBestPractices::Prepares.routes
       routes.map(&:to_s).should == ["SessionsController#new"]
     end
+
+    it "should add named route with with_options" do
+      content =<<-EOF
+      ActionController::Routing::Routes.draw do |map|
+        map.with_options(:controller => "admin_session") do |session|
+          session.login '/login', :action => 'new', :method => :get
+        end
+      end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.map(&:to_s).should == ["AdminSessionController#new"]
+    end
   end
 
   context "rails3" do
