@@ -6,7 +6,6 @@ Spork.prefork do
   $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "..", "lib"))
 
   require 'rspec'
-  require 'rails_best_practices'
 
   RSpec.configure do |config|
     config.after do
@@ -22,5 +21,6 @@ Spork.prefork do
 end
 
 Spork.each_run do
+  require 'rails_best_practices'
 end
 
