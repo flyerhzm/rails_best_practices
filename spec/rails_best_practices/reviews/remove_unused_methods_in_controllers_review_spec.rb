@@ -129,4 +129,59 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview do
       runner.should have(0).errors
     end
   end
+
+  context "cells" do
+    it "should remove unused methods" do
+      content =<<-EOF
+      class PostsCell < Cell::Rails
+        def list; end
+      end
+      EOF
+      runner.prepare('app/cells/posts_cell.rb', content)
+      runner.review('app/cells/posts_cell.rb', content)
+      runner.on_complete
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/cells/posts_cell.rb:2 - remove unused methods (PostsCell#list)"
+    end
+
+    it "should not remove unused methods if render_cell" do
+      content =<<-EOF
+      class PostsCell < Cell::Rails
+        def list; end
+        def display; end
+      end
+      EOF
+      runner.prepare('app/cells/posts_cell.rb', content)
+      runner.review('app/cells/posts_cell.rb', content)
+      content =<<-EOF
+      <%= render_cell :posts, :list %>
+      <%= render_cell(:posts, :display) %>
+      EOF
+      runner.review('app/views/posts/index.html.erb', content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
+    it "should not remove unused methods if render with state" do
+      content =<<-EOF
+      class PostsCell < Cell::Rails
+        def list
+          render :state => :show
+          render(:state => :display)
+        end
+
+        def show; end
+        def display; end
+      end
+      EOF
+      runner.prepare('app/cells/posts_cell.rb', content)
+      runner.review('app/cells/posts_cell.rb', content)
+      content =<<-EOF
+      <%= render_cell :posts, :list %>
+      EOF
+      runner.review('app/views/posts/index.html.erb', content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+  end
 end
