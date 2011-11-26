@@ -22,14 +22,15 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
-require 'rubygems'
+require 'fileutils'
+
 require 'progressbar'
 require 'colored'
+
 require 'rails_best_practices/lexicals'
 require 'rails_best_practices/prepares'
 require 'rails_best_practices/reviews'
 require 'rails_best_practices/core'
-require 'fileutils'
 
 # RailsBestPractices helps you to analyze your rails code, according to best practices on http://rails-bestpractices.
 # if it finds any violatioins to best practices, it will give you some readable suggestions.
