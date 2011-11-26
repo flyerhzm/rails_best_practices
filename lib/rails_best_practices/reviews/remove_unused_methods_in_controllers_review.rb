@@ -10,8 +10,8 @@ module RailsBestPractices
       include Exceptable
       include InheritedResourcesable
 
-      interesting_nodes :class
-      interesting_files CONTROLLER_FILES
+      interesting_nodes :class, :command, :method_add_arg
+      interesting_files CONTROLLER_FILES, VIEW_FILES
 
       INHERITED_RESOURCES_METHODS = %w(resource collection begin_of_association_chain build_resource)
 
@@ -30,6 +30,22 @@ module RailsBestPractices
           end
         end
       end
+
+      def start_command(node)
+        case node.message.to_s
+        when "render_cell"
+          controller_name, action_name, _ = *node.arguments.all.map(&:to_s)
+          call_method(action_name, "#{controller_name}_cell".classify)
+        when "render"
+          first_argument = node.arguments.all.first
+          if first_argument.hash_value("state").present?
+            action_name = first_argument.hash_value("state").to_s
+            call_method(action_name, current_class_name)
+          end
+        end
+      end
+
+      alias :start_method_add_arg :start_command
 
       # get all unused methods at the end of review process.
       def on_complete
