@@ -25,7 +25,7 @@ module RailsBestPractices
       # then it should be replaced by simplified syntax.
       def start_command(node)
         if "render" == node.message.to_s
-          hash_node =  node.arguments.all[0]
+          hash_node =  node.arguments.all.first
           if hash_node && :bare_assoc_hash == hash_node.sexp_type &&
             hash_node.hash_keys.include?("partial") &&
             !hash_node.hash_value("partial").to_s.include?('/')

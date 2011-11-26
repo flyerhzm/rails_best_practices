@@ -29,8 +29,8 @@ module RailsBestPractices
       # check all command call nodes, compare with rails2 default route
       def start_command_call(node)
         if "map" == node.subject.to_s && "connect" == node.message.to_s &&
-          (":controller/:action/:id" == node.arguments.all[0].to_s ||
-           ":controller/:action/:id.:format" == node.arguments.all[0].to_s)
+          (":controller/:action/:id" == node.arguments.all.first.to_s ||
+           ":controller/:action/:id.:format" == node.arguments.all.first.to_s)
           add_error "not use default route"
         end
       end
@@ -38,7 +38,7 @@ module RailsBestPractices
       # check all command nodes, compare with rails3 default route
       def start_command(node)
         if "match" == node.message.to_s &&
-          ":controller(/:action(/:id(.:format)))" == node.arguments.all[0].to_s
+          ":controller(/:action(/:id(.:format)))" == node.arguments.all.first.to_s
           add_error "not use default route"
         end
       end

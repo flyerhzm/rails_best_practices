@@ -26,7 +26,7 @@ module RailsBestPractices
       # then it should be replaced by simplified syntax.
       def start_command(node)
         if "render" == node.message.to_s
-          keys = node.arguments.all[0].hash_keys
+          keys = node.arguments.all.first.hash_keys
           if keys && keys.size == 1 &&
              (keys.include?("action") || keys.include?("template") || keys.include?("file"))
             add_error 'simplify render in controllers'

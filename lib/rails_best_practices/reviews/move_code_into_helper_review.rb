@@ -48,8 +48,8 @@ module RailsBestPractices
         # then it is complext.
         def complex_select_options?(node)
           "options_for_select" == node[1].message.to_s &&
-            :array == node.arguments.all[0].sexp_type &&
-            node.arguments.all[0].array_size > @array_count
+            :array == node.arguments.all.first.sexp_type &&
+            node.arguments.all.first.array_size > @array_count
         end
     end
   end

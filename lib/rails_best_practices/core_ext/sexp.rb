@@ -26,7 +26,7 @@ class Sexp
       :alias, :symbol_literal, :symbol, :aref].include? sexp_type
       self[1].line
     elsif :array == sexp_type
-      array_values[0].line
+      array_values.first.line
     else
       self.last.first if self.last.is_a? Array
     end

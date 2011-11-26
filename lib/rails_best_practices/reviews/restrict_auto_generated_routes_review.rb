@@ -42,7 +42,7 @@ module RailsBestPractices
       # remember the namespace.
       def start_method_add_block(node)
         if "namespace" == node.message.to_s
-          @namespaces << node.arguments.all[0].to_s
+          @namespaces << node.arguments.all.first.to_s
         end
       end
 
@@ -86,10 +86,10 @@ module RailsBestPractices
             if hash_key_exist?(option_node,"controller")
               name = option_node.hash_value("controller").to_s
             else
-              name = node.arguments.all[0].to_s.tableize
+              name = node.arguments.all.first.to_s.tableize
             end
           else
-            name = node.arguments.all[0].to_s.tableize
+            name = node.arguments.all.first.to_s.tableize
           end
           namespaced_class_name(name)
         end
