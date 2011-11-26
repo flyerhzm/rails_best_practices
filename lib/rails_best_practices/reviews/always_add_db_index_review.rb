@@ -88,7 +88,7 @@ module RailsBestPractices
       private
         # remember the node as index columns
         def remember_index_columns(node)
-          table_name = node.arguments.all[0].to_s
+          table_name = node.arguments.all.first.to_s
           index_column = node.arguments.all[1].to_object
 
           @index_columns[table_name] ||= []
@@ -97,7 +97,7 @@ module RailsBestPractices
 
         # remember table nodes
         def remember_table_nodes(node)
-          @table_name = node.arguments.all[0].to_s
+          @table_name = node.arguments.all.first.to_s
           @table_nodes[@table_name] = node
         end
 
@@ -105,7 +105,7 @@ module RailsBestPractices
         # remember foreign key columns
         def remember_foreign_key_columns(node)
           table_name = @table_name
-          foreign_key_column = node.arguments.all[0].to_s
+          foreign_key_column = node.arguments.all.first.to_s
           @foreign_keys[table_name] ||= []
           if foreign_key_column =~ /(.*?)_id$/
             if @foreign_keys[table_name].delete("#{$1}_type")

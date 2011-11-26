@@ -60,7 +60,7 @@ module RailsBestPractices
       def start_command(node)
         case node.message.to_s
         when *%w(named_scope scope alias_method)
-          method_name = node.arguments.all[0].to_s
+          method_name = node.arguments.all.first.to_s
           @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
         when "alias_method_chain"
           method, feature = *node.arguments.all.map(&:to_s)

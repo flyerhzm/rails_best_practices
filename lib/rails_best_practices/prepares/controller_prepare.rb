@@ -48,7 +48,7 @@ module RailsBestPractices
       # restrict actions for inherited_resources
       def start_command(node)
         if @inherited_resources && "actions" ==  node.message.to_s
-          if "all" == node.arguments.all[0].to_s
+          if "all" == node.arguments.all.first.to_s
             @actions = DEFAULT_ACTIONS
             option_argument = node.arguments.all[1]
             if :bare_assoc_hash == option_argument.sexp_type && option_argument.hash_value("except")

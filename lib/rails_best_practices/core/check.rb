@@ -231,7 +231,7 @@ module RailsBestPractices
               else
                 mark_used(node.message)
                 last_argument = node.arguments.all.last
-                if :bare_assoc_hash == last_argument.sexp_type
+                if last_argument.present? && :bare_assoc_hash == last_argument.sexp_type
                   last_argument.hash_values.each { |argument_value| mark_used(argument_value) }
                 end
               end
@@ -264,7 +264,7 @@ module RailsBestPractices
               when "try"
                 mark_used(node.arguments.all.first)
               when "send"
-                if [:symbol_literal, :string_literal].include?(node.arguments.all[0].sexp_type)
+                if [:symbol_literal, :string_literal].include?(node.arguments.all.first.sexp_type)
                   mark_used(node.arguments.all.first)
                 end
               else

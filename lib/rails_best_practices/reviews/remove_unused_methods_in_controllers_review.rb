@@ -38,7 +38,7 @@ module RailsBestPractices
           call_method(action_name, "#{controller_name}_cell".classify)
         when "render"
           first_argument = node.arguments.all.first
-          if first_argument.hash_value("state").present?
+          if first_argument.present? && first_argument.hash_value("state").present?
             action_name = first_argument.hash_value("state").to_s
             call_method(action_name, current_class_name)
           end
