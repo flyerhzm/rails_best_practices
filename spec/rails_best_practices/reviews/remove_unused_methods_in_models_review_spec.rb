@@ -550,4 +550,40 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.should have(0).errors
     end
   end
+
+  context "callbacks" do
+    it "should not remove unused method" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        before_save :init_columns
+        after_destroy :remove_dependencies
+
+        protected
+          def init_columns; end
+          def remove_dependencies; end
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+  end
+
+  context "validates" do
+    it "should not remove unused method" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        validate :valid_birth_date
+
+        protected
+          def valid_birth_date; end
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+  end
 end
