@@ -17,11 +17,19 @@ module RailsBestPractices
       include Callable
       include Exceptable
 
+      interesting_nodes :command
       interesting_files ALL_FILES
 
       def initialize(options={})
         super
         @model_methods = Prepares.model_methods
+      end
+
+      # mark validate methods as used.
+      def start_command(node)
+        if "validate" == node.message.to_s
+          node.arguments.all.each { |argument| mark_used(argument) }
+        end
       end
 
       # get all unused methods at the end of review process.

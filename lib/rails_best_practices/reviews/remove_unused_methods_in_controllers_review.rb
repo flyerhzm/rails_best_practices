@@ -31,6 +31,7 @@ module RailsBestPractices
         end
       end
 
+      # mark corresponding action as used for cells' render and render_call.
       def start_command(node)
         case node.message.to_s
         when "render_cell"
