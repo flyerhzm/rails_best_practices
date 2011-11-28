@@ -52,6 +52,12 @@ module RailsBestPractices
           node.arguments.all.each { |argument| mark_used(argument) }
         when "helper_method"
           node.arguments.all.each { |argument| mark_possible_used(argument.to_s) }
+        when "delegate"
+          last_argument = node.arguments.all.last
+          if :bare_assoc_hash == last_argument.sexp_type && "controller" == last_argument.hash_value("to").to_s
+            controller_name = current_module_name.sub("Helper", "Controller")
+            node.arguments.all[0..-2].each { |method| mark_possible_used(method.to_s, controller_name) }
+          end
         else
           # nothing
         end
@@ -85,8 +91,8 @@ module RailsBestPractices
           %w(rescue_action).map { |method_name| "*\##{method_name}" }
         end
 
-        def mark_possible_used(method_name)
-          method = @controller_methods.get_method(current_class_name, method_name)
+        def mark_possible_used(method_name, class_name=current_class_name)
+          method = @controller_methods.get_method(class_name, method_name)
           method.publicize if method
         end
     end

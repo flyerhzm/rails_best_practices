@@ -156,7 +156,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview do
   end
 
   context "helper_method" do
-    it "should remove unused methods when helper method is not called" do
+    it "should remove unused methods if helper method is not called" do
       content = <<-EOF
       class PostsController < ApplicationController
         helper_method :helper_post
@@ -171,7 +171,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview do
       runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:4 - remove unused methods (PostsController#helper_post)"
     end
 
-    it "should not remove unused methods when call helper method in views" do
+    it "should not remove unused methods if call helper method in views" do
       content = <<-EOF
       class PostsController < ApplicationController
         helper_method :helper_post
@@ -189,7 +189,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview do
       runner.should have(0).errors
     end
 
-    it "should not remove unused methods when call helper method in helpers" do
+    it "should not remove unused methods if call helper method in helpers" do
       content = <<-EOF
       class PostsController < ApplicationController
         helper_method :helper_post
@@ -207,6 +207,51 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview do
       end
       EOF
       runner.review('app/helpers/posts_helper.rb', content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+  end
+
+  context "delegate :to => :controller" do
+    it "should remove unused methods if delegate method is not called" do
+      content = <<-EOF
+      class PostsController < ApplicationController
+        protected
+          def helper_post(type); end
+      end
+      EOF
+      runner.prepare('app/controllers/posts_controller.rb', content)
+      runner.review('app/controllers/posts_controller.rb', content)
+      content = <<-EOF
+      module PostsHelper
+        delegate :helper_post, :to => :controller
+      end
+      EOF
+      runner.review('app/helpers/posts_helper.rb', content)
+      runner.on_complete
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - remove unused methods (PostsController#helper_post)"
+    end
+
+    it "should remove unused methods if delegate method is called" do
+      content = <<-EOF
+      class PostsController < ApplicationController
+        protected
+          def helper_post(type); end
+      end
+      EOF
+      runner.prepare('app/controllers/posts_controller.rb', content)
+      runner.review('app/controllers/posts_controller.rb', content)
+      content = <<-EOF
+      module PostsHelper
+        delegate :helper_post, :to => :controller
+      end
+      EOF
+      runner.review('app/helpers/posts_helper.rb', content)
+      content = <<-EOF
+      <%= helper_post("new") %>
+      EOF
+      runner.review('app/views/posts/show.html.erb', content)
       runner.on_complete
       runner.should have(0).errors
     end
