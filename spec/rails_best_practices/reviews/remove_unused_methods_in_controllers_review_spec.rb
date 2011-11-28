@@ -53,6 +53,31 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview do
       runner.should have(0).errors
     end
 
+    it "should not remove unused methods for around_filter" do
+      content =<<-EOF
+      RailsBestPracticesCom::Application.routes.draw do
+        resources :posts
+      end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      content =<<-EOF
+      class PostsController < ActiveRecord::Base
+        around_filter :set_timestamp
+        protected
+          def set_timestamp
+            Time.zone = "Pacific Time (US & Canada)"
+            yield
+          ensure
+            Time.zone = "UTC"
+          end
+      end
+      EOF
+      runner.prepare('app/controllers/posts_controller.rb', content)
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
+
     it "should not remove inherited_resources methods" do
       content =<<-EOF
       RailsBestPracticesCom::Application.routes.draw do

@@ -25,10 +25,18 @@ module RailsBestPractices
         @model_methods = Prepares.model_methods
       end
 
+      # skip scope and validate nodes for start_command callbacks.
+      def skip_command_callback_nodes
+        %w(named_scope scope validate validate_on_create validate_on_update)
+      end
+
       # mark validate methods as used.
       def start_command(node)
-        if "validate" == node.message.to_s
+        case node.message.to_s
+        when "validate", "validate_on_create", "validate_on_update"
           node.arguments.all.each { |argument| mark_used(argument) }
+        else
+          # nothing
         end
       end
 
