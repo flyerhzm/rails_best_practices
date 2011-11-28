@@ -156,6 +156,21 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview do
   end
 
   context "helper_method" do
+    it "should remove unused methods when helper method is not called" do
+      content = <<-EOF
+      class PostsController < ApplicationController
+        helper_method :helper_post
+        protected
+          def helper_post; end
+      end
+      EOF
+      runner.prepare('app/controllers/posts_controller.rb', content)
+      runner.review('app/controllers/posts_controller.rb', content)
+      runner.on_complete
+      runner.should have(1).errors
+      runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:4 - remove unused methods (PostsController#helper_post)"
+    end
+
     it "should not remove unused methods when call helper method in views" do
       content = <<-EOF
       class PostsController < ApplicationController
