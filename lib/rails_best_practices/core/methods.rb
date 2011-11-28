@@ -75,7 +75,27 @@ module RailsBestPractices
         end
       end
 
-      # remomber the method name, the method is probably be used for the class' public method.
+      # Mark the method as public.
+      #
+      # @param [String] class name
+      # @param [String] method name
+      def mark_publicize(class_name, method_name)
+        method = get_method(class_name, method_name)
+        method.publicize if method
+      end
+
+      # Mark parent classs' method as public.
+      #
+      # @param [String] class name
+      # @param [String] method name
+      def mark_parent_class_methods_publicize(class_name, method_name)
+        Prepares.klasses.select { |klass| klass.extend_class_name == class_name }.each do |klass|
+          mark_parent_class_methods_publicize(klass.to_s, method_name)
+          mark_publicize(class_name, method_name)
+        end
+      end
+
+      # Remomber the method name, the method is probably be used for the class' public method.
       #
       # @param [String] method name
       def possible_public_used(method_name)
