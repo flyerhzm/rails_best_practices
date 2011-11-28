@@ -50,6 +50,10 @@ module RailsBestPractices
           end
         when "around_filter"
           node.arguments.all.each { |argument| mark_used(argument) }
+        when "helper_method"
+          node.arguments.all.each { |argument| mark_possible_used(argument.to_s) }
+        else
+          # nothing
         end
       end
 
@@ -79,6 +83,11 @@ module RailsBestPractices
 
         def internal_except_methods
           %w(rescue_action).map { |method_name| "*\##{method_name}" }
+        end
+
+        def mark_possible_used(method_name)
+          @controller_methods.get_method(current_class_name, method_name).access_control = "public"
+          @controller_methods.possible_public_used(method_name)
         end
     end
   end

@@ -123,6 +123,7 @@ module RailsBestPractices
     # Method info includes class name, method name, access control, file, line, used.
     class Method
       attr_reader :access_control, :class_name, :method_name, :used, :file, :line
+      attr_writer :access_control
 
       def initialize(class_name, method_name, access_control, meta)
         @class_name = class_name
