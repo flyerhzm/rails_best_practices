@@ -31,6 +31,7 @@ module RailsBestPractices
         end
       end
 
+      # skip render and around_filter nodes for start_command callbacks.
       def skip_command_callback_nodes
         %w(render_cell render around_filter)
       end
