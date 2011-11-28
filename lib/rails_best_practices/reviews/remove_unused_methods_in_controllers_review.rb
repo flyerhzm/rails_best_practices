@@ -11,7 +11,7 @@ module RailsBestPractices
       include InheritedResourcesable
 
       interesting_nodes :class, :command, :method_add_arg
-      interesting_files CONTROLLER_FILES, VIEW_FILES
+      interesting_files CONTROLLER_FILES, VIEW_FILES, HELPER_FILES
 
       INHERITED_RESOURCES_METHODS = %w(resource collection begin_of_association_chain build_resource)
 
@@ -87,7 +87,6 @@ module RailsBestPractices
 
         def mark_possible_used(method_name)
           @controller_methods.get_method(current_class_name, method_name).access_control = "public"
-          @controller_methods.possible_public_used(method_name)
         end
     end
   end

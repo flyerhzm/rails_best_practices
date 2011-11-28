@@ -173,6 +173,28 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInControllersReview do
       runner.on_complete
       runner.should have(0).errors
     end
+
+    it "should not remove unused methods when call helper method in helpers" do
+      content = <<-EOF
+      class PostsController < ApplicationController
+        helper_method :helper_post
+        protected
+          def helper_post; end
+      end
+      EOF
+      runner.prepare('app/controllers/posts_controller.rb', content)
+      runner.review('app/controllers/posts_controller.rb', content)
+      content = <<-EOF
+      module PostsHelper
+        def new_post
+          helper_post
+        end
+      end
+      EOF
+      runner.review('app/helpers/posts_helper.rb', content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
   end
 
   context "cells" do
