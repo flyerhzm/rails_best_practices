@@ -89,8 +89,9 @@ module RailsBestPractices
       # @param [String] class name
       # @param [String] method name
       def mark_parent_class_methods_publicize(class_name, method_name)
-        Prepares.klasses.select { |klass| klass.extend_class_name == class_name }.each do |klass|
-          mark_parent_class_methods_publicize(klass.to_s, method_name)
+        klass = Prepares.klasses.find { |klass| klass.to_s == class_name }
+        if klass && klass.extend_class_name
+          mark_parent_class_methods_publicize(klass.extend_class_name, method_name)
           mark_publicize(class_name, method_name)
         end
       end
