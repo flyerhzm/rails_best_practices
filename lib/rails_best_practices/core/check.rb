@@ -172,6 +172,11 @@ module RailsBestPractices
           @klass.extend_class_name
         end
 
+        # get the current module name.
+        def current_module_name
+          modules.join("::")
+        end
+
         # modules.
         def modules
           @moduels ||= []
