@@ -31,6 +31,10 @@ module RailsBestPractices
         end
       end
 
+      def skip_command_callback_nodes
+        %w(render_cell render around_filter)
+      end
+
       # mark corresponding action as used for cells' render and render_call.
       def start_command(node)
         case node.message.to_s
@@ -43,6 +47,8 @@ module RailsBestPractices
             action_name = first_argument.hash_value("state").to_s
             call_method(action_name, current_class_name)
           end
+        when "around_filter"
+          node.arguments.all.each { |argument| mark_used(argument) }
         end
       end
 

@@ -585,5 +585,22 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.on_complete
       runner.should have(0).errors
     end
+
+    it "should not remove unused method for validate_on_create and validate_on_update" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        validate_on_create :valid_email
+        validate_on_update :valid_birth_date
+
+        protected
+          def valid_email; end
+          def valid_birth_date; end
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      runner.on_complete
+      runner.should have(0).errors
+    end
   end
 end

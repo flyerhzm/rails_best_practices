@@ -215,11 +215,16 @@ module RailsBestPractices
               mark_used(node)
             end
 
+            # skip start_command callback for these nodes
+            def skip_command_callback_nodes
+              []
+            end
+
             # remember the message of command node.
             # remember the argument of alias_method and alias_method_chain as well.
             add_callback "start_command" do |node|
               case node.message.to_s
-              when "named_scope", "scope"
+              when *skip_command_callback_nodes
                 # nothing
               when "alias_method"
                 mark_used(node.arguments.all[1])
