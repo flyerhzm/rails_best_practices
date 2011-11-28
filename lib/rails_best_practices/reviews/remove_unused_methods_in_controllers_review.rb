@@ -86,7 +86,8 @@ module RailsBestPractices
         end
 
         def mark_possible_used(method_name)
-          @controller_methods.get_method(current_class_name, method_name).access_control = "public"
+          method = @controller_methods.get_method(current_class_name, method_name)
+          method.publicize if method
         end
     end
   end
