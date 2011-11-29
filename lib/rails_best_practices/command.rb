@@ -77,7 +77,10 @@ OptionParser.new do |opts|
 end
 
 if options[:generate]
-  RailsBestPractices.generate(ARGV.first)
+  RailsBestPractices::Analyzer.new(ARGV.first).generate
 else
-  RailsBestPractices.start(ARGV.first, options)
+  analyzer = RailsBestPractices::Analyzer.new(ARGV.first, options)
+  analyzer.analyze
+  analyzer.output
+  exit analyzer.runner.errors.size
 end
