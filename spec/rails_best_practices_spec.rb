@@ -25,19 +25,38 @@ describe RailsBestPractices do
   end
 
   describe "output_terminal_errors" do
-    check1 = RailsBestPractices::Reviews::LawOfDemeterReview.new
-    check2 = RailsBestPractices::Reviews::UseQueryAttributeReview.new
-    runner = RailsBestPractices::Core::Runner.new(:reviews => [check1, check2])
-    check1.add_error "law of demeter", "app/models/user.rb", 10
-    check2.add_error "use query attribute", "app/models/post.rb", 100
-    RailsBestPractices.runner = runner
-    RailsBestPractices.instance_variable_set("@options", {"without-color" => false})
+    let(:check1) { RailsBestPractices::Reviews::LawOfDemeterReview.new }
+    let(:check2) { RailsBestPractices::Reviews::UseQueryAttributeReview.new }
+    let(:runner) { RailsBestPractices::Core::Runner.new(:reviews => [check1, check2]) }
 
-    $origin_stdout = $stdout
-    $stdout = StringIO.new
-    RailsBestPractices.output_terminal_errors
-    result = $stdout.string
-    $stdout = $origin_stdout
-    result.should == ["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 warnings.".red].join("\n") + "\n"
+    before do
+      check1.add_error "law of demeter", "app/models/user.rb", 10
+      check2.add_error "use query attribute", "app/models/post.rb", 100
+      RailsBestPractices.runner = runner
+      $origin_stdout = $stdout
+      $stdout = StringIO.new
+    end
+
+    after do
+      $stdout = $origin_stdout
+    end
+
+    context 'default options' do
+      it "returns a list of color formatted errors" do
+        RailsBestPractices.instance_variable_set("@options", {"without-color" => false})
+        RailsBestPractices.output_terminal_errors
+        result = $stdout.string
+        result.should == ["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 warnings.".red].join("\n") + "\n"
+      end
+    end
+
+    context 'given --with-urls option' do
+      it "returns a list of errors showing urls to the website" do
+        RailsBestPractices.instance_variable_set("@options", {"with-urls" => true})
+        RailsBestPractices.output_terminal_errors
+        result = $stdout.string
+        result.should == ["app/models/user.rb:10 - law of demeter (http://rails-bestpractices.com/posts/15-the-law-of-demeter)".red, "app/models/post.rb:100 - use query attribute (http://rails-bestpractices.com/posts/56-use-query-attribute)".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 warnings.".red].join("\n") + "\n"
+      end
+    end
   end
 end
