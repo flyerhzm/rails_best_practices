@@ -24,10 +24,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency("rspec")
   s.add_development_dependency("haml")
   s.add_development_dependency("bundler")
-  s.add_development_dependency("spork", "0.9.0.rc9")
-  s.add_development_dependency("guard")
-  s.add_development_dependency("guard-spork")
-  s.add_development_dependency("guard-rspec")
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

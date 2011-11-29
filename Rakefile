@@ -25,12 +25,7 @@ task :release => :build do
   system "gem push rails_best_practices-#{RailsBestPractices::VERSION}.gem"
 end
 
-Rspec::Core::RakeTask.new(:spec) do |spec|
-  spec.pattern = "spec/**/*_spec.rb"
-end
-
-Rspec::Core::RakeTask.new('spec:progress') do |spec|
-  spec.rspec_opts = %w(--format progress)
+RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = "spec/**/*_spec.rb"
 end
 
