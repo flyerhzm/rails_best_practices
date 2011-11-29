@@ -35,7 +35,7 @@ module RailsBestPractices
       # @param [Hash] options pass the prepares and reviews.
       def initialize(options={})
         custom_config = File.join(Runner.base_path, 'config/rails_best_practices.yml')
-        @config = File.exists?(custom_config) ? custom_config : RailsBestPractices::DEFAULT_CONFIG
+        @config = File.exists?(custom_config) ? custom_config : RailsBestPractices::Analyzer::DEFAULT_CONFIG
 
         lexicals = Array(options[:lexicals])
         prepares = Array(options[:prepares])
