@@ -61,7 +61,11 @@ module RailsBestPractices
     # Output the analyze result.
     def output
       if @options['format'] == 'html'
-        load_git_info if @options["with-git"]
+        if @options["with-hg"]
+          load_hg_info
+        elsif @options["with-git"]
+          load_git_info
+        end
         output_html_errors
       else
         output_terminal_errors
@@ -174,6 +178,21 @@ module RailsBestPractices
       end
     end
 
+    # load hg commit and hg username info.
+    def load_hg_info
+      hg_progressbar = ProgressBar.new('Hg Info', @runner.errors.size)
+      @runner.errors.each do |error|
+        hg_info = `cd #{@runner.class.base_path}; hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, "")} | sed -n /:#{error.line_number.split(',').first}:/p`
+        unless hg_info == ""
+          hg_commit_username = hg_info.split(':')[0].strip
+          error.hg_username = hg_commit_username.split(/\ /)[0..-2].join(' ')
+          error.hg_commit = hg_commit_username.split(/\ /)[-1]
+        end
+        hg_progressbar.inc unless @options['debug']
+      end
+      hg_progressbar.finish
+    end
+
     # load git commit and git username info.
     def load_git_info
       git_progressbar = ProgressBar.new('Git Info', @runner.errors.size)
@@ -192,11 +211,11 @@ module RailsBestPractices
     # output errors with html format.
     def output_html_errors
       require 'erubis'
-      template = File.read(File.join(File.dirname(__FILE__), "..", "assets", "result.html.erb"))
+      template = File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "result.html.erb"))
 
       File.open("rails_best_practices_output.html", "w+") do |file|
         eruby = Erubis::Eruby.new(template)
-        file.puts eruby.evaluate(:errors => @runner.errors, :error_types => error_types, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"], :git => @options["with-git"])
+        file.puts eruby.evaluate(:errors => @runner.errors, :error_types => error_types, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"], :git => @options["with-git"], :hg => @options["with-hg"])
       end
     end
 
