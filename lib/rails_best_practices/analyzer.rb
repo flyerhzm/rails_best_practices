@@ -211,7 +211,7 @@ module RailsBestPractices
     # output errors with html format.
     def output_html_errors
       require 'erubis'
-      template = File.read(File.join(File.dirname(__FILE__), "..", "assets", "result.html.erb"))
+      template = File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "result.html.erb"))
 
       File.open("rails_best_practices_output.html", "w+") do |file|
         eruby = Erubis::Eruby.new(template)
