@@ -40,6 +40,10 @@ OptionParser.new do |opts|
     options["with-mvim"] = true
   end
 
+  opts.on("--with-hg", "display hg commit and username, only support html format") do
+    options["with-hg"] = true
+  end
+
   opts.on("--with-git", "display git commit and username, only support html format") do
     options["with-git"] = true
   end
