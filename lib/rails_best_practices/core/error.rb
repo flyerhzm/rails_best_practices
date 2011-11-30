@@ -6,7 +6,7 @@ module RailsBestPractices
     # it indicates the filenname, line number and error message for the violation.
     class Error
       attr_reader :filename, :line_number, :message, :type, :url
-      attr_accessor :git_commit, :git_username
+      attr_accessor :git_commit, :git_username, :hg_commit, :hg_username
 
       def initialize(filename, line_number, message, type, url = nil)
         @filename = filename
