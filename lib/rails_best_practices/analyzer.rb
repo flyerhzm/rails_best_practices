@@ -46,6 +46,7 @@ module RailsBestPractices
     # @param [Hash] options
     def analyze
       @options["exclude"] ||= []
+      @options["output-file"] ||= "rails_best_practices_output.html"
 
       Core::Runner.base_path = @path
       @runner = Core::Runner.new
@@ -213,7 +214,7 @@ module RailsBestPractices
       require 'erubis'
       template = File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "result.html.erb"))
 
-      File.open("rails_best_practices_output.html", "w+") do |file|
+      File.open(@options["output-file"], "w+") do |file|
         eruby = Erubis::Eruby.new(template)
         file.puts eruby.evaluate(:errors => @runner.errors, :error_types => error_types, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"], :git => @options["with-git"], :hg => @options["with-hg"])
       end
