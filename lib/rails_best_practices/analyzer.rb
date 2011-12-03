@@ -45,12 +45,12 @@ module RailsBestPractices
     # @param [String] path the directory of rails project
     # @param [Hash] options
     def analyze
-      @options[:exclude] ||= []
+      @options["exclude"] ||= []
 
       Core::Runner.base_path = @path
       @runner = Core::Runner.new
-      @runner.debug = true if @options['debug']
-      @runner.color = !@options['without-color']
+      @runner.debug = true if @options["debug"]
+      @runner.color = !@options["without-color"]
 
       @bar = ProgressBar.new('Source Codes', parse_files.size * 3)
       ["lexical", "prepare", "review"].each { |process| send(:process, process) }
@@ -60,7 +60,7 @@ module RailsBestPractices
 
     # Output the analyze result.
     def output
-      if @options['format'] == 'html'
+      if @options["format"] == 'html'
         if @options["with-hg"]
           load_hg_info
         elsif @options["with-git"]
@@ -81,7 +81,7 @@ module RailsBestPractices
     def process(process)
       parse_files.each do |file|
         @runner.send("#{process}_file", file)
-        @bar.inc unless @options['debug']
+        @bar.inc unless @options["debug"]
       end
     end
 
@@ -94,12 +94,12 @@ module RailsBestPractices
         files = file_sort(files)
 
         # By default, tmp, vender, spec, test, features are ignored.
-        ['vendor', 'spec', 'test', 'features', 'tmp'].each do |pattern|
+        ["vendor", "spec", "test", "features", "tmp"].each do |pattern|
           files = file_ignore(files, "#{pattern}/") unless @options[pattern]
         end
 
         # Exclude files based on exclude regexes if the option is set.
-        @options[:exclude].each do |pattern|
+        @options["exclude"].each do |pattern|
           files = file_ignore(files, pattern)
         end
 
@@ -188,7 +188,7 @@ module RailsBestPractices
           error.hg_username = hg_commit_username.split(/\ /)[0..-2].join(' ')
           error.hg_commit = hg_commit_username.split(/\ /)[-1]
         end
-        hg_progressbar.inc unless @options['debug']
+        hg_progressbar.inc unless @options["debug"]
       end
       hg_progressbar.finish
     end
@@ -203,7 +203,7 @@ module RailsBestPractices
           error.git_commit = git_commit.split(" ").first.strip
           error.git_username = git_username.strip
         end
-        git_progressbar.inc unless @options['debug']
+        git_progressbar.inc unless @options["debug"]
       end
       git_progressbar.finish
     end
