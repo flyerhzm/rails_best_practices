@@ -53,10 +53,14 @@ module RailsBestPractices
       @runner.debug = true if @options["debug"]
       @runner.color = !@options["without-color"]
 
-      @bar = ProgressBar.new('Source Codes', parse_files.size * 3)
+      @bar = ProgressBar.new('Source Codes', parse_files.size * 3) if display_bar?
       ["lexical", "prepare", "review"].each { |process| send(:process, process) }
       @runner.on_complete
-      @bar.finish
+      @bar.finish if display_bar?
+    end
+
+    def display_bar?
+      !@options["debug"] && !@options["silent"]
     end
 
     # Output the analyze result.
@@ -82,7 +86,7 @@ module RailsBestPractices
     def process(process)
       parse_files.each do |file|
         @runner.send("#{process}_file", file)
-        @bar.inc unless @options["debug"]
+        @bar.inc if display_bar?
       end
     end
 
@@ -181,7 +185,7 @@ module RailsBestPractices
 
     # load hg commit and hg username info.
     def load_hg_info
-      hg_progressbar = ProgressBar.new('Hg Info', @runner.errors.size)
+      hg_progressbar = ProgressBar.new('Hg Info', @runner.errors.size) if display_bar?
       @runner.errors.each do |error|
         hg_info = `cd #{@runner.class.base_path}; hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, "")} | sed -n /:#{error.line_number.split(',').first}:/p`
         unless hg_info == ""
@@ -189,14 +193,14 @@ module RailsBestPractices
           error.hg_username = hg_commit_username.split(/\ /)[0..-2].join(' ')
           error.hg_commit = hg_commit_username.split(/\ /)[-1]
         end
-        hg_progressbar.inc unless @options["debug"]
+        hg_progressbar.inc if display_bar?
       end
-      hg_progressbar.finish
+      hg_progressbar.finish if display_bar?
     end
 
     # load git commit and git username info.
     def load_git_info
-      git_progressbar = ProgressBar.new('Git Info', @runner.errors.size)
+      git_progressbar = ProgressBar.new('Git Info', @runner.errors.size) if display_bar?
       @runner.errors.each do |error|
         git_info = `cd #{@runner.class.base_path}; git blame #{error.filename[@runner.class.base_path.size..-1]} | sed -n #{error.line_number.split(',').first}p`
         unless git_info == ""
@@ -204,9 +208,9 @@ module RailsBestPractices
           error.git_commit = git_commit.split(" ").first.strip
           error.git_username = git_username.strip
         end
-        git_progressbar.inc unless @options["debug"]
+        git_progressbar.inc if display_bar?
       end
-      git_progressbar.finish
+      git_progressbar.finish if display_bar?
     end
 
     # output errors with html format.

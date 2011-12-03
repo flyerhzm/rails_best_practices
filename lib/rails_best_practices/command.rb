@@ -2,7 +2,8 @@
 require 'optparse'
 
 # Usage: rails_best_practices [options] path
-#    -d, --debug                      Debug mode
+#    -d, --debug                      debug mode
+#        --silent                     silent mode
 #    -f, --format FORMAT              output format
 #        --output-file FILE           output html file for the analyzing result
 #        --without-color              only output plain text without color
@@ -14,11 +15,11 @@ require 'optparse'
 #        --spec                       include spec files
 #        --test                       include test files
 #        --features                   include features files
-#    -x, --exclude PATTERNS           Don't analyze files matching a pattern
+#    -x, --exclude PATTERNS           don't analyze files matching a pattern
 #                                     (comma-separated regexp list)
-#    -g, --generate                   Generate configuration yaml
-#    -v, --version                    Show this version
-#    -h, --help                       Show this message
+#    -g, --generate                   generate configuration yaml
+#    -v, --version                    show this version
+#    -h, --help                       show this message
 options = {}
 OptionParser.new do |opts|
   opts.banner = "Usage: rails_best_practices [options] path"
@@ -53,6 +54,10 @@ OptionParser.new do |opts|
 
   opts.on("--output-file OUTPUT_FILE", "output html file for the analyzing result") do |output_file|
     options["output-file"] = output_file
+  end
+
+  opts.on("--silent", "silent mode") do
+    options["silent"] = true
   end
 
   ["vendor", "spec", "test", "features"].each do |pattern|
