@@ -48,7 +48,7 @@ OptionParser.new do |opts|
     options["with-git"] = true
   end
 
-  ['vendor', 'spec', 'test', 'features'].each do |pattern|
+  ["vendor", "spec", "test", "features"].each do |pattern|
     opts.on("--#{pattern}", "include #{pattern} files") do
       options[pattern] = true
     end
@@ -67,20 +67,20 @@ OptionParser.new do |opts|
 
   opts.on("-x", "--exclude PATTERNS", "Don't analyze files matching a pattern", "(comma-separated regexp list)") do |list|
     begin
-      options[:exclude] = list.split(/,/).map{|x| Regexp.new x}
+      options["exclude"] = list.split(/,/).map{|x| Regexp.new x}
     rescue RegexpError => e
       raise OptionParser::InvalidArgument, e.message
     end
   end
 
   opts.on("-g", "--generate", "Generate configuration yaml") do
-    options[:generate] = true
+    options["generate"] = true
   end
 
   opts.parse!
 end
 
-if options[:generate]
+if options["generate"]
   RailsBestPractices::Analyzer.new(ARGV.first).generate
 else
   analyzer = RailsBestPractices::Analyzer.new(ARGV.first, options)
