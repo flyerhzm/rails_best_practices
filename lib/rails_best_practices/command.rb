@@ -4,9 +4,12 @@ require 'optparse'
 # Usage: rails_best_practices [options] path
 #    -d, --debug                      Debug mode
 #    -f, --format FORMAT              output format
+#        --output-file FILE           output html file for the analyzing result
 #        --without-color              only output plain text without color
 #        --with-textmate              open file by textmate in html format
 #        --with-mvim                  open file by mvim in html format
+#        --with-git                   display git commit and username, only support html format
+#        --with-hg                    display hg commit and username, only support html format
 #        --vendor                     include vendor files
 #        --spec                       include spec files
 #        --test                       include test files
@@ -46,6 +49,10 @@ OptionParser.new do |opts|
 
   opts.on("--with-git", "display git commit and username, only support html format") do
     options["with-git"] = true
+  end
+
+  opts.on("--output-file OUTPUT_FILE", "output html file for the analyzing result") do |output_file|
+    options["output-file"] = output_file
   end
 
   ["vendor", "spec", "test", "features"].each do |pattern|
