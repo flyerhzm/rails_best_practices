@@ -22,7 +22,8 @@ By default rails_best_practices will do parse codes in vendor, spec, test and fe
 
     $ rails_best_practices -h
     Usage: rails_best_practices [options]
-        -d, --debug                      Debug mode
+        -d, --debug                      debug mode
+            --silent                     silent mode
         -f, --format FORMAT              output format
             --without-color              only output plain text without color
             --with-textmate              open file by textmate in html format
@@ -33,11 +34,11 @@ By default rails_best_practices will do parse codes in vendor, spec, test and fe
             --spec                       include spec files
             --test                       include test files
             --features                   include features files
-        -x, --exclude PATTERNS           Don't analyze files matching a pattern
+        -x, --exclude PATTERNS           don't analyze files matching a pattern
                                          (comma-separated regexp list)
-        -g, --generate                   Generate configuration yaml
-        -v, --version                    Show this version
-        -h, --help                       Show this message
+        -g, --generate                   generate configuration yaml
+        -v, --version                    show this version
+        -h, --help                       show this message
 
 Resources
 ---------
