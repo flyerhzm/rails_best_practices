@@ -68,46 +68,7 @@
         <li><input type="checkbox" value="<%= error_type.split(':').last %>" /><%= error_type.split(':').last %></li>
       <% end %>
     </ul>
-    <table>
-      <tr>
-        <th>Filename</th>
-        <th>Line Number</th>
-        <th>Warning Message</th>
-        <% if @hg %>
-          <th>Hg Commit</th>
-          <th>Hg Username</th>
-        <% elsif @git %>
-          <th>Git Commit</th>
-          <th>Git Username</th>
-        <% end %>
-      </tr>
-      <% @errors.each do |error| %>
-        <tr class="<%= error.type.split(':').last %>">
-          <td class='filename'>
-            <% if @github %>
-              <a href='https://github.com/<%= @github_name %>/blob/<%= @last_commit_id %>/<%= error.short_filename %>#L<%= error.first_line_number %>' target='_blank'><%= error.filename %></a>
-            <% elsif @textmate %>
-              <a href='txmt://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.filename %></a>
-            <% elsif @mvim %>
-              <a href='mvim://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.filename %></a>
-            <% else %>
-              <%= error.filename %>
-            <% end %>
-          </td>
-          <td class='line'><%= error.line_number %></td>
-          <td class='message'>
-            <a href='<%= error.url %>' target='_blank'><%= error.message %></a>
-          </td>
-          <% if @hg %>
-            <td class='hg_commit'><%= error.hg_commit %></td>
-            <td class='hg_usename'><%= error.hg_username %></td>
-          <% elsif @git %>
-            <td class='git_commit'><%= error.git_commit %></td>
-            <td class='git_usename'><%= error.git_username %></td>
-          <% end %>
-        </tr>
-      <% end %>
-    </table>
+    <%= @result_table %>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script type="text/javascript">
       $(function() {
