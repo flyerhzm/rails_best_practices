@@ -50,6 +50,10 @@ OptionParser.new do |opts|
     options["github-name"] = github_name
   end
 
+  opts.on("--last-commit-id COMMIT_ID", "last commit id") do |commit_id|
+    options["last-commit-id"] = commit_id
+  end
+
   opts.on("--with-hg", "display hg commit and username, only support html format") do
     options["with-hg"] = true
   end
