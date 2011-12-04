@@ -16,6 +16,14 @@ module RailsBestPractices
         @url = url
       end
 
+      def short_filename
+        filename.sub(Core::Runner.base_path, '').sub(/^\/+/, '')
+      end
+
+      def first_line_number
+        line_number.split(',').first
+      end
+
       def to_s
         "#{@filename}:#{@line_number} - #{@message}"
       end

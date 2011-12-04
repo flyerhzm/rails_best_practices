@@ -218,9 +218,20 @@ module RailsBestPractices
       require 'erubis'
       template = File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "result.html.erb"))
 
+      last_commit_id = `cd #{@runner.class.base_path}; git rev-parse HEAD`.chomp if @options["with-github"]
       File.open(@options["output-file"], "w+") do |file|
         eruby = Erubis::Eruby.new(template)
-        file.puts eruby.evaluate(:errors => @runner.errors, :error_types => error_types, :textmate => @options["with-textmate"], :mvim => @options["with-mvim"], :git => @options["with-git"], :hg => @options["with-hg"])
+        file.puts eruby.evaluate(
+          :errors => @runner.errors,
+          :error_types => error_types,
+          :textmate => @options["with-textmate"],
+          :mvim => @options["with-mvim"],
+          :github => @options["with-github"],
+          :github_name => @options["github-name"],
+          :last_commit_id => last_commit_id,
+          :git => @options["with-git"],
+          :hg => @options["with-hg"]
+        )
       end
     end
 
