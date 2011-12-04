@@ -219,7 +219,9 @@ module RailsBestPractices
       table_template = File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "table.html.erb"))
       result_template = File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "result.html.erb"))
 
-      last_commit_id = `cd #{@runner.class.base_path}; git rev-parse HEAD`.chomp if @options["with-github"]
+      if @options["with-github"]
+        last_commit_id = @options["last-commit-id"] ? @options["last-commit-id"] : `cd #{@runner.class.base_path}; git rev-parse HEAD`.chomp
+      end
       File.open(@options["output-file"], "w+") do |file|
         table_eruby = Erubis::Eruby.new(table_template)
         result_eruby = Erubis::Eruby.new(result_template)
