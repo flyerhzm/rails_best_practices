@@ -216,14 +216,15 @@ module RailsBestPractices
     # output errors with html format.
     def output_html_errors
       require 'erubis'
-      template = File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "result.html.erb"))
+      table_template = File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "table.html.erb"))
+      result_template = File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "result.html.erb"))
 
       last_commit_id = `cd #{@runner.class.base_path}; git rev-parse HEAD`.chomp if @options["with-github"]
       File.open(@options["output-file"], "w+") do |file|
-        eruby = Erubis::Eruby.new(template)
-        file.puts eruby.evaluate(
+        table_eruby = Erubis::Eruby.new(table_template)
+        result_eruby = Erubis::Eruby.new(result_template)
+        result_table = table_eruby.evaluate(
           :errors => @runner.errors,
-          :error_types => error_types,
           :textmate => @options["with-textmate"],
           :mvim => @options["with-mvim"],
           :github => @options["with-github"],
@@ -232,6 +233,15 @@ module RailsBestPractices
           :git => @options["with-git"],
           :hg => @options["with-hg"]
         )
+        if @options["only-table"]
+          file.puts result_table
+        else
+          file.puts result_eruby.evaluate(
+            :errors => @runner.errors,
+            :error_types => error_types,
+            :result_table => result_table
+          )
+        end
       end
     end
 
