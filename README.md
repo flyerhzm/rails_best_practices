@@ -113,7 +113,7 @@ Now you can customize this configuration file, the default configuration is as f
     UseObserverCheck: { }
     IsolateSeedDataCheck: { }
     AlwaysAddDbIndexCheck: { }
-    UseBeforeFilterCheck: { customize_count: 1 }
+    UseBeforeFilterCheck: { customize_count: 2 }
     MoveCodeIntoControllerCheck: { }
     MoveCodeIntoModelCheck: { use_count: 2 }
     MoveCodeIntoHelperCheck: { array_count: 3 }
