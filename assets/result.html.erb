@@ -85,13 +85,13 @@
         <tr class="<%= error.type.split(':').last %>">
           <td class='filename'>
             <% if @github %>
-              <a href='https://github.com/<%= @github_name %>/blob/<%= @last_commit_id %>/<%= error.short_filename %>#L<%= error.first_line_number %>' target='_blank'><%= error.filename %></a>
+              <a href='https://github.com/<%= @github_name %>/blob/<%= @last_commit_id %>/<%= error.short_filename %>#L<%= error.first_line_number %>' target='_blank'><%= error.short_filename %></a>
             <% elsif @textmate %>
-              <a href='txmt://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.filename %></a>
+              <a href='txmt://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
             <% elsif @mvim %>
-              <a href='mvim://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.filename %></a>
+              <a href='mvim://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
             <% else %>
-              <%= error.filename %>
+              <%= error.short_filename %>
             <% end %>
           </td>
           <td class='line'><%= error.line_number %></td>
