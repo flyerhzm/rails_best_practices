@@ -70,10 +70,6 @@ OptionParser.new do |opts|
     options["silent"] = true
   end
 
-  opts.on("--only-table", "only table result") do
-    options["only-table"] = true
-  end
-
   ["vendor", "spec", "test", "features"].each do |pattern|
     opts.on("--#{pattern}", "include #{pattern} files") do
       options[pattern] = true
