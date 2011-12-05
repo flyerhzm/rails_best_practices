@@ -12,6 +12,7 @@ require 'optparse'
 #        --with-github GITHUB_NAME    open file on github in html format, GITHUB_NAME is like flyerhzm/rails-bestpractices.com
 #        --with-git                   display git commit and username, only support html format
 #        --with-hg                    display hg commit and username, only support html format
+#        --template TEMPLATE          customize erb template
 #        --vendor                     include vendor files
 #        --spec                       include spec files
 #        --test                       include test files
@@ -60,6 +61,10 @@ OptionParser.new do |opts|
 
   opts.on("--with-git", "display git commit and username, only support html format") do
     options["with-git"] = true
+  end
+
+  opts.on("--template TEMPLATE", "customize erb template") do |template|
+    options["template"] = template
   end
 
   opts.on("--output-file OUTPUT_FILE", "output html file for the analyzing result") do |output_file|
