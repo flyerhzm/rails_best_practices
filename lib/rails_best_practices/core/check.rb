@@ -172,6 +172,30 @@ module RailsBestPractices
           @klass.extend_class_name
         end
 
+        # modules.
+        def modules
+          @moduels ||= []
+        end
+      end
+
+      # Helper to parse the module name.
+      def Moduleable
+        def self.included(base)
+          base.class_eval do
+            interesting_nodes :module
+
+            # remember module name
+            add_callback "start_module" do |node|
+              modules << node.module_name.to_s
+            end
+
+            # end of the module
+            add_callback "end_module" do |node|
+              modules.pop
+            end
+          end
+        end
+
         # get the current module name.
         def current_module_name
           modules.join("::")
