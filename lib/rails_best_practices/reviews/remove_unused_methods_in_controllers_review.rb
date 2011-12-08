@@ -3,6 +3,15 @@ require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices
   module Reviews
+    # Find out unused methods in controllers.
+    #
+    # Implementation:
+    #
+    # Review process:
+    #   remember all method calls in controllers,
+    #   if they are not defined in routes,
+    #   and they are not called in controllers,
+    #   then they are the unused methods in controllers.
     class RemoveUnusedMethodsInControllersReview < Review
       include Klassable
       include Completeable

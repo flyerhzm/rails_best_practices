@@ -294,7 +294,8 @@ module RailsBestPractices
                 call_method(method_name)
               end
 
-              def call_method(method_name, class_name=current_class_name)
+              def call_method(method_name, class_name=nil)
+                class_name ||= (current_class_name.blank? ? current_module_name : current_class_name)
                 if methods.has_method?(class_name, method_name)
                   methods.get_method(class_name, method_name).mark_used
                 end
@@ -346,6 +347,10 @@ module RailsBestPractices
                   (method_name == '*' && class_name == method.class_name) ||
                   (class_name == method.class_name && method_name == method.method_name)
               end
+            end
+
+            def internal_except_methods
+              raise NoMethodError.new "no method internal_except_methods"
             end
           end
         end
