@@ -67,6 +67,9 @@ module RailsBestPractices
         end
       end
 
+      def after_prepare; end
+      def after_review; end
+
       # add error if source code violates rails best practice.
       #
       # @param [String] message, is the string message for violation of the rails best practice
@@ -135,24 +138,24 @@ module RailsBestPractices
       end
 
       # Helper to parse the class name.
-      module Klassable
+      module Classable
         def self.included(base)
           base.class_eval do
             interesting_nodes :module, :class
 
             # remember module name
             add_callback "start_module" do |node|
-              modules << node.module_name.to_s
+              classable_modules << node.module_name.to_s
             end
 
             # end of the module.
             add_callback "end_module" do |node|
-              modules.pop
+              classable_modules.pop
             end
 
             # remember the class anem
             add_callback "start_class" do |node|
-              @klass = Core::Klass.new(node.class_name.to_s, node.base_class.to_s, modules)
+              @klass = Core::Klass.new(node.class_name.to_s, node.base_class.to_s, classable_modules)
             end
 
             # end of the class
@@ -173,50 +176,52 @@ module RailsBestPractices
         end
 
         # modules.
-        def modules
-          @moduels ||= []
+        def classable_modules
+          @class_moduels ||= []
         end
       end
 
       # Helper to parse the module name.
-      def Moduleable
+      module Moduleable
         def self.included(base)
           base.class_eval do
             interesting_nodes :module
 
             # remember module name
             add_callback "start_module" do |node|
-              modules << node.module_name.to_s
+              moduleable_modules << node.module_name.to_s
             end
 
-            # end of the module
+            # end of module
             add_callback "end_module" do |node|
-              modules.pop
+              moduleable_modules.pop
             end
           end
         end
 
         # get the current module name.
         def current_module_name
-          modules.join("::")
+          moduleable_modules.join("::")
         end
 
         # modules.
-        def modules
-          @moduels ||= []
+        def moduleable_modules
+          @moduleable_moduels ||= []
         end
       end
 
       # Helper to add callback after all files reviewed.
-      module Completeable
+      module Afterable
         def self.included(base)
           base.class_eval do
             interesting_nodes :class
-            interesting_files /rails_best_practices\.complete/
+            interesting_files /rails_best_practices\.after_(prepare|review)/
 
             add_callback "end_class" do |node|
-              if "RailsBestPractices::Complete" == node.class_name.to_s
-                on_complete
+              if "RailsBestPractices::AfterPrepare" == node.class_name.to_s
+                after_prepare
+              elsif "RailsBestPractices::AfterReview" == node.class_name.to_s
+                after_review
               end
             end
           end
@@ -319,12 +324,12 @@ module RailsBestPractices
               end
 
               def call_method(method_name, class_name=nil)
-                class_name ||= (current_class_name.blank? ? current_module_name : current_class_name)
-                if methods.has_method?(class_name, method_name)
-                  methods.get_method(class_name, method_name).mark_used
+                name ||= respond_to?(:current_class_name) ? current_class_name : current_module_name
+                if methods.has_method?(name, method_name)
+                  methods.get_method(name, method_name).mark_used
                 end
-                methods.mark_parent_class_method_used(class_name, method_name)
-                methods.mark_subclasses_method_used(class_name, method_name)
+                methods.mark_parent_class_method_used(name, method_name)
+                methods.mark_subclasses_method_used(name, method_name)
                 methods.possible_public_used(method_name)
               end
           end

@@ -24,7 +24,7 @@ module RailsBestPractices
     #   if there are any foreign keys not existed in index columns,
     #   then the foreign keys should add db index.
     class AlwaysAddDbIndexReview < Review
-      include Completeable
+      include Afterable
 
       interesting_nodes :command, :command_call
       interesting_files SCHEMA_FILE
@@ -73,7 +73,7 @@ module RailsBestPractices
       # compare foreign keys and index columns,
       # if there are any foreign keys not existed in index columns,
       # then we should add db index for that foreign keys.
-      def on_complete
+      def after_review
         remove_only_type_foreign_keys
         @foreign_keys.each do |table, foreign_key|
           table_node = @table_nodes[table]

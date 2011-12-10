@@ -55,7 +55,6 @@ module RailsBestPractices
 
       @bar = ProgressBar.new('Source Codes', parse_files.size * 3) if display_bar?
       ["lexical", "prepare", "review"].each { |process| send(:process, process) }
-      @runner.on_complete
       @bar.finish if display_bar?
     end
 
@@ -88,6 +87,7 @@ module RailsBestPractices
         @runner.send("#{process}_file", file)
         @bar.inc if display_bar?
       end
+      @runner.send("after_#{process}")
     end
 
     # get all files for parsing.
@@ -130,37 +130,22 @@ module RailsBestPractices
     end
 
 
-    # sort files, models first, then mailers, and sort other files by characters.
+    # sort files, models first, mailers, helpers, and then sort other files by characters.
     #
     # models and mailers first as for prepare process.
     #
     # @param [Array] files
     # @return [Array] sorted files
     def file_sort files
-      models = []
-      mailers = []
-      files.each do |a|
-        if a =~ Core::Check::MODEL_FILES
-          models << a
-        end
-      end
-      files.each do |a|
-        if a =~ Core::Check::MAILER_FILES
-          mailers << a
-        end
-      end
-      files.collect! do |a|
-        if a =~ Core::Check::MAILER_FILES || a =~ Core::Check::MODEL_FILES
-          #nil
-        else
-          a
-        end
-      end
-      files.compact!
+      models = files.find_all { |file| file =~ Core::Check::MODEL_FILES }
+      mailers = files.find_all { |file| file =~ Core::Check::MAILER_FILES }
+      helpers = files.find_all { |file| file =~ Core::Check::HELPER_FILES }
+      others = files.find_all { |file| file !~ Core::Check::MAILER_FILES && file !~ Core::Check::MODEL_FILES && file !~ Core::Check::HELPER_FILES }
       models.sort
       mailers.sort
-      files.sort
-      return models + mailers + files
+      helpers.sort
+      others.sort
+      return models + mailers + helpers + others
     end
 
     # ignore specific files.
