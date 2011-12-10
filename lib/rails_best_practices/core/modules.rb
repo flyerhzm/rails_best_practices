@@ -3,6 +3,10 @@ module RailsBestPractices
   module Core
     # Module container
     class Modules < Array
+      # add module decendant.
+      #
+      # @param [String] module name
+      # @param [String] decendant name
       def add_module_decendant(module_name, decendant)
         mod = find { |mod| mod.to_s == module_name }
         mod.add_decendant(decendant) if mod

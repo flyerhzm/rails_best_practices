@@ -81,6 +81,7 @@ module RailsBestPractices
         @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
       end
 
+      # ask Reviews::RemoveUnusedMoethodsInHelperReview to check the controllers who include helpers.
       def after_prepare
         decendants = @helpers.map(&:decendants).flatten
         if decendants.present?
