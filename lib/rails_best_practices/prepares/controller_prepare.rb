@@ -51,7 +51,7 @@ module RailsBestPractices
           if "all" == node.arguments.all.first.to_s
             @actions = DEFAULT_ACTIONS
             option_argument = node.arguments.all[1]
-            if :bare_assoc_hash == option_argument.sexp_type && option_argument.hash_value("except")
+            if option_argument && :bare_assoc_hash == option_argument.sexp_type && option_argument.hash_value("except")
               @actions -= option_argument.hash_value("except").to_object
             end
           else
