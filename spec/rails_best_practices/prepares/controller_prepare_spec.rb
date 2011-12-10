@@ -102,6 +102,17 @@ describe RailsBestPractices::Prepares::ControllerPrepare do
         methods.get_methods("PostsController").map(&:method_name).should == ["index", "new", "create", "edit", "update", "destroy"]
       end
 
+      it "extend inherited_resources with all actions with no arguments" do
+        content =<<-EOF
+        class PostsController < InheritedResources::Base
+          actions :all
+        end
+        EOF
+        runner.prepare('app/controllers/posts_controller.rb', content)
+        methods = RailsBestPractices::Prepares.controller_methods
+        methods.get_methods("PostsController").map(&:method_name).should == ["index", "show", "new", "create", "edit", "update", "destroy"]
+      end
+
       it "DSL inherit_resources" do
         content =<<-EOF
         class PostsController
