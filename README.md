@@ -22,24 +22,25 @@ By default rails_best_practices will do parse codes in vendor, spec, test and fe
 
     $ rails_best_practices -h
     Usage: rails_best_practices [options]
-        -d, --debug                      debug mode
-            --silent                     silent mode
+        -d, --debug                      Debug mode
         -f, --format FORMAT              output format
             --without-color              only output plain text without color
             --with-textmate              open file by textmate in html format
             --with-mvim                  open file by mvim in html format
-            --with-github                open file on github in html format
-            --with-git                   display git commit and git username in html format
-            --with-hg                    display hg commit and hg username in html format
+            --with-hg                    display hg commit and username, only support html format
+            --with-git                   display git commit and username, only support html format
+            --template TEMPLATE          customize erb template
+            --output-file OUTPUT_FILE    output html file for the analyzing result
+            --silent                     silent mode
             --vendor                     include vendor files
             --spec                       include spec files
             --test                       include test files
             --features                   include features files
-        -x, --exclude PATTERNS           don't analyze files matching a pattern
+        -x, --exclude PATTERNS           Don't analyze files matching a pattern
                                          (comma-separated regexp list)
-        -g, --generate                   generate configuration yaml
-        -v, --version                    show this version
-        -h, --help                       show this message
+        -g, --generate                   Generate configuration yaml
+        -v, --version                    Show this version
+        -h, --help                       Show this message
 
 Resources
 ---------
