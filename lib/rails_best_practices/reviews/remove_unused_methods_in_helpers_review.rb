@@ -3,17 +3,17 @@ require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices
   module Reviews
+    # Find out unused methods in helpers.
+    #
+    # Implementation:
+    #
+    # Review process:
+    #   remember all method calls in helpers.
+    #   if they are not called in views or helpers,
+    #   then they are unused methods in helpers.
     class RemoveUnusedMethodsInHelpersReview < Review
-      # Find out unused methods in helpers.
-      #
-      # Implementation:
-      #
-      # Review process:
-      #   remember all method calls in helpers.
-      #   if they are not called in views or helpers,
-      #   then they are unused methods in helpers.
-      include Klassable
-      include Completeable
+      include Moduleable
+      include Afterable
       include Callable
       include Exceptable
 
@@ -22,10 +22,11 @@ module RailsBestPractices
       def initialize(options={})
         super
         @helper_methods = Prepares.helper_methods
+        self.class.interesting_files Prepares.helpers.map(&:decendants)
       end
 
       # get all unused methods at the end of review process
-      def on_complete
+      def after_review
         @helper_methods.get_all_unused_methods.each do |method|
           if !excepted?(method)
             add_error "remove unused methods (#{method.class_name}##{method.method_name})", method.file, method.line

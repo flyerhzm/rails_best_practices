@@ -5,7 +5,7 @@ module RailsBestPractices
   module Prepares
     # Remember models and model associations.
     class ModelPrepare < Core::Check
-      include Core::Check::Klassable
+      include Core::Check::Classable
       include Core::Check::Accessable
 
       interesting_nodes :class, :def, :command, :var_ref, :alias

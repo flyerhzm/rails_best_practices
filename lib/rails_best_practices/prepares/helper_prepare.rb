@@ -5,14 +5,20 @@ module RailsBestPractices
   module Prepares
     # Remember helper methods.
     class HelperPrepare < Core::Check
-      include Core::Check::Klassable
+      include Core::Check::Moduleable
       include Core::Check::Accessable
 
-      interesting_nodes :def
-      interesting_files HELPER_FILES
+      interesting_nodes :def, :command
+      interesting_files HELPER_FILES, CONTROLLER_FILES
 
       def initialize
+        @helpers = Prepares.helpers
         @methods = Prepares.helper_methods
+      end
+
+      # check module node to remember the module name.
+      def start_module(node)
+        @helpers << Core::Mod.new(current_module_name, [])
       end
 
       # check def node to remember all methods.
@@ -25,8 +31,10 @@ module RailsBestPractices
       #       }
       #     }
       def start_def(node)
-        method_name = node.method_name.to_s
-        @methods.add_method(current_module_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+        if node.file =~ HELPER_FILES
+          method_name = node.method_name.to_s
+          @methods.add_method(current_module_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+        end
       end
     end
   end

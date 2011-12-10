@@ -5,9 +5,10 @@ module RailsBestPractices
   module Prepares
     # Remember controllers and controller methods
     class ControllerPrepare < Core::Check
-      include Core::Check::Klassable
+      include Core::Check::Classable
       include Core::Check::InheritedResourcesable
       include Core::Check::Accessable
+      include Core::Check::Afterable
 
       interesting_nodes :class, :var_ref, :command, :def
       interesting_files CONTROLLER_FILES
@@ -17,6 +18,7 @@ module RailsBestPractices
       def initialize
         @controllers = Prepares.controllers
         @methods = Prepares.controller_methods
+        @helpers = Prepares.helpers
         @inherited_resources = false
       end
 
@@ -47,7 +49,9 @@ module RailsBestPractices
 
       # restrict actions for inherited_resources
       def start_command(node)
-        if @inherited_resources && "actions" ==  node.message.to_s
+        if "include" == node.message.to_s
+          @helpers.add_module_decendant(node.arguments.all.first.to_s, current_class_name)
+        elsif @inherited_resources && "actions" ==  node.message.to_s
           if "all" == node.arguments.all.first.to_s
             @actions = DEFAULT_ACTIONS
             option_argument = node.arguments.all[1]
@@ -75,6 +79,13 @@ module RailsBestPractices
       def start_def(node)
         method_name = node.method_name.to_s
         @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+      end
+
+      def after_prepare
+        decendants = @helpers.map(&:decendants).flatten
+        if decendants.present?
+          Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *decendants.map { |decendant| %r|#{decendant.underscore}| }
+        end
       end
     end
   end

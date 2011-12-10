@@ -11,9 +11,9 @@ describe RailsBestPractices::Analyzer do
   end
 
   describe "file_sort" do
-    it "should get models first, then mailers" do
-      files = ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/models/user.rb", "app/views/users/index.html.haml", "lib/user.rb"]
-      subject.file_sort(files).should == ["app/models/user.rb", "app/mailers/user_mailer.rb", "app/controllers/users_controller.rb", "app/views/users/index.html.haml", "lib/user.rb"]
+    it "should get models first, mailers, helpers and then others" do
+      files = ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/helpers/users_helper.rb", "app/models/user.rb", "app/views/users/index.html.haml", "lib/user.rb"]
+      subject.file_sort(files).should == ["app/models/user.rb", "app/mailers/user_mailer.rb", "app/helpers/users_helper.rb", "app/controllers/users_controller.rb", "app/views/users/index.html.haml", "lib/user.rb"]
     end
   end
 

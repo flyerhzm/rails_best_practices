@@ -25,7 +25,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(1).errors
       runner.errors[0].to_s.should == "app/models/post.rb:4 - remove unused methods (Post#find_by_sql)"
     end
@@ -38,7 +38,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare('app/models/post.rb', content)
       runner.review('app/models/post.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -62,7 +62,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -76,7 +76,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare('app/models/post.rb', content)
       runner.review('app/models/post.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -100,7 +100,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -124,7 +124,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -150,7 +150,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -164,7 +164,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare('app/models/post.rb', content)
       runner.review('app/models/post.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -178,7 +178,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare('app/models/post.rb', content)
       runner.review('app/models/post.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -191,7 +191,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare('app/models/post.rb', content)
       runner.review('app/models/post.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
   end
@@ -204,7 +204,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.prepare('app/models/post.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(1).errors
       runner.errors[0].to_s.should == "app/models/post.rb:2 - remove unused methods (Post#fetch)"
     end
@@ -224,7 +224,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -236,7 +236,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare('app/models/post.rb', content)
       runner.review('app/models/post.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -256,7 +256,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -276,7 +276,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -297,7 +297,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(1).errors
     end
 
@@ -318,7 +318,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(1).errors
     end
   end
@@ -341,7 +341,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(1).errors
       runner.errors[0].to_s.should == "app/models/post.rb:3 - remove unused methods (Post#test)"
     end
@@ -372,7 +372,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review('app/controllers/posts_controller.rb', content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
   end
@@ -394,7 +394,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review("app/controllers/posts_controller.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -406,7 +406,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare("app/models/post.rb", content)
       runner.review("app/models/post.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(1).errors
       runner.errors[0].to_s.should == "app/models/post.rb:2 - remove unused methods (Post#active)"
     end
@@ -429,7 +429,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review("app/controllers/posts_controller.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -441,7 +441,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare("app/models/post.rb", content)
       runner.review("app/models/post.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(1).errors
       runner.errors[0].to_s.should == "app/models/post.rb:2 - remove unused methods (Post#active)"
     end
@@ -465,7 +465,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review("app/controllers/posts_controller.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -486,7 +486,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review("app/controllers/posts_controller.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -507,7 +507,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review("app/controllers/posts_controller.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -528,7 +528,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       end
       EOF
       runner.review("app/controllers/posts_controller.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
   end
@@ -546,7 +546,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare("app/models/post.rb", content)
       runner.review("app/models/post.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
   end
@@ -565,7 +565,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare("app/models/post.rb", content)
       runner.review("app/models/post.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
   end
@@ -582,7 +582,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare("app/models/post.rb", content)
       runner.review("app/models/post.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
 
@@ -599,7 +599,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       EOF
       runner.prepare("app/models/post.rb", content)
       runner.review("app/models/post.rb", content)
-      runner.on_complete
+      runner.after_review
       runner.should have(0).errors
     end
   end

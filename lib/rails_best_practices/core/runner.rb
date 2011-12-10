@@ -115,10 +115,21 @@ module RailsBestPractices
         (@reviews + @lexicals).collect {|check| check.errors}.flatten
       end
 
+      def after_lexical; end
+
       # provide a handler after all files reviewed.
-      def on_complete
-        filename = "rails_best_practices.complete"
-        content = "class RailsBestPractices::Complete; end"
+      def after_prepare
+        filename = "rails_best_practices.after_prepare"
+        content = "class RailsBestPractices::AfterPrepare; end"
+        node = parse_ruby(filename, content)
+        node.file = filename
+        node.prepare(@checker)
+      end
+
+      # provide a handler after all files reviewed.
+      def after_review
+        filename = "rails_best_practices.after_review"
+        content = "class RailsBestPractices::AfterReview; end"
         node = parse_ruby(filename, content)
         node.file = filename
         node.review(@checker)

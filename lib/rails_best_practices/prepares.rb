@@ -41,6 +41,10 @@ module RailsBestPractices
         @controller_methods ||= Core::Methods.new
       end
 
+      def helpers
+        @helpers ||= Core::Helpers.new
+      end
+
       def helper_methods
         @helper_methods ||= Core::Methods.new
       end
