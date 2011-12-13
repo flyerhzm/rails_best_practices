@@ -30,7 +30,7 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
       runner.prepare('db/schema.rb', content)
     end
 
-    it "should law of demeter" do
+    it "should law of demeter with erb" do
       content = <<-EOF
       <%= @invoice.user.name %>
       <%= @invoice.user.address %>
@@ -41,7 +41,7 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
       runner.errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
     end
 
-    it "should law of demeter" do
+    it "should law of demeter with haml" do
       content = <<-EOF
 = @invoice.user.name
 = @invoice.user.address
@@ -50,6 +50,17 @@ describe RailsBestPractices::Reviews::LawOfDemeterReview do
       runner.review('app/views/invoices/show.html.haml', content)
       runner.should have(3).errors
       runner.errors[0].to_s.should == "app/views/invoices/show.html.haml:1 - law of demeter"
+    end
+
+    it "should law of demeter with slim" do
+      content = <<-EOF
+= @invoice.user.name
+= @invoice.user.address
+= @invoice.user.cellphone
+      EOF
+      runner.review('app/views/invoices/show.html.slim', content)
+      runner.should have(3).errors
+      runner.errors[0].to_s.should == "app/views/invoices/show.html.slim:1 - law of demeter"
     end
 
     it "should no law of demeter" do
