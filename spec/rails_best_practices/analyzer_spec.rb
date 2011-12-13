@@ -12,15 +12,15 @@ describe RailsBestPractices::Analyzer do
 
   describe "file_sort" do
     it "should get models first, mailers, helpers and then others" do
-      files = ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/helpers/users_helper.rb", "app/models/user.rb", "app/views/users/index.html.haml", "lib/user.rb"]
-      subject.file_sort(files).should == ["app/models/user.rb", "app/mailers/user_mailer.rb", "app/helpers/users_helper.rb", "app/controllers/users_controller.rb", "app/views/users/index.html.haml", "lib/user.rb"]
+      files = ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/helpers/users_helper.rb", "app/models/user.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim", "lib/user.rb"]
+      subject.file_sort(files).should == ["app/models/user.rb", "app/mailers/user_mailer.rb", "app/helpers/users_helper.rb", "app/controllers/users_controller.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim", "lib/user.rb"]
     end
   end
 
   describe "file_ignore" do
     it "should ignore lib" do
-      files = ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/models/user.rb", "app/views/users/index.html.haml", "lib/user.rb"]
-      subject.file_ignore(files, 'lib/').should == ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/models/user.rb", "app/views/users/index.html.haml"]
+      files = ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/models/user.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim", "lib/user.rb"]
+      subject.file_ignore(files, 'lib/').should == ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/models/user.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim"]
     end
   end
 

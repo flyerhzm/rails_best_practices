@@ -93,7 +93,7 @@ module RailsBestPractices
       # @param [String] content content of the file
       def review(filename, content)
         puts filename if @debug
-        content = parse_erb_or_haml(filename, content)
+        content = parse_html_template(filename, content)
         node = parse_ruby(filename, content)
         if node
           node.file = filename
@@ -154,11 +154,11 @@ module RailsBestPractices
           end
         end
 
-        # parse erb or html code.
+        # parse html tempalte code, erb, haml and slim.
         #
-        # @param [String] filename is the filename of the erb or haml code.
-        # @param [String] content is the source code of erb or haml file.
-        def parse_erb_or_haml(filename, content)
+        # @param [String] filename is the filename of the erb, haml or slim code.
+        # @param [String] content is the source code of erb, haml or slim file.
+        def parse_html_template(filename, content)
           if filename =~ /.*\.erb$|.*\.rhtml$/
             content = Erubis::OnlyRuby.new(content).src
           elsif filename =~ /.*\.haml$/
@@ -171,6 +171,15 @@ module RailsBestPractices
               raise "In order to parse #{filename}, please install the haml gem"
             rescue Haml::Error, SyntaxError
               # do nothing, just ignore the wrong haml files.
+            end
+          elsif filename =~ /.*\.slim$/
+            begin
+              require 'slim'
+              content = Slim::Engine.new.call(content)
+            rescue LoadError
+              raise "In order to parse #{filename}, please install the slim gem"
+            rescue SyntaxError
+              # do nothing, just ignore the wrong slim files
             end
           end
           content
