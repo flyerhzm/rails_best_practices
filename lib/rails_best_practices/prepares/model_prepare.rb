@@ -11,7 +11,7 @@ module RailsBestPractices
       interesting_nodes :class, :def, :command, :var_ref, :alias
       interesting_files MODEL_FILES
 
-      ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many embeds_many embeds_one embedded_in)
+      ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many embeds_many embeds_one embedded_in many one)
 
       def initialize
         @models = Prepares.models
@@ -70,6 +70,9 @@ module RailsBestPractices
           arguments = node.arguments.all
           attribute_name = arguments.first.to_s
           attribute_type = arguments.last.hash_value("type").present? ? arguments.last.hash_value("type").to_s : "String"
+          @model_attributes.add_attribute(current_class_name, attribute_name, attribute_type)
+        when "key"
+          attribute_name, attribute_type = node.arguments.all.map(&:to_s)
           @model_attributes.add_attribute(current_class_name, attribute_name, attribute_type)
         when *ASSOCIATION_METHODS
           remember_association(node)

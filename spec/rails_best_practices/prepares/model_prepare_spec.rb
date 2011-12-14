@@ -95,7 +95,7 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       end
     end
 
-    context "mongoid embed" do
+    context "mongoid embeds" do
       it "should parse embeds_many" do
         content =<<-EOF
         class Person
@@ -130,6 +130,32 @@ describe RailsBestPractices::Prepares::ModelPrepare do
         runner.prepare("app/models/drink.rb", content)
         model_associations = RailsBestPractices::Prepares.model_associations
         model_associations.get_association("Drink", "alcoholic").should == {"meta" => "embedded_in", "class_name" => "Lush"}
+      end
+    end
+
+    context "mongomapper many/one" do
+      it "should parse one" do
+        content =<<-EOF
+        class Employee
+          include MongoMapper::Document
+          one :desk
+        end
+        EOF
+        runner.prepare("app/models/employee.rb", content)
+        model_associations = RailsBestPractices::Prepares.model_associations
+        model_associations.get_association("Employee", "desk").should == {"meta" => "one", "class_name" => "Desk"}
+      end
+
+      it "should parse many" do
+        content =<<-EOF
+        class Tree
+          include MongoMapper::Document
+          many :birds
+        end
+        EOF
+        runner.prepare("app/models/tree.rb", content)
+        model_associations = RailsBestPractices::Prepares.model_associations
+        model_associations.get_association("Tree", "birds").should == {"meta" => "many", "class_name" => "Bird"}
       end
     end
   end
@@ -273,6 +299,28 @@ describe RailsBestPractices::Prepares::ModelPrepare do
       model_attributes.get_attribute_type("Post", "comments_count").should == "Integer"
       model_attributes.get_attribute_type("Post", "deleted_at").should == "DateTime"
       model_attributes.get_attribute_type("Post", "active").should == "Boolean"
+    end
+
+    it "should parse mongomapper field" do
+      content =<<-EOF
+      class Post
+        include MongoMapper::Document
+        key :first_name,  String
+        key :last_name,   String
+        key :age,         Integer
+        key :born_at,     Time
+        key :active,      Boolean
+        key :fav_colors,  Array
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      model_attributes = RailsBestPractices::Prepares.model_attributes
+      model_attributes.get_attribute_type("Post", "first_name").should == "String"
+      model_attributes.get_attribute_type("Post", "last_name").should == "String"
+      model_attributes.get_attribute_type("Post", "age").should == "Integer"
+      model_attributes.get_attribute_type("Post", "born_at").should == "Time"
+      model_attributes.get_attribute_type("Post", "active").should == "Boolean"
+      model_attributes.get_attribute_type("Post", "fav_colors").should == "Array"
     end
   end
 
