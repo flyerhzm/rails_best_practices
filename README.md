@@ -9,13 +9,13 @@ rails_best_practices is a code metric tool to check the quality of rails codes.
 
 rails_best_practices supports
 
-activerecord
-mongoid
-mongomapper
+* activerecord
+* mongoid
+* mongomapper
 
-erb
-haml
-slim
+* erb
+* haml
+* slim
 
 Usage
 -----
