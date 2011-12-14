@@ -7,11 +7,13 @@ rails_best_practices
 
 rails_best_practices is a code metric tool to check the quality of rails codes.
 
-rails_best_practices supports
+it supports following ORM/ODMs:
 
 * activerecord
 * mongoid
 * mongomapper
+
+following template engines:
 
 * erb
 * haml
