@@ -8,8 +8,8 @@ module RailsBestPractices
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
       MODEL_FILES = /models\/.*\.rb$/
       MAILER_FILES = /models\/.*mailer\.rb$|mailers\/.*mailer\.rb/
-      VIEW_FILES = /(views|cells)\/.*\.(erb|haml|slim|builder)$/
-      PARTIAL_VIEW_FILES = /(views|cells)\/.*\/_.*\.(erb|haml|slim|builder)$/
+      VIEW_FILES = /(views|cells)\/.*\.(erb|haml|slim|builder|rxml)$/
+      PARTIAL_VIEW_FILES = /(views|cells)\/.*\/_.*\.(erb|haml|slim|builder|rxml)$/
       ROUTE_FILES = /config\/routes.*\.rb/
       SCHEMA_FILE = /db\/schema\.rb/
       HELPER_FILES = /helpers\/.*\.rb$/
