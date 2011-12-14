@@ -123,7 +123,7 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes.size.should == 14
       end
 
-      it "should add rout with namespace" do
+      it "should add route with namespace" do
         content =<<-EOF
         ActionController::Routing::Routes.draw do |map|
           map.namespace :admin do |admin|
@@ -463,7 +463,7 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes.size.should == 14
       end
 
-      it "should add rout with namespace" do
+      it "should add route with namespace" do
         content =<<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           namespace :admin do
