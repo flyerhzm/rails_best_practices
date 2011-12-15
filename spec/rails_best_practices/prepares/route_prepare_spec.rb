@@ -538,5 +538,16 @@ describe RailsBestPractices::Prepares::RoutePrepare do
       routes = RailsBestPractices::Prepares.routes
       routes.size.should == 0
     end
+
+    it "should do nothing for redirect", :focus => true do
+      content =<<-EOF
+      RailsBestPracticesCom::Application.routes.draw do
+        delete '/users' => redirect("/")
+      end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.size.should == 0
+    end
   end
 end
