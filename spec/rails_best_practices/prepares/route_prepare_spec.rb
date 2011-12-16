@@ -438,16 +438,21 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         RailsBestPracticesCom::Application.routes.draw do
           resources :posts, :only => [:show] do
             get :list, :on => :collection
+            collection do
+              get :search
+              match :available
+            end
             post :create, :on => :member
-            put :update, :on => :member
-            delete :destroy, :on => :member
+            member do
+              put :update
+            end
           end
         end
         EOF
         runner.prepare('config/routes.rb', content)
         routes = RailsBestPractices::Prepares.routes
-        routes.size.should == 5
-        routes.map(&:to_s).should == ["PostsController#show", "PostsController#list", "PostsController#create", "PostsController#update", "PostsController#destroy"]
+        routes.size.should == 6
+        routes.map(&:to_s).should == ["PostsController#show", "PostsController#list", "PostsController#search", "PostsController#available", "PostsController#create", "PostsController#update"]
       end
 
       it "should add route with nested routes" do
