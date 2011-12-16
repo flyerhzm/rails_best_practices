@@ -564,7 +564,8 @@ describe RailsBestPractices::Prepares::RoutePrepare do
     it "should do nothing for redirect" do
       content =<<-EOF
       RailsBestPracticesCom::Application.routes.draw do
-        delete '/users' => redirect("/")
+        match "/stories/:name" => redirect("/posts/%{name}")
+        match "/stories" => redirect {|p, req| "/posts/\#{req.subdomain}" }
       end
       EOF
       runner.prepare('config/routes.rb', content)
