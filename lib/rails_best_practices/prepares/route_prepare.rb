@@ -80,20 +80,34 @@ module RailsBestPractices
 
       # remember the namespace.
       def start_method_add_block(node)
-        if "namespace" == node.message.to_s
+        case node.message.to_s
+        when "namespace"
           @namespaces << node.arguments.all.first.to_s
-        elsif "with_options" == node.message.to_s
+        when "scope"
+          if node.arguments.all.last.hash_value("module").present?
+            @namespaces << node.arguments.all.last.hash_value("module").to_s
+          end
+        when "with_options"
           argument = node.arguments.all.last
           if :bare_assoc_hash == argument.sexp_type && argument.hash_value("controller").present?
             @controller_name = argument.hash_value("controller").to_s
           end
+        else
+          # do nothing
         end
       end
 
       # end of namespace call.
       def end_method_add_block(node)
-        if "namespace" == node.message.to_s
+        case node.message.to_s
+        when "namespace"
           @namespaces.pop
+        when "scope"
+          if node.arguments.all.last.hash_value("module").present?
+            @namespaces.pop
+          end
+        else
+          # do nothing
         end
       end
 
@@ -104,6 +118,9 @@ module RailsBestPractices
           resource_names.each do |resource_name|
             @controller_name = node.arguments.all.first.to_s
             options = node.arguments.all.last
+            if options.hash_value("module").present?
+              @namespaces << options.hash_value("module").to_s
+            end
             if options.hash_value("controller").present?
               @controller_name = options.hash_value("controller").to_s
             end
@@ -132,6 +149,9 @@ module RailsBestPractices
               action_names.each do |action_name|
                 @routes.add_route(current_namespaces, current_controller_name, action_name)
               end
+            end
+            if options.hash_value("module").present?
+              @namespaces.pop
             end
           end
         end

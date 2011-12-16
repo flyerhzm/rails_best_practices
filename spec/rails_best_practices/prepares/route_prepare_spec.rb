@@ -440,7 +440,7 @@ describe RailsBestPractices::Prepares::RoutePrepare do
             get :list, :on => :collection
             post :create, :on => :member
             put :update, :on => :member
-            delete :destroy, :on => :memeber
+            delete :destroy, :on => :member
           end
         end
         EOF
@@ -476,6 +476,23 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         runner.prepare('config/routes.rb', content)
         routes = RailsBestPractices::Prepares.routes
         routes.map(&:to_s).should == ["Admin::Test::PostsController#index"]
+      end
+
+      it "should add route with scope" do
+        content =<<-EOF
+          RailsBestPracticesCom::Application.routes.draw do
+            scope :module => "admin" do
+              resources :posts, :only => [:index]
+            end
+            resources :discussions, :only => [:index], :module => "admin"
+            scope "/admin" do
+              resources :comments, :only => [:index]
+            end
+          end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.map(&:to_s).should == ["Admin::PostsController#index", "Admin::DiscussionsController#index", "CommentsController#index"]
       end
     end
 
@@ -539,7 +556,7 @@ describe RailsBestPractices::Prepares::RoutePrepare do
       routes.size.should == 0
     end
 
-    it "should do nothing for redirect", :focus => true do
+    it "should do nothing for redirect" do
       content =<<-EOF
       RailsBestPracticesCom::Application.routes.draw do
         delete '/users' => redirect("/")
