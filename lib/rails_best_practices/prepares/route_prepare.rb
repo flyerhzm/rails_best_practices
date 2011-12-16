@@ -29,10 +29,10 @@ module RailsBestPractices
             action_name = first_argument.to_s
             @routes.add_route(current_namespaces, current_controller_name, action_name)
           else
-            # do not parse redirect block
-            return first_argument.blank?
             if :bare_assoc_hash == first_argument.sexp_type
               route_node = first_argument.hash_values.first
+              # do not parse redirect block
+              return if :method_add_arg == route_node.sexp_type
               controller_name, action_name = route_node.to_s.split('#')
             else
               controller_name, action_name = first_argument.to_s.split('/')
