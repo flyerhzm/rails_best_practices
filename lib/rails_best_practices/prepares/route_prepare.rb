@@ -41,18 +41,26 @@ module RailsBestPractices
           end
         when "match", "root"
           options = node.arguments.all.last
-          return if :string_literal == options.sexp_type
-          if options.hash_value("controller").present?
-            return if :regexp_literal == options.hash_value("controller").sexp_type
-            controller_name = options.hash_value("controller").to_s
-            action_name = options.hash_value("action").present? ? options.hash_value("action").to_s : "*"
-            @routes.add_route(current_namespaces, controller_name, action_name)
-          else
-            route_node = options.hash_values.find { |value_node| :string_literal == value_node.sexp_type && value_node.to_s.include?('#') }
-            if route_node.present?
-              controller_name, action_name = route_node.to_s.split('#')
-              @routes.add_route(current_namespaces, controller_name.underscore, action_name)
+          case options.sexp_type
+          when :bare_assoc_hash
+            if options.hash_value("controller").present?
+              return if :regexp_literal == options.hash_value("controller").sexp_type
+              controller_name = options.hash_value("controller").to_s
+              action_name = options.hash_value("action").present? ? options.hash_value("action").to_s : "*"
+              @routes.add_route(current_namespaces, controller_name, action_name)
+            else
+              route_node = options.hash_values.find { |value_node| :string_literal == value_node.sexp_type && value_node.to_s.include?('#') }
+              if route_node.present?
+                controller_name, action_name = route_node.to_s.split('#')
+                @routes.add_route(current_namespaces, controller_name.underscore, action_name)
+              end
             end
+          when :string_literal, :symbol_literal
+            if current_controller_name
+              @routes.add_route(current_namespaces, current_controller_name, options.to_s)
+            end
+          else
+            # do nothing
           end
         else
           # nothing to do
