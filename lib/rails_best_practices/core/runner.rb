@@ -159,7 +159,7 @@ module RailsBestPractices
               content.gsub!(/\\\d{3}/, '')
             rescue LoadError
               raise "In order to parse #{filename}, please install the haml gem"
-            rescue Haml::Error, SyntaxError
+            rescue Haml::Error, SyntaxError, Encoding::CompatibilityError
               # do nothing, just ignore the wrong haml files.
             end
           end
