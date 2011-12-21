@@ -227,6 +227,8 @@ module RailsBestPractices
         # @return [String] file conent
         def read_file(filename)
           File.open(filename, "r:UTF-8") { |f| f.read }
+        rescue Errno::ENOENT
+          ''
         end
     end
   end
