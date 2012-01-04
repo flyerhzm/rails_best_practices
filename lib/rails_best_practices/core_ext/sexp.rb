@@ -382,8 +382,12 @@ class Sexp
   #
   # @return [Sexp] method name node
   def method_name
-    if :def == sexp_type
+    case sexp_type
+    when :def
       self[1]
+    when :defs
+      self[3]
+    else
     end
   end
 
