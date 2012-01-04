@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_best_practices (1.7.1)
+    rails_best_practices (1.7.2)
       activesupport
       colored
       erubis

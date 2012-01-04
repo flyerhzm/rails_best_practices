@@ -281,9 +281,14 @@ describe Sexp do
   end
 
   describe "method_name" do
-    it "should get the method name of defn" do
+    it "should get the method name of def" do
       node = parse_content("def show; end").grep_node(:sexp_type => :def)
       node.method_name.to_s.should == "show"
+    end
+
+    it "should get the method name of defs" do
+      node = parse_content("def self.find; end").grep_node(:sexp_type => :defs)
+      node.method_name.to_s.should == "find"
     end
   end
 

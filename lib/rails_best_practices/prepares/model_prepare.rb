@@ -8,7 +8,7 @@ module RailsBestPractices
       include Core::Check::Classable
       include Core::Check::Accessable
 
-      interesting_nodes :class, :def, :command, :var_ref, :alias
+      interesting_nodes :class, :def, :defs, :command, :var_ref, :alias
       interesting_files MODEL_FILES
 
       ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many embeds_many embeds_one embedded_in many one)
@@ -27,7 +27,7 @@ module RailsBestPractices
         end
       end
 
-      # check ref node to remember all methods.
+      # check def node to remember all methods.
       #
       # the remembered methods (@methods) are like
       #     {
@@ -40,6 +40,25 @@ module RailsBestPractices
       #       }
       #     }
       def start_def(node)
+        if @klass && "ActionMailer::Base" != current_extend_class_name
+          method_name = node.method_name.to_s
+          @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+        end
+      end
+
+      # check defs node to remember all static methods.
+      #
+      # the remembered methods (@methods) are like
+      #     {
+      #       "Post" => {
+      #         "save" => {"file" => "app/models/post.rb", "line" => 10, "unused" => false, "unused" => false},
+      #         "find" => {"file" => "app/models/post.rb", "line" => 10, "unused" => false, "unused" => false}
+      #       },
+      #       "Comment" => {
+      #         "create" => {"file" => "app/models/comment.rb", "line" => 10, "unused" => false, "unused" => false},
+      #       }
+      #     }
+      def start_defs(node)
         if @klass && "ActionMailer::Base" != current_extend_class_name
           method_name = node.method_name.to_s
           @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
