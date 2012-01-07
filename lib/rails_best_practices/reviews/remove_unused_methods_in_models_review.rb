@@ -55,7 +55,10 @@ module RailsBestPractices
         end
 
         def internal_except_methods
-          %w(initialize validate validate_each to_xml to_json assign_attributes after_find after_initialize).map { |method_name| "*\##{method_name}" }
+          %w(
+            initialize validate validate_each to_xml to_json assign_attributes after_find after_initialize
+            before_save before_create before_update before_destroy after_save after_create after_update after_destroy
+          ).map { |method_name| "*\##{method_name}" }
         end
     end
   end
