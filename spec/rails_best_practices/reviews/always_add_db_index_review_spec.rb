@@ -185,4 +185,20 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     runner.after_review
     runner.should have(0).errors
   end
+
+  it "should not always add db index if two indexes for polymorphic association" do
+    content =<<-EOF
+    create_table "taggings", :force => true do |t|
+      t.integer "tagger_id"
+      t.string "tagger_type"
+      t.datetime "created_at"
+    end
+
+    add_index "taggings", ["tagger_id"], :name => "index_taggings_on_tagger_id"
+    add_index "taggings", ["tagger_type"], :name => "index_taggings_on_tagger_type"
+    EOF
+    runner.review('db/schema.rb', content)
+    runner.after_review
+    runner.should have(0).errors
+  end
 end
