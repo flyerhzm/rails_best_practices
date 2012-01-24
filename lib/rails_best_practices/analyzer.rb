@@ -49,7 +49,7 @@ module RailsBestPractices
       @options["output-file"] ||= "rails_best_practices_output.html"
 
       Core::Runner.base_path = @path
-      @runner = Core::Runner.new
+      @runner = Core::Runner.new @options
       @runner.debug = true if @options["debug"]
       @runner.color = !@options["without-color"]
 

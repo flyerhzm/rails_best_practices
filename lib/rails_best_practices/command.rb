@@ -104,6 +104,10 @@ OptionParser.new do |opts|
     options["generate"] = true
   end
 
+  opts.on("-c", "--config CONFIG_FILE", "Specify configuration yaml file") do |config_file|
+    options["custom_config"] = config_file
+  end
+
   opts.parse!
 end
 
