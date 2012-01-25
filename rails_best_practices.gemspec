@@ -40,6 +40,10 @@ Gem::Specification.new do |s|
 
       http://rails-bestpractices.com
 
+  Please also try our online service
+
+      https://railsbp.com
+
   Enjoy!
 
       Richard Huang (flyerhzm@gmail.com)
