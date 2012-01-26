@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe RailsBestPractices::Prepares::HelperPrepare do
-  let(:runner) { RailsBestPractices::Core::Runner.new(:parepare => RailsBestPractices::Prepares::HelperPrepare.new) }
+  let(:runner) { RailsBestPractices::Core::Runner.new(:prepares => RailsBestPractices::Prepares::HelperPrepare.new) }
 
   context "methods" do
     it "should parse helper methods" do
