@@ -17,7 +17,7 @@ module RailsBestPractices
       include Callable
       include Exceptable
 
-      interesting_nodes :command
+      interesting_nodes :command, :command_call, :method_add_arg
       interesting_files ALL_FILES
 
       def initialize(options={})
@@ -31,12 +31,50 @@ module RailsBestPractices
       end
 
       # mark validate methods as used.
+      # mark key method and value method for collection_select and grouped_collection_select.
       def start_command(node)
+        arguments = node.arguments.all
         case node.message.to_s
         when "validate", "validate_on_create", "validate_on_update"
-          node.arguments.all.each { |argument| mark_used(argument) }
-        else
-          # nothing
+          arguments.each { |argument| mark_used(argument) }
+        when "collection_select"
+          mark_used(arguments[3])
+          mark_used(arguments[4])
+        when "grouped_collection_select"
+          mark_used(arguments[3])
+          mark_used(arguments[4])
+          mark_used(arguments[5])
+          mark_used(arguments[6])
+        end
+      end
+
+      # mark key method and value method for collection_select and grouped_collection_select.
+      def start_command_call(node)
+        arguments = node.arguments.all
+        case node.message.to_s
+        when "collection_select"
+          mark_used(arguments[2])
+          mark_used(arguments[3])
+        when "grouped_collection_select"
+          mark_used(arguments[2])
+          mark_used(arguments[3])
+          mark_used(arguments[4])
+          mark_used(arguments[5])
+        end
+      end
+
+      # mark key method and value method for options_from_collection_for_select and option_groups_from_collection_for_select.
+      def start_method_add_arg(node)
+        arguments = node.arguments.all
+        case node.message.to_s
+        when "options_from_collection_for_select"
+          mark_used(arguments[1])
+          mark_used(arguments[2])
+        when "option_groups_from_collection_for_select"
+          mark_used(arguments[1])
+          mark_used(arguments[2])
+          mark_used(arguments[3])
+          mark_used(arguments[4])
         end
       end
 

@@ -603,4 +603,54 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.should have(0).errors
     end
   end
+
+  context "helper method" do
+    it "should not remove unused method for coommand_call collection_select" do
+      content =<<-EOF
+      class Category < ActiveRecord::Base
+        def indented_name; end
+      end
+      EOF
+      runner.prepare("app/models/category.rb", content)
+      runner.review("app/models/category.rb", content)
+      content =<<-EOF
+      <%= f.collection_select :parent_id, Category.all_hierarchic(except: @category), :id, :indented_name, {include_blank: true} %>
+      EOF
+      runner.review("app/views/categories/_form.html.erb", content)
+      runner.after_review
+      runner.should have(0).errors
+    end
+
+    it "should not remove unused method for command collection_select" do
+      content =<<-EOF
+      class Category < ActiveRecord::Base
+        def indented_name; end
+      end
+      EOF
+      runner.prepare("app/models/category.rb", content)
+      runner.review("app/models/category.rb", content)
+      content =<<-EOF
+      <%= collection_select :category, :parent_id, Category.all_hierarchic(except: @category), :id, :indented_name, {include_blank: true} %>
+      EOF
+      runner.review("app/views/categories/_form.html.erb", content)
+      runner.after_review
+      runner.should have(0).errors
+    end
+
+    it "should not remove unused method for options_from_collection_for_select" do
+      content =<<-EOF
+      class Category < ActiveRecord::Base
+        def indented_name; end
+      end
+      EOF
+      runner.prepare("app/models/category.rb", content)
+      runner.review("app/models/category.rb", content)
+      content =<<-EOF
+      <%= select_tag 'category', options_from_collection_for_select(Category.all_hierachic(except: @category), :id, :indented_name) %>
+      EOF
+      runner.review("app/views/categories/_form.html.erb", content)
+      runner.after_review
+      runner.should have(0).errors
+    end
+  end
 end
