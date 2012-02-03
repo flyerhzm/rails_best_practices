@@ -21,7 +21,7 @@ class Sexp
   #     s(:@ident, "test", s(2, 12)
   #       => 2
   def line
-    if [:def, :command, :command_call, :call, :fcall, :method_add_arg, :method_add_block,
+    if [:def, :defs, :command, :command_call, :call, :fcall, :method_add_arg, :method_add_block,
       :var_ref, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :binary,
       :alias, :symbol_literal, :symbol, :aref].include? sexp_type
       self[1].line
