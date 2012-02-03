@@ -188,7 +188,7 @@ module RailsBestPractices
       git_progressbar = ProgressBar.new('Git Info', @runner.errors.size) if display_bar?
       start = @runner.class.base_path =~ /\/$/ ? @runner.class.base_path.size : @runner.class.base_path.size + 1
       @runner.errors.each do |error|
-        git_info = `cd #{@runner.class.base_path}; git blame #{error.filename[start..-1]} | sed -n #{error.line_number.split(',').first}p`
+        git_info = `cd #{@runner.class.base_path}; git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}`
         unless git_info == ""
           git_commit, git_username = git_info.split(/\d{4}-\d{2}-\d{2}/).first.split("(")
           error.git_commit = git_commit.split(" ").first.strip
