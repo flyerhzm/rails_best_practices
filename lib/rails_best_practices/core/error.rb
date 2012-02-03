@@ -10,7 +10,7 @@ module RailsBestPractices
 
       def initialize(options={})
         @filename = options[:filename]
-        @line_number = options[:line_number]
+        @line_number = options[:line_number].to_s
         @message = options[:message]
         @type = options[:type]
         @url = options[:url]
