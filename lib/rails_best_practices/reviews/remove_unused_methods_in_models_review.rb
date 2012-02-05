@@ -96,6 +96,7 @@ module RailsBestPractices
           %w(
             initialize validate validate_each to_xml to_json assign_attributes after_find after_initialize
             before_save before_create before_update before_destroy after_save after_create after_update after_destroy
+            to_param
           ).map { |method_name| "*\##{method_name}" }
         end
     end
