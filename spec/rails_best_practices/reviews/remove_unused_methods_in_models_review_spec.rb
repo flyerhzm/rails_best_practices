@@ -602,6 +602,20 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
       runner.after_review
       runner.should have(0).errors
     end
+
+    it "should not remove unused methods for to_param" do
+      content =<<-EOF
+      class Post < ActiveRecord::Base
+        def to_param
+          id
+        end
+      end
+      EOF
+      runner.prepare("app/models/post.rb", content)
+      runner.review("app/models/post.rb", content)
+      runner.after_review
+      runner.should have(0).errors
+    end
   end
 
   context "helper method" do
