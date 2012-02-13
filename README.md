@@ -140,6 +140,7 @@ Now you can customize this configuration file, the default configuration is as f
     RemoveUnusedMethodsInModelsCheck: { except_methods: [] }
     RemoveUnusedMethodsInControllersCheck: { except_methods: [] }
     RemoveUnusedMethodsInHelpersCheck: { except_methods: [] }
+    NotUseTimeAgoInWordsCheck: {}
 
 You can remove or comment one review to disable it, and you can change the options.
 
@@ -198,6 +199,7 @@ View
 3. Move code into helper
 4. Replace instance variable with local variable
 5. Simplify render in views
+6. Not use time_ago_in_words
 
 Deployment
 
