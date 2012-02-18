@@ -13,6 +13,10 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
         t.integer "post_id"
         t.integer "user_id"
       end
+      create_table "posts", :force => true do |t|
+      end
+      create_table "users", :force => true do |t|
+      end
     end
     EOF
     runner.review('db/schema.rb', content)
@@ -62,6 +66,8 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
         t.integer  "taggable_id"
         t.string   "taggable_type"
       end
+      create_table "tags", :force => true do |t|
+      end
 
       add_index "taggings", ["tag_id"], :name => "index_taggings_on_tag_id"
     end
@@ -79,6 +85,8 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
         t.integer  "tag_id"
         t.integer  "taggable_id"
         t.string   "taggable_type"
+      end
+      create_table "tags", :force => true do |t|
       end
 
       add_index "taggings", ["taggable_id", "taggable_type"], :name => "index_taggings_on_taggable_id_and_taggable_type"
@@ -98,6 +106,8 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
         t.string   "icon_file_name"
         t.integer  "icon_file_size"
         t.string   "icon_content_type"
+      end
+      create_table "users", :force => true do |t|
       end
     end
     EOF
@@ -128,6 +138,10 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
         t.string "content"
         t.integer "post_id"
         t.integer "user_id"
+      end
+      create_table "posts", :force => true do |t|
+      end
+      create_table "users", :force => true do |t|
       end
 
       add_index "comments", ["post_id"], :name => "index_comments_on_post_id"
@@ -188,14 +202,29 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
 
   it "should not always add db index if two indexes for polymorphic association" do
     content =<<-EOF
-    create_table "taggings", :force => true do |t|
-      t.integer "tagger_id"
-      t.string "tagger_type"
-      t.datetime "created_at"
-    end
+    ActiveRecord::Schema.define(:version => 20100603080629) do
+      create_table "taggings", :force => true do |t|
+        t.integer "tagger_id"
+        t.string "tagger_type"
+        t.datetime "created_at"
+      end
 
-    add_index "taggings", ["tagger_id"], :name => "index_taggings_on_tagger_id"
-    add_index "taggings", ["tagger_type"], :name => "index_taggings_on_tagger_type"
+      add_index "taggings", ["tagger_id"], :name => "index_taggings_on_tagger_id"
+      add_index "taggings", ["tagger_type"], :name => "index_taggings_on_tagger_type"
+    end
+    EOF
+    runner.review('db/schema.rb', content)
+    runner.after_review
+    runner.should have(0).errors
+  end
+
+  it "should not always add db index if table does not exist" do
+    content =<<-EOF
+    ActiveRecord::Schema.define(:version => 20100603080629) do
+      create_table "comments", :force => true do |t|
+        t.integer "post_id"
+      end
+    end
     EOF
     runner.review('db/schema.rb', content)
     runner.after_review
