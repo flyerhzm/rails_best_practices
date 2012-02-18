@@ -74,6 +74,7 @@ module RailsBestPractices
       # if there are any foreign keys not existed in index columns,
       # then we should add db index for that foreign keys.
       def after_review
+        remove_table_not_exist_foreign_keys
         remove_only_type_foreign_keys
         combine_polymorphic_foreign_keys
         @foreign_keys.each do |table, foreign_key|
@@ -120,6 +121,13 @@ module RailsBestPractices
             else
               @foreign_keys[table_name] << foreign_key_column
             end
+          end
+        end
+
+        # remove the non foreign keys without corresponding tables.
+        def remove_table_not_exist_foreign_keys
+          @foreign_keys.each do |table, foreign_keys|
+            foreign_keys.delete_if { |key| key =~ /_id$/ && !@table_nodes["#{key[0..-4]}s"] }
           end
         end
 
