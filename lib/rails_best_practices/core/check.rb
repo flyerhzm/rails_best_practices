@@ -380,6 +380,7 @@ module RailsBestPractices
                 class_name, method_name = except_method.split('#')
                 (class_name == '*' && method_name == method.method_name) ||
                   (method_name == '*' && class_name == method.class_name) ||
+                  (method_name == '*' && class_name == Prepares.klasses.find { |klass| klass.class_name == method.class_name }.try(:extend_class_name)) ||
                   (class_name == method.class_name && method_name == method.method_name)
               end
             end

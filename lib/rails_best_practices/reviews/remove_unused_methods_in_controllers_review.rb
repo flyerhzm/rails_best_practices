@@ -98,7 +98,8 @@ module RailsBestPractices
         end
 
         def internal_except_methods
-          %w(rescue_action).map { |method_name| "*\##{method_name}" }
+          %w(rescue_action).map { |method_name| "*\##{method_name}" } +
+            %w(Devise::OmniauthCallbacksController).map { |controller_name| "#{controller_name}#*" }
         end
 
         def mark_publicize(method_name, class_name=current_class_name)
