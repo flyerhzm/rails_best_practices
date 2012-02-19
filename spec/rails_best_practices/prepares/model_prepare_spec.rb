@@ -93,6 +93,46 @@ describe RailsBestPractices::Prepares::ModelPrepare do
         model_associations = RailsBestPractices::Prepares.model_associations
         model_associations.get_association("Citizen", "nations").should == {"meta" => "has_and_belongs_to_many", "class_name" => "Country"}
       end
+
+      context "namespace" do
+        it "should parse with namespace" do
+          content =<<-EOF
+          class Community < ActiveRecord::Base
+            has_many :members
+          end
+          EOF
+          runner.prepare("app/models/community.rb", content)
+          content =<<-EOF
+          class Community::Member < ActiveRecord::Base
+            belongs_to :community
+          end
+          EOF
+          runner.prepare("app/models/community/member.rb", content)
+          runner.after_prepare
+          model_associations = RailsBestPractices::Prepares.model_associations
+          model_associations.get_association("Community", "members").should == {"meta" => "has_many", "class_name" => "Community::Member"}
+          model_associations.get_association("Community::Member", "community").should == {"meta" => "belongs_to", "class_name" => "Community"}
+        end
+
+        it "should parse without namespace" do
+          content =<<-EOF
+          class Community::Member::Rating < ActiveRecord::Base
+            belongs_to :member
+          end
+          EOF
+          runner.prepare("app/models/community/member/rating.rb", content)
+          content =<<-EOF
+          class Community::Member < ActiveRecord::Base
+            has_many :ratings
+          end
+          EOF
+          runner.prepare("app/models/community/member.rb", content)
+          runner.after_prepare
+          model_associations = RailsBestPractices::Prepares.model_associations
+          model_associations.get_association("Community::Member::Rating", "member").should == {"meta" => "belongs_to", "class_name" => "Community::Member"}
+          model_associations.get_association("Community::Member", "ratings").should == {"meta" => "has_many", "class_name" => "Community::Member::Rating"}
+        end
+      end
     end
 
     context "mongoid embeds" do

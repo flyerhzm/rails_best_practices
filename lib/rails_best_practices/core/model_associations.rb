@@ -7,7 +7,6 @@ module RailsBestPractices
         @associations = {}
       end
 
-      # Add a model association.
       #
       # @param [String] model name
       # @param [String] association name
@@ -36,6 +35,21 @@ module RailsBestPractices
       def is_association?(model_name, association_name)
         associations = @associations[model_name]
         associations && associations[association_name]
+      end
+
+      # delegate each to @associations.
+      def each(&block)
+        @associations.each { |model, model_associations| yield model, model_associations }
+      end
+
+      # Get association's class name
+      #
+      # @param [String] table name
+      # @param [String] association_name
+      # @return [String] association's class name
+      def get_association_class_name(table_name, association_name)
+        associations = @associations.select { |model, model_associations| model.table_name == table_name }.values.first
+        associations && associations.select { |name, meta| name == association_name }.values.first["class_name"]
       end
     end
   end

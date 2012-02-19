@@ -127,7 +127,12 @@ module RailsBestPractices
         # remove the non foreign keys without corresponding tables.
         def remove_table_not_exist_foreign_keys
           @foreign_keys.each do |table, foreign_keys|
-            foreign_keys.delete_if { |key| key =~ /_id$/ && !@table_nodes["#{key[0..-4]}s"] }
+            foreign_keys.delete_if do |key|
+              if key =~ /_id$/
+                class_name = Prepares.model_associations.get_association_class_name(table, key[0..-4])
+                class_name ? !@table_nodes[class_name.table_name] : !@table_nodes[key[0..-4].pluralize]
+              end
+            end
           end
         end
 
