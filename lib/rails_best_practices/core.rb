@@ -15,6 +15,7 @@ require 'rails_best_practices/core/controllers'
 require 'rails_best_practices/core/helpers'
 require 'rails_best_practices/core/routes'
 
+require 'rails_best_practices/core_ext/string'
 require 'rails_best_practices/core_ext/sexp'
 require 'rails_best_practices/core_ext/enumerable'
 require 'rails_best_practices/core_ext/erubis'

@@ -86,10 +86,10 @@ module RailsBestPractices
             if hash_key_exist?(option_node,"controller")
               name = option_node.hash_value("controller").to_s
             else
-              name = node.arguments.all.first.to_s.tableize
+              name = node.arguments.all.first.to_s.table_name
             end
           else
-            name = node.arguments.all.first.to_s.tableize
+            name = node.arguments.all.first.to_s.table_name
           end
           namespaced_class_name(name)
         end
