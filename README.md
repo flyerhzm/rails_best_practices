@@ -3,7 +3,7 @@ rails_best_practices
 
 [![Build Status](https://secure.travis-ci.org/railsbp/rails_best_practices.png)](http://travis-ci.org/railsbp/rails_best_practices)
 
-[![Click here to lend your support to: rails-bestpractices.com and make a donation at www.pledgie.com !](https://www.pledgie.com/campaigns/12057.png?skin_name=chrome)](http://www.pledgie.com/campaigns/12057)
+[![Click here to lend your support to: rails best practices and make a donation at www.pledgie.com !](http://www.pledgie.com/campaigns/12057.png?skin_name=chrome)](http://www.pledgie.com/campaigns/12057)
 
 rails_best_practices is a code metric tool to check the quality of rails codes.
 
