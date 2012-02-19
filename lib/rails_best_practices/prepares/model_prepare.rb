@@ -7,6 +7,7 @@ module RailsBestPractices
     class ModelPrepare < Core::Check
       include Core::Check::Classable
       include Core::Check::Accessable
+      include Core::Check::Afterable
 
       interesting_nodes :class, :def, :defs, :command, :var_ref, :alias
       interesting_files MODEL_FILES
@@ -103,6 +104,21 @@ module RailsBestPractices
       def start_alias(node)
         method_name = node.new_method.to_s
         @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+      end
+
+      # after prepare process, fix incorrect associations' class_name.
+      def after_prepare
+        @model_associations.each do |model, model_associations|
+          model_associations.each do |association_name, association_meta|
+            unless @models.include?(association_meta["class_name"])
+              if @models.include?("#{model}::#{association_meta['class_name']}")
+                association_meta["class_name"] = "#{model}::#{association_meta['class_name']}"
+              elsif @models.include?(model.gsub(/::\w+$/, ""))
+                association_meta["class_name"] = model.gsub(/::\w+$/, "")
+              end
+            end
+          end
+        end
       end
 
       private

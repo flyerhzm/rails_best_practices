@@ -230,4 +230,31 @@ describe RailsBestPractices::Reviews::AlwaysAddDbIndexReview do
     runner.after_review
     runner.should have(0).errors
   end
+
+  it "should always add db index if association_name is different to foreign_key" do
+    content =<<-EOF
+    class Comment < ActiveRecord::Base
+      belongs_to :commentor, :class_name => "User"
+    end
+    EOF
+    runner.prepare('app/models/comment.rb', content)
+    content =<<-EOF
+    class User < ActiveRecord::Base
+    end
+    EOF
+    runner.prepare('app/models/user.rb', content)
+    content =<<-EOF
+    ActiveRecord::Schema.define(:version => 20100603080629) do
+      create_table "comments", :force => true do |t|
+        t.integer "commentor_id"
+      end
+      create_table "users", :force => true do |t|
+      end
+    end
+    EOF
+    runner.review('db/schema.rb', content)
+    runner.after_review
+    runner.should have(1).errors
+    runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (comments => [commentor_id])"
+  end
 end
