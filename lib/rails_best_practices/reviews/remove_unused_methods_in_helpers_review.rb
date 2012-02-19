@@ -40,7 +40,7 @@ module RailsBestPractices
         end
 
         def internal_except_methods
-          []
+          ["*#url_for"]
         end
     end
   end
