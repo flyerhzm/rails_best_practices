@@ -19,6 +19,8 @@ require 'optparse'
 #        --features                   include features files
 #    -x, --exclude PATTERNS           don't analyze files matching a pattern
 #                                     (comma-separated regexp list)
+#    -o, --only PATTERNS              analyze files only matching a pattern
+#                                     (comma-separated regexp list)
 #    -g, --generate                   generate configuration yaml
 #    -v, --version                    show this version
 #    -h, --help                       show this message
@@ -94,9 +96,17 @@ OptionParser.new do |opts|
 
   opts.on("-x", "--exclude PATTERNS", "Don't analyze files matching a pattern", "(comma-separated regexp list)") do |list|
     begin
-      options["exclude"] = list.split(/,/).map{|x| Regexp.new x}
+      options["exclude"] = list.split(",").map{|x| Regexp.new x}
     rescue RegexpError => e
       raise OptionParser::InvalidArgument, e.message
+    end
+  end
+
+  opts.on("-o", "--only PATTERNS", "Analyze files only matching a pattern", "(comma-separated regexp list)") do |list|
+    begin
+      options["only"] = list.split(",").map { |x| Regexp.new x }
+    rescue RegexpError => e
+      raise OptionParser::InvalidArgument e.message
     end
   end
 
