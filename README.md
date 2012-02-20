@@ -50,6 +50,8 @@ By default rails_best_practices will do parse codes in vendor, spec, test and fe
             --features                   include features files
         -x, --exclude PATTERNS           Don't analyze files matching a pattern
                                          (comma-separated regexp list)
+        -o, --only PATTERNS              analyze files only matching a pattern
+                                         (comma-separated regexp list)
         -g, --generate                   Generate configuration yaml
         -v, --version                    Show this version
         -h, --help                       Show this message

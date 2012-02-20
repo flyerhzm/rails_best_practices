@@ -46,6 +46,7 @@ module RailsBestPractices
     # @param [Hash] options
     def analyze
       @options["exclude"] ||= []
+      @options["only"] ||= []
       @options["output-file"] ||= "rails_best_practices_output.html"
 
       Core::Runner.base_path = @path
@@ -97,6 +98,10 @@ module RailsBestPractices
       @parse_files ||= begin
         files = expand_dirs_to_files(@path)
         files = file_sort(files)
+
+        if @options["only"].present?
+          files = file_accept(files, @options["only"])
+        end
 
         # By default, tmp, vender, spec, test, features are ignored.
         ["vendor", "spec", "test", "features", "tmp"].each do |pattern|
@@ -155,6 +160,14 @@ module RailsBestPractices
     # @return [Array] files that not match the pattern
     def file_ignore files, pattern
       files.reject { |file| file.index(pattern) }
+    end
+
+    # accept specific files.
+    #
+    # @param [Array] files
+    # @param [Regexp] patterns, files match any pattern will be accepted
+    def file_accept files, patterns
+      files.reject { |file| !patterns.any? { |pattern| file =~ pattern } }
     end
 
     # output errors on terminal.
