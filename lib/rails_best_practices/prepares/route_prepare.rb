@@ -5,7 +5,7 @@ module RailsBestPractices
   module Prepares
     # Remembber routes.
     class RoutePrepare < Core::Check
-      interesting_nodes :command, :command_call, :method_add_block
+      interesting_nodes :command, :command_call, :method_add_block, :do_block
       interesting_files ROUTE_FILES
 
       RESOURCES_ACTIONS = %w(index show new create edit update destroy)
@@ -14,6 +14,7 @@ module RailsBestPractices
       def initialize
         @routes = Prepares.routes
         @namespaces = []
+        @controller_names = []
       end
 
       # remember route for rails3.
@@ -25,7 +26,7 @@ module RailsBestPractices
           add_resource_routes(node)
         when "get", "post", "put", "delete"
           first_argument = node.arguments.all.first
-          if current_controller_name.present?
+          if @controller_names.last
             action_name = first_argument.to_s
             @routes.add_route(current_namespaces, current_controller_name, action_name)
           else
@@ -91,10 +92,12 @@ module RailsBestPractices
         case node.message.to_s
         when "namespace"
           @namespaces << node.arguments.all.first.to_s
+          @controller_name = nil
         when "scope"
           if node.arguments.all.last.hash_value("module").present?
             @namespaces << node.arguments.all.last.hash_value("module").to_s
           end
+          @controller_name = nil
         when "with_options"
           argument = node.arguments.all.last
           if :bare_assoc_hash == argument.sexp_type && argument.hash_value("controller").present?
@@ -117,6 +120,16 @@ module RailsBestPractices
         else
           # do nothing
         end
+      end
+
+      # remember current controller name, used for nested resources.
+      def start_do_block(node)
+        @controller_names << @controller_name
+      end
+
+      # remove current controller name, and use upper lever resource name.
+      def end_do_block(node)
+        @controller_names.pop
       end
 
       [:resources, :resource].each do |route_name|
@@ -185,7 +198,7 @@ module RailsBestPractices
       end
 
       def current_controller_name
-        @controller_name
+        @controller_names.last || @controller_name
       end
     end
   end

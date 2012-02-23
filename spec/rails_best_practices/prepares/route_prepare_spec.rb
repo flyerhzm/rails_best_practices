@@ -255,6 +255,18 @@ describe RailsBestPractices::Prepares::RoutePrepare do
       routes = RailsBestPractices::Prepares.routes
       routes.map(&:to_s).should == ["AdminSessionController#new"]
     end
+
+    it "should not take former resources for direct get/post" do
+      content =<<-EOF
+      ActionController::Routing::Routes.draw do |map|
+        map.resources :posts
+        map.stop 'sprints/stop', :controller => 'sprints', :action => 'stop'
+      end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.last.to_s.should == "SprintsController#stop"
+    end
   end
 
   context "rails3" do
@@ -571,6 +583,32 @@ describe RailsBestPractices::Prepares::RoutePrepare do
       runner.prepare('config/routes.rb', content)
       routes = RailsBestPractices::Prepares.routes
       routes.size.should == 0
+    end
+
+    it "should parse customize route in nested resources" do
+      content =<<-EOF
+      RailsBestPracticesCom::Application.routes.draw do
+        resources :posts do
+          resources :comments
+          post :stop
+        end
+      end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.last.to_s.should == "PostsController#stop"
+    end
+
+    it "should not take former resources for direct get/post" do
+      content =<<-EOF
+      RailsBestPracticesCom::Application.routes.draw do
+        resources :posts
+        post "sprints/stop"
+      end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.last.to_s.should == "SprintsController#stop"
     end
   end
 end
