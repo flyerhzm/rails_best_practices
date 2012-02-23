@@ -271,7 +271,7 @@ module RailsBestPractices
               when "alias_method_chain"
                 method, feature = *node.arguments.all.map(&:to_s)
                 call_method("#{method}_with_#{feature}")
-              when /(before|after)_/
+              when /^(before|after)_/
                 node.arguments.all.each { |argument| mark_used(argument) }
               else
                 mark_used(node.message)
