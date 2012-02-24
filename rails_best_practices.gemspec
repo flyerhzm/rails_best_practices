@@ -42,7 +42,7 @@ Gem::Specification.new do |s|
 
   Please also try our online service
 
-      https://railsbp.com
+      http://railsbp.com
 
   Enjoy!
 
