@@ -26,6 +26,7 @@ module RailsBestPractices
           add_resource_routes(node)
         when "get", "post", "put", "delete"
           first_argument = node.arguments.all.first
+          second_argument = node.arguments.all[1]
           if @controller_names.last
             action_name = first_argument.to_s
             @routes.add_route(current_namespaces, current_controller_name, action_name)
@@ -35,6 +36,8 @@ module RailsBestPractices
               # do not parse redirect block
               return if :method_add_arg == route_node.sexp_type
               controller_name, action_name = route_node.to_s.split('#')
+            elsif :bare_assoc_hash == second_argument.try(:sexp_type) && second_argument.hash_value("to")
+              controller_name, action_name = second_argument.hash_value("to").to_s.split('#')
             else
               controller_name, action_name = first_argument.to_s.split('/')
             end

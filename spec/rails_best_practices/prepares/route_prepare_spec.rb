@@ -529,6 +529,18 @@ describe RailsBestPractices::Prepares::RoutePrepare do
       routes.map(&:to_s).should == ["PostsController#show", "PostsController#create", "PostsController#update", "PostsController#destroy", "HighVoltage::PagesController#show"]
     end
 
+    it "should add routes for another get/post" do
+      content =<<-EOF
+      RailsBestPracticesCom::Application.routes.draw do
+        get "/login", to: 'sessions#new', as: :login
+      end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.size.should == 1
+      routes.first.to_s.should == "SessionsController#new"
+    end
+
     it "should add match route" do
       content =<<-EOF
       RailsBestPracticesCom::Application.routes.draw do
