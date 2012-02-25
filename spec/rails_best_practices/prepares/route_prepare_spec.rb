@@ -625,5 +625,16 @@ describe RailsBestPractices::Prepares::RoutePrepare do
       routes = RailsBestPractices::Prepares.routes
       routes.last.to_s.should == "SprintsController#stop"
     end
+
+    it "should not parse wrong route" do
+      content =<<-EOF
+      RailsBestPracticesCom::Application.routes.draw do
+        match ':controller/:action' => '#index', :as => :auto_complete
+      end
+      EOF
+      runner.prepare('config/routes.rb', content)
+      routes = RailsBestPractices::Prepares.routes
+      routes.size.should == 0
+    end
   end
 end
