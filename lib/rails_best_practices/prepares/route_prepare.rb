@@ -28,7 +28,11 @@ module RailsBestPractices
           first_argument = node.arguments.all.first
           second_argument = node.arguments.all[1]
           if @controller_names.last
-            action_name = first_argument.to_s
+            if :bare_assoc_hash == first_argument.sexp_type
+              action_name = first_argument.hash_values.first.to_s
+            else
+              action_name = first_argument.to_s
+            end
             @routes.add_route(current_namespaces, current_controller_name, action_name)
           else
             if :bare_assoc_hash == first_argument.sexp_type
@@ -100,7 +104,11 @@ module RailsBestPractices
           if node.arguments.all.last.hash_value("module").present?
             @namespaces << node.arguments.all.last.hash_value("module").to_s
           end
-          @controller_name = nil
+          if node.arguments.all.last.hash_value("controller").present?
+            @controller_name = node.arguments.all.last.hash_value("controller").to_s
+          else
+            @controller_name = nil
+          end
         when "with_options"
           argument = node.arguments.all.last
           if :bare_assoc_hash == argument.sexp_type && argument.hash_value("controller").present?
