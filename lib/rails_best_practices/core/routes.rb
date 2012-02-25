@@ -8,7 +8,9 @@ module RailsBestPractices
       # @param [String] controller name
       # @param [String] action name
       def add_route(namespaces, controller_name, action_name)
-        self << Route.new(namespaces, controller_name, action_name)
+        if controller_name.present?
+          self << Route.new(namespaces, controller_name, action_name)
+        end
       end
     end
 
