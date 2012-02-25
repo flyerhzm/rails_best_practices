@@ -505,11 +505,14 @@ describe RailsBestPractices::Prepares::RoutePrepare do
             scope "/admin" do
               resources :comments, :only => [:index]
             end
+            scope "/:username", controller: :users do
+              get '/' => :show
+            end
           end
         EOF
         runner.prepare('config/routes.rb', content)
         routes = RailsBestPractices::Prepares.routes
-        routes.map(&:to_s).should == ["Admin::PostsController#index", "Admin::DiscussionsController#index", "CommentsController#index"]
+        routes.map(&:to_s).should == ["Admin::PostsController#index", "Admin::DiscussionsController#index", "CommentsController#index", "UsersController#show"]
       end
     end
 
@@ -531,7 +534,7 @@ describe RailsBestPractices::Prepares::RoutePrepare do
 
     it "should add routes for another get/post" do
       content =<<-EOF
-      RailsBestPracticesCom::Application.routes.draw do
+      RailsBestPracticesCom::Application.routes.draw
         get "/login", to: 'sessions#new', as: :login
       end
       EOF
