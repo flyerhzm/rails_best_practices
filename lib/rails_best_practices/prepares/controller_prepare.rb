@@ -10,7 +10,7 @@ module RailsBestPractices
       include Core::Check::Accessable
       include Core::Check::Afterable
 
-      interesting_nodes :class, :var_ref, :command, :def
+      interesting_nodes :class, :var_ref, :vcall, :command, :def
       interesting_files CONTROLLER_FILES
 
       DEFAULT_ACTIONS = %w(index show new create edit update destroy)
@@ -42,6 +42,13 @@ module RailsBestPractices
 
       # check if there is a DSL call inherit_resources.
       def start_var_ref(node)
+        if @inherited_resources
+          @actions = DEFAULT_ACTIONS
+        end
+      end
+
+      # check if there is a DSL call inherit_resources.
+      def start_vcall(node)
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
         end
