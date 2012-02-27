@@ -22,7 +22,7 @@ class Sexp
   #       => 2
   def line
     if [:def, :defs, :command, :command_call, :call, :fcall, :method_add_arg, :method_add_block,
-      :var_ref, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :binary,
+      :var_ref, :vcall, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :binary,
       :alias, :symbol_literal, :symbol, :aref].include? sexp_type
       self[1].line
     elsif :array == sexp_type
@@ -754,7 +754,7 @@ class Sexp
   def to_s
     case sexp_type
     when :string_literal, :xstring_literal, :string_content, :const_ref, :symbol_literal, :symbol,
-         :args_add_block, :var_ref, :var_field,
+         :args_add_block, :var_ref, :vcall, :var_field,
          :@ident, :@tstring_content, :@const, :@ivar, :@kw, :@gvar, :@cvar
       self[1].to_s
     when :string_add
@@ -788,7 +788,7 @@ class Sexp
 
   # check if the self node is a const.
   def const?
-    :@const == self.sexp_type || (:var_ref == self.sexp_type && :@const == self[1].sexp_type)
+    :@const == self.sexp_type || ([:var_ref, :vcall].include?(self.sexp_type) && :@const == self[1].sexp_type)
   end
 
   # true

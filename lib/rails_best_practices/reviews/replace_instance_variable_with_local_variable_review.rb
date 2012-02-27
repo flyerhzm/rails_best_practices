@@ -13,7 +13,7 @@ module RailsBestPractices
     #   check all instance variable in partial view files,
     #   if exist, then they should be replaced with local variable
     class ReplaceInstanceVariableWithLocalVariableReview < Review
-      interesting_nodes :var_ref
+      interesting_nodes :var_ref, :vcall
       interesting_files PARTIAL_VIEW_FILES
 
       def url
@@ -23,6 +23,14 @@ module RailsBestPractices
       # check ivar node in partial view file,
       # it is an instance variable, and should be replaced with local variable.
       def start_var_ref(node)
+        if node.to_s.start_with?('@')
+          add_error "replace instance variable with local variable"
+        end
+      end
+
+      # check ivar node in partial view file,
+      # it is an instance variable, and should be replaced with local variable.
+      def start_vcall(node)
         if node.to_s.start_with?('@')
           add_error "replace instance variable with local variable"
         end

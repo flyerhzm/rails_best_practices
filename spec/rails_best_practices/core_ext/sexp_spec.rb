@@ -48,13 +48,13 @@ describe Sexp do
     it "should get the call nodes with subject current_user" do
       nodes = []
       @node.grep_nodes(:sexp_type => :call, :subject => "current_user") { |node| nodes << node }
-      nodes.should == [s(:call, s(:var_ref, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
+      nodes.should == [s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
     end
 
     it "should get the call nodes with different messages" do
       nodes = []
       @node.grep_nodes(:sexp_type => :call, :message => ["posts", "find"]) { |node| nodes << node }
-      nodes.should == [s(:call, s(:call, s(:var_ref, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21))), :".", s(:@ident, "find", s(2, 27))), s(:call, s(:var_ref, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
+      nodes.should == [s(:call, s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21))), :".", s(:@ident, "find", s(2, 27))), s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
     end
   end
 
@@ -70,7 +70,7 @@ describe Sexp do
 
     it "should get first node with empty argument" do
       node = @node.grep_node(:sexp_type => :call, :subject => "current_user")
-      node.should == s(:call, s(:var_ref, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))
+      node.should == s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))
     end
   end
 

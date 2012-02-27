@@ -238,7 +238,7 @@ module RailsBestPractices
       module Callable
         def self.included(base)
           base.class_eval do
-            interesting_nodes :call, :fcall, :var_ref, :command_call, :command, :alias, :bare_assoc_hash, :method_add_arg
+            interesting_nodes :call, :fcall, :var_ref, :vcall, :command_call, :command, :alias, :bare_assoc_hash, :method_add_arg
 
             # remembe the message of call node.
             add_callback "start_call" do |node|
@@ -252,6 +252,11 @@ module RailsBestPractices
 
             # remembe name of var_ref node.
             add_callback "start_var_ref" do |node|
+              mark_used(node)
+            end
+
+            # remembe name of vcall node.
+            add_callback "start_vcall" do |node|
               mark_used(node)
             end
 
@@ -346,7 +351,7 @@ module RailsBestPractices
       module InheritedResourcesable
         def self.included(base)
           base.class_eval do
-            interesting_nodes :class, :var_ref
+            interesting_nodes :class, :var_ref, :vcall
             interesting_files CONTROLLER_FILES
 
             # check if the controller is inherit from InheritedResources::Base.
@@ -358,6 +363,13 @@ module RailsBestPractices
 
             # check if there is a DSL call inherit_resources.
             add_callback "start_var_ref" do |node|
+              if "inherit_resources" == node.to_s
+                @inherited_resources = true
+              end
+            end
+
+            # check if there is a DSL call inherit_resources.
+            add_callback "start_vcall" do |node|
               if "inherit_resources" == node.to_s
                 @inherited_resources = true
               end
@@ -396,10 +408,17 @@ module RailsBestPractices
       module Accessable
         def self.included(base)
           base.class_eval do
-            interesting_nodes :var_ref, :class, :module
+            interesting_nodes :var_ref, :vcall, :class, :module
 
             # remember the current access control for methods.
             add_callback "start_var_ref" do |node|
+              if %w(public protected private).include? node.to_s
+                @access_control = node.to_s
+              end
+            end
+
+            # remember the current access control for methods.
+            add_callback "start_vcall" do |node|
               if %w(public protected private).include? node.to_s
                 @access_control = node.to_s
               end
