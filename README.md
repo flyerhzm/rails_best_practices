@@ -19,6 +19,8 @@ following template engines:
 * haml
 * slim
 
+rails_best_practices works well only in ruby 1.9.2 and ruby 1.9.3 so far.
+
 Usage
 -----
 
@@ -77,8 +79,6 @@ Install
 -------
 
 rails_best_practices gem is rewritten based on ripper instead of ruby_parser to support ruby 1.9 new syntax.
-
-Ruby 1.9
 
     gem install rails_best_practices
 

@@ -5,5 +5,5 @@ gemset="rails_best_practices"
 for x in ${rubies[*]}
 do
   echo $x@$gemset
-  rvm $x@$gemset do bundle exec rake spec:progress
+  rvm $x@$gemset do bundle exec rake spec
 done
