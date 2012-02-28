@@ -507,12 +507,21 @@ describe RailsBestPractices::Prepares::RoutePrepare do
             end
             scope "/:username", controller: :users do
               get '/' => :show
+              scope 'topic' do
+                get 'preview', :as => 'preview_user', :action => 'preview'
+              end
             end
           end
         EOF
         runner.prepare('config/routes.rb', content)
         routes = RailsBestPractices::Prepares.routes
-        routes.map(&:to_s).should == ["Admin::PostsController#index", "Admin::DiscussionsController#index", "CommentsController#index", "UsersController#show"]
+        routes.map(&:to_s).should == [
+                                       "Admin::PostsController#index",
+                                       "Admin::DiscussionsController#index",
+                                       "CommentsController#index",
+                                       "UsersController#show",
+                                       "UsersController#preview"
+                                     ]
       end
     end
 
