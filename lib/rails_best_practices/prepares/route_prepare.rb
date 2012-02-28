@@ -87,7 +87,7 @@ module RailsBestPractices
         else
           options = node.arguments.all.last
           if options.hash_value("controller").present?
-            @controller_name = options.hash_value("controller").to_s
+            @controller_name = [:option, options.hash_value("controller").to_s]
           end
           action_name = options.hash_value("action").present? ? options.hash_value("action").to_s : "*"
           @routes.add_route(current_namespaces, current_controller_name, action_name)
@@ -105,14 +105,14 @@ module RailsBestPractices
             @namespaces << node.arguments.all.last.hash_value("module").to_s
           end
           if node.arguments.all.last.hash_value("controller").present?
-            @controller_name = node.arguments.all.last.hash_value("controller").to_s
+            @controller_name = [:scope, node.arguments.all.last.hash_value("controller").to_s]
           else
-            @controller_name = nil
+            @controller_name = @controller_name.try(:first) == :scope ? @controller_name : nil
           end
         when "with_options"
           argument = node.arguments.all.last
           if :bare_assoc_hash == argument.sexp_type && argument.hash_value("controller").present?
-            @controller_name = argument.hash_value("controller").to_s
+            @controller_name = [:with_option, argument.hash_value("controller").to_s]
           end
         else
           # do nothing
@@ -135,7 +135,7 @@ module RailsBestPractices
 
       # remember current controller name, used for nested resources.
       def start_do_block(node)
-        @controller_names << @controller_name
+        @controller_names << @controller_name.try(:last)
       end
 
       # remove current controller name, and use upper lever resource name.
@@ -148,13 +148,13 @@ module RailsBestPractices
         def add_#{route_name}_routes(node)
           resource_names = node.arguments.all.select { |argument| :symbol_literal == argument.sexp_type }
           resource_names.each do |resource_name|
-            @controller_name = node.arguments.all.first.to_s
+            @controller_name = [:#{route_name}, node.arguments.all.first.to_s]
             options = node.arguments.all.last
             if options.hash_value("module").present?
               @namespaces << options.hash_value("module").to_s
             end
             if options.hash_value("controller").present?
-              @controller_name = options.hash_value("controller").to_s
+              @controller_name = [:#{route_name}, options.hash_value("controller").to_s]
             end
             action_names = if options.hash_value("only").present?
                              get_#{route_name}_actions(options.hash_value("only").to_object)
@@ -209,7 +209,7 @@ module RailsBestPractices
       end
 
       def current_controller_name
-        @controller_names.last || @controller_name
+        @controller_names.last || @controller_name.try(:last)
       end
     end
   end
