@@ -71,7 +71,7 @@ module RailsBestPractices
             end                                                          #   end
           rescue Exception                                               # rescue Exception
             puts "find error in file: \#{node.file} line: \#{node.line}" #   puts "find error in file: \#{node.file} line: \#{node.line}"
-            throw $!                                                     #   throw $!
+            raise $!                                                     #   raise $!
           end                                                            # end
         EOS
       end
