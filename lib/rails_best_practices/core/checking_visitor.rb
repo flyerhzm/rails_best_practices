@@ -49,27 +49,30 @@ module RailsBestPractices
       # then run the reivew for that node.
       [:prepare, :review].each do |process|
         class_eval <<-EOS
-          def #{process}(node)                                         # def review(node)
-            checks = @#{process}_checks[node.sexp_type]                #   checks = @review_checks[node.sexp_type]
-            if checks                                                  #   if checks
-              checks.each { |check|                                    #     checks.each { |check|
-                if check.parse_file?(node.file)                        #      if check.parse_file?(node.file)
-                  check.node_start(node)                               #         check.node_start(node)
-                end                                                    #       end
-              }                                                        #     }
-            end                                                        #   end
-            node.children.each { |sexp|                                #   node.children.each { |sexp|
-              sexp.file = node.file                                    #     sexp.filename = node.file
-              sexp.#{process}(self)                                    #     sexp.review(self)
-            }                                                          #   }
-            if checks                                                  #   if checks
-              checks.each { |check|                                    #     checks.each { |check|
-                if check.parse_file?(node.file)                        #      if check.parse_file?(node.file)
-                  check.node_end(node)                                 #         check.node_end(node)
-                end                                                    #       end
-              }                                                        #     }
-            end                                                        #   end
-          end                                                          # end
+          def #{process}(node)                                           # def review(node)
+            checks = @#{process}_checks[node.sexp_type]                  #   checks = @review_checks[node.sexp_type]
+            if checks                                                    #   if checks
+              checks.each { |check|                                      #     checks.each { |check|
+                if check.parse_file?(node.file)                          #      if check.parse_file?(node.file)
+                  check.node_start(node)                                 #         check.node_start(node)
+                end                                                      #       end
+              }                                                          #     }
+            end                                                          #   end
+            node.children.each { |sexp|                                  #   node.children.each { |sexp|
+              sexp.file = node.file                                      #     sexp.filename = node.file
+              sexp.#{process}(self)                                      #     sexp.review(self)
+            }                                                            #   }
+            if checks                                                    #   if checks
+              checks.each { |check|                                      #     checks.each { |check|
+                if check.parse_file?(node.file)                          #      if check.parse_file?(node.file)
+                  check.node_end(node)                                   #         check.node_end(node)
+                end                                                      #       end
+              }                                                          #     }
+            end                                                          #   end
+          rescue Exception                                               # rescue Exception
+            puts "find error in file: \#{node.file} line: \#{node.line}" #   puts "find error in file: \#{node.file} line: \#{node.line}"
+            throw $!                                                     #   throw $!
+          end                                                            # end
         EOS
       end
     end
