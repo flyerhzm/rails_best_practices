@@ -221,7 +221,7 @@ describe Sexp do
       node.arguments.sexp_type.should == :args_add_block
     end
 
-    it "should get the arguments of method_add_args" do
+    it "should get the arguments of method_add_arg" do
       node = parse_content("User.find(:all)").grep_node(:sexp_type => :method_add_arg)
       node.arguments.sexp_type.should == :args_add_block
     end
@@ -243,6 +243,11 @@ describe Sexp do
     it "should get all arguments" do
       node = parse_content("puts 'hello', 'world'").grep_node(:sexp_type => :args_add_block)
       node.all.map(&:to_s).should == ["hello", "world"]
+    end
+
+    it "should get all arguments with &:" do
+      node = parse_content("user.posts.map(&:title)").grep_node(:sexp_type => :args_add_block)
+      node.all.map(&:to_s).should == ["title"]
     end
 
     it "no error for args_add_star" do
