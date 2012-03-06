@@ -48,7 +48,7 @@ module RailsBestPractices
       # @param [String] association_name
       # @return [String] association's class name
       def get_association_class_name(table_name, association_name)
-        associations = @associations.select { |model, model_associations| model.table_name == table_name }.values.first and
+        associations = @associations.select { |model, model_associations| model.gsub("::", "").tableize == table_name }.values.first and
           association_meta = associations.select { |name, meta| name == association_name }.values.first and
           association_meta["class_name"]
       end
