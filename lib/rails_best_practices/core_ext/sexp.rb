@@ -295,13 +295,17 @@ class Sexp
     nodes = []
     case sexp_type
     when :args_add_block, :array
-      node = self[1]
-      while true
-        if [:args_add, :args_add_star].include? node.sexp_type
-          nodes.unshift node[2]
-          node = node[1]
-        elsif :args_new == node.sexp_type
-          break
+      if self[1].sexp_type == :args_new
+        nodes << self[2]
+      else
+        node = self[1]
+        while true
+          if [:args_add, :args_add_star].include? node.sexp_type
+            nodes.unshift node[2]
+            node = node[1]
+          elsif :args_new == node.sexp_type
+            break
+          end
         end
       end
     end
