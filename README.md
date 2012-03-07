@@ -143,6 +143,7 @@ Now you can customize this configuration file, the default configuration is as f
     RemoveUnusedMethodsInControllersCheck: { except_methods: [] }
     RemoveUnusedMethodsInHelpersCheck: { except_methods: [] }
     NotUseTimeAgoInWordsCheck: {}
+    ProtectMassAssignmentCheck: {}
 
 You can remove or comment one review to disable it, and you can change the options.
 
@@ -172,6 +173,7 @@ Model
 3. Use observer
 4. Use query attribute
 5. Remove unused methods in models
+6. Protect mass assignment
 
 Mailer
 

@@ -31,3 +31,4 @@ RemoveUnusedMethodsInModelsCheck: { except_methods: [] }
 RemoveUnusedMethodsInControllersCheck: { except_methods: [] }
 RemoveUnusedMethodsInHelpersCheck: { except_methods: [] }
 NotUseTimeAgoInWordsCheck: { }
+ProtectMassAssignmentCheck: { }
