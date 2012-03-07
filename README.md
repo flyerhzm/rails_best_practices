@@ -63,6 +63,8 @@ Resources
 
 Homepage: <http://rails-bestpractices.com>
 
+Online Service: <http://railsbp.com>
+
 Github: <http://github.com/railsbp/rails_best_practices>
 
 RDoc: <http://rdoc.rails-bestpractices.com>
