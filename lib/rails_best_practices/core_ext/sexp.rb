@@ -56,17 +56,20 @@ class Sexp
   #     :sexp_type => :call,
   #     :subject => "Post",
   #     :message => ["find", "new"]
+  #     :to_s => "devise"
   #
-  # the condition key is one of :sexp_type, :subject or :message,
+  # the condition key is one of :sexp_type, :subject, :message, :to_s,
   # the condition value can be Symbol, Array or Sexp.
   def grep_nodes(options)
     sexp_type = options[:sexp_type]
     subject = options[:subject]
     message = options[:message]
+    to_s = options[:to_s]
     self.recursive_children do |child|
       if (!sexp_type || (sexp_type.is_a?(Array) ? sexp_type.include?(child.sexp_type) : sexp_type == child.sexp_type)) &&
          (!subject || (subject.is_a?(Array) ? subject.include?(child.subject.to_s) : subject == child.subject.to_s)) &&
-         (!message || (message.is_a?(Array) ? message.include?(child.message.to_s) : message == child.message.to_s))
+         (!message || (message.is_a?(Array) ? message.include?(child.message.to_s) : message == child.message.to_s)) &&
+         (!to_s || (to_s.is_a?(Array) ? to_s.include?(child.to_s) : to_s == child.to_s))
         yield child
       end
     end
@@ -82,7 +85,7 @@ class Sexp
   #     :subject => s(:const, Post),
   #     :message => [:find, :new]
   #
-  # the condition key is one of :sexp_type, :subject, :message,
+  # the condition key is one of :sexp_type, :subject, :message, and to_s,
   # the condition value can be Symbol, Array or Sexp.
   def grep_node(options)
     result = RailsBestPractices::Core::Nil.new
