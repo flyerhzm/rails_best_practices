@@ -56,6 +56,12 @@ describe Sexp do
       @node.grep_nodes(:sexp_type => :call, :message => ["posts", "find"]) { |node| nodes << node }
       nodes.should == [s(:call, s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21))), :".", s(:@ident, "find", s(2, 27))), s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
     end
+
+    it "should get the vcall node with to_s" do
+      nodes = []
+      @node.grep_nodes(:sexp_type => :vcall, :to_s => "current_user") { |node| nodes << node }
+      nodes.should == [s(:vcall, s(:@ident, "current_user", s(2, 8)))]
+    end
   end
 
   describe "grep_node" do

@@ -32,4 +32,36 @@ describe RailsBestPractices::Reviews::ProtectMassAssignmentReview do
     runner.review('app/models/user.rb', content)
     runner.should have(0).errors
   end
+
+  it "should not protect mass assignment if using devise" do
+    content =<<-EOF
+    class User < ActiveRecord::Base
+      devise :database_authenticatable, :registerable, :confirmable, :recoverable, :stretches => 20
+    end
+    EOF
+    runner.review('app/models/user.rb', content)
+    runner.should have(0).errors
+  end
+
+  it "should not protect mass assignment if using authlogic with configuration" do
+    content =<<-EOF
+    class User < ActiveRecord::Base
+      acts_as_authentic do |c|
+        c.my_config_option = my_value
+      end
+    end
+    EOF
+    runner.review('app/models/user.rb', content)
+    runner.should have(0).errors
+  end
+
+  it "should not protect mass assignment if using authlogic without configuration" do
+    content =<<-EOF
+    class User < ActiveRecord::Base
+      acts_as_authentic
+    end
+    EOF
+    runner.review('app/models/user.rb', content)
+    runner.should have(0).errors
+  end
 end

@@ -22,10 +22,24 @@ module RailsBestPractices
       # check class node, grep all command nodes, if none of them is with message attr_accessible or attr_protected,
       # then it should add attr_accessible or attr_protected to protect mass assignment.
       def start_class(node)
-        if node.grep_node(:sexp_type => :command, :message => ["attr_accessible", "attr_protected"]).blank?
+        if !rails_builtin?(node) && !devise?(node) && !authlogic?(node)
           add_error "protect mass assignment"
         end
       end
+
+      private
+        def rails_builtin?(node)
+          node.grep_node(:sexp_type => :command, :message => %w(attr_accessible attr_protected)).present?
+        end
+
+        def devise?(node)
+          node.grep_node(:sexp_type => :command, :message => "devise").present?
+        end
+
+        def authlogic?(node)
+         node.grep_node(:sexp_type => :vcall, :to_s => "acts_as_authentic").present? ||
+         node.grep_node(:sexp_type => :fcall, :message => "acts_as_authentic").present?
+        end
     end
   end
 end
