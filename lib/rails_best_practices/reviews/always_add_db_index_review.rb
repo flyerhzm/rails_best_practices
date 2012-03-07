@@ -130,7 +130,7 @@ module RailsBestPractices
             foreign_keys.delete_if do |key|
               if key =~ /_id$/
                 class_name = Prepares.model_associations.get_association_class_name(table, key[0..-4])
-                class_name ? !@table_nodes[class_name.table_name] : !@table_nodes[key[0..-4].pluralize]
+                class_name ? !@table_nodes[class_name.gsub("::", "").tableize] : !@table_nodes[key[0..-4].pluralize]
               end
             end
           end
