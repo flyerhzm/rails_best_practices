@@ -29,17 +29,26 @@ module RailsBestPractices
           second_argument = node.arguments.all[1]
           if @controller_names.last
             if :bare_assoc_hash == first_argument.sexp_type
-              action_name = first_argument.hash_values.first.to_s
+              action_names = [first_argument.hash_values.first.to_s]
+            elsif :array == first_argument.sexp_type
+              action_names = first_argument.array_values.map(&:to_s)
             else
-              action_name = first_argument.to_s
+              action_names = [first_argument.to_s]
             end
-            @routes.add_route(current_namespaces, current_controller_name, action_name)
+            action_names.each do |action_name|
+              @routes.add_route(current_namespaces, current_controller_name, action_name)
+            end
           else
             if :bare_assoc_hash == first_argument.sexp_type
               route_node = first_argument.hash_values.first
               # do not parse redirect block
               return if :method_add_arg == route_node.sexp_type
               controller_name, action_name = route_node.to_s.split('#')
+            elsif :array == first_argument.sexp_type
+              first_argument.array_values.map(&:to_s).each do |action_node|
+                @routes.add_route(current_namespaces, controller_name, action_node.to_s)
+              end
+              return
             elsif :bare_assoc_hash == second_argument.try(:sexp_type) && second_argument.hash_value("to")
               controller_name, action_name = second_argument.hash_value("to").to_s.split('#')
             else
