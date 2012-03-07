@@ -8,7 +8,7 @@ module RailsBestPractices
       # @param [String] controller name
       # @param [String] action name
       def add_route(namespaces, controller_name, action_name)
-        if controller_name.present?
+        if namespaces.present? || controller_name.present?
           self << Route.new(namespaces, controller_name, action_name)
         end
       end
@@ -19,14 +19,20 @@ module RailsBestPractices
 
       def initialize(namespaces, controller_name, action_name)
         @namespaces = namespaces
-        entities = controller_name.split('/')
-        @namespaces += entities[0..-2] if entities.size > 1
-        @controller_name = entities.last
+        if controller_name
+          entities = controller_name.split('/')
+          @namespaces += entities[0..-2] if entities.size > 1
+          @controller_name = entities.last
+        end
         @action_name = action_name
       end
 
       def controller_name_with_namespaces
-        namespaces.map { |namespace| "#{namespace.camelize}::" }.join("") + "#{controller_name.camelize}Controller"
+        if controller_name
+          namespaces.map { |namespace| "#{namespace.camelize}::" }.join("") + "#{controller_name.camelize}Controller"
+        else
+          namespaces.map { |namespace| namespace.camelize }.join("::") + "Controller"
+        end
       end
 
       def to_s

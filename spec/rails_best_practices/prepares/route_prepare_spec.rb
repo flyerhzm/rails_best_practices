@@ -467,6 +467,22 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes.map(&:to_s).should == ["PostsController#show", "PostsController#list", "PostsController#search", "PostsController#available", "PostsController#create", "PostsController#update"]
       end
 
+      it "should add resources routes with get %w() routes" do
+        content =<<-EOF
+        RailsBestPracticesCom::Application.routes.draw do
+          resources :posts, :only => [:show] do
+            collection do
+              get *%w(latest popular)
+            end
+          end
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 3
+        routes.map(&:to_s).should == ["PostsController#show", "PostsController#latest", "PostsController#popular"]
+      end
+
       it "should add route with nested routes" do
         content =<<-EOF
         RailsBestPracticesCom::Application.routes.draw do
@@ -493,6 +509,19 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         runner.prepare('config/routes.rb', content)
         routes = RailsBestPractices::Prepares.routes
         routes.map(&:to_s).should == ["Admin::Test::PostsController#index"]
+      end
+
+      it "should add route with namespace, but without resources" do
+        content =<<-EOF
+        RailsBestPracticesCom::Appllication.routes.draw do
+          namespace :something do
+            get *%w(route_one route_two)
+          end
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.map(&:to_s).should == ["SomethingController#route_one", "SomethingController#route_two"]
       end
 
       it "should add route with scope" do
