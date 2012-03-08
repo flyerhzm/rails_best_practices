@@ -516,12 +516,13 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         RailsBestPracticesCom::Appllication.routes.draw do
           namespace :something do
             get *%w(route_one route_two)
+            get :route_three, :action => "custom_action"
           end
         end
         EOF
         runner.prepare('config/routes.rb', content)
         routes = RailsBestPractices::Prepares.routes
-        routes.map(&:to_s).should == ["SomethingController#route_one", "SomethingController#route_two"]
+        routes.map(&:to_s).should == ["SomethingController#route_one", "SomethingController#route_two", "SomethingController#custom_action"]
       end
 
       it "should add route with scope" do

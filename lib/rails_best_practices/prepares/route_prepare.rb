@@ -49,12 +49,17 @@ module RailsBestPractices
                 @routes.add_route(current_namespaces, controller_name, action_node.to_s)
               end
               return
-            elsif :bare_assoc_hash == second_argument.try(:sexp_type) && second_argument.hash_value("to")
-              controller_name, action_name = second_argument.hash_value("to").to_s.split('#')
+            elsif :bare_assoc_hash == second_argument.try(:sexp_type)
+              if second_argument.hash_value("to").present?
+                controller_name, action_name = second_argument.hash_value("to").to_s.split('#')
+              else
+                controller_name = current_controller_name
+                action_name = second_argument.hash_value("action")
+              end
             else
               controller_name, action_name = first_argument.to_s.split('/')
             end
-            @routes.add_route(current_namespaces, controller_name.underscore, action_name)
+            @routes.add_route(current_namespaces, controller_name.try(:underscore), action_name)
           end
         when "match", "root"
           options = node.arguments.all.last
