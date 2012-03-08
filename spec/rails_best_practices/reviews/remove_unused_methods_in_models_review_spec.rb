@@ -45,7 +45,7 @@ describe RailsBestPractices::Reviews::RemoveUnusedMethodsInModelsReview do
     it "should not remove unused methods with var_ref" do
       content =<<-EOF
       class Post < ActiveRecord::Base
-        def find;
+        def find
           find_by_sql
         end
         private
