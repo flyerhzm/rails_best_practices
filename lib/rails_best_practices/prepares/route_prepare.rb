@@ -5,7 +5,7 @@ module RailsBestPractices
   module Prepares
     # Remembber routes.
     class RoutePrepare < Core::Check
-      interesting_nodes :command, :command_call, :method_add_block, :do_block
+      interesting_nodes :command, :command_call, :method_add_block, :do_block, :brace_block
       interesting_files ROUTE_FILES
 
       RESOURCES_ACTIONS = %w(index show new create edit update destroy)
@@ -156,6 +156,9 @@ module RailsBestPractices
       def end_do_block(node)
         @controller_names.pop
       end
+
+      alias_method :start_brace_block, :start_do_block
+      alias_method :end_brace_block, :end_do_block
 
       [:resources, :resource].each do |route_name|
         class_eval <<-EOF

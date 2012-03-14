@@ -467,6 +467,18 @@ describe RailsBestPractices::Prepares::RoutePrepare do
         routes.map(&:to_s).should == ["PostsController#show", "PostsController#list", "PostsController#search", "PostsController#available", "PostsController#create", "PostsController#update"]
       end
 
+      it "should add custom resources routes with {}" do
+        content =<<-EOF
+        RailsBestPracticesCom::Application.routes.draw do
+          resources :posts, :only => [:show] { get :inactive, :on => :collection }
+        end
+        EOF
+        runner.prepare('config/routes.rb', content)
+        routes = RailsBestPractices::Prepares.routes
+        routes.size.should == 2
+        routes.map(&:to_s).should == ["PostsController#show", "PostsController#inactive"]
+      end
+
       it "should add resources routes with get %w() routes" do
         content =<<-EOF
         RailsBestPracticesCom::Application.routes.draw do
