@@ -503,7 +503,7 @@ class Sexp
   def statements
     stmts = []
     node = case sexp_type
-           when :do_block
+           when :do_block, :brace_block
              self[2]
            when :bodystmt
              self[1]
