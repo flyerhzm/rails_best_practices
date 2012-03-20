@@ -29,6 +29,7 @@ module RailsBestPractices
 
       private
         def rails_builtin?(node)
+          node.grep_node(:sexp_type => :vcall, :to_s => "attr_accessible").present? ||
           node.grep_node(:sexp_type => :command, :message => %w(attr_accessible attr_protected)).present?
         end
 
