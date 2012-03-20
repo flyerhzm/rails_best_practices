@@ -13,10 +13,20 @@ describe RailsBestPractices::Reviews::ProtectMassAssignmentReview do
     runner.errors[0].to_s.should == "app/models/user.rb:1 - protect mass assignment"
   end
 
-  it "should not protect mass assignment with attr_accessible" do
+  it "should not protect mass assignment if attr_accessible is used with arguments" do
     content =<<-EOF
     class User < ActiveRecord::Base
       attr_accessible :email, :password, :password_confirmation
+    end
+    EOF
+    runner.review('app/models/user.rb', content)
+    runner.should have(0).errors
+  end
+
+  it "should not protect mass assignment if attr_accessible is used without arguments" do
+    content =<<-EOF
+    class User < ActiveRecord::Base
+      attr_accessible
     end
     EOF
     runner.review('app/models/user.rb', content)
