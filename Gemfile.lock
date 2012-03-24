@@ -26,7 +26,6 @@ GEM
     progressbar (0.9.1)
     rake (0.9.2.2)
     rb-fsevent (0.4.3.1)
-    ripper (1.0.2)
     rspec (2.7.0)
       rspec-core (~> 2.7.0)
       rspec-expectations (~> 2.7.0)
@@ -55,6 +54,5 @@ DEPENDENCIES
   rails_best_practices!
   rake
   rb-fsevent
-  ripper
   rspec
   slim
