@@ -1,5 +1,7 @@
 require 'spec_helper'
 
-describe RailsBestPractices::Core::Models do
-  it { should be_a_kind_of RailsBestPractices::Core::Klasses }
+module RailsBestPractices::Core
+  describe Models do
+    it { should be_a_kind_of Klasses }
+  end
 end
