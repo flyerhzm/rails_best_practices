@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module RailsBestpractices
+module RailsBestPractices
   module Reviews
     describe NotUseDefaultRouteReview do
       let(:runner) { Core::Runner.new(:reviews => NotUseDefaultRouteReview.new) }
