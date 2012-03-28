@@ -19,7 +19,7 @@ module RailsBestPractices
         end
         EOF
         runner.prepare("db/schema.rb", content)
-        model_attributes = RailsBestPractices::Prepares.model_attributes
+        model_attributes = Prepares.model_attributes
         model_attributes.get_attribute_type("Post", "title").should == "string"
         model_attributes.get_attribute_type("Post", "body").should == "text"
         model_attributes.get_attribute_type("Post", "created_at").should == "datetime"
