@@ -29,7 +29,7 @@ module RailsBestPractices
 
       private
         def rails_builtin?(node)
-          node.grep_node(:sexp_type => :vcall, :to_s => "attr_accessible").present? ||
+          node.grep_node(:sexp_type => [:vcall, :var_ref], :to_s => "attr_accessible").present? ||
           node.grep_node(:sexp_type => :command, :message => %w(attr_accessible attr_protected)).present?
         end
 
@@ -38,7 +38,7 @@ module RailsBestPractices
         end
 
         def authlogic?(node)
-         node.grep_node(:sexp_type => :vcall, :to_s => "acts_as_authentic").present? ||
+         node.grep_node(:sexp_type => [:vcall, :var_ref], :to_s => "acts_as_authentic").present? ||
          node.grep_node(:sexp_type => :fcall, :message => "acts_as_authentic").present?
         end
     end

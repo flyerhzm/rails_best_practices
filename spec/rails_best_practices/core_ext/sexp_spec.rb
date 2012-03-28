@@ -48,19 +48,35 @@ describe Sexp do
     it "should get the call nodes with subject current_user" do
       nodes = []
       @node.grep_nodes(:sexp_type => :call, :subject => "current_user") { |node| nodes << node }
-      nodes.should == [s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
+      if RUBY_VERSION == "1.9.2"
+        nodes.should == [s(:call, s(:var_ref, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
+      else
+        nodes.should == [s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
+      end
     end
 
     it "should get the call nodes with different messages" do
       nodes = []
       @node.grep_nodes(:sexp_type => :call, :message => ["posts", "find"]) { |node| nodes << node }
-      nodes.should == [s(:call, s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21))), :".", s(:@ident, "find", s(2, 27))), s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
+      if RUBY_VERSION == "1.9.2"
+        nodes.should == [s(:call, s(:call, s(:var_ref, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21))), :".", s(:@ident, "find", s(2, 27))), s(:call, s(:var_ref, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
+      else
+        nodes.should == [s(:call, s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21))), :".", s(:@ident, "find", s(2, 27))), s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
+      end
     end
 
-    it "should get the vcall node with to_s" do
-      nodes = []
-      @node.grep_nodes(:sexp_type => :vcall, :to_s => "current_user") { |node| nodes << node }
-      nodes.should == [s(:vcall, s(:@ident, "current_user", s(2, 8)))]
+    if RUBY_VERSION == "1.9.2"
+      it "should get the var_ref node with to_s" do
+        nodes = []
+        @node.grep_nodes(:sexp_type => :var_ref, :to_s => "current_user") { |node| nodes << node }
+        nodes.should == [s(:var_ref, s(:@ident, "current_user", s(2, 8)))]
+      end
+    else
+      it "should get the vcall node with to_s" do
+        nodes = []
+        @node.grep_nodes(:sexp_type => :vcall, :to_s => "current_user") { |node| nodes << node }
+        nodes.should == [s(:vcall, s(:@ident, "current_user", s(2, 8)))]
+      end
     end
   end
 
@@ -76,7 +92,11 @@ describe Sexp do
 
     it "should get first node with empty argument" do
       node = @node.grep_node(:sexp_type => :call, :subject => "current_user")
-      node.should == s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))
+      if RUBY_VERSION == "1.9.2"
+        node.should == s(:call, s(:var_ref, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))
+      else
+        node.should == s(:call, s(:vcall, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))
+      end
     end
   end
 
