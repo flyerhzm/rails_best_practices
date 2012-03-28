@@ -35,8 +35,7 @@ module RailsBestPractices
       #
       # @param [Hash] options pass the prepares and reviews.
       def initialize(options={})
-        custom_config = File.join(Runner.base_path, 'config/rails_best_practices.yml')
-        @config = File.exists?(custom_config) ? custom_config : RailsBestPractices::Analyzer::DEFAULT_CONFIG
+        @config = determine_config_file(options["custom_config"])
 
         lexicals = Array(options[:lexicals])
         prepares = Array(options[:prepares])
@@ -137,6 +136,21 @@ module RailsBestPractices
       end
 
       private
+        # Check if the --config option has been passed or if there is a config in
+        # the default custom config location.
+        # If neither of these files exist, fall back to default configuration.
+        def determine_config_file(custom_config)
+          custom_config ||= default_custom_config_location
+          return custom_config if File.exists?(custom_config)
+          RailsBestPractices::Analyzer::DEFAULT_CONFIG
+        end
+
+        def default_custom_config_location
+          default_dir = Runner.base_path
+          default_dir = File.dirname(default_dir) unless File.directory? default_dir
+          File.join(default_dir, 'config/rails_best_practices.yml')
+        end
+
         # parse ruby code.
         #
         # @param [String] filename is the filename of ruby file.
