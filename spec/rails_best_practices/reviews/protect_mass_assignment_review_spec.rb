@@ -76,6 +76,23 @@ module RailsBestPractices
         runner.review('app/models/user.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not protect mass assignment if user set config.active_record.whitelist_attributes" do
+        content =<<-EOF
+        module RailsBestPracticesCom
+          class Application < Rails::Application
+            config.active_record.whitelist_attributes = true
+          end
+        end
+        EOF
+        runner.prepare('config/application.rb', content)
+        content =<<-EOF
+        class User < ActiveRecord::Base
+        end
+        EOF
+        runner.review('app/models/user.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end
