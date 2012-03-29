@@ -788,6 +788,8 @@ class Sexp
       self[1].to_s[0..-2]
     when :aref
       "#{self[1]}[#{self[2]}]"
+    when :call, :field
+      "#{self.subject}.#{self.message}"
     else
       ""
     end

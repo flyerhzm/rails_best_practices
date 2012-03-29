@@ -14,6 +14,7 @@ module RailsBestPractices
       SCHEMA_FILE = /db\/schema\.rb/
       HELPER_FILES = /helpers\/.*\.rb$/
       DEPLOY_FILES = /config\/deploy.*\.rb/
+      CONFIG_FILES = /config\/(application|environment|environments\/.*)\.rb/
 
       def initialize(options={})
         options.each do |key, value|
