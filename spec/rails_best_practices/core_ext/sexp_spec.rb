@@ -545,6 +545,11 @@ describe Sexp do
       node = parse_content("{first_name: 'Richard'}").grep_node(:sexp_type => :@label)
       node.to_s.should == "first_name"
     end
+
+    it "should get to_s for call" do
+      node = parse_content("current_user.post").grep_node(:sexp_type => :call)
+      node.to_s.should == "current_user.post"
+    end
   end
 
   describe "const?" do

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module RailsBestPractices
   module Prepares
-    describe RailsBestPractices::Prepares::HelperPrepare do
+    describe HelperPrepare do
       let(:runner) { Core::Runner.new(:prepares => HelperPrepare.new) }
 
       context "methods" do

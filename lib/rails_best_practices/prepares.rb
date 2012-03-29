@@ -5,6 +5,7 @@ require 'rails_best_practices/prepares/schema_prepare'
 require 'rails_best_practices/prepares/controller_prepare'
 require 'rails_best_practices/prepares/route_prepare'
 require 'rails_best_practices/prepares/helper_prepare'
+require 'rails_best_practices/prepares/config_prepare'
 
 module RailsBestPractices
   module Prepares
@@ -51,6 +52,10 @@ module RailsBestPractices
 
       def routes
         @routes ||= Core::Routes.new
+      end
+
+      def configs
+        @configs ||= Core::Configs.new
       end
 
       # Clear all prepare objects.
