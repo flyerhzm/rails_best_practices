@@ -19,15 +19,22 @@ module RailsBestPractices
         "http://rails-bestpractices.com/posts/148-protect-mass-assignment"
       end
 
-      # check class node, grep all command nodes, if none of them is with message attr_accessible or attr_protected,
+      # check class node, grep all command nodes,
+      # if config.active_record.whitelist_attributes is not set true,
+      # and if none of them is with message attr_accessible or attr_protected,
+      # and if not use devise or authlogic,
       # then it should add attr_accessible or attr_protected to protect mass assignment.
       def start_class(node)
-        if !rails_builtin?(node) && !devise?(node) && !authlogic?(node)
+        if !whitelist_attributes_config? && !rails_builtin?(node) && !devise?(node) && !authlogic?(node)
           add_error "protect mass assignment"
         end
       end
 
       private
+        def whitelist_attributes_config?
+          Prepares.configs["config.active_record.whitelist_attributes"] == "true"
+        end
+
         def rails_builtin?(node)
           node.grep_node(:sexp_type => [:vcall, :var_ref], :to_s => "attr_accessible").present? ||
           node.grep_node(:sexp_type => :command, :message => %w(attr_accessible attr_protected)).present?
