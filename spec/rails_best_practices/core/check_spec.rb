@@ -24,6 +24,15 @@ module RailsBestPractices::Core
         check.should_receive(:send).with("start_call", node)
         check.node_start(node)
       end
+
+      it "should print node if debug mode" do
+        node = stub(:sexp_type => :call)
+        Check.class_eval { debug }
+        check.should_receive(:send).with("start_call", node)
+        check.should_receive(:ap).with(node)
+        check.node_start(node)
+        Check.class_eval { @debug = false }
+      end
     end
 
     context "node_end" do
@@ -59,6 +68,14 @@ module RailsBestPractices::Core
         node = stub(:sexp_type => :call)
         check.node_end(node)
         execute.should be_true
+      end
+    end
+
+    context "debug" do
+      it "should be debug mode" do
+        Check.debug
+        Check.should be_debug
+        Check.class_eval { @debug = false }
       end
     end
   end
