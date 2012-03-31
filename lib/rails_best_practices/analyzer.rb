@@ -3,6 +3,8 @@ require 'fileutils'
 
 require 'progressbar'
 require 'colored'
+require 'ap'
+
 
 module RailsBestPractices
   # RailsBestPractices Analyzer helps you to analyze your rails code, according to best practices on http://rails-bestpractices.

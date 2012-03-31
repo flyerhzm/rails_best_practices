@@ -48,6 +48,9 @@ module RailsBestPractices
       # @param [Sexp] node
       def node_start(node)
         @node = node
+        if self.class.debug?
+          ap node
+        end
         Array(self.class.callbacks["start_#{node.sexp_type}"]).each do |callback|
           self.instance_exec node, &callback
         end
@@ -141,6 +144,14 @@ module RailsBestPractices
         def add_callback(name, &block)
           callbacks[name] ||= []
           callbacks[name] << block
+        end
+
+        def debug?
+          @debug == true
+        end
+
+        def debug
+          @debug = true
         end
       end
 
