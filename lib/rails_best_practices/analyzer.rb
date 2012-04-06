@@ -174,19 +174,19 @@ module RailsBestPractices
 
     # output errors on terminal.
     def output_terminal_errors
-      @runner.errors.each { |error| plain_output(error.to_s, 'red') }
+      errors.each { |error| plain_output(error.to_s, 'red') }
       plain_output("\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.", 'green')
-      if @runner.errors.empty?
+      if errors.empty?
         plain_output("\nNo warning found. Cool!", 'green')
       else
-        plain_output("\nFound #{@runner.errors.size} warnings.", 'red')
+        plain_output("\nFound #{errors.size} warnings.", 'red')
       end
     end
 
     # load hg commit and hg username info.
     def load_hg_info
-      hg_progressbar = ProgressBar.new('Hg Info', @runner.errors.size) if display_bar?
-      @runner.errors.each do |error|
+      hg_progressbar = ProgressBar.new('Hg Info', errors.size) if display_bar?
+      errors.each do |error|
         hg_info = `cd #{@runner.class.base_path}; hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, "")} | sed -n /:#{error.line_number.split(',').first}:/p`
         unless hg_info == ""
           hg_commit_username = hg_info.split(':')[0].strip
@@ -200,9 +200,9 @@ module RailsBestPractices
 
     # load git commit and git username info.
     def load_git_info
-      git_progressbar = ProgressBar.new('Git Info', @runner.errors.size) if display_bar?
+      git_progressbar = ProgressBar.new('Git Info', errors.size) if display_bar?
       start = @runner.class.base_path =~ /\/$/ ? @runner.class.base_path.size : @runner.class.base_path.size + 1
-      @runner.errors.each do |error|
+      errors.each do |error|
         git_info = `cd #{@runner.class.base_path}; git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}`
         unless git_info == ""
           git_commit, git_username = git_info.split(/\d{4}-\d{2}-\d{2}/).first.split("(")
@@ -225,7 +225,7 @@ module RailsBestPractices
       File.open(@options["output-file"], "w+") do |file|
         eruby = Erubis::Eruby.new(template)
         file.puts eruby.evaluate(
-          :errors => @runner.errors,
+          :errors => errors,
           :error_types => error_types,
           :textmate => @options["with-textmate"],
           :mvim => @options["with-mvim"],
@@ -250,9 +250,15 @@ module RailsBestPractices
       end
     end
 
+    private
     # unique error types.
     def error_types
-      @runner.errors.map(&:type).uniq
+      errors.map(&:type).uniq
+    end
+
+    # delegate errors to runner
+    def errors
+      @runner.errors
     end
   end
 end
