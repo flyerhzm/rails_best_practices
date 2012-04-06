@@ -17,7 +17,7 @@ module RailsBestPractices
   #
   # After analyzing, output the violations.
   class Analyzer
-    attr_accessor :runner
+    attr_accessor :runner, :errors_filter_block
 
     DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "..", "rails_best_practices.yml")
 
@@ -27,7 +27,6 @@ module RailsBestPractices
     # @param [Hash] options
     def initialize(path, options={})
       @path = path || "."
-      @errors_filter_block = options["errors_filter_block"]
       @options = options
     end
 
@@ -61,7 +60,7 @@ module RailsBestPractices
       ["lexical", "prepare", "review"].each { |process| send(:process, process) }
       @bar.finish if display_bar?
 
-      @errors_filter_block.call(errors)
+      errors_filter_block.call(errors) if errors_filter_block
     end
 
     def display_bar?
