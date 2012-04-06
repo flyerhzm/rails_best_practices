@@ -46,9 +46,8 @@ module RailsBestPractices
 
     describe "errors_filter_block" do
       it "should call errors_filter_block after analyze" do
-        analyzer = Analyzer.new("path",
-                                "silent" => true,
-                                "errors_filter_block" => lambda { |errors| errors.each { |error| error.highlight = true } })
+        analyzer = Analyzer.new("path", "silent" => true)
+        analyzer.errors_filter_block = lambda { |errors| errors.each { |error| error.highlight = true } }
         analyzer.stub(:expand_dirs_to_files).and_return([])
         analyzer.stub(:file_sort).and_return([])
         analyzer.stub(:file_ignore).and_return([])
