@@ -27,6 +27,7 @@ module RailsBestPractices
     # @param [Hash] options
     def initialize(path, options={})
       @path = path || "."
+      @errors_filter_block = options["errors_filter_block"]
       @options = options
     end
 
@@ -59,6 +60,8 @@ module RailsBestPractices
       @bar = ProgressBar.new('Source Codes', parse_files.size * 3) if display_bar?
       ["lexical", "prepare", "review"].each { |process| send(:process, process) }
       @bar.finish if display_bar?
+
+      @errors_filter_block.call(errors)
     end
 
     def display_bar?
