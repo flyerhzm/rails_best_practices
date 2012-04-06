@@ -2,6 +2,10 @@ require 'spec_helper'
 
 module RailsBestPractices::Core
   describe Error do
+    it "should have highlight with false by default" do
+      Error.new.highlight.should == false
+    end
+
     it "should return error with filename, line number and message" do
       Error.new(
         :filename => "app/models/user.rb",
