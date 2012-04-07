@@ -56,25 +56,15 @@ module RailsBestPractices
       @runner.debug = true if @options["debug"]
       @runner.color = !@options["without-color"]
 
-      @bar = ProgressBar.new('Source Codes', parse_files.size * 3) if display_bar?
-      ["lexical", "prepare", "review"].each { |process| send(:process, process) }
-      @bar.finish if display_bar?
+      analyze_source_codes
+      analyze_vcs
 
       errors_filter_block.call(errors) if errors_filter_block
-    end
-
-    def display_bar?
-      !@options["debug"] && !@options["silent"]
     end
 
     # Output the analyze result.
     def output
       if @options["format"] == 'html'
-        if @options["with-hg"]
-          load_hg_info
-        elsif @options["with-git"]
-          load_git_info
-        end
         output_html_errors
       else
         output_terminal_errors
@@ -252,7 +242,26 @@ module RailsBestPractices
       end
     end
 
-    private
+    # analyze source codes.
+    def analyze_source_codes
+      @bar = ProgressBar.new('Source Codes', parse_files.size * 3) if display_bar?
+      ["lexical", "prepare", "review"].each { |process| send(:process, process) }
+      @bar.finish if display_bar?
+    end
+
+    # analyze version control system info.
+    def analyze_vcs
+      if @options["format"] == 'html'
+        load_git_info if @options["with-git"]
+        load_hg_info if @options["with-hg"]
+      end
+    end
+
+    # if disaply progress bar.
+    def display_bar?
+      !@options["debug"] && !@options["silent"]
+    end
+
     # unique error types.
     def error_types
       errors.map(&:type).uniq
