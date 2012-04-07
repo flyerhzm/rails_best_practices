@@ -113,7 +113,7 @@ module RailsBestPractices
       #
       # @return [Array] all errors from lexicals and reviews
       def errors
-        (@reviews + @lexicals).collect {|check| check.errors}.flatten
+        @errors ||= (@reviews + @lexicals).collect {|check| check.errors}.flatten
       end
 
       def after_lexical; end
