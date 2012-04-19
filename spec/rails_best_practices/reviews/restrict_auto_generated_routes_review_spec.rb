@@ -29,7 +29,7 @@ module RailsBestPractices
             EOF
             runner.review('config/routes.rb', content)
             runner.should have(1).errors
-            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes (:only => [:show, :new, :create, :edit, :update, :destroy])"
+            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes posts (:only => [:show, :new, :create, :edit, :update, :destroy])"
           end
 
           it "should not restrict auto-generated routes with only" do
@@ -81,7 +81,7 @@ module RailsBestPractices
               EOF
               runner.review('config/routes.rb', content)
               runner.should have(1).errors
-              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes (:only => [:show, :new, :create, :edit, :update, :destroy])"
+              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes articles (:only => [:show, :new, :create, :edit, :update, :destroy])"
             end
           end
 
@@ -111,7 +111,7 @@ module RailsBestPractices
               EOF
               runner.review('config/routes.rb', content)
               runner.should have(1).errors
-              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes (:only => [:show, :new, :create, :edit, :update, :destroy])"
+              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes posts (:only => [:show, :new, :create, :edit, :update, :destroy])"
             end
 
             it "should not restrict auto-generated routes with only" do
@@ -149,7 +149,7 @@ module RailsBestPractices
             EOF
             runner.review('config/routes.rb', content)
             runner.should have(1).errors
-            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes (:only => [:show, :new, :create, :edit, :update, :destroy])"
+            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes posts (:only => [:show, :new, :create, :edit, :update, :destroy])"
           end
 
           it "should not restrict auto-generated routes with only" do
@@ -181,7 +181,7 @@ module RailsBestPractices
               EOF
               runner.review('config/routes.rb', content)
               runner.should have(1).errors
-              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes (:only => [:show, :new, :create, :edit, :update, :destroy])"
+              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes articles (:only => [:show, :new, :create, :edit, :update, :destroy])"
             end
           end
 
@@ -208,7 +208,7 @@ module RailsBestPractices
               EOF
               runner.review('config/routes.rb', content)
               runner.should have(1).errors
-              runner.errors[0].to_s.should == "config/routes.rb:3 - restrict auto-generated routes (:only => [:show, :new, :create, :edit, :update, :destroy])"
+              runner.errors[0].to_s.should == "config/routes.rb:3 - restrict auto-generated routes comments (:only => [:show, :new, :create, :edit, :update, :destroy])"
             end
           end
 
@@ -238,7 +238,7 @@ module RailsBestPractices
               EOF
               runner.review('config/routes.rb', content)
               runner.should have(1).errors
-              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes (:only => [:show, :new, :create, :edit, :update, :destroy])"
+              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes posts (:only => [:show, :new, :create, :edit, :update, :destroy])"
             end
 
             it "should not restrict auto-generated routes with only" do
@@ -291,7 +291,7 @@ module RailsBestPractices
             EOF
             runner.review('config/routes.rb', content)
             runner.should have(1).errors
-            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes (:only => [:show, :new, :create, :edit, :update])"
+            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes account (:only => [:show, :new, :create, :edit, :update])"
           end
 
           it "should not restrict auto-generated routes with only" do
@@ -324,7 +324,7 @@ module RailsBestPractices
             EOF
             runner.review('config/routes.rb', content)
             runner.should have(1).errors
-            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes (:only => [:show, :new, :create, :edit, :update])"
+            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes account (:only => [:show, :new, :create, :edit, :update])"
           end
 
           it "should not restrict auto-generated routes with only" do
