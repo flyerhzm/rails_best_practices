@@ -8,7 +8,6 @@ module RailsBestPractices
       it "should replace complex creation with factory method" do
         content = <<-EOF
         class InvoiceController < ApplicationController
-
           def create
             @invoice = Invoice.new(params[:invoice])
             @invoice.address = current_user.address
@@ -33,7 +32,6 @@ module RailsBestPractices
       it "should not replace complex creation with factory method with simple creation" do
         content = <<-EOF
         class InvoiceController < ApplicationController
-
           def create
             @invoice = Invoice.new(params[:invoice])
             @invoice.address = current_user.address
@@ -49,7 +47,6 @@ module RailsBestPractices
       it "should not replace complex creation with factory method when attrasgn_count is 5" do
         content = <<-EOF
         class InvoiceController < ApplicationController
-
           def create
             @invoice = Invoice.new(params[:invoice])
             @invoice.address = current_user.address

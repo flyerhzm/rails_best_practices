@@ -8,7 +8,6 @@ module RailsBestPractices
       it "should move finder to named_scope" do
         content = <<-EOF
         class PostsController < ActionController::Base
-
           def index
             @public_posts = Post.find(:all, :conditions => { :state => 'public' },
                                             :limit => 10,
@@ -29,7 +28,6 @@ module RailsBestPractices
       it "should not move simple finder" do
         content = <<-EOF
         class PostsController < ActionController::Base
-
           def index
             @all_posts = Post.find(:all)
             @another_all_posts = Post.all
@@ -47,7 +45,6 @@ module RailsBestPractices
       it "should not move namd_scope" do
         content = <<-EOF
         class PostsController < ActionController::Base
-
           def index
             @public_posts = Post.published
             @draft_posts  = Post.draft
@@ -61,7 +58,6 @@ module RailsBestPractices
       it "should not review model file" do
         content = <<-EOF
         class Post < ActiveRecord::Base
-
           def published
             Post.find(:all, :conditions => { :state => 'public' },
                             :limit => 10, :order => 'created_at desc')
@@ -71,7 +67,6 @@ module RailsBestPractices
             Post.find(:all, :conditions => { :state => 'draft' },
                             :limit => 10, :order => 'created_at desc')
           end
-
         end
         EOF
         runner.review('app/model/post.rb', content)

@@ -8,7 +8,6 @@ module RailsBestPractices
       it "should add model virtual attribute" do
         content = <<-EOF
         class UsersController < ApplicationController
-
           def create
             @user = User.new(params[:user])
             @user.first_name = params[:full_name].split(' ', 2).first
@@ -25,7 +24,6 @@ module RailsBestPractices
       it "should add model virtual attribute with local assignment" do
         content = <<-EOF
         class UsersController < ApplicationController
-
           def create
             user = User.new(params[:user])
             user.first_name = params[:full_name].split(' ', 2).first
@@ -42,7 +40,6 @@ module RailsBestPractices
       it "should not add model virtual attribute with differen param" do
         content = <<-EOF
         class UsersController < ApplicationController
-
           def create
             @user = User.new(params[:user])
             @user.first_name = params[:first_name]
@@ -58,7 +55,6 @@ module RailsBestPractices
       it "should not add model virtual attribute with read" do
         content = <<-EOF
         class UsersController < ApplicationController
-
           def show
             if params[:id]
               @user = User.find(params[:id])
@@ -75,7 +71,6 @@ module RailsBestPractices
       it "should add model virtual attribute with two dimension params" do
         content = <<-EOF
         class UsersController < ApplicationController
-
           def create
             @user = User.new(params[:user])
             @user.first_name = params[:user][:full_name].split(' ', 2).first
@@ -92,7 +87,6 @@ module RailsBestPractices
       it "should no add model virtual attribute with two dimension params" do
         content = <<-EOF
         class UsersController < ApplicationController
-
           def create
             @user = User.new(params[:user])
             @user.first_name = params[:user][:first_name]

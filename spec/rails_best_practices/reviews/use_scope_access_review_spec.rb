@@ -9,7 +9,6 @@ module RailsBestPractices
         it "shoud use scope access" do
           content = <<-EOF
           class PostsController < ApplicationController
-
             def edit
               @post = Post.find(params[:id])
 
@@ -28,7 +27,6 @@ module RailsBestPractices
         it "shoud use scope access by comparing with id" do
           content = <<-EOF
           class PostsController < ApplicationController
-
             def edit
               @post = Post.find(params[:id])
 
@@ -47,7 +45,6 @@ module RailsBestPractices
         it "shoud use scope access with current_user ==" do
           content = <<-EOF
           class PostsController < ApplicationController
-
             def edit
               @post = Post.find(params[:id])
 
@@ -66,7 +63,6 @@ module RailsBestPractices
         it "shoud use scope access by current_user.id ==" do
           content = <<-EOF
           class PostsController < ApplicationController
-
             def edit
               @post = Post.find(params[:id])
 
@@ -87,7 +83,6 @@ module RailsBestPractices
         it "shoud use scope access" do
           content = <<-EOF
           class PostsController < ApplicationController
-
             def edit
               @post = Post.find(params[:id])
 
@@ -106,7 +101,6 @@ module RailsBestPractices
         it "shoud use scope access by comparing with id" do
           content = <<-EOF
           class PostsController < ApplicationController
-
             def edit
               @post = Post.find(params[:id])
 
@@ -125,7 +119,6 @@ module RailsBestPractices
         it "shoud use scope access with current_user ==" do
           content = <<-EOF
           class PostsController < ApplicationController
-
             def edit
               @post = Post.find(params[:id])
 
@@ -144,7 +137,6 @@ module RailsBestPractices
         it "shoud use scope access by current_user.id ==" do
           content = <<-EOF
           class PostsController < ApplicationController
-
             def edit
               @post = Post.find(params[:id])
 
@@ -163,7 +155,6 @@ module RailsBestPractices
         it "should no error in use_scope_access_review" do
           content = <<-EOF
           class CommentsController < ApplicationController
-
             def add_comment
               @current_user = User.find_by_id(session[:user_id])
               @id = params[:post_id]
