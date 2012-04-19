@@ -3,7 +3,11 @@ require 'yaml'
 require 'ripper'
 require 'active_support/inflector'
 require 'active_support/core_ext/object/blank'
-require 'active_support/core_ext/object/try'
+begin
+  require 'active_support/core_ext/object/try'
+rescue LoadError
+  require 'active_support/core_ext/try'
+end
 
 module RailsBestPractices
   module Core
