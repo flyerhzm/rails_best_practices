@@ -29,7 +29,7 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
         runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3,7,11,16 - use before_filter for show,edit,update,destroy"
+        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2,6,10,15 - use before_filter for show,edit,update,destroy"
       end
 
       it "should not use before_filter when equal to customize count" do

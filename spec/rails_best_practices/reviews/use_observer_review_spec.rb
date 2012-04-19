@@ -29,7 +29,7 @@ module RailsBestPractices
           EOF
           runner.review('app/models/project.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/project.rb:6 - use observer"
+          runner.errors[0].to_s.should == "app/models/project.rb:5 - use observer"
         end
 
         it "should not use observer without callback" do
@@ -65,7 +65,7 @@ module RailsBestPractices
           EOF
           runner.review('app/models/project.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/project.rb:6 - use observer"
+          runner.errors[0].to_s.should == "app/models/project.rb:5 - use observer"
         end
 
         it "should not raise when initiate an object in callback" do
@@ -94,7 +94,7 @@ module RailsBestPractices
           EOF
           runner.review('app/models/project.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/project.rb:6 - use observer"
+          runner.errors[0].to_s.should == "app/models/project.rb:5 - use observer"
         end
 
         it "should not use observer without callback" do
@@ -130,7 +130,7 @@ module RailsBestPractices
           EOF
           runner.review('app/models/project.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/project.rb:6 - use observer"
+          runner.errors[0].to_s.should == "app/models/project.rb:5 - use observer"
         end
 
         it "should not raise when initiate an object in callback" do

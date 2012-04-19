@@ -21,7 +21,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
         end
 
         it "shoud use scope access by comparing with id" do
@@ -39,7 +39,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
         end
 
         it "shoud use scope access with current_user ==" do
@@ -57,7 +57,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
         end
 
         it "shoud use scope access by current_user.id ==" do
@@ -75,7 +75,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
         end
       end
 
@@ -95,7 +95,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
         end
 
         it "shoud use scope access by comparing with id" do
@@ -113,7 +113,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
         end
 
         it "shoud use scope access with current_user ==" do
@@ -131,7 +131,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
         end
 
         it "shoud use scope access by current_user.id ==" do
@@ -149,7 +149,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - use scope access"
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
         end
 
         it "should no error in use_scope_access_review" do

@@ -17,7 +17,7 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
         runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - use model association (for @post)"
+        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - use model association (for @post)"
       end
 
       it "should not use model association without association assign" do
@@ -45,7 +45,7 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
         runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - use model association (for post)"
+        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - use model association (for post)"
       end
 
       it "should not use model association" do

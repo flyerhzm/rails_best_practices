@@ -24,7 +24,7 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
         runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - move model logic into model (@post use_count > 4)"
+        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - move model logic into model (@post use_count > 4)"
       end
 
       it "should not move model logic into model with simple model calling" do
