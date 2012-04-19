@@ -21,8 +21,8 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
         runner.should have(2).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:4 - move finder to named_scope"
-        runner.errors[1].to_s.should == "app/controllers/posts_controller.rb:8 - move finder to named_scope"
+        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - move finder to named_scope"
+        runner.errors[1].to_s.should == "app/controllers/posts_controller.rb:7 - move finder to named_scope"
       end
 
       it "should not move simple finder" do

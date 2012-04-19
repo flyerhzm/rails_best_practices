@@ -26,7 +26,7 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/invoices_controller.rb', content)
         runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/invoices_controller.rb:3 - replace complex creation with factory method (@invoice attribute_assignment_count > 2)"
+        runner.errors[0].to_s.should == "app/controllers/invoices_controller.rb:2 - replace complex creation with factory method (@invoice attribute_assignment_count > 2)"
       end
 
       it "should not replace complex creation with factory method with simple creation" do

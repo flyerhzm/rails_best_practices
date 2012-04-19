@@ -18,7 +18,7 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/users_controller.rb', content)
         runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for @user)"
+        runner.errors[0].to_s.should == "app/controllers/users_controller.rb:2 - add model virtual attribute (for @user)"
       end
 
       it "should add model virtual attribute with local assignment" do
@@ -34,7 +34,7 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/users_controller.rb', content)
         runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for user)"
+        runner.errors[0].to_s.should == "app/controllers/users_controller.rb:2 - add model virtual attribute (for user)"
       end
 
       it "should not add model virtual attribute with differen param" do
@@ -81,7 +81,7 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/users_controller.rb', content)
         runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/users_controller.rb:3 - add model virtual attribute (for @user)"
+        runner.errors[0].to_s.should == "app/controllers/users_controller.rb:2 - add model virtual attribute (for @user)"
       end
 
       it "should no add model virtual attribute with two dimension params" do
