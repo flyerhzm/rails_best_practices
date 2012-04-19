@@ -20,7 +20,6 @@ module RailsBestPractices
             after_create :send_create_notification
 
             private
-
             def send_create_notification
               self.members.each do |member|
                 ProjectMailer.deliver_notification(self, member)
@@ -37,7 +36,6 @@ module RailsBestPractices
           content =<<-EOF
           class Project < ActiveRecord::Base
             private
-
             def send_create_notification
               self.members.each do |member|
                 ProjectMailer.deliver_notification(self, member)
@@ -55,7 +53,6 @@ module RailsBestPractices
             after_create :send_create_notification, :update_author
 
             private
-
             def send_create_notification
               self.members.each do |member|
                 ProjectMailer.deliver_notification(self, member)
@@ -88,7 +85,6 @@ module RailsBestPractices
             after_create :send_create_notification
 
             private
-
             def send_create_notification
               self.members.each do |member|
                 ProjectMailer.notification(self, member).deliver
@@ -105,7 +101,6 @@ module RailsBestPractices
           content =<<-EOF
           class Project < ActiveRecord::Base
             private
-
             def send_create_notification
               self.members.each do |member|
                 ProjectMailer.notification(self, member).deliver
@@ -123,7 +118,6 @@ module RailsBestPractices
             after_create :send_create_notification, :update_author
 
             private
-
             def send_create_notification
               self.members.each do |member|
                 ProjectMailer.notification(self, member).deliver

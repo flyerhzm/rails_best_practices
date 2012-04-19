@@ -8,7 +8,6 @@ module RailsBestPractices
       it "should move model logic into model" do
         content = <<-EOF
         class PostsController < ApplicationController
-
           def publish
             @post = Post.find(params[:id])
             @post.update_attributes(:is_published, true)
@@ -31,7 +30,6 @@ module RailsBestPractices
       it "should not move model logic into model with simple model calling" do
         content = <<-EOF
         class PostsController < ApplicationController
-
           def publish
             @post = Post.find(params[:id])
             @post.update_attributes(:is_published, true)
@@ -48,7 +46,6 @@ module RailsBestPractices
       it "should not move model logic into model with self calling" do
         content = <<-EOF
         class PostsController < ApplicationController
-
           def publish
             self.step1
             self.step2

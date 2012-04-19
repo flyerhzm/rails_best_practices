@@ -8,7 +8,6 @@ module RailsBestPractices
       it "should use model association for instance variable" do
         content = <<-EOF
         class PostsController < ApplicationController
-
           def create
             @post = Post.new(params[:post])
             @post.user_id = current_user.id
@@ -24,7 +23,6 @@ module RailsBestPractices
       it "should not use model association without association assign" do
         content = <<-EOF
         class PostsController < ApplicationController
-
           def create
             @post = Post.new(params[:post])
             @post.save
@@ -38,7 +36,6 @@ module RailsBestPractices
       it "should use model association for local variable" do
         content = <<-EOF
         class PostsController < ApplicationController
-
           def create
             post = Post.new(params[:post])
             post.user_id = current_user.id
@@ -54,7 +51,6 @@ module RailsBestPractices
       it "should not use model association" do
         content = <<-EOF
         class PostsController < ApplicationController
-
           def create
             post = current_user.posts.buid(params[:post])
             post.save
