@@ -28,29 +28,55 @@ module RailsBestPractices
       def initialize
         super
         @namespaces = []
+        @resource_controllers = []
       end
 
       # check if the generated routes have the corresponding actions in controller for rails3 routes.
       def start_command(node)
         if "resources" == node.message.to_s
           check_resources(node)
+          @resource_controllers << node.arguments.all.first.to_s
         elsif "resource" == node.message.to_s
           check_resource(node)
+          @resource_controllers << node.arguments.all.first.to_s
+        end
+      end
+
+      def end_command(node)
+        if "resources" == node.message.to_s
+          @resource_controllers.pop
+        elsif "resource" == node.message.to_s
+          @resource_controllers.pop
         end
       end
 
       # remember the namespace.
       def start_method_add_block(node)
-        if "namespace" == node.message.to_s
+        case node.message.to_s
+        when "namespace"
+          return unless check_method_add_block?(node)
           @namespaces << node.arguments.all.first.to_s
+        when "resources", "resource"
+          return unless check_method_add_block?(node)
+          @resource_controllers << node.arguments.all.first.to_s
+        else
         end
       end
 
       # end of namespace call.
       def end_method_add_block(node)
-        if "namespace" == node.message.to_s
+        return unless check_method_add_block?(node)
+
+        case node.message.to_s
+        when "namespace"
           @namespaces.pop
+        when "resources", "resource"
+          @resource_controllers.pop
         end
+      end
+
+      def check_method_add_block?(node)
+        :command == node[1].sexp_type || (:command_call == node[1].sexp_type && "map" != node.subject.to_s)
       end
 
       # check if the generated routes have the corresponding actions in controller for rails2 routes.
@@ -64,7 +90,7 @@ module RailsBestPractices
           resources_methods = resources_methods(node)
           unless resources_methods.all? { |meth| Prepares.controller_methods.has_method?(controller_name, meth) }
             only_methods = (resources_methods & Prepares.controller_methods.get_methods(controller_name).map(&:method_name)).map { |meth| ":#{meth}" }.join(", ")
-            add_error "restrict auto-generated routes #{node.arguments.to_s} (:only => [#{only_methods}])"
+            add_error "restrict auto-generated routes #{friendly_route_name(node)} (:only => [#{only_methods}])"
           end
         end
 
@@ -75,7 +101,7 @@ module RailsBestPractices
           resource_methods = resource_methods(node)
           unless resource_methods.all? { |meth| Prepares.controller_methods.has_method?(controller_name, meth) }
             only_methods = (resource_methods & Prepares.controller_methods.get_methods(controller_name).map(&:method_name)).map { |meth| ":#{meth}" }.join(", ")
-            add_error "restrict auto-generated routes #{node.arguments.to_s} (:only => [#{only_methods}])"
+            add_error "restrict auto-generated routes #{friendly_route_name(node)} (:only => [#{only_methods}])"
           end
         end
 
@@ -146,6 +172,14 @@ module RailsBestPractices
 
         def hash_key_exist?(node, key)
           node.hash_keys && node.hash_keys.include?(key)
+        end
+
+        def friendly_route_name(node)
+          if @resource_controllers.last == node.arguments.to_s
+            [@namespaces.join("/"), @resource_controllers.join("/")].delete_if(&:blank?).join("/")
+          else
+            [@namespaces.join("/"), @resource_controllers.join("/"), node.arguments.to_s].delete_if(&:blank?).join("/")
+          end
         end
     end
   end
