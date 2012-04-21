@@ -302,6 +302,14 @@ describe Sexp do
       node = parse_content(content).grep_node(:sexp_type => :elsif)
       node.conditional_statement.to_s.should == "false"
     end
+
+    it "should get conditional statement of ifop" do
+      content =<<-EOF
+      user ? user.name : nil
+      EOF
+      node = parse_content(content).grep_node(:sexp_type => :ifop)
+      node.conditional_statement.to_s.should == "user"
+    end
   end
 
   describe "all_conditions" do

@@ -22,7 +22,7 @@ class Sexp
   #       => 2
   def line
     if [:def, :defs, :command, :command_call, :call, :fcall, :method_add_arg, :method_add_block,
-      :var_ref, :vcall, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :binary,
+      :var_ref, :vcall, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :ifop, :binary,
       :alias, :symbol_literal, :symbol, :aref].include? sexp_type
       self[1].line
     elsif :array == sexp_type
@@ -326,7 +326,7 @@ class Sexp
   #
   # @return [Sexp] conditional statement of if node
   def conditional_statement
-    if [:if, :unless, :elsif].include? sexp_type
+    if [:if, :unless, :elsif, :ifop].include? sexp_type
       self[1]
     end
   end
