@@ -184,7 +184,7 @@ Mailer
 Migration
 
 1. Isolating seed data
-2. Always add db`index
+2. Always add db index
 3. Use say with time in migrations
 
 Controller
