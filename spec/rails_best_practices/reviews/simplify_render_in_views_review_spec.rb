@@ -81,6 +81,14 @@ module RailsBestPractices
         runner.review('app/views/posts/index.html.erb', content)
         runner.should have(0).errors
       end
+
+      it "should not simplify render partial with layout option" do
+        content =<<-EOF
+        <%= render :partial => 'post', :layout => 'post' %>
+        EOF
+        runner.review('app/views/posts/index.html.erb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end
