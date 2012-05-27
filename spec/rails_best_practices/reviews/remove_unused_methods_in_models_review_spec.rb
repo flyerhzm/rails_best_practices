@@ -669,6 +669,21 @@ module RailsBestPractices
           runner.should have(0).errors
         end
       end
+
+      it "should not skip :call as call message" do
+        content =<<-EOF
+        module DateRange
+          RANGES = lambda {
+            last_month = {
+              'range' => lambda { [date_from_time.(31.days.ago), date_from_time.(Time.now)] },
+              'value' => 'last_month',
+              'label' => 'Last month'}
+          }[]
+        end
+        EOF
+        runner.prepare("app/mixins/date_range.rb", content)
+        runner.review("app/mixins/date_range.rb", content)
+      end
     end
   end
 end
