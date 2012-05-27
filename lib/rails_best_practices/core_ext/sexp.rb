@@ -745,11 +745,7 @@ class Sexp
   def to_object
     case sexp_type
     when :array
-      if nil == self[1]
-        []
-      else
-        arguments.all.map(&:to_s)
-      end
+      array_values.map(&:to_s)
     else
       to_s
     end

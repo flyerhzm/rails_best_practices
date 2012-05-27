@@ -507,6 +507,11 @@ describe Sexp do
       node.to_object.should == ["first_name", "last_name"]
     end
 
+    it "should to array with %w()" do
+      node = parse_content("%w(new create)").grep_node(:sexp_type => :array)
+      node.to_object.should == ["new", "create"]
+    end
+
     it "should to array with symbols" do
       node = parse_content("[:first_name, :last_name]").grep_node(:sexp_type => :array)
       node.to_object.should == ["first_name", "last_name"]

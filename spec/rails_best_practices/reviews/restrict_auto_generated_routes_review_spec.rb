@@ -155,7 +155,7 @@ module RailsBestPractices
           it "should not restrict auto-generated routes with only" do
             content =<<-EOF
             RailsBestPracticesCom::Application.routes.draw do
-              resources :posts, :only => [:show, :new, :create, :edit, :update, :destroy]
+              resources :posts, only: %w(show new create edit update destroy)
             end
             EOF
             runner.review('config/routes.rb', content)
@@ -165,7 +165,7 @@ module RailsBestPractices
           it "should not restrict auto-generated routes with except" do
             content =<<-EOF
             RailsBestPracticesCom::Application.routes.draw do
-              resources :posts, :except => :index
+              resources :posts, except: :index
             end
             EOF
             runner.review('config/routes.rb', content)
@@ -176,7 +176,7 @@ module RailsBestPractices
             it "should restrict auto-generated routes" do
               content =<<-EOF
               RailsBestPracticesCom::Application.routes.draw do
-                resources :articles, :controller => "posts"
+                resources :articles, controller: "posts"
               end
               EOF
               runner.review('config/routes.rb', content)
@@ -244,7 +244,7 @@ module RailsBestPractices
             it "should not restrict auto-generated routes with only" do
               content =<<-EOF
               RailsBestPracticesCom::Application.routes.draw do
-                resources :posts, :only => [:show, :new, :create, :edit, :update, :destroy] do
+                resources :posts, only: %w(show new create edit update destroy) do
                   resources :comments
                 end
               end
@@ -256,7 +256,7 @@ module RailsBestPractices
             it "should not restrict auto-generated routes with except" do
               content =<<-EOF
               RailsBestPracticesCom::Application.routes.draw do
-                resources :posts, :except => :index do
+                resources :posts, except: :index do
                   resources :comments
                 end
               end
@@ -297,7 +297,7 @@ module RailsBestPractices
           it "should not restrict auto-generated routes with only" do
             content =<<-EOF
             ActionController::Routing::Routes.draw do |map|
-              map.resource :account, :only => [:show, :new, :create, :edit, :update]
+              map.resource :account, only: %w(show new create edit update)
             end
             EOF
             runner.review('config/routes.rb', content)
@@ -307,7 +307,7 @@ module RailsBestPractices
           it "should not restrict auto-generated routes with except" do
             content =<<-EOF
             ActionController::Routing::Routes.draw do |map|
-              map.resource :account, :except => :destroy
+              map.resource :account, except: :destroy
             end
             EOF
             runner.review('config/routes.rb', content)
@@ -330,7 +330,7 @@ module RailsBestPractices
           it "should not restrict auto-generated routes with only" do
             content =<<-EOF
             ActionController::Routing::Routes.draw do |map|
-              map.resource :account, :only => [:show, :new, :create, :edit, :update]
+              map.resource :account, only: %w(show new create edit update)
             end
             EOF
             runner.review('config/routes.rb', content)
@@ -340,7 +340,7 @@ module RailsBestPractices
           it "should not restrict auto-generated routes with except" do
             content =<<-EOF
             ActionController::Routing::Routes.draw do |map|
-              map.resource :account, :except => :destroy
+              map.resource :account, except: :destroy
             end
             EOF
             runner.review('config/routes.rb', content)
