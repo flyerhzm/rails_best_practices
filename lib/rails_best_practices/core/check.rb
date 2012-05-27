@@ -254,7 +254,9 @@ module RailsBestPractices
 
             # remembe the message of call node.
             add_callback "start_call" do |node|
-              mark_used(node.message)
+              if :call == node.mssage
+                mark_used(node.message)
+              end
             end
 
             # remembe the message of fcall node.
