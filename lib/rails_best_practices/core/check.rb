@@ -254,9 +254,7 @@ module RailsBestPractices
 
             # remembe the message of call node.
             add_callback "start_call" do |node|
-              if :call == node.mssage
-                mark_used(node.message)
-              end
+              mark_used(node.message)
             end
 
             # remembe the message of fcall node.
@@ -338,6 +336,7 @@ module RailsBestPractices
 
             private
               def mark_used(method_node)
+                return if method_node == :call
                 if :bare_assoc_hash == method_node.sexp_type
                   method_node.hash_values.each { |value_node| mark_used(value_node) }
                 elsif :array == method_node.sexp_type
