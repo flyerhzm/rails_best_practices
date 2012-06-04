@@ -48,7 +48,6 @@ module RailsBestPractices
         @lexicals = lexicals.empty? ? load_lexicals : lexicals
         @prepares = prepares.empty? ? load_prepares : prepares
         @reviews = reviews.empty? ? load_reviews : reviews
-
         load_plugin_reviews if reviews.empty?
 
         @checker ||= CheckingVisitor.new(:prepares => @prepares, :reviews => @reviews, :lexicals => @lexicals)

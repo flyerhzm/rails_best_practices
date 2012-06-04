@@ -33,3 +33,4 @@ UseObserverCheck: { }
 UseQueryAttributeCheck: { }
 UseSayWithTimeInMigrationsCheck: { }
 UseScopeAccessCheck: { }
+UseParenthesisInMethodDefCheck: { }
