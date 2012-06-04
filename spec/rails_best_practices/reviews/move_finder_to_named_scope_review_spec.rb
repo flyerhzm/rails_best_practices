@@ -3,19 +3,19 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe MoveFinderToNamedScopeReview do
-      let(:runner) { Core::Runner.new(:reviews => MoveFinderToNamedScopeReview.new) }
+      let(:runner) { Core::Runner.new(reviews: MoveFinderToNamedScopeReview.new) }
 
       it "should move finder to named_scope" do
         content = <<-EOF
         class PostsController < ActionController::Base
           def index
-            @public_posts = Post.find(:all, :conditions => { :state => 'public' },
-                                            :limit => 10,
-                                            :order => 'created_at desc')
+            @public_posts = Post.find(:all, conditions: { state: 'public' },
+                                            limit: 10,
+                                            order: 'created_at desc')
 
-            @draft_posts  = Post.find(:all, :conditions => { :state => 'draft' },
-                                            :limit => 10,
-                                            :order => 'created_at desc')
+            @draft_posts  = Post.find(:all, conditions: { state: 'draft' },
+                                            limit: 10,
+                                            order: 'created_at desc')
           end
         end
         EOF
@@ -59,13 +59,13 @@ module RailsBestPractices
         content = <<-EOF
         class Post < ActiveRecord::Base
           def published
-            Post.find(:all, :conditions => { :state => 'public' },
-                            :limit => 10, :order => 'created_at desc')
+            Post.find(:all, conditions: { state: 'public' },
+                            limit: 10, order: 'created_at desc')
           end
 
           def published
-            Post.find(:all, :conditions => { :state => 'draft' },
-                            :limit => 10, :order => 'created_at desc')
+            Post.find(:all, conditions: { state: 'draft' },
+                            limit: 10, order: 'created_at desc')
           end
         end
         EOF

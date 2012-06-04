@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Lexicals
     describe RemoveTabCheck do
-      let(:runner) { Core::Runner.new(:lexicals => RemoveTabCheck.new) }
+      let(:runner) { Core::Runner.new(lexicals: RemoveTabCheck.new) }
 
       it "should remove tab" do
         content =<<-EOF

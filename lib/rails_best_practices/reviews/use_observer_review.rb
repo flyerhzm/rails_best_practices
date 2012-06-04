@@ -82,7 +82,7 @@ module RailsBestPractices
         #
         # then the call node is actionmailer deliver call.
         def deliver_mailer?(node)
-          node.grep_nodes(:sexp_type => :call) do |child_node|
+          node.grep_nodes(sexp_type: :call) do |child_node|
             # rails2 actionmailer deliver
             return true if child_node.message.to_s =~ /^deliver_/ && mailers.include?(child_node.subject.to_s)
             # rails3 actionmailer deliver

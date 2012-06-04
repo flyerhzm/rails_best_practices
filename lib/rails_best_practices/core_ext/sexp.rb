@@ -53,10 +53,10 @@ class Sexp
   #
   # options is the grep conditions, like
   #
-  #     :sexp_type => :call,
-  #     :subject => "Post",
-  #     :message => ["find", "new"]
-  #     :to_s => "devise"
+  #     sexp_type: :call,
+  #     subject: "Post",
+  #     message: ["find", "new"]
+  #     to_s: "devise"
   #
   # the condition key is one of :sexp_type, :subject, :message, :to_s,
   # the condition value can be Symbol, Array or Sexp.
@@ -81,9 +81,9 @@ class Sexp
   #
   # options is the grep conditions, like
   #
-  #     :sexp_type => :call,
-  #     :subject => s(:const, Post),
-  #     :message => [:find, :new]
+  #     sexp_type: :call,
+  #     subject: s(:const, Post),
+  #     message: [:find, :new]
   #
   # the condition key is one of :sexp_type, :subject, :message, and to_s,
   # the condition value can be Symbol, Array or Sexp.

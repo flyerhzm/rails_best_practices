@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseModelAssociationReview do
-      let(:runner) { Core::Runner.new(:reviews => UseModelAssociationReview.new) }
+      let(:runner) { Core::Runner.new(reviews: UseModelAssociationReview.new) }
 
       it "should use model association for instance variable" do
         content = <<-EOF

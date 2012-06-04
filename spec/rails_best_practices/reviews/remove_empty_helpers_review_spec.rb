@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe RemoveEmptyHelpersReview do
-      let(:runner) { Core::Runner.new(:reviews => RemoveEmptyHelpersReview.new) }
+      let(:runner) { Core::Runner.new(reviews: RemoveEmptyHelpersReview.new) }
 
       it "should remove empty helpers" do
         content =<<-EOF

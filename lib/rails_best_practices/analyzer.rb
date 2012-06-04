@@ -115,7 +115,7 @@ module RailsBestPractices
     #
     # @param [Array] dirs what directories to expand
     # @return [Array] all files expanded
-    def expand_dirs_to_files *dirs
+    def expand_dirs_to_files(*dirs)
       extensions = ['rb', 'erb', 'rake', 'rhtml', 'haml', 'slim', 'builder', 'rxml']
 
       dirs.flatten.map { |entry|
@@ -135,7 +135,7 @@ module RailsBestPractices
     #
     # @param [Array] files
     # @return [Array] sorted files
-    def file_sort files
+    def file_sort(files)
       models = files.find_all { |file| file =~ Core::Check::MODEL_FILES }
       mailers = files.find_all { |file| file =~ Core::Check::MAILER_FILES }
       helpers = files.find_all { |file| file =~ Core::Check::HELPER_FILES }
@@ -152,7 +152,7 @@ module RailsBestPractices
     # @param [Array] files
     # @param [Regexp] pattern files match the pattern will be ignored
     # @return [Array] files that not match the pattern
-    def file_ignore files, pattern
+    def file_ignore(files, pattern)
       files.reject { |file| file.index(pattern) }
     end
 
@@ -160,7 +160,7 @@ module RailsBestPractices
     #
     # @param [Array] files
     # @param [Regexp] patterns, files match any pattern will be accepted
-    def file_accept files, patterns
+    def file_accept(files, patterns)
       files.reject { |file| !patterns.any? { |pattern| file =~ pattern } }
     end
 
@@ -217,15 +217,15 @@ module RailsBestPractices
       File.open(@options["output-file"], "w+") do |file|
         eruby = Erubis::Eruby.new(template)
         file.puts eruby.evaluate(
-          :errors => errors,
-          :error_types => error_types,
-          :textmate => @options["with-textmate"],
-          :mvim => @options["with-mvim"],
-          :github => @options["with-github"],
-          :github_name => @options["github-name"],
-          :last_commit_id => last_commit_id,
-          :git => @options["with-git"],
-          :hg => @options["with-hg"]
+          errors: errors,
+          error_types: error_types,
+          textmate: @options["with-textmate"],
+          mvim: @options["with-mvim"],
+          github: @options["with-github"],
+          github_name: @options["github-name"],
+          last_commit_id: last_commit_id,
+          git: @options["with-git"],
+          hg: @options["with-hg"]
         )
       end
     end

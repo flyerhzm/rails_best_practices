@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseSayWithTimeInMigrationsReview do
-      let(:runner) { Core::Runner.new(:reviews => UseSayWithTimeInMigrationsReview.new) }
+      let(:runner) { Core::Runner.new(reviews: UseSayWithTimeInMigrationsReview.new) }
 
       it "should use say with time in migrations" do
         content =<<-EOF
@@ -93,18 +93,18 @@ module RailsBestPractices
           end
 
           def self.up
-            add_column :people, :admin, :boolean, :default => false, :null => false
+            add_column :people, :admin, :boolean, default: false, null: false
             add_column :people, :deactivated, :boolean,
-                                :default => false, :null => false
+                                default: false, null: false
 
             key = Crypto::Key.from_file("\#{RAILS_ROOT}/rsa_key.pub")
-            person = Person.new(:email => "admin@example.com",
-                                :name => "admin",
-                                :crypted_password => key.encrypt("admin"),
-                                :description => "")
+            person = Person.new(email: "admin@example.com",
+                                name: "admin",
+                                crypted_password: key.encrypt("admin"),
+                                description: "")
             person.admin = true
             person.save!
-            Blog.create(:person_id => person.id)
+            Blog.create(person_id: person.id)
           end
 
           def self.down
