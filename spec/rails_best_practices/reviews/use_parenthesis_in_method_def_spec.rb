@@ -2,10 +2,10 @@ require 'spec_helper'
 
 module RailsBestPractices
   module Reviews
-    describe UseParenthesisInMethodDefReview do
-      let(:runner) { Core::Runner.new(reviews: UseParenthesisInMethodDefReview.new) }
+    describe UseParenthesesInMethodDefReview do
+      let(:runner) { Core::Runner.new(reviews: UseParenthesesInMethodDefReview.new) }
 
-      it "should find missing parenthesis" do
+      it "should find missing parentheses" do
         content = <<-EOF
         class PostsController < ApplicationController
           def edit foo, bar
@@ -14,9 +14,9 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
         runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - use parenthesis around parameters in method definitions"
+        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - use parentheses around parameters in method definitions"
       end
-      it "should find parenthesis with no error" do
+      it "should find parentheses with no error" do
         content = <<-EOF
         class PostsController < ApplicationController
           def edit(foo, bar)

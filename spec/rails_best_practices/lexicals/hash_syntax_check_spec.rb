@@ -8,7 +8,7 @@ module RailsBestPractices
       it "should find 1.8 Hash" do
         content =<<-EOF
         class User < ActiveRecord::Base
-          CONST = { foo: :bar }
+          CONST = { :foo => :bar }
         end
         EOF
         content.gsub!("\n", "\t\n")
@@ -21,7 +21,7 @@ module RailsBestPractices
         content =<<-EOF
         class User < ActiveRecord::Base
           has_many :projects
-          CONST = { foo: :bar }
+          CONST = { :foo => :bar }
         end
         EOF
         runner.lexical('app/models/user.rb', content)

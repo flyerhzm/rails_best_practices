@@ -3,11 +3,11 @@ require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices
   module Reviews
-    class UseParenthesisInMethodDefReview < Review
+    class UseParenthesesInMethodDefReview < Review
       interesting_nodes :def
       interesting_files ALL_FILES
 
-      def no_parenthesis_around_parameters?(node)
+      def no_parentheses_around_parameters?(node)
         not node[2][0] == :paren
       end
 
@@ -16,9 +16,9 @@ module RailsBestPractices
       end
 
       def start_def(node)
-        if no_parenthesis_around_parameters? node
+        if no_parentheses_around_parameters? node
           if method_has_parameters? node
-            add_error("use parenthesis around parameters in method definitions")
+            add_error("use parentheses around parameters in method definitions")
           end
         end
       end
