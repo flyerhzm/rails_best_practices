@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe AddModelVirtualAttributeReview do
-      let(:runner) { Core::Runner.new(:reviews => AddModelVirtualAttributeReview.new) }
+      let(:runner) { Core::Runner.new(reviews: AddModelVirtualAttributeReview.new) }
 
       it "should add model virtual attribute" do
         content = <<-EOF

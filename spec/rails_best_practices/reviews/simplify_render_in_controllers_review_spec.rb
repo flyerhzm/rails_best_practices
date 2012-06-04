@@ -3,12 +3,12 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe SimplifyRenderInControllersReview do
-      let(:runner) { Core::Runner.new(:reviews => SimplifyRenderInControllersReview.new) }
+      let(:runner) { Core::Runner.new(reviews: SimplifyRenderInControllersReview.new) }
 
       it "should simplify render action view" do
         content =<<-EOF
         def edit
-          render :action => :edit
+          render action: :edit
         end
         EOF
         runner.review("app/controllers/posts_controller.rb", content)
@@ -19,7 +19,7 @@ module RailsBestPractices
       it "should simplify render actions's template" do
         content =<<-EOF
         def edit
-          render :template => 'books/edit'
+          render template: 'books/edit'
         end
         EOF
         runner.review("app/controllers/posts_controller.rb", content)
@@ -30,7 +30,7 @@ module RailsBestPractices
       it "should simplify render an arbitrary file" do
         content =<<-EOF
         def edit
-          render :file => '/path/to/rails/app/views/books/edit'
+          render file: '/path/to/rails/app/views/books/edit'
         end
         EOF
         runner.review("app/controllers/posts_controller.rb", content)

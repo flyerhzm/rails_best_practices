@@ -34,7 +34,7 @@ module RailsBestPractices
       # and the subject is a variable,
       # then these method calls and attribute assignments should be moved into model.
       def start_def(node)
-        node.grep_nodes(:sexp_type => [:call, :assign]) do |child_node|
+        node.grep_nodes(sexp_type: [:call, :assign]) do |child_node|
           remember_variable_use_count(child_node)
         end
 

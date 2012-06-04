@@ -3,19 +3,19 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe IsolateSeedDataReview do
-      let(:runner) { Core::Runner.new(:reviews => IsolateSeedDataReview.new) }
+      let(:runner) { Core::Runner.new(reviews: IsolateSeedDataReview.new) }
 
       context "create" do
         it "should isolate seed data" do
           content = <<-EOF
           class CreateRoles < ActiveRecord::Migration
             def self.up
-              create_table "roles", :force => true do |t|
+              create_table "roles", force: true do |t|
                 t.string :name
               end
 
               ["admin", "author", "editor", "account"].each do |name|
-                Role.create!(:name => name)
+                Role.create!(name: name)
               end
             end
 
@@ -35,12 +35,12 @@ module RailsBestPractices
           content = <<-EOF
           class CreateRoles < ActiveRecord::Migration
             def self.up
-              create_table "roles", :force => true do |t|
+              create_table "roles", force: true do |t|
                 t.string :name
               end
 
               ["admin", "author", "editor", "account"].each do |name|
-                role = Role.new(:name => name)
+                role = Role.new(name: name)
                 role.save!
               end
             end
@@ -59,12 +59,12 @@ module RailsBestPractices
           content = <<-EOF
           class CreateRoles < ActiveRecord::Migration
             def self.up
-              create_table "roles", :force => true do |t|
+              create_table "roles", force: true do |t|
                 t.string :name
               end
 
               ["admin", "author", "editor", "account"].each do |name|
-                @role = Role.new(:name => name)
+                @role = Role.new(name: name)
                 @role.save!
               end
             end
@@ -84,7 +84,7 @@ module RailsBestPractices
         content = <<-EOF
         class CreateRoles < ActiveRecord::Migration
           def self.up
-            create_table "roles", :force => true do |t|
+            create_table "roles", force: true do |t|
               t.string :name
             end
           end

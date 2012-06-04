@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Lexicals
     describe RemoveTrailingWhitespaceCheck do
-      let(:runner) { Core::Runner.new(:lexicals => RemoveTrailingWhitespaceCheck.new) }
+      let(:runner) { Core::Runner.new(lexicals: RemoveTrailingWhitespaceCheck.new) }
 
       it "should remove trailing whitespace" do
         content =<<-EOF

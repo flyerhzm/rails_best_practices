@@ -83,7 +83,7 @@ module RailsBestPractices
         def possible_query_attribute?(node)
           return false unless :call == node.subject.sexp_type
           variable_node = variable(node)
-          message_node = node.grep_node(:subject => variable_node.to_s).message
+          message_node = node.grep_node(subject: variable_node.to_s).message
 
           is_model?(variable_node) && model_attribute?(variable_node, message_node.to_s) &&
             (QUERY_METHODS.include?(node.message.to_s) || compare_with_empty_string?(node))

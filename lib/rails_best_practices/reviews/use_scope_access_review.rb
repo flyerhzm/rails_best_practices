@@ -46,7 +46,7 @@ module RailsBestPractices
           results = all_conditions.map do |condition_node|
             ["==", "!="].include?(condition_node.message.to_s) && (current_user?(condition_node.argument) || current_user?(condition_node.subject))
           end
-          results.any? { |result| result == true } && node.body.grep_node(:message => "redirect_to")
+          results.any? { |result| result == true } && node.body.grep_node(message: "redirect_to")
         end
 
         # check a call node to see if it uses current_user, or current_user.id.

@@ -4,8 +4,8 @@ module RailsBestPractices
   module Reviews
     describe RemoveUnusedMethodsInControllersReview do
       let(:runner) { Core::Runner.new(
-        :prepares => [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
-        :reviews => RemoveUnusedMethodsInControllersReview.new({'except_methods' => ["ExceptableController#*"]})
+        prepares: [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
+        reviews: RemoveUnusedMethodsInControllersReview.new({'except_methods' => ["ExceptableController#*"]})
       ) }
 
       context "private/protected" do
@@ -127,7 +127,7 @@ module RailsBestPractices
         it "should not remove unused methods if all actions are used in route" do
           content =<<-EOF
           ActionController::Routing::Routes.draw do |map|
-            map.connect 'internal/:action/*whatever', :controller => "internal"
+            map.connect 'internal/:action/*whatever', controller: "internal"
           end
           EOF
           runner.prepare('config/routes.rb', content)
@@ -214,7 +214,7 @@ module RailsBestPractices
         end
       end
 
-      context "delegate :to => :controller" do
+      context "delegate to: :controller" do
         it "should remove unused methods if delegate method is not called" do
           content = <<-EOF
           class PostsController < ApplicationController
@@ -226,7 +226,7 @@ module RailsBestPractices
           runner.review('app/controllers/posts_controller.rb', content)
           content = <<-EOF
           module PostsHelper
-            delegate :helper_post, :to => :controller
+            delegate :helper_post, to: :controller
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
@@ -246,7 +246,7 @@ module RailsBestPractices
           runner.review('app/controllers/posts_controller.rb', content)
           content = <<-EOF
           module PostsHelper
-            delegate :helper_post, :to => :controller
+            delegate :helper_post, to: :controller
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
@@ -295,8 +295,8 @@ module RailsBestPractices
           content =<<-EOF
           class PostsCell < Cell::Rails
             def list
-              render :state => :show
-              render(:state => :display)
+              render state: :show
+              render(state: :display)
             end
 
             def show; end

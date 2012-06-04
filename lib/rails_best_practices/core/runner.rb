@@ -48,10 +48,9 @@ module RailsBestPractices
         @lexicals = lexicals.empty? ? load_lexicals : lexicals
         @prepares = prepares.empty? ? load_prepares : prepares
         @reviews = reviews.empty? ? load_reviews : reviews
-
         load_plugin_reviews if reviews.empty?
 
-        @checker ||= CheckingVisitor.new(:prepares => @prepares, :reviews => @reviews, :lexicals => @lexicals)
+        @checker ||= CheckingVisitor.new(prepares: @prepares, reviews: @reviews, lexicals: @lexicals)
         @debug = false
         @whiny = false
       end
@@ -169,7 +168,7 @@ module RailsBestPractices
           elsif filename =~ /.*\.haml$/
             begin
               require 'haml'
-              content = Haml::Engine.new(content, {:ugly => true}).precompiled
+              content = Haml::Engine.new(content, {ugly: true}).precompiled
               # remove \xxx characters
               content.gsub!(/\\\d{3}/, '')
             rescue LoadError

@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseScopeAccessReview do
-      let(:runner) { Core::Runner.new(:reviews => UseScopeAccessReview.new) }
+      let(:runner) { Core::Runner.new(reviews: UseScopeAccessReview.new) }
 
       context "if" do
         it "shoud use scope access" do

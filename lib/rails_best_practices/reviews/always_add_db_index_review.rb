@@ -17,7 +17,7 @@ module RailsBestPractices
     #   if the subject of command node is "add_index", then remember the index columns
     #   after all of these, at the end of review process
     #
-    #       ActiveRecord::Schema.define(:version => 20101201111111) do
+    #       ActiveRecord::Schema.define(version: 20101201111111) do
     #         ......
     #       end
     #

@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseMultipartAlternativeAsContentTypeOfEmailReview do
-      let(:runner) { Core::Runner.new(:reviews => UseMultipartAlternativeAsContentTypeOfEmailReview.new) }
+      let(:runner) { Core::Runner.new(reviews: UseMultipartAlternativeAsContentTypeOfEmailReview.new) }
 
       before(:each) { Core::Runner.stub!(:base_path).and_return(".") }
 
@@ -35,7 +35,7 @@ module RailsBestPractices
                 from          email.from
                 recipients    email.recipients
                 sent_on       Time.now
-                body          :email => email
+                body          email: email
               end
             end
             EOF
@@ -149,7 +149,7 @@ module RailsBestPractices
                 from          email.from
                 recipients    email.recipients
                 sent_on       Time.now
-                body          :email => email
+                body          email: email
               end
             end
             EOF
