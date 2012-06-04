@@ -3,11 +3,11 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe SimplifyRenderInViewsReview do
-      let(:runner) { Core::Runner.new(:reviews => SimplifyRenderInViewsReview.new) }
+      let(:runner) { Core::Runner.new(reviews: SimplifyRenderInViewsReview.new) }
 
       it "should simplify render simple partial" do
         content =<<-EOF
-        <%= render :partial => 'sidebar' %>
+        <%= render partial: 'sidebar' %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
         runner.should have(1).errors
@@ -16,7 +16,7 @@ module RailsBestPractices
 
       it "should simplify render partial with object" do
         content =<<-EOF
-        <%= render :partial => 'post', :object => @post %>
+        <%= render partial: 'post', object: @post %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
         runner.should have(1).errors
@@ -25,7 +25,7 @@ module RailsBestPractices
 
       it "should simplify render partial with collection" do
         content =<<-EOF
-        <%= render :partial => 'posts', :collection => @posts %>
+        <%= render partial: 'posts', collection: @posts %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
         runner.should have(1).errors
@@ -34,7 +34,7 @@ module RailsBestPractices
 
       it "should simplify render partial with local variables" do
         content =<<-EOF
-        <%= render :partial => 'comment', :locals => { :parent => post } %>
+        <%= render partial: 'comment', locals: { parent: post } %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
         runner.should have(1).errors
@@ -68,7 +68,7 @@ module RailsBestPractices
 
       it "should not simplify render partial with local variables" do
         content =<<-EOF
-        <%= render 'comment', :parent => post %>
+        <%= render 'comment', parent: post %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
         runner.should have(0).errors
@@ -76,7 +76,7 @@ module RailsBestPractices
 
       it "should not simplify render partial with complex partial" do
         content =<<-EOF
-        <%= render :partial => 'shared/post', :object => @post %>
+        <%= render partial: 'shared/post', object: @post %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
         runner.should have(0).errors
@@ -84,7 +84,7 @@ module RailsBestPractices
 
       it "should not simplify render partial with layout option" do
         content =<<-EOF
-        <%= render :partial => 'post', :layout => 'post' %>
+        <%= render partial: 'post', layout: 'post' %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
         runner.should have(0).errors

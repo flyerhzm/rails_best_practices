@@ -66,7 +66,7 @@ module RailsBestPractices
         def recursively_check(node)
           shallow = @shallow_nodes.include? node
           if [:command_call, :command].include?(node[1].sexp_type) && ["resources", "resource"].include?(node[1].message.to_s)
-            hash_node = node[1].arguments.grep_node(:sexp_type => :bare_assoc_hash)
+            hash_node = node[1].arguments.grep_node(sexp_type: :bare_assoc_hash)
             shallow = (hash_node && "true" == hash_node.hash_value("shallow").to_s) unless shallow
             @counter += 1
             node.block.statements.each do |stmt_node|

@@ -6,15 +6,15 @@ module RailsBestPractices
     class UseParenthesisInMethodDefReview < Review
       interesting_nodes :def
       interesting_files ALL_FILES
-      
+
       def no_parenthesis_around_parameters?(node)
         not node[2][0] == :paren
       end
-      
+
       def method_has_parameters?(node)
         not node[2][1..-1].to_a.compact.empty?
       end
-      
+
       def start_def(node)
         if no_parenthesis_around_parameters? node
           if method_has_parameters? node

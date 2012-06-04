@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe KeepFindersOnTheirOwnModelReview do
-      let(:runner) { Core::Runner.new(:reviews => KeepFindersOnTheirOwnModelReview.new) }
+      let(:runner) { Core::Runner.new(reviews: KeepFindersOnTheirOwnModelReview.new) }
 
       it "should keep finders on thier own model" do
         content = <<-EOF
@@ -11,8 +11,8 @@ module RailsBestPractices
           has_many :comments
 
           def find_valid_comments
-            self.comment.find(:all, :conditions => { :is_spam => false },
-                                    :limit => 10)
+            self.comment.find(:all, conditions: { is_spam: false },
+                                    limit: 10)
           end
         end
         EOF
@@ -27,8 +27,8 @@ module RailsBestPractices
           has_many :comments
 
           def find_valid_comments
-            self.comment.all(:conditions => { :is_spam => false },
-                             :limit => 10)
+            self.comment.all(conditions: { is_spam: false },
+                             limit: 10)
           end
         end
         EOF
@@ -43,8 +43,8 @@ module RailsBestPractices
           has_many :comments
 
           def find_valid_comments
-            self.find(:all, :conditions => { :is_spam => false },
-                                    :limit => 10)
+            self.find(:all, conditions: { is_spam: false },
+                                    limit: 10)
           end
         end
         EOF
@@ -58,8 +58,8 @@ module RailsBestPractices
           has_many :comments
 
           def find_valid_comments
-            Post.find(:all, :conditions => { :is_spam => false },
-                                    :limit => 10)
+            Post.find(:all, conditions: { is_spam: false },
+                                    limit: 10)
           end
         end
         EOF

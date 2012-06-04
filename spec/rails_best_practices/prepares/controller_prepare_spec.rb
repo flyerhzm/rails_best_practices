@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Prepares
     describe ControllerPrepare do
-      let(:runner) { Core::Runner.new(:prepares => [ControllerPrepare.new, HelperPrepare.new]) }
+      let(:runner) { Core::Runner.new(prepares: [ControllerPrepare.new, HelperPrepare.new]) }
       before(:each) { runner.whiny = true }
 
       context "methods" do

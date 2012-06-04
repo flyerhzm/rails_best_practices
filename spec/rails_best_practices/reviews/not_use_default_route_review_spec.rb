@@ -3,13 +3,13 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe NotUseDefaultRouteReview do
-      let(:runner) { Core::Runner.new(:reviews => NotUseDefaultRouteReview.new) }
+      let(:runner) { Core::Runner.new(reviews: NotUseDefaultRouteReview.new) }
 
       describe "rails2" do
         it "should not use default route" do
           content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
-            map.resources :posts, :member => { :push => :post }
+            map.resources :posts, member: { push: :post }
 
             map.connect ':controller/:action/:id'
             map.connect ':controller/:action/:id.:format'
@@ -24,7 +24,7 @@ module RailsBestPractices
         it "should no not use default route" do
           content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
-            map.resources :posts, :member => { :push => :post }
+            map.resources :posts, member: { push: :post }
           end
           EOF
           runner.review('config/routes.rb', content)

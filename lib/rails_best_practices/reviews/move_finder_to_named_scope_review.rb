@@ -41,7 +41,7 @@ module RailsBestPractices
         def finder?(node)
           FINDERS.include?(node[1].message.to_s) &&
             :call == node[1].sexp_type &&
-            node.arguments.grep_nodes_count(:sexp_type => :bare_assoc_hash) > 0
+            node.arguments.grep_nodes_count(sexp_type: :bare_assoc_hash) > 0
         end
     end
   end

@@ -50,7 +50,7 @@ module RailsBestPractices
         def other_finder?(node)
           FINDERS.include?(node[1].message.to_s) &&
             :call == node[1].subject.sexp_type &&
-            node.arguments.grep_nodes_count(:sexp_type => :bare_assoc_hash) > 0
+            node.arguments.grep_nodes_count(sexp_type: :bare_assoc_hash) > 0
         end
     end
   end
