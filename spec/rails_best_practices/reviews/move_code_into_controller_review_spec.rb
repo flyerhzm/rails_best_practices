@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe MoveCodeIntoControllerReview do
-      let(:runner) { Core::Runner.new(:reviews => MoveCodeIntoControllerReview.new) }
+      let(:runner) { Core::Runner.new(reviews: MoveCodeIntoControllerReview.new) }
 
       it "should move code into controller for method call" do
         content = <<-EOF

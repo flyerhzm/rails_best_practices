@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseQueryAttributeReview do
-      let(:runner) { Core::Runner.new(:prepares => [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], :reviews => UseQueryAttributeReview.new) }
+      let(:runner) { Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: UseQueryAttributeReview.new) }
 
       before :each do
         content = <<-EOF
@@ -12,13 +12,13 @@ module RailsBestPractices
           belongs_to :location
           has_one :phone
 
-          belongs_to :category, :class_name => 'IssueCategory', :foreign_key => 'category_id'
+          belongs_to :category, class_name: 'IssueCategory', foreign_key: 'category_id'
         end
         EOF
         runner.prepare('app/models/user.rb', content)
 
         content = <<-EOF
-        ActiveRecord::Schema.define(:version => 20110216150853) do
+        ActiveRecord::Schema.define(version: 20110216150853) do
           create_table "users", force => true do |t|
             t.string :login
             t.integer :age

@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe LawOfDemeterReview do
-      let(:runner) { Core::Runner.new(:prepares => [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], :reviews => LawOfDemeterReview.new) }
+      let(:runner) { Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: LawOfDemeterReview.new) }
 
       describe "belongs_to" do
         before(:each) do
@@ -15,7 +15,7 @@ module RailsBestPractices
           runner.prepare('app/models/invoice.rb', content)
 
           content = <<-EOF
-          ActiveRecord::Schema.define(:version => 20110216150853) do
+          ActiveRecord::Schema.define(version: 20110216150853) do
             create_table "users", force => true do |t|
               t.string :name
               t.string :address
@@ -80,7 +80,7 @@ module RailsBestPractices
           runner.prepare('app/models/invoice.rb', content)
 
           content = <<-EOF
-          ActiveRecord::Schema.define(:version => 20110216150853) do
+          ActiveRecord::Schema.define(version: 20110216150853) do
             create_table "prices", force => true do |t|
               t.string :currency
               t.integer :number
@@ -105,7 +105,7 @@ module RailsBestPractices
         before :each do
           content = <<-EOF
           class Comment < ActiveRecord::Base
-            belongs_to :commentable, :polymorphic => true
+            belongs_to :commentable, polymorphic: true
           end
           EOF
           runner.prepare('app/models/comment.rb', content)
@@ -118,7 +118,7 @@ module RailsBestPractices
           runner.prepare('app/models/comment.rb', content)
 
           content = <<-EOF
-          ActiveRecord::Schema.define(:version => 20110216150853) do
+          ActiveRecord::Schema.define(version: 20110216150853) do
             create_table "posts", force => true do |t|
               t.string :title
             end
@@ -140,13 +140,13 @@ module RailsBestPractices
       it "should no law of demeter with method call" do
         content = <<-EOF
         class Question < ActiveRecord::Base
-          has_many :answers, :dependent => :destroy
+          has_many :answers, dependent: :destroy
         end
         EOF
         runner.prepare('app/models/question.rb', content)
         content = <<-EOF
         class Answer < ActiveRecord::Base
-          belongs_to :question, :counter_cache => true, :touch => true
+          belongs_to :question, counter_cache: true, touch: true
         end
         EOF
         runner.prepare('app/models/answer.rb', content)

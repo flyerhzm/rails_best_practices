@@ -17,7 +17,7 @@ module RailsBestPractices
       # remember all the checks for prepare and review processes according to interesting_nodes.
       #
       # @param [Hash] options
-      #     {:lexicals => [], :prepares => [], :reviews => []}
+      #     {lexicals: [], prepares: [], reviews: []}
       def initialize(options={})
         @lexicals = options[:lexicals]
         [:prepare, :review].each do |process|

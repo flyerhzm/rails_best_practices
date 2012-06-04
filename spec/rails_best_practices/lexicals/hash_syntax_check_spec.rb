@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Lexicals
     describe HashSyntaxCheck do
-      let(:runner) { Core::Runner.new(:lexicals => HashSyntaxCheck.new) }
+      let(:runner) { Core::Runner.new(lexicals: HashSyntaxCheck.new) }
 
       it "should find 1.8 Hash" do
         content =<<-EOF
