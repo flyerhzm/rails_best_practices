@@ -569,7 +569,7 @@ class Sexp
   def hash_size
     case sexp_type
     when :hash
-      self[1].hash_size
+      self[1] && self[1].hash_size || 0
     when :assoclist_from_args
       self[1].size
     when :bare_assoc_hash
