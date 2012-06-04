@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe ReplaceInstanceVariableWithLocalVariableReview do
-      let(:runner) { Core::Runner.new(:reviews => ReplaceInstanceVariableWithLocalVariableReview.new) }
+      let(:runner) { Core::Runner.new(reviews: ReplaceInstanceVariableWithLocalVariableReview.new) }
 
       it "should replace instance variable with local varialbe" do
         content = <<-EOF

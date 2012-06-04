@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseParenthesisInMethodDefReview do
-      let(:runner) { Core::Runner.new(:reviews => UseParenthesisInMethodDefReview.new) }
+      let(:runner) { Core::Runner.new(reviews: UseParenthesisInMethodDefReview.new) }
 
       it "should find missing parenthesis" do
         content = <<-EOF

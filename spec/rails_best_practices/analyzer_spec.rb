@@ -29,7 +29,7 @@ module RailsBestPractices
       it "should output errors in terminal" do
         check1 = Reviews::LawOfDemeterReview.new
         check2 = Reviews::UseQueryAttributeReview.new
-        runner = Core::Runner.new(:reviews => [check1, check2])
+        runner = Core::Runner.new(reviews: [check1, check2])
         check1.add_error "law of demeter", "app/models/user.rb", 10
         check2.add_error "use query attribute", "app/models/post.rb", 100
         subject.runner = runner

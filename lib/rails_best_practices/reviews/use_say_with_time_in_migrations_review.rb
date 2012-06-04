@@ -31,7 +31,7 @@ module RailsBestPractices
       # then such method call should be wrapped by say or say_with_time
       def start_defs(node)
         node.body.statements.each do |child_node|
-          next if child_node.grep_nodes_count(:sexp_type => [:fcall, :command], :message => WITH_SAY_METHODS) > 0
+          next if child_node.grep_nodes_count(sexp_type: [:fcall, :command], message: WITH_SAY_METHODS) > 0
 
           subject_node = if :method_add_block == child_node.sexp_type
                            child_node[1]

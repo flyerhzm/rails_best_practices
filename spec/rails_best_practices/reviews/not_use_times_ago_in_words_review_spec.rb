@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe NotUseTimeAgoInWordsReview do
-      let(:runner) { Core::Runner.new(:reviews => NotUseTimeAgoInWordsReview.new) }
+      let(:runner) { Core::Runner.new(reviews: NotUseTimeAgoInWordsReview.new) }
 
       describe "time_ago_in_words" do
         it "should not use in views" do

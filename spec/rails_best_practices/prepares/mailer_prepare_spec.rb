@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Prepares
     describe MailerPrepare do
-      let(:runner) { Core::Runner.new(:prepares => MailerPrepare.new) }
+      let(:runner) { Core::Runner.new(prepares: MailerPrepare.new) }
 
       it "should parse mailer names" do
         content =<<-EOF

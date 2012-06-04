@@ -81,11 +81,11 @@ module RailsBestPractices
       # @param [Integer] line_number, is the line number of the source code which is reviewing
       def add_error(message, filename = @node.file, line_number = @node.line)
         errors << RailsBestPractices::Core::Error.new(
-          :filename => filename,
-          :line_number => line_number,
-          :message => message,
-          :type => self.class.to_s,
-          :url => url
+          filename: filename,
+          line_number: line_number,
+          message: message,
+          type: self.class.to_s,
+          url: url
         )
       end
 
@@ -312,7 +312,7 @@ module RailsBestPractices
             # remember hash values for hash key "methods".
             #
             #     def to_xml(options = {})
-            #       super options.merge(:exclude => :visible, :methods => [:is_discussion_conversation])
+            #       super options.merge(exclude: :visible, methods: [:is_discussion_conversation])
             #     end
             add_callback "start_bare_assoc_hash" do |node|
               if node.hash_keys.include? "methods"

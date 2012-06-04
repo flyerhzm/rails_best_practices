@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe ProtectMassAssignmentReview do
-      let(:runner) { Core::Runner.new(:reviews => ProtectMassAssignmentReview.new) }
+      let(:runner) { Core::Runner.new(reviews: ProtectMassAssignmentReview.new) }
 
       it "should protect mass assignment" do
         content =<<-EOF
@@ -48,7 +48,7 @@ module RailsBestPractices
       it "should not protect mass assignment if using devise" do
         content =<<-EOF
         class User < ActiveRecord::Base
-          devise :database_authenticatable, :registerable, :confirmable, :recoverable, :stretches => 20
+          devise :database_authenticatable, :registerable, :confirmable, :recoverable, stretches: 20
         end
         EOF
         runner.review('app/models/user.rb', content)

@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Prepares
     describe ModelPrepare do
-      let(:runner) { Core::Runner.new(:prepares => ModelPrepare.new) }
+      let(:runner) { Core::Runner.new(prepares: ModelPrepare.new) }
 
       before :each do
         runner.whiny = true
@@ -267,7 +267,7 @@ module RailsBestPractices
         it "should treat named_scope as method" do
           content =<<-EOF
           class Post < ActiveRecord::Base
-            named_scope :active, :conditions => {:active => true}
+            named_scope :active, conditions: {active: true}
           end
           EOF
           runner.prepare("app/models/post.rb", content)
@@ -278,7 +278,7 @@ module RailsBestPractices
         it "should treat scope as method" do
           content =<<-EOF
           class Post < ActiveRecord::Base
-            scope :active, where(:active => true)
+            scope :active, where(active: true)
           end
           EOF
           runner.prepare("app/models/post.rb", content)
@@ -370,7 +370,7 @@ module RailsBestPractices
         it "should raised for finder_sql option" do
           content =<<-EOF
           class EventSubscription < ActiveRecord::Base
-            has_many :event_notification_template, :finder_sql => ?
+            has_many :event_notification_template, finder_sql: ?
           end
           EOF
           content.sub!('?', '\'SELECT event_notification_templates.* from event_notification_templates where event_type_id=#{event_type_id} and delivery_method_id=#{delivery_method_id}\'')
