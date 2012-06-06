@@ -38,11 +38,17 @@ module RailsBestPractices
       #
       # then the call node can use query attribute instead.
       def start_if(node)
-        all_conditions = node.conditional_statement == node.conditional_statement.all_conditions ? [node.conditional_statement] : node.conditional_statement.all_conditions
+        all_conditions = if node.conditional_statement == node.conditional_statement.all_conditions
+          [node.conditional_statement]
+        else
+          node.conditional_statement.all_conditions
+        end
         all_conditions.each do |condition_node|
           if query_attribute_node = query_attribute_node(condition_node)
             subject_node = query_attribute_node.subject
-            add_error "use query attribute (#{subject_node.subject}.#{subject_node.message}?)", node.file, query_attribute_node.line
+            add_error "use query attribute (#{subject_node.subject}.#{subject_node.message}?)",
+              node.file,
+              query_attribute_node.line
           end
         end
       end
@@ -51,11 +57,13 @@ module RailsBestPractices
       alias_method :start_elsif, :start_if
 
       private
-        # recursively check conditional statement nodes to see if there is a call node that may be possible query attribute.
+        # recursively check conditional statement nodes to see if there is a call node that may be
+        # possible query attribute.
         def query_attribute_node(conditional_statement_node)
           case conditional_statement_node.sexp_type
           when :and, :or
-            node = query_attribute_node(conditional_statement_node[1]) || query_attribute_node(conditional_statement_node[2])
+            node = query_attribute_node(conditional_statement_node[1]) ||
+              query_attribute_node(conditional_statement_node[2])
             node.file = conditional_statement_code.file
             return node
           when :not
@@ -106,7 +114,9 @@ module RailsBestPractices
 
         # check if the node is with node type :binary, node message :== and node argument is empty string.
         def compare_with_empty_string?(node)
-          :binary == node.sexp_type && ["==", "!="].include?(node.message.to_s) && s(:string_literal, s(:string_content)) == node.argument
+          :binary == node.sexp_type &&
+            ["==", "!="].include?(node.message.to_s) &&
+            s(:string_literal, s(:string_content)) == node.argument
         end
     end
   end

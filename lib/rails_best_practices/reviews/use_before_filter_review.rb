@@ -3,7 +3,8 @@ require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices
   module Reviews
-    # Review a controller file to make sure to use before_filter to remove duplicated first code line in different action.
+    # Review a controller file to make sure to use before_filter to remove duplicated first code
+    # line in different action.
     #
     # See the best practice detailed here http://rails-bestpractices.com/posts/22-use-before_filter.
     #
@@ -34,12 +35,16 @@ module RailsBestPractices
         @first_sentences = {}
 
         node.body.statements.each do |statement_node|
-          break if [:var_ref, :vcall].include?(statement_node.sexp_type) && ["protected", "private"].include?(statement_node.to_s)
+          var_ref_or_vcall_included = [:var_ref, :vcall].include?(statement_node.sexp_type)
+          private_or_protected_included = ["protected", "private"].include?(statement_node.to_s)
+          break if var_ref_or_vcall_included && private_or_protected_included
           remember_first_sentence(statement_node) if :def == statement_node.sexp_type
         end
         @first_sentences.each do |first_sentence, def_nodes|
           if def_nodes.size > @customize_count
-            add_error "use before_filter for #{def_nodes.map { |node| node.method_name.to_s }.join(',')}", node.file, def_nodes.map(&:line).join(',')
+            add_error "use before_filter for #{def_nodes.map { |node| node.method_name.to_s }.join(',')}",
+              node.file,
+              def_nodes.map(&:line).join(',')
           end
         end
       end

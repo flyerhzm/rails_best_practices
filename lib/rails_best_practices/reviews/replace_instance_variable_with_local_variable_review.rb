@@ -5,7 +5,8 @@ module RailsBestPractices
   module Reviews
     # Review a partail view file to make sure there is no instance variable.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/27-replace-instance-variable-with-local-variable.
+    # See the best practice details here
+    # http://rails-bestpractices.com/posts/27-replace-instance-variable-with-local-variable.
     #
     # Implementation:
     #
