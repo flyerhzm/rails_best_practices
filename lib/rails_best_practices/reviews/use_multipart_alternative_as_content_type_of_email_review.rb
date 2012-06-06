@@ -6,7 +6,8 @@ module RailsBestPractices
   module Reviews
     # Make sure to use multipart/alternative as content_type of email.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/41-use-multipart-alternative-as-content_type-of-email.
+    # See the best practice details here
+    # http://rails-bestpractices.com/posts/41-use-multipart-alternative-as-content_type-of-email.
     #
     # Implementation:
     #

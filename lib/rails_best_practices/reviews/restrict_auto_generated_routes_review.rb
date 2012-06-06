@@ -89,7 +89,8 @@ module RailsBestPractices
           return unless Prepares.controllers.include? controller_name
           resources_methods = resources_methods(node)
           unless resources_methods.all? { |meth| Prepares.controller_methods.has_method?(controller_name, meth) }
-            only_methods = (resources_methods & Prepares.controller_methods.get_methods(controller_name).map(&:method_name)).map { |meth| ":#{meth}" }.join(", ")
+            prepared_method_names = Prepares.controller_methods.get_methods(controller_name).map(&:method_name)
+            only_methods = (resources_methods & prepared_method_names).map { |meth| ":#{meth}" }.join(", ")
             add_error "restrict auto-generated routes #{friendly_route_name(node)} (only: [#{only_methods}])"
           end
         end
@@ -100,7 +101,8 @@ module RailsBestPractices
           return unless Prepares.controllers.include? controller_name
           resource_methods = resource_methods(node)
           unless resource_methods.all? { |meth| Prepares.controller_methods.has_method?(controller_name, meth) }
-            only_methods = (resource_methods & Prepares.controller_methods.get_methods(controller_name).map(&:method_name)).map { |meth| ":#{meth}" }.join(", ")
+            prepared_method_names = Prepares.controller_methods.get_methods(controller_name).map(&:method_name)
+            only_methods = (resource_methods & prepared_method_names).map { |meth| ":#{meth}" }.join(", ")
             add_error "restrict auto-generated routes #{friendly_route_name(node)} (only: [#{only_methods}])"
           end
         end
@@ -139,7 +141,11 @@ module RailsBestPractices
             if hash_key_exist?(option_node, "only")
               option_node.hash_value("only").to_s == "none" ? [] : Array(option_node.hash_value("only").to_object)
             elsif hash_key_exist?(option_node, "except")
-              option_node.hash_value("except").to_s == "all" ? [] : (methods - Array(option_node.hash_value("except").to_object))
+              if option_node.hash_value("except").to_s == "all"
+                []
+              else 
+                (methods - Array(option_node.hash_value("except").to_object))
+              end
             else
               methods
             end
@@ -157,7 +163,11 @@ module RailsBestPractices
             if hash_key_exist?(option_node, "only")
               option_node.hash_value("only").to_s == "none" ? [] : Array(option_node.hash_value("only").to_object)
             elsif hash_key_exist?(option_node, "except")
-              option_node.hash_value("except").to_s == "all" ? [] : (methods - Array(option_node.hash_value("except").to_object))
+              if option_node.hash_value("except").to_s == "all"
+                []
+              else 
+                (methods - Array(option_node.hash_value("except").to_object))
+              end
             else
               methods
             end
