@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe DryBundlerInCapistranoReview do
-      let(:runner) { runner = Core::Runner.new(reviews: DryBundlerInCapistranoReview.new) }
+      let(:runner) { Core::Runner.new(reviews: DryBundlerInCapistranoReview.new) }
 
       it "should dry bundler in capistrno" do
         content = <<-EOF
