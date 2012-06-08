@@ -21,11 +21,16 @@ class Sexp
   #     s(:@ident, "test", s(2, 12)
   #       => 2
   def line
-    if [:def, :defs, :command, :command_call, :call, :fcall, :method_add_arg, :method_add_block,
-      :var_ref, :vcall, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :ifop, :binary,
-      :alias, :symbol_literal, :symbol, :aref].include? sexp_type
+    case sexp_type
+    when :def, :defs, :command, :command_call, :call, :fcall, :method_add_arg, :method_add_block,
+         :var_ref, :vcall, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :ifop, :binary,
+         :alias, :symbol_literal, :symbol, :aref, :hash, :assoc_new, :string_literal
       self[1].line
-    elsif :array == sexp_type
+    when :assoclist_from_args
+      self[1][0].line
+    when :string_add
+      self[2].line
+    when :array
       array_values.first.line
     else
       self.last.first if self.last.is_a? Array
