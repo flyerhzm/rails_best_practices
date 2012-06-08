@@ -1,5 +1,5 @@
 #!/bin/bash
-rubies=( 1.9.2-p290 1.9.3-p125 )
+rubies=( 1.9.2-p320 1.9.3-p194 )
 gemset="rails_best_practices"
 
 for x in ${rubies[*]}
