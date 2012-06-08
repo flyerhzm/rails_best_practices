@@ -1,4 +1,4 @@
-HashSyntaxCheck: { }
+HashSyntaxCheck: { report_string_hash: true }
 AddModelVirtualAttributeCheck: { }
 AlwaysAddDbIndexCheck: { }
 DryBundlerInCapistranoCheck: { }
@@ -34,3 +34,4 @@ UseQueryAttributeCheck: { }
 UseSayWithTimeInMigrationsCheck: { }
 UseScopeAccessCheck: { }
 UseParenthesesInMethodDefCheck: { }
+LongLineCheck: { line_size: 120 }
