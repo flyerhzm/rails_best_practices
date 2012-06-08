@@ -7,6 +7,12 @@ module RailsBestPractices
       interesting_nodes :hash, :bare_assoc_hash
       interesting_files ALL_FILES
 
+      def initialize(options = {})
+        super()
+        @report_string_hash = options[:report_string_hash]
+        @report_string_hash = true if @report_string_hash.nil?
+      end
+
       def start_hash(node)
         pair_nodes = node[1][1]
 
@@ -26,9 +32,11 @@ module RailsBestPractices
       protected
         def hash_is_18?(pair_nodes)
           return false if pair_nodes.blank?
-
           pair_nodes.size.times do |i|
             if pair_nodes[i][1].sexp_type != :@label
+              if pair_nodes[i][1].sexp_type == :string_literal
+                return @report_string_hash
+              end
               return true
             end
           end

@@ -1,4 +1,4 @@
-HashSyntaxCheck: { }
+HashSyntaxCheck: { report_string_hash: true }
 AddModelVirtualAttributeCheck: { }
 AlwaysAddDbIndexCheck: { }
 DryBundlerInCapistranoCheck: { }
