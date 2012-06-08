@@ -9,6 +9,7 @@ describe Sexp do
           ActiveRecord::Base.connection
         end
         alias :test_new :test
+        CONST = { foo: :bar }
       end
       EOF
       @node = parse_content(content)
@@ -32,6 +33,10 @@ describe Sexp do
 
     it "should return alias line" do
       @node.grep_node(sexp_type: :alias).line.should == 5
+    end
+
+    it "should return hash line" do
+      @node.grep_node(sexp_type: :hash).line.should == 6
     end
   end
 

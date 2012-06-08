@@ -53,6 +53,10 @@ module RailsBestPractices
         def is_active_record?(node)
           node.grep_node(sexp_type: [:const_path_ref, :@const], to_s: "ActiveRecord::Base").present?
         end
+
+        def is_active_record?(node)
+          node.grep_node(:sexp_type => [:const_path_ref, :@const], :to_s => "ActiveRecord::Base").present?
+        end
     end
   end
 end
