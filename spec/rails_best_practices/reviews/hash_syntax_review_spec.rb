@@ -36,6 +36,32 @@ module RailsBestPractices
         runner.review('app/models/user.rb', content)
         runner.should have(0).errors
       end
+
+      it "should only check symbol syntax" do
+        runner = Core::Runner.new(reviews: HashSyntaxReview.new(only_symbol: true))
+        content =<<-EOF
+        class User < ActiveRecord::Base
+          SYMBOL_CONST = { :foo => :bar }
+          STRING_CONST = { "foo" => "bar" }
+        end
+        EOF
+        runner.review('app/models/user.rb', content)
+        runner.should have(1).errors
+        runner.errors[0].to_s.should == "app/models/user.rb:2 - change Hash Syntax to 1.9"
+      end
+
+      it "should only check string syntax" do
+        runner = Core::Runner.new(reviews: HashSyntaxReview.new(only_string: true))
+        content =<<-EOF
+        class User < ActiveRecord::Base
+          SYMBOL_CONST = { :foo => :bar }
+          STRING_CONST = { "foo" => "bar" }
+        end
+        EOF
+        runner.review('app/models/user.rb', content)
+        runner.should have(1).errors
+        runner.errors[0].to_s.should == "app/models/user.rb:3 - change Hash Syntax to 1.9"
+      end
     end
   end
 end
