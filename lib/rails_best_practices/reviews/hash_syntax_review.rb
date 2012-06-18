@@ -13,6 +13,12 @@ module RailsBestPractices
       interesting_nodes :hash, :bare_assoc_hash
       interesting_files ALL_FILES
 
+      def initialize(options = {})
+        super()
+        @only_symbol = options[:only_symbol]
+        @only_string = options[:only_string]
+      end
+
       # check hash node to see if it is ruby 1.8 style.
       def start_hash(node)
         pair_nodes = node[1][1]
@@ -40,7 +46,11 @@ module RailsBestPractices
           return false if pair_nodes.blank?
 
           pair_nodes.size.times do |i|
-            if pair_nodes[i][1].sexp_type != :@label
+            if @only_symbol
+              return true if :symbol_literal == pair_nodes[i][1].sexp_type
+            elsif @only_string
+              return true if :string_literal == pair_nodes[i][1].sexp_type
+            elsif :@label != pair_nodes[i][1].sexp_type
               return true
             end
           end

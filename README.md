@@ -146,6 +146,7 @@ Now you can customize this configuration file, the default configuration is as f
     RemoveUnusedMethodsInHelpersCheck: { except_methods: [] }
     NotUseTimeAgoInWordsCheck: {}
     ProtectMassAssignmentCheck: {}
+    HashSyntaxCheck: { only_syntax: true, only_string: true }
 
 You can remove or comment one review to disable it, and you can change the options.
 
