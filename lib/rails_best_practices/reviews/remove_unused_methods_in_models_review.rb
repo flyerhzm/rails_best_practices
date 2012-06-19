@@ -63,7 +63,8 @@ module RailsBestPractices
         end
       end
 
-      # mark key method and value method for options_from_collection_for_select and option_groups_from_collection_for_select.
+      # mark key method and value method for options_from_collection_for_select and
+      # option_groups_from_collection_for_select.
       def start_method_add_arg(node)
         arguments = node.arguments.all
         case node.message.to_s
@@ -99,7 +100,8 @@ module RailsBestPractices
             human_attribute_name
             assign_attributes
             to_xml to_json to_param
-            before_save before_create before_update before_destroy after_save after_create after_update after_destroy after_find after_initialize
+            before_save before_create before_update before_destroy after_save after_create
+            after_update after_destroy after_find after_initialize
             method_missing
           ).map { |method_name| "*\##{method_name}" }
         end

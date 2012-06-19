@@ -3,9 +3,11 @@ require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices
   module Reviews
-    # Review a controller file to make sure that complex model creation should not exist in controller, should be replaced with factory method.
+    # Review a controller file to make sure that complex model creation should not exist in
+    # controller, should be replaced with factory method.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/6-replace-complex-creation-with-factory-method.
+    # See the best practice details here
+    # http://rails-bestpractices.com/posts/6-replace-complex-creation-with-factory-method.
     #
     # Implementation:
     #
@@ -28,7 +30,8 @@ module RailsBestPractices
         @assigns_count = options['attribute_assignment_count'] || 2
       end
 
-      # check method define node to see if there are multiple assignments, more than @assigns_count, on one variable before save.
+      # check method define node to see if there are multiple assignments, more than
+      # @assigns_count, on one variable before save.
       #
       # it wll check every attrasgn nodes in method define node,
       # if there are multiple assign nodes who have the same subject,
@@ -58,7 +61,8 @@ module RailsBestPractices
           if ["save", "save!"].include? node.message.to_s
             variable = node.subject.to_s
             if variable_use_count[variable].to_i > @assigns_count
-              add_error "replace complex creation with factory method (#{variable} attribute_assignment_count > #{@assigns_count})"
+              hint = "#{variable} attribute_assignment_count > #{@assigns_count}"
+              add_error "replace complex creation with factory method (#{hint})"
             end
           end
         end

@@ -44,7 +44,6 @@ module RailsBestPractices
         # so if it is not, then it is ruby 1.8 style.
         def hash_is_18?(pair_nodes)
           return false if pair_nodes.blank?
-
           pair_nodes.size.times do |i|
             if @only_symbol
               return true if :symbol_literal == pair_nodes[i][1].sexp_type
