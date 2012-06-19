@@ -34,3 +34,4 @@ UseQueryAttributeCheck: { }
 UseSayWithTimeInMigrationsCheck: { }
 UseScopeAccessCheck: { }
 UseParenthesesInMethodDefCheck: { }
+LongLineCheck: { line_size: 120 }

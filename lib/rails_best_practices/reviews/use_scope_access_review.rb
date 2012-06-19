@@ -42,9 +42,14 @@ module RailsBestPractices
         # and there is a redirect_to method call in the block body,
         # then it should be replaced by using scope access.
         def current_user_redirect?(node)
-          all_conditions = node.conditional_statement == node.conditional_statement.all_conditions ? [node.conditional_statement] : node.conditional_statement.all_conditions
+          all_conditions = if node.conditional_statement == node.conditional_statement.all_conditions
+            [node.conditional_statement]
+          else
+            node.conditional_statement.all_conditions
+          end
           results = all_conditions.map do |condition_node|
-            ["==", "!="].include?(condition_node.message.to_s) && (current_user?(condition_node.argument) || current_user?(condition_node.subject))
+            ["==", "!="].include?(condition_node.message.to_s) &&
+              (current_user?(condition_node.argument) || current_user?(condition_node.subject))
           end
           results.any? { |result| result == true } && node.body.grep_node(message: "redirect_to")
         end
