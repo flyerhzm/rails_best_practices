@@ -119,6 +119,7 @@ Now you can customize this configuration file, the default configuration is as f
     IsolateSeedDataCheck: { }
     KeepFindersOnTheirOwnModelCheck: { }
     LawOfDemeterCheck: { }
+    LongLineCheck: { max_line_length: 80 }
     MoveCodeIntoControllerCheck: { }
     MoveCodeIntoHelperCheck: { array_count: 3 }
     MoveCodeIntoModelCheck: { use_count: 2 }
@@ -144,10 +145,10 @@ Now you can customize this configuration file, the default configuration is as f
     UseModelAssociationCheck: { }
     UseMultipartAlternativeAsContentTypeOfEmailCheck: {}
     UseObserverCheck: { }
+    UseParenthesesInMethodDefCheck: {}
     UseQueryAttributeCheck: { }
     UseSayWithTimeInMigrationsCheck: { }
     UseScopeAccessCheck: { }
-    UseParenthesesInMethodDefCheck: {}
 
 You can remove or comment one review to disable it, and you can change the options.
 
@@ -218,7 +219,8 @@ Other
 1. Remove trailing whitespace
 2. Remove tab
 3. Hash Syntax
-4. Use Parentheses In Method Def
+4. Use parentheses in method def
+5. Long line
 
 Write Your Own Check List
 -------------------------

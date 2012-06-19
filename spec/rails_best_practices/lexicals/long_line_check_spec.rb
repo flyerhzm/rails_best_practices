@@ -8,25 +8,25 @@ module RailsBestPractices
         runner = Core::Runner.new(lexicals: LongLineCheck.new)
         content =<<-EOF
 class User < ActiveRecord::Base
-# 100 Chars
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# 99 Chars
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# 81 Chars
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# 80 Chars
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 end
 EOF
         content.gsub!("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)
         runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/models/user.rb:3 - line is longer than 120 characters (121 characters)"
+        runner.errors[0].to_s.should == "app/models/user.rb:3 - line is longer than 80 characters (81 characters)"
       end
       it "should find long lines with own max size" do
         runner = Core::Runner.new(lexicals: LongLineCheck.new('max_line_length' => 90))
         content =<<-EOF
 class User < ActiveRecord::Base
-# 100 Chars
+# 91 Chars
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+# 90 Chars
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# 99 Chars
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 end
 EOF
         content.gsub!("\n", "\t\n")
