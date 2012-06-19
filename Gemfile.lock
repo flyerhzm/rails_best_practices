@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_best_practices (1.9.1)
+    rails_best_practices (1.10.0)
       activesupport
       awesome_print
       colored
