@@ -21,6 +21,7 @@ module RailsBestPractices
 
       # check hash node to see if it is ruby 1.8 style.
       def start_hash(node)
+        return if s(:hash, nil) == node
         pair_nodes = node[1][1]
 
         if hash_is_18?(pair_nodes)
