@@ -26,7 +26,7 @@ class Sexp
          :var_ref, :vcall, :const_ref, :const_path_ref, :class, :module, :if, :unless, :elsif, :ifop, :binary,
          :alias, :symbol_literal, :symbol, :aref, :hash, :assoc_new, :string_literal
       self[1].line
-    when :assoclist_from_args
+    when :assoclist_from_args, :bare_assoc_hash
       self[1][0].line
     when :string_add
       self[2].line
