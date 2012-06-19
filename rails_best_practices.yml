@@ -1,7 +1,7 @@
-HashSyntaxCheck: { }
 AddModelVirtualAttributeCheck: { }
 AlwaysAddDbIndexCheck: { }
 DryBundlerInCapistranoCheck: { }
+HashSyntaxCheck: { }
 IsolateSeedDataCheck: { }
 KeepFindersOnTheirOwnModelCheck: { }
 LawOfDemeterCheck: { }
