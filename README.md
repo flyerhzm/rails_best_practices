@@ -1,5 +1,4 @@
-rails_best_practices
-====================
+# rails_best_practices
 
 [![Build Status](https://secure.travis-ci.org/railsbp/rails_best_practices.png)](http://travis-ci.org/railsbp/rails_best_practices)
 
@@ -21,8 +20,7 @@ following template engines:
 
 rails_best_practices works well only in ruby 1.9.2 and ruby 1.9.3 so far.
 
-Usage
------
+## Usage
 
 At the root directory of rails app
 
@@ -58,8 +56,7 @@ By default rails_best_practices will do parse codes in vendor, spec, test and fe
         -v, --version                    Show this version
         -h, --help                       Show this message
 
-Resources
----------
+## Resources
 
 Homepage: <http://rails-bestpractices.com>
 
@@ -77,8 +74,7 @@ Wiki: <http://github.com/railsbp/rails_best_practices/wiki>
 
 Issue Tracker: <http://github.com/railsbp/rails_best_practices/issues>
 
-Install
--------
+## Install
 
 rails_best_practices gem is rewritten based on ripper instead of ruby_parser to support ruby 1.9 new syntax.
 
@@ -88,8 +84,7 @@ or add in Gemfile
 
     gem "rails_best_practices"
 
-Issue
------
+## Issue
 
 If you install the rails_best_practices with bundler-installed github-sourced gem, please use the following command instead.
 
@@ -101,8 +96,7 @@ If you got NoMethodError or any syntax error, you should use debug mode to detec
 
 Then give me the error stack and the source code of the file that rails_best_practices is parsing error.
 
-Customize Configuration
------------------------
+## Customize Configuration
 
 First run
 
@@ -152,8 +146,7 @@ Now you can customize this configuration file, the default configuration is as f
 
 You can remove or comment one review to disable it, and you can change the options.
 
-Implementation
---------------
+## Implementation
 
 Move code from Controller to Model
 
@@ -222,18 +215,15 @@ Other
 4. Use parentheses in method def
 5. Long line
 
-Write Your Own Check List
--------------------------
+## Write Your Own Check List
 
 If you want to write your own check list (some check list only for your rails projects), please read this first, [How to write your own check list?][1]
 
-Contribute
-----------
+## Contribute
 
 If you want to add your rails best practices into the gem, please post your best practices on <http://rails-bestpractices.com>
 
-Contact Us
-----------
+## Contact Us
 
 We provide rails consulting services, you can contact us by twitter or email.
 
