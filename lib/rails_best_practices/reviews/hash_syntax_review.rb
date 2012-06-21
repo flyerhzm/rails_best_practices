@@ -24,7 +24,7 @@ module RailsBestPractices
         return if s(:hash, nil) == node
         pair_nodes = node[1][1]
 
-        if hash_is_18?(pair_nodes)
+        if hash_is_18?(pair_nodes) && !haml_class_node?(node)
           add_error "change Hash Syntax to 1.9"
         end
       end
@@ -57,7 +57,10 @@ module RailsBestPractices
 
           false
         end
+
+        def haml_class_node?(node)
+          node.hash_size == 1 && node.hash_keys.first == "class"
+        end
     end
   end
 end
-

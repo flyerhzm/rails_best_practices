@@ -62,6 +62,15 @@ module RailsBestPractices
         runner.should have(1).errors
         runner.errors[0].to_s.should == "app/models/user.rb:3 - change Hash Syntax to 1.9"
       end
+
+      it "should ignore haml_out" do
+        content =<<-EOF
+%div{ id: "file-\#{file}-a" }
+.file{ id: "file-\#{file}-b" }
+        EOF
+        runner.review('app/views/files/show.html.haml', content)
+        runner.should have(0).errors
+      end
     end
   end
 end
