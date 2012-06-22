@@ -15,8 +15,8 @@ module RailsBestPractices
 
       def initialize(options = {})
         super()
-        @only_symbol = options[:only_symbol]
-        @only_string = options[:only_string]
+        @only_symbol = options["only_symbol"]
+        @only_string = options["only_string"]
       end
 
       # check hash node to see if it is ruby 1.8 style.
