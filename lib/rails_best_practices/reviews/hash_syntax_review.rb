@@ -59,7 +59,7 @@ module RailsBestPractices
         end
 
         def haml_class_node?(node)
-          node.hash_size == 1 && node.hash_keys.first == "class"
+          node.hash_size == 1 && (node.hash_keys.first == "class" || node.hash_keys.first == "id")
         end
     end
   end
