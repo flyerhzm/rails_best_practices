@@ -74,6 +74,22 @@ module RailsBestPractices
         runner.review('app/views/files/show.html.haml', content)
         runner.should have(0).errors
       end
+
+      it "should not consider hash with array key" do
+        content =<<-EOF
+        transition [:unverified, :verified] => :deleted
+        EOF
+        runner.review('app/models/post.rb', content)
+        runner.should have(0).errors
+      end
+
+      it "should not consider hash with charaters not valid for symbol" do
+        content =<<-EOF
+        subject.stub(:` => 'Error')
+        EOF
+        runner.review('app/models/post.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end
