@@ -65,11 +65,9 @@ module RailsBestPractices
 
       it "should ignore haml_out" do
         content =<<-EOF
-
 %div{ class: "foo1" }
 .div{ class: "foo2" }
 #div{ class: "foo3" }
-
         EOF
         runner.review('app/views/files/show.html.haml', content)
         runner.should have(0).errors

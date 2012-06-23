@@ -23,12 +23,10 @@ module RailsBestPractices
 
       # check hash node to see if it is ruby 1.8 style.
       def start_hash(node)
-        return if s(:hash, nil) == node
-
         if !empty_hash?(node) &&
            hash_is_18?(node) &&
-           !haml_class_node?(node) &&
-           valid_keys?(node)
+           valid_keys?(node) &&
+           !haml_class_node?(node)
           add_error "change Hash Syntax to 1.9"
         end
       end
