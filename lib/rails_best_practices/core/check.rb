@@ -12,7 +12,7 @@ module RailsBestPractices
       PARTIAL_VIEW_FILES = /(views|cells)\/.*\/_.*\.(erb|haml|slim|builder|rxml)$/
       ROUTE_FILES = /config\/routes.*\.rb/
       SCHEMA_FILE = /db\/schema\.rb/
-      HELPER_FILES = /helpers\/.*\.rb$/
+      HELPER_FILES = /helpers\/((?!_spec.rb).)*\.rb$/
       DEPLOY_FILES = /config\/deploy.*\.rb/
       CONFIG_FILES = /config\/(application|environment|environments\/.*)\.rb/
 
