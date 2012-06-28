@@ -38,7 +38,7 @@ module RailsBestPractices
       end
 
       it "should only check symbol syntax" do
-        runner = Core::Runner.new(reviews: HashSyntaxReview.new(only_symbol: true))
+        runner = Core::Runner.new(reviews: HashSyntaxReview.new("only_symbol" => true))
         content =<<-EOF
         class User < ActiveRecord::Base
           SYMBOL_CONST = { :foo => :bar }
@@ -51,7 +51,7 @@ module RailsBestPractices
       end
 
       it "should only check string syntax" do
-        runner = Core::Runner.new(reviews: HashSyntaxReview.new(only_string: true))
+        runner = Core::Runner.new(reviews: HashSyntaxReview.new("only_string" => true))
         content =<<-EOF
         class User < ActiveRecord::Base
           SYMBOL_CONST = { :foo => :bar }
