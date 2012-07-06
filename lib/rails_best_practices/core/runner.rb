@@ -173,7 +173,7 @@ module RailsBestPractices
               content.gsub!(/\\\d{3}/, '')
             rescue LoadError
               raise "In order to parse #{filename}, please install the haml gem"
-            rescue Haml::Error, SyntaxError
+            rescue Haml::Error, SyntaxError, Encoding::CompatibilityError
               # do nothing, just ignore the wrong haml files.
             end
           elsif filename =~ /.*\.slim$/
@@ -250,6 +250,8 @@ module RailsBestPractices
         # @return [String] file conent
         def read_file(filename)
           File.open(filename, "r:UTF-8") { |f| f.read }
+        rescue Errno::ENOENT
+          ''
         end
     end
   end
