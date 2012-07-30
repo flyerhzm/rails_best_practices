@@ -22,18 +22,18 @@
         margin: 10px 0;
         font-size: 14px;
       }
-      table th, table td {
+      table.result th, table.result td {
         padding: 4px;
         border: 1px solid #D0D0D0;
       }
-      table th {
+      table.result th {
         background-color: #DFC;
         color: #337022;
       }
-      table td.filename {
+      table.result td.filename {
         color: #ED1556;
       }
-      table tr:hover {
+      table.result tr:hover {
         background-color: #FFFFC0;
       }
       ul {
@@ -48,6 +48,14 @@
        float: left;
       }
     </style>
+<%
+  def columnize(arr, col_count)
+    row_count = arr.size / col_count
+    row_count += 1 if arr.size % col_count > 0
+    cols = arr.each_slice(row_count).to_a
+    cols[0].zip(*cols[1..-1]).map(&:compact)
+  end
+%>
   </head>
   <body>
     <h1>rails_best_practices output</h1>
@@ -63,59 +71,73 @@
         Found <%= @errors.size %> warnings.
       <% end %>
     </p>
-    <ul>
-      <% @error_types.each do |error_type| %>
-        <li>
-            <input type="checkbox" id="<%= error_type.split(':').last %>" value="<%= error_type.split(':').last %>" />
-            <label for="<%= error_type.split(':').last%>"><%= error_type.split(':').last%></label>
-        </li>
-      <% end %>
-    </ul>
     <table>
-      <tr>
-        <th>Filename</th>
-        <th>Line Number</th>
-        <th>Warning Message</th>
-        <% if @hg %>
-          <th>Hg Commit</th>
-          <th>Hg Username</th>
-        <% elsif @git %>
-          <th>Git Commit</th>
-          <th>Git Username</th>
-        <% end %>
-      </tr>
-      <% @errors.each do |error| %>
-        <tr class="<%= error.type.split(':').last %>">
-          <td class='filename'>
-            <% if @github %>
-              <a href='https://github.com/<%= @github_name %>/blob/<%= @last_commit_id %>/<%= error.short_filename %>#L<%= error.first_line_number %>' target='_blank'><%= error.short_filename %></a>
-            <% elsif @textmate %>
-              <a href='txmt://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
-            <% elsif @mvim %>
-              <a href='mvim://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
-            <% else %>
-              <%= error.short_filename %>
-            <% end %>
-          </td>
-          <td class='line'><%= error.line_number %></td>
-          <td class='message'>
-            <a href='<%= error.url %>' target='_blank'><%= error.message %></a>
-          </td>
-          <% if @hg %>
-            <td class='hg_commit'><%= error.hg_commit %></td>
-            <td class='hg_usename'><%= error.hg_username %></td>
-          <% elsif @git %>
-            <td class='git_commit'><%= error.git_commit %></td>
-            <td class='git_usename'><%= error.git_username %></td>
+      <% columnize(@error_types, 3).each do |row| %>
+        <tr>
+          <% row.map { |error_type| error_type.split(':').last }.each do |error_type| %>
+            <td>
+              <input type="checkbox" class="error-type" id="<%= error_type %>" value="<%= error_type %>"
+              />&nbsp;<label for="<%= error_type %>"><%= error_type.sub(/(Check|Review)$/, '').gsub(/([a-z\d])([A-Z])/,'\1 \2') %></label>
+            </td>
           <% end %>
         </tr>
       <% end %>
+      <tr>
+        <td colspan="3">
+          <button id="show-all">Check all</button>
+          <button id="show-none">Uncheck all</button>
+        </td>
+      </tr>
     </table>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <table class="result">
+      <thead>
+        <tr>
+          <th>Filename</th>
+          <th>Line Number</th>
+          <th>Warning Message</th>
+          <% if @hg %>
+            <th>Hg Commit</th>
+            <th>Hg Username</th>
+          <% elsif @git %>
+            <th>Git Commit</th>
+            <th>Git Username</th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% @errors.each do |error| %>
+          <tr class="<%= error.type.split(':').last %>">
+            <td class='filename'>
+              <% if @github %>
+                <a href='https://github.com/<%= @github_name %>/blob/<%= @last_commit_id %>/<%= error.short_filename %>#L<%= error.first_line_number %>' target='_blank'><%= error.short_filename %></a>
+              <% elsif @textmate %>
+                <a href='txmt://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
+              <% elsif @mvim %>
+                <a href='mvim://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
+              <% else %>
+                <%= error.short_filename %>
+              <% end %>
+            </td>
+            <td class='line'><%= error.line_number %></td>
+            <td class='message'>
+              <a href='<%= error.url %>' target='_blank'><%= error.message %></a>
+            </td>
+            <% if @hg %>
+              <td class='hg_commit'><%= error.hg_commit %></td>
+              <td class='hg_usename'><%= error.hg_username %></td>
+            <% elsif @git %>
+              <td class='git_commit'><%= error.git_commit %></td>
+              <td class='git_usename'><%= error.git_username %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript">
       $(function() {
         $('ul li').show();
-        $('input[type=checkbox]').prop('checked', true).click(function() {
+        $('input.error-type[type=checkbox]').prop('checked', true).click(function() {
           if ($(this).attr('checked')) {
             $(this).prop('checked', true);
             $('.'+$(this).val()).show();
@@ -123,6 +145,14 @@
             $(this).prop('checked', false);
             $('.'+$(this).val()).hide();
           }
+        });
+        $('#show-all').click(function() {
+          $('input.error-type[type=checkbox]').prop('checked', true);
+          $('table.result tbody tr').show();
+        });
+        $('#show-none').click(function() {
+          $('input.error-type[type=checkbox]').prop('checked', false);
+          $('table.result tbody tr').hide();
         });
       });
     </script>
