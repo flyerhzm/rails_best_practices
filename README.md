@@ -22,6 +22,11 @@ following template engines:
 
 rails_best_practices works well only in ruby 1.9.2 and ruby 1.9.3 so far.
 
+## External Introduction
+
+<http://ruby5.envylabs.com/episodes/257-episode-253-march-9th-2012/stories/2253-rails_best_practices>
+<http://railscasts.com/episodes/252-metrics-metrics-metrics>
+
 ## Usage
 
 At the root directory of rails app
@@ -237,4 +242,4 @@ Send us email: <team@railsbp.com>
 Copyright © 2009 - 2012 Richard Huang (flyerhzm@gmail.com), released under the MIT license
 
 
-[1]:https://github.com/railsbp/rails_best_practices/wiki/How-to-write-your-own-check-list
+[1]: https://github.com/railsbp/rails_best_practices/wiki/How-to-write-your-own-check-list
