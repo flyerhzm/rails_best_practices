@@ -116,7 +116,7 @@ Now you can customize this configuration file, the default configuration is as f
     AddModelVirtualAttributeCheck: { }
     AlwaysAddDbIndexCheck: { }
     DryBundlerInCapistranoCheck: { }
-    HashSyntaxCheck: { only_symbol: false, only_string: false }
+    HashSyntaxCheck: { }
     IsolateSeedDataCheck: { }
     KeepFindersOnTheirOwnModelCheck: { }
     LawOfDemeterCheck: { }
