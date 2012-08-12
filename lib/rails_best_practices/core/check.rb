@@ -4,15 +4,15 @@ module RailsBestPractices
     # A Check class that takes charge of checking the sexp.
     class Check
       ALL_FILES = /.*/
-      CONTROLLER_FILES = /(controllers|cells)\/.*\.rb$/
+      CONTROLLER_FILES = /app\/(controllers|cells)\/.*\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
-      MODEL_FILES = /models\/.*\.rb$/
-      MAILER_FILES = /models\/.*mailer\.rb$|mailers\/.*mailer\.rb/
-      VIEW_FILES = /(views|cells)\/.*\.(erb|haml|slim|builder|rxml)$/
-      PARTIAL_VIEW_FILES = /(views|cells)\/.*\/_.*\.(erb|haml|slim|builder|rxml)$/
+      MODEL_FILES = /app\/models\/.*\.rb$/
+      MAILER_FILES = /app\/models\/.*mailer\.rb$|app\/mailers\/.*\.rb/
+      VIEW_FILES = /app\/(views|cells)\/.*\.(erb|haml|slim|builder|rxml)$/
+      PARTIAL_VIEW_FILES = /app\/(views|cells)\/.*\/_.*\.(erb|haml|slim|builder|rxml)$/
       ROUTE_FILES = /config\/routes.*\.rb/
       SCHEMA_FILE = /db\/schema\.rb/
-      HELPER_FILES = /helpers\/.*\.rb$/
+      HELPER_FILES = /app\/helpers\/.*\.rb$/
       DEPLOY_FILES = /config\/deploy.*\.rb/
       CONFIG_FILES = /config\/(application|environment|environments\/.*)\.rb/
 
