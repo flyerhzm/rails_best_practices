@@ -80,6 +80,28 @@ module RailsBestPractices
           runner.should have(0).errors
         end
 
+        it "should not remove unused methods for layout" do
+          content =<<-EOF
+          RailsBestPracticesCom::Application.routes.draw do
+            resources :posts
+          end
+          EOF
+          runner.prepare('config/routes.rb', content)
+          content =<<-EOF
+          class PostsController < ActiveRecord::Base
+            layout :choose_layout
+            private
+              def choose_layout
+                "default"
+              end
+          end
+          EOF
+          runner.prepare('app/controllers/posts_controller.rb', content)
+          runner.review('app/controllers/posts_controller.rb', content)
+          runner.after_review
+          runner.should have(0).errors
+        end
+
         it "should not remove inherited_resources methods" do
           content =<<-EOF
           RailsBestPracticesCom::Application.routes.draw do
