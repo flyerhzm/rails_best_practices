@@ -60,6 +60,11 @@ module RailsBestPractices
           end
         when "around_filter"
           node.arguments.all.each { |argument| mark_used(argument) }
+        when "layout"
+          first_argument = node.arguments.all.first
+          if first_argument.sexp_type == :symbol_literal
+            mark_used(first_argument)
+          end
         when "helper_method"
           node.arguments.all.each { |argument| mark_publicize(argument.to_s) }
         when "delegate"
