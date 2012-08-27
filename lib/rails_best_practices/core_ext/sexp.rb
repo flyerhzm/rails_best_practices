@@ -303,7 +303,7 @@ class Sexp
     nodes = []
     case sexp_type
     when :args_add_block, :array
-      if self[1].sexp_type == :args_new
+      if :args_new == self[1].sexp_type
         nodes << self[2]
       else
         node = self[1]
@@ -316,6 +316,8 @@ class Sexp
           end
         end
       end
+    when :args_add
+      nodes.unshift self[2]
     end
     nodes
   end
