@@ -16,6 +16,8 @@ module RailsBestPractices
       DEPLOY_FILES = /config\/deploy.*\.rb/
       CONFIG_FILES = /config\/(application|environment|environments\/.*)\.rb/
 
+      SKIP_FILES = /db\/schema.rb/
+
       def initialize(options={})
         options.each do |key, value|
           instance_variable_set("@#{key}", value)
@@ -37,7 +39,13 @@ module RailsBestPractices
       # @param [String] the file name of node.
       # @return [Boolean] true if the check will need to parse the file.
       def parse_file?(node_file)
-        interesting_files.any? { |pattern| node_file =~ pattern }
+        interesting_files.any? do |pattern|
+          if pattern == ALL_FILES
+            node_file =~ pattern && node_file !~ SKIP_FILES
+          else
+            node_file =~ pattern
+          end
+        end
       end
 
       # delegate to start_### according to the sexp_type, like
