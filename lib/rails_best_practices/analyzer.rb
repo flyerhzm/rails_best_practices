@@ -116,7 +116,7 @@ module RailsBestPractices
     # @param [Array] dirs what directories to expand
     # @return [Array] all files expanded
     def expand_dirs_to_files(*dirs)
-      extensions = ['rb', 'erb', 'rake', 'rhtml', 'haml', 'slim', 'builder', 'rxml']
+      extensions = ['rb', 'erb', 'rake', 'rhtml', 'haml', 'slim', 'builder', 'rxml', 'rabl']
 
       dirs.flatten.map { |entry|
         next unless File.exist? entry

@@ -670,6 +670,25 @@ module RailsBestPractices
         end
       end
 
+      it "should not remove unused methods for rabl view" do
+        content =<<-EOF
+        class User
+          def first_name; end
+          def last_name; end
+        end
+        EOF
+        runner.prepare("app/models/user.rb", content)
+        runner.review("app/models/user.rb", content)
+        content =<<-EOF
+        node :full_name do |u|
+          u.first_name + " " + u.last_name
+        end
+        EOF
+        runner.review("app/views/users/show.json.rabl", content)
+        runner.after_review
+        runner.should have(0).errors
+      end
+
       it "should not skip :call as call message" do
         content =<<-EOF
         module DateRange
