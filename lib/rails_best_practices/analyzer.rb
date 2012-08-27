@@ -140,10 +140,6 @@ module RailsBestPractices
       mailers = files.find_all { |file| file =~ Core::Check::MAILER_FILES }
       helpers = files.find_all { |file| file =~ Core::Check::HELPER_FILES }
       others = files.find_all { |file| file !~ Core::Check::MAILER_FILES && file !~ Core::Check::MODEL_FILES && file !~ Core::Check::HELPER_FILES }
-      models.sort
-      mailers.sort
-      helpers.sort
-      others.sort
       return models + mailers + helpers + others
     end
 
