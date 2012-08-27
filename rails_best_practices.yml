@@ -5,7 +5,7 @@ HashSyntaxCheck: { }
 IsolateSeedDataCheck: { }
 KeepFindersOnTheirOwnModelCheck: { }
 LawOfDemeterCheck: { }
-LongLineCheck: { max_line_length: 80 }
+#LongLineCheck: { max_line_length: 80 }
 MoveCodeIntoControllerCheck: { }
 MoveCodeIntoHelperCheck: { array_count: 3 }
 MoveCodeIntoModelCheck: { use_count: 2 }
