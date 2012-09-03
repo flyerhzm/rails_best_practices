@@ -50,7 +50,9 @@ module RailsBestPractices
         @reviews = reviews.empty? ? load_reviews : reviews
         load_plugin_reviews if reviews.empty?
 
-        @checker ||= CheckingVisitor.new(prepares: @prepares, reviews: @reviews, lexicals: @lexicals)
+        @lexical_checker ||= LexicalCheckingVisitor.new(checkers: @lexicals)
+        @prepare_checker ||= CheckingVisitor.new(checkers: @prepares)
+        @review_checker ||= CheckingVisitor.new(checkers: @reviews)
         @debug = false
         @whiny = false
       end
@@ -61,7 +63,7 @@ module RailsBestPractices
       # @param [String] content content of the file
       def lexical(filename, content)
         puts filename if @debug
-        @checker.lexical(filename, content)
+        @lexical_checker.check(filename, content)
       end
 
       # lexical analysis the file.
@@ -80,7 +82,7 @@ module RailsBestPractices
         node = parse_ruby(filename, content)
         if node
           node.file = filename
-          node.prepare(@checker)
+          node.check(@prepare_checker)
         end
       end
 
@@ -101,7 +103,7 @@ module RailsBestPractices
         node = parse_ruby(filename, content)
         if node
           node.file = filename
-          node.review(@checker)
+          node.check(@review_checker)
         end
       end
 
@@ -127,7 +129,7 @@ module RailsBestPractices
         content = "class RailsBestPractices::AfterPrepare; end"
         node = parse_ruby(filename, content)
         node.file = filename
-        node.prepare(@checker)
+        node.check(@prepare_checker)
       end
 
       # provide a handler after all files reviewed.
@@ -136,7 +138,7 @@ module RailsBestPractices
         content = "class RailsBestPractices::AfterReview; end"
         node = parse_ruby(filename, content)
         node.file = filename
-        node.review(@checker)
+        node.check(@review_checker)
       end
 
       private
