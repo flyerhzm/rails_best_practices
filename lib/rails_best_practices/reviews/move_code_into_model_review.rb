@@ -10,8 +10,8 @@ module RailsBestPractices
     # Implementation:
     #
     # Review process:
-    #   check if, unless, elsif there are multiple method calls or attribute assignments apply to one subject,
-    #   and the subject is a variable, then they should be moved into model.
+    #   check if, unless, elsif there are multiple method calls or attribute assignments apply to one receiver,
+    #   and the receiver is a variable, then they should be moved into model.
     class MoveCodeIntoModelReview < Review
       interesting_nodes :if, :unless, :elsif
       interesting_files VIEW_FILES
@@ -22,12 +22,12 @@ module RailsBestPractices
         @use_count = options['use_count'] || 2
       end
 
-      # check if node to see whose conditional statementnodes contain multiple call nodes with same subject who is a variable.
+      # check if node to see whose conditional statementnodes contain multiple call nodes with same receiver who is a variable.
       #
       # it will check every call and assignment nodes in the conditional statement nodes.
       #
-      # if there are multiple call and assignment nodes who have the same subject,
-      # and the subject is a variable, then the conditional statement nodes should be moved into model.
+      # if there are multiple call and assignment nodes who have the same receiver,
+      # and the receiver is a variable, then the conditional statement nodes should be moved into model.
       add_callback :start_if, :start_unless, :start_elsif do |node|
         node.conditional_statement.grep_nodes(sexp_type: :call) { |child_node| remember_variable_use_count(child_node) }
 

@@ -25,7 +25,7 @@ module RailsBestPractices
 
       # check all command call nodes, compare with rails2 default route
       add_callback :start_command_call do |node|
-        if "map" == node.subject.to_s && "connect" == node.message.to_s &&
+        if "map" == node.receiver.to_s && "connect" == node.message.to_s &&
           (":controller/:action/:id" == node.arguments.all.first.to_s ||
            ":controller/:action/:id.:format" == node.arguments.all.first.to_s)
           add_error "not use default route"

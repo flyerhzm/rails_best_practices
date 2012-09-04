@@ -20,7 +20,7 @@ module RailsBestPractices
 
       # check method_add_arg nodes.
       #
-      # if the subject of the method_add_arg node is a constant,
+      # if the receiver of the method_add_arg node is a constant,
       # and the message of the method_add_arg node is one of the find, all, first and last,
       # then it is a finder and should be moved to controller.
       add_callback :start_method_add_arg do |node|
@@ -29,7 +29,7 @@ module RailsBestPractices
 
       # check assign nodes.
       #
-      # if the subject of the right value node is a constant,
+      # if the receiver of the right value node is a constant,
       # and the message of the right value node is one of the find, all, first and last,
       # then it is a finder and should be moved to controller.
       add_callback :start_assign do |node|
@@ -39,7 +39,7 @@ module RailsBestPractices
       private
         # check if the node is a finder call node.
         def finder?(node)
-          node.subject.const? && FINDERS.include?(node.message.to_s)
+          node.receiver.const? && FINDERS.include?(node.message.to_s)
         end
     end
   end

@@ -50,9 +50,9 @@ describe Sexp do
       @node = parse_content(content)
     end
 
-    it "should get the call nodes with subject current_user" do
+    it "should get the call nodes with receiver current_user" do
       nodes = []
-      @node.grep_nodes(sexp_type: :call, subject: "current_user") { |node| nodes << node }
+      @node.grep_nodes(sexp_type: :call, receiver: "current_user") { |node| nodes << node }
       if RUBY_VERSION == "1.9.2"
         nodes.should == [s(:call, s(:var_ref, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))]
       else
@@ -96,7 +96,7 @@ describe Sexp do
     end
 
     it "should get first node with empty argument" do
-      node = @node.grep_node(sexp_type: :call, subject: "current_user")
+      node = @node.grep_node(sexp_type: :call, receiver: "current_user")
       if RUBY_VERSION == "1.9.2"
         node.should == s(:call, s(:var_ref, s(:@ident, "current_user", s(2, 8))), :".", s(:@ident, "posts", s(2, 21)))
       else
@@ -120,47 +120,47 @@ describe Sexp do
     end
   end
 
-  describe "subject" do
-    it "should get subject of assign node" do
+  describe "receiver" do
+    it "should get receiver of assign node" do
       node = parse_content("user.name = params[:name]").grep_node(sexp_type: :assign)
-      subject = node.subject
-      subject.sexp_type.should == :field
-      subject.subject.to_s.should == "user"
-      subject.message.to_s.should == "name"
+      receiver = node.receiver
+      receiver.sexp_type.should == :field
+      receiver.receiver.to_s.should == "user"
+      receiver.message.to_s.should == "name"
     end
 
-    it "should get subject of field node" do
+    it "should get receiver of field node" do
       node = parse_content("user.name = params[:name]").grep_node(sexp_type: :field)
-      node.subject.to_s.should == "user"
+      node.receiver.to_s.should == "user"
     end
 
-    it "should get subject of call node" do
+    it "should get receiver of call node" do
       node = parse_content("user.name").grep_node(sexp_type: :call)
-      node.subject.to_s.should == "user"
+      node.receiver.to_s.should == "user"
     end
 
-    it "should get subject of binary" do
+    it "should get receiver of binary" do
       node = parse_content("user == 'user_name'").grep_node(sexp_type: :binary)
-      node.subject.to_s.should == "user"
+      node.receiver.to_s.should == "user"
     end
 
-    it "should get subject of command_call" do
+    it "should get receiver of command_call" do
       content = <<-EOF
       map.resources :posts do
       end
       EOF
       node = parse_content(content).grep_node(sexp_type: :command_call)
-      node.subject.to_s.should == "map"
+      node.receiver.to_s.should == "map"
     end
 
-    it "should get subject of method_add_arg" do
+    it "should get receiver of method_add_arg" do
       node = parse_content("Post.find(:all)").grep_node(sexp_type: :method_add_arg)
-      node.subject.to_s.should == "Post"
+      node.receiver.to_s.should == "Post"
     end
 
-    it "should get subject of method_add_block" do
+    it "should get receiver of method_add_block" do
       node = parse_content("Post.save do; end").grep_node(sexp_type: :method_add_block)
-      node.subject.to_s.should == "Post"
+      node.receiver.to_s.should == "Post"
     end
   end
 

@@ -11,7 +11,7 @@ module RailsBestPractices
     #
     # Review process:
     #   check all method calls to see if there is method call to the association object.
-    #   if there is a call node whose subject is an object of model (compare by name),
+    #   if there is a call node whose receiver is an object of model (compare by name),
     #   and whose message is an association of that model (also compare by name),
     #   and outer the call node, it is also a call node,
     #   then it violate the law of demeter.
@@ -24,12 +24,12 @@ module RailsBestPractices
 
       # check the call node,
       #
-      # if the subject of the call node is also a call node,
-      # and the subject of the subject call node matchs one of the class names,
-      # and the message of the subject call node matchs one of the association name with the class name,
+      # if the receiver of the call node is also a call node,
+      # and the receiver of the receiver call node matchs one of the class names,
+      # and the message of the receiver call node matchs one of the association name with the class name,
       # then it violates the law of demeter.
       add_callback :start_call do |node|
-        if :call == node.subject.sexp_type && need_delegate?(node)
+        if :call == node.receiver.sexp_type && need_delegate?(node)
           add_error "law of demeter"
         end
       end
@@ -37,13 +37,13 @@ module RailsBestPractices
       private
         # check if the call node can use delegate to avoid violating law of demeter.
         #
-        # if the subject of subject of the call node matchs any in model names,
-        # and the message of subject of the call node matchs any in association names,
+        # if the receiver of receiver of the call node matchs any in model names,
+        # and the message of receiver of the call node matchs any in association names,
         # then it needs delegate.
         def need_delegate?(node)
           return unless variable(node)
           class_name = variable(node).to_s.sub('@', '').classify
-          association_name = node.subject.message.to_s
+          association_name = node.receiver.message.to_s
           association = model_associations.get_association(class_name, association_name)
           attribute_name = node.message.to_s
           association && ASSOCIATION_METHODS.include?(association["meta"]) &&

@@ -11,10 +11,10 @@ module RailsBestPractices
     #
     # Review process:
     #   only check the command and command_calls nodes and at the end of review process,
-    #   if the subject of command node is "create_table", then remember the table names
-    #   if the subject of command_call node is "integer" and suffix with id, then remember it as foreign key
+    #   if the receiver of command node is "create_table", then remember the table names
+    #   if the receiver of command_call node is "integer" and suffix with id, then remember it as foreign key
     #   if the sujbect of command_call node is "string", the name of it is _type suffixed and there is an integer column _id suffixed, then remember it as polymorphic foreign key
-    #   if the subject of command node is "add_index", then remember the index columns
+    #   if the receiver of command node is "add_index", then remember the index columns
     #   after all of these, at the end of review process
     #
     #       ActiveRecord::Schema.define(version: 20101201111111) do

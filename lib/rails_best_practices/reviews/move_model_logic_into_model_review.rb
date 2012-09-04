@@ -11,8 +11,8 @@ module RailsBestPractices
     #
     # Review process:
     #   check all method defines in the controller files,
-    #   if there are multiple method calls apply to one subject,
-    #   and the subject is a variable,
+    #   if there are multiple method calls apply to one receiver,
+    #   and the receiver is a variable,
     #   then they are complex model logic, and they should be moved into model.
     class MoveModelLogicIntoModelReview < Review
       interesting_nodes :def
@@ -27,8 +27,8 @@ module RailsBestPractices
       # check method define node to see if there are multiple method calls on one varialbe.
       #
       # it will check every call nodes,
-      # if there are multiple call nodes who have the same subject,
-      # and the subject is a variable,
+      # if there are multiple call nodes who have the same receiver,
+      # and the receiver is a variable,
       # then these method calls and attribute assignments should be moved into model.
       add_callback :start_def do |node|
         node.grep_nodes(sexp_type: [:call, :assign]) do |child_node|

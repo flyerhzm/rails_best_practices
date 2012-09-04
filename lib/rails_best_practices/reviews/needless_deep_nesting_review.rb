@@ -53,7 +53,7 @@ module RailsBestPractices
       private
         # check nested route.
         #
-        # if the subject of the method_add_block is with message "resources" or "resource",
+        # if the receiver of the method_add_block is with message "resources" or "resource",
         # then increment the @counter, recursively check the block body, and decrement the @counter.
         #
         # if the node type is command_call or command,
