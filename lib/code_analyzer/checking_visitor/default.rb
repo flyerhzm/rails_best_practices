@@ -3,37 +3,42 @@ module CodeAnalyzer::CheckingVisitor
   class Default
     def initialize(options={})
       @checks = {}
-      options[:checkers].each do |check|
-        check.interesting_nodes.each do |node|
+      options[:checkers].each do |checker|
+        checker.interesting_nodes.each do |node|
           @checks[node] ||= []
-          @checks[node] << check
+          @checks[node] << checker
         end
       end
     end
 
-    def check(node)
-      checks = @checks[node.sexp_type]
-      if checks
-        checks.each { |check|
-          if check.parse_file?(node.file)
-            check.node_start(node)
-          end
+    def check(filename, content)
+      node = parse(filename, content)
+      node.file = filename
+      check_node(node)
+    end
+
+    def parse(filename, content)
+      Sexp.from_array(Ripper::SexpBuilder.new(content).parse)
+    rescue Exception
+      raise AnalyzerException.new("#{filename} looks like it's not a valid Ruby file.  Skipping...")
+    end
+
+    def check_node(node)
+      checkers = @checks[node.sexp_type]
+      if checkers
+        checkers.each { |checker|
+          checker.node_start(node) if checker.parse_file?(node.file)
         }
       end
       node.children.each { |sexp|
         sexp.file = node.file
         sexp.check(self)
       }
-      if checks
-        checks.each { |check|
-          if check.parse_file?(node.file)
-            check.node_end(node)
-          end
+      if checkers
+        checkers.each { |checker|
+          checker.node_end(node) if checker.parse_file?(node.file)
         }
       end
-    rescue Exception
-      puts "find error in file: \#{node.file} line: \#{node.line}"
-      raise $!
     end
   end
 end
