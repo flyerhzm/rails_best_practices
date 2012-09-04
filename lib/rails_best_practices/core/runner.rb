@@ -50,9 +50,9 @@ module RailsBestPractices
         @reviews = reviews.empty? ? load_reviews : reviews
         load_plugin_reviews if reviews.empty?
 
-        @lexical_checker ||= LexicalCheckingVisitor.new(checkers: @lexicals)
-        @prepare_checker ||= CheckingVisitor.new(checkers: @prepares)
-        @review_checker ||= CheckingVisitor.new(checkers: @reviews)
+        @lexical_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @lexicals)
+        @prepare_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @prepares)
+        @review_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @reviews)
         @debug = false
         @whiny = false
       end
@@ -79,11 +79,7 @@ module RailsBestPractices
       # @param [String] content content of the file
       def prepare(filename, content)
         puts filename if @debug
-        node = parse_ruby(filename, content)
-        if node
-          node.file = filename
-          node.check(@prepare_checker)
-        end
+        @prepare_checker.check(filename, content)
       end
 
       # parapare the file.
@@ -100,11 +96,7 @@ module RailsBestPractices
       def review(filename, content)
         puts filename if @debug
         content = parse_html_template(filename, content)
-        node = parse_ruby(filename, content)
-        if node
-          node.file = filename
-          node.check(@review_checker)
-        end
+        @review_checker.check(filename, content)
       end
 
       # review the file.
