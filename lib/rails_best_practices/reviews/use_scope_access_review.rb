@@ -18,10 +18,7 @@ module RailsBestPractices
     class UseScopeAccessReview < Review
       interesting_nodes :if, :unless, :elsif
       interesting_files CONTROLLER_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/3-use-scope-access"
-      end
+      url "http://rails-bestpractices.com/posts/3-use-scope-access"
 
       # check if node.
       #

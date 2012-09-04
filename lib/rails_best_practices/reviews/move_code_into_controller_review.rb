@@ -14,12 +14,9 @@ module RailsBestPractices
     class MoveCodeIntoControllerReview < Review
       interesting_nodes :method_add_arg, :assign
       interesting_files VIEW_FILES
+      url "http://rails-bestpractices.com/posts/24-move-code-into-controller"
 
       FINDERS = %w(find all first last)
-
-      def url
-        "http://rails-bestpractices.com/posts/24-move-code-into-controller"
-      end
 
       # check method_add_arg nodes.
       #

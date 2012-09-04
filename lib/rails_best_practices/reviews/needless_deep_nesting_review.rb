@@ -26,10 +26,7 @@ module RailsBestPractices
     class NeedlessDeepNestingReview < Review
       interesting_nodes :method_add_block
       interesting_files ROUTE_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/11-needless-deep-nesting"
-      end
+      url "http://rails-bestpractices.com/posts/11-needless-deep-nesting"
 
       def initialize(options = {})
         super()

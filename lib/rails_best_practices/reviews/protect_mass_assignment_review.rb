@@ -14,10 +14,7 @@ module RailsBestPractices
     class ProtectMassAssignmentReview < Review
       interesting_nodes :class
       interesting_files MODEL_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/148-protect-mass-assignment"
-      end
+      url "http://rails-bestpractices.com/posts/148-protect-mass-assignment"
 
       # check class node, grep all command nodes,
       # if config.active_record.whitelist_attributes is not set true,

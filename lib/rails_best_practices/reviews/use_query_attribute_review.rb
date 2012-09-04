@@ -18,12 +18,9 @@ module RailsBestPractices
     class UseQueryAttributeReview < Review
       interesting_nodes :if, :unless, :elsif
       interesting_files ALL_FILES
+      url "http://rails-bestpractices.com/posts/56-use-query-attribute"
 
       QUERY_METHODS = %w(nil? blank? present?)
-
-      def url
-        "http://rails-bestpractices.com/posts/56-use-query-attribute"
-      end
 
       # check if node to see whose conditional statement nodes contain nodes that can use query attribute instead.
       #

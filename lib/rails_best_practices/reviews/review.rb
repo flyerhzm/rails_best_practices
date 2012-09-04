@@ -7,9 +7,8 @@ module RailsBestPractices
     # A Review class that takes charge of reviewing one rails best practice.
     class Review < Core::Check
       # default url.
-      def url
-        "#"
-      end
+      url "#"
+
       # remember use count for the variable in the call or assign node.
       #
       # find the variable in the call or assign node,

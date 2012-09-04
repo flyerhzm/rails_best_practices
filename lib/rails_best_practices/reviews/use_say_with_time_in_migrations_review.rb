@@ -19,12 +19,9 @@ module RailsBestPractices
     class UseSayWithTimeInMigrationsReview < Review
       interesting_nodes :defs
       interesting_files MIGRATION_FILES
+      url "http://rails-bestpractices.com/posts/46-use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log"
 
       WITH_SAY_METHODS = %w(say say_with_time)
-
-      def url
-        "http://rails-bestpractices.com/posts/46-use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log"
-      end
 
       # check a class method define node to see if there are method calls that need to be wrapped by say
       # or say_with_time.

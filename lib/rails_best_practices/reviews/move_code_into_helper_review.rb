@@ -21,10 +21,7 @@ module RailsBestPractices
     class MoveCodeIntoHelperReview < Review
       interesting_nodes :method_add_arg
       interesting_files VIEW_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/26-move-code-into-helper"
-      end
+      url "http://rails-bestpractices.com/posts/26-move-code-into-helper"
 
       def initialize(options = {})
         super()

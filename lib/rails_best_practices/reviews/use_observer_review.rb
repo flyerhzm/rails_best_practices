@@ -22,10 +22,7 @@ module RailsBestPractices
     class UseObserverReview < Review
       interesting_nodes :def, :command
       interesting_files MODEL_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/19-use-observer"
-      end
+      url "http://rails-bestpractices.com/posts/19-use-observer"
 
       def initialize
         super

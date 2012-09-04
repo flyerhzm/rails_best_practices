@@ -15,10 +15,7 @@ module RailsBestPractices
     class MoveCodeIntoModelReview < Review
       interesting_nodes :if, :unless, :elsif
       interesting_files VIEW_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/25-move-code-into-model"
-      end
+      url "http://rails-bestpractices.com/posts/25-move-code-into-model"
 
       def initialize(options={})
         super()

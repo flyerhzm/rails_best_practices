@@ -26,10 +26,7 @@ module RailsBestPractices
     class AlwaysAddDbIndexReview < Review
       interesting_nodes :command, :command_call
       interesting_files SCHEMA_FILE
-
-      def url
-        "http://rails-bestpractices.com/posts/21-always-add-db-index"
-      end
+      url "http://rails-bestpractices.com/posts/21-always-add-db-index"
 
       def initialize
         super

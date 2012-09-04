@@ -19,12 +19,9 @@ module RailsBestPractices
     class KeepFindersOnTheirOwnModelReview < Review
       interesting_nodes :method_add_arg
       interesting_files MODEL_FILES
+      url "http://rails-bestpractices.com/posts/13-keep-finders-on-their-own-model"
 
       FINDERS = %w(find all first last)
-
-      def url
-        "http://rails-bestpractices.com/posts/13-keep-finders-on-their-own-model"
-      end
 
       # check all the call nodes to see if there is a finder for other model.
       #

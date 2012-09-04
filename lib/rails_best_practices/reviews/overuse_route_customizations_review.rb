@@ -30,12 +30,9 @@ module RailsBestPractices
     class OveruseRouteCustomizationsReview < Review
       interesting_nodes :command_call, :method_add_block
       interesting_files ROUTE_FILES
+      url "http://rails-bestpractices.com/posts/10-overuse-route-customizations"
 
       VERBS = %w(get post update delete)
-
-      def url
-        "http://rails-bestpractices.com/posts/10-overuse-route-customizations"
-      end
 
       def initialize(options = {})
         super()

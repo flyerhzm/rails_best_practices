@@ -21,10 +21,7 @@ module RailsBestPractices
     class NotUseDefaultRouteReview < Review
       interesting_nodes :command_call, :command
       interesting_files ROUTE_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/12-not-use-default-route-if-you-use-restful-design"
-      end
+      url "http://rails-bestpractices.com/posts/12-not-use-default-route-if-you-use-restful-design"
 
       # check all command call nodes, compare with rails2 default route
       add_callback :start_command_call do |node|

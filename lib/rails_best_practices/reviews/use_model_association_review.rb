@@ -18,10 +18,7 @@ module RailsBestPractices
     class UseModelAssociationReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/2-use-model-association"
-      end
+      url "http://rails-bestpractices.com/posts/2-use-model-association"
 
       # check method define nodes to see if there are some attribute assignments that can use model association instead.
       #
