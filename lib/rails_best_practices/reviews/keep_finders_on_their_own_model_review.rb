@@ -28,7 +28,7 @@ module RailsBestPractices
       # if the call node is
       #
       # 1. the message of call node is one of the find, all, first or last
-      # 2. the subject of call node is also a call node (it's the other model)
+      # 2. the receiver of call node is also a call node (it's the other model)
       # 3. the any of its arguments is a hash (complex finder)
       #
       # then it should keep finders on its own model.
@@ -40,12 +40,12 @@ module RailsBestPractices
         # check if the call node is the finder of other model.
         #
         # the message of the node should be one of find, all, first or last,
-        # and the subject of the node should be with message :call (this is the other model),
+        # and the receiver of the node should be with message :call (this is the other model),
         # and any of its arguments is a hash,
         # then it is the finder of other model.
         def other_finder?(node)
           FINDERS.include?(node[1].message.to_s) &&
-            :call == node[1].subject.sexp_type &&
+            :call == node[1].receiver.sexp_type &&
             node.arguments.grep_nodes_count(sexp_type: :bare_assoc_hash) > 0
         end
     end

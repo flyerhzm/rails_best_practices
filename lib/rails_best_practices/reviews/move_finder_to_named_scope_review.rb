@@ -31,7 +31,7 @@ module RailsBestPractices
       private
         # check if the method_add_arg node is a finder.
         #
-        # if the subject of method_add_arg node is a constant,
+        # if the receiver of method_add_arg node is a constant,
         # and the message of call method_add_arg is one of find, all, first or last,
         # and any of its arguments is a hash,
         # then it is a finder.

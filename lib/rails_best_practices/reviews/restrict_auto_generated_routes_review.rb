@@ -71,7 +71,7 @@ module RailsBestPractices
       end
 
       def check_method_add_block?(node)
-        :command == node[1].sexp_type || (:command_call == node[1].sexp_type && "map" != node.subject.to_s)
+        :command == node[1].sexp_type || (:command_call == node[1].sexp_type && "map" != node.receiver.to_s)
       end
 
       private

@@ -52,20 +52,20 @@ class Sexp
   # options is the grep conditions, like
   #
   #     sexp_type: :call,
-  #     subject: "Post",
+  #     receiver: "Post",
   #     message: ["find", "new"]
   #     to_s: "devise"
   #
-  # the condition key is one of :sexp_type, :subject, :message, :to_s,
+  # the condition key is one of :sexp_type, :receiver, :message, :to_s,
   # the condition value can be Symbol, Array or Sexp.
   def grep_nodes(options)
     sexp_type = options[:sexp_type]
-    subject = options[:subject]
+    receiver = options[:receiver]
     message = options[:message]
     to_s = options[:to_s]
     self.recursive_children do |child|
       if (!sexp_type || (sexp_type.is_a?(Array) ? sexp_type.include?(child.sexp_type) : sexp_type == child.sexp_type)) &&
-         (!subject || (subject.is_a?(Array) ? subject.include?(child.subject.to_s) : subject == child.subject.to_s)) &&
+         (!receiver || (receiver.is_a?(Array) ? receiver.include?(child.receiver.to_s) : receiver == child.receiver.to_s)) &&
          (!message || (message.is_a?(Array) ? message.include?(child.message.to_s) : message == child.message.to_s)) &&
          (!to_s || (to_s.is_a?(Array) ? to_s.include?(child.to_s) : to_s == child.to_s))
         yield child
@@ -80,10 +80,10 @@ class Sexp
   # options is the grep conditions, like
   #
   #     sexp_type: :call,
-  #     subject: s(:const, Post),
+  #     receiver: s(:const, Post),
   #     message: [:find, :new]
   #
-  # the condition key is one of :sexp_type, :subject, :message, and to_s,
+  # the condition key is one of :sexp_type, :receiver, :message, and to_s,
   # the condition value can be Symbol, Array or Sexp.
   def grep_node(options)
     result = CodeAnalyzer::Nil.new
@@ -101,7 +101,7 @@ class Sexp
     count
   end
 
-  # Get subject node.
+  # Get receiver node.
   #
   #     s(:call,
   #       s(:var_ref,
@@ -114,13 +114,13 @@ class Sexp
   #              s(:@ident, "user", s(1, 0))
   #            )
   #
-  # @return [Sexp] subject node
-  def subject
+  # @return [Sexp] receiver node
+  def receiver
     case sexp_type
     when :assign, :field, :call, :binary, :command_call
       self[1]
     when :method_add_arg, :method_add_block
-      self[1].subject
+      self[1].receiver
     end
   end
 
@@ -785,7 +785,7 @@ class Sexp
     when :aref
       "#{self[1]}[#{self[2]}]"
     when :call, :field
-      "#{self.subject}.#{self.message}"
+      "#{self.receiver}.#{self.message}"
     else
       ""
     end
@@ -822,7 +822,7 @@ class Sexp
   end
 
   # if the return value of these methods is nil, then return CodeAnalyzer::Nil.new instead
-  [:sexp_type, :subject, :message, :arguments, :argument, :class_name, :base_class, :method_name,
+  [:sexp_type, :receiver, :message, :arguments, :argument, :class_name, :base_class, :method_name,
    :body, :block, :conditional_statement, :left_value, :right_value].each do |method|
     class_eval <<-EOS
       alias_method :origin_#{method}, :#{method}

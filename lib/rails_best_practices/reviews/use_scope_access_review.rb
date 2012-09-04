@@ -43,14 +43,14 @@ module RailsBestPractices
           end
           results = all_conditions.map do |condition_node|
             ["==", "!="].include?(condition_node.message.to_s) &&
-              (current_user?(condition_node.argument) || current_user?(condition_node.subject))
+              (current_user?(condition_node.argument) || current_user?(condition_node.receiver))
           end
           results.any? { |result| result == true } && node.body.grep_node(message: "redirect_to")
         end
 
         # check a call node to see if it uses current_user, or current_user.id.
         def current_user?(node)
-          "current_user" == node.to_s || ("current_user" == node.subject.to_s && "id" == node.message.to_s)
+          "current_user" == node.to_s || ("current_user" == node.receiver.to_s && "id" == node.message.to_s)
         end
     end
   end

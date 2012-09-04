@@ -11,7 +11,7 @@ module RailsBestPractices
     #
     # Review process:
     #   check method define nodes in all controller files,
-    #   if there are more than one [] method calls with the same subject and arguments,
+    #   if there are more than one [] method calls with the same receiver and arguments,
     #   but assigned to one model's different attribute.
     #   and after these method calls, there is a save method call for that model,
     #   then the model needs to add a virtual attribute.
@@ -28,7 +28,7 @@ module RailsBestPractices
       # 2. the messages of attribute assignment nodes housld be different (:first_name= , :last_name=)
       # 3. the argument of call nodes with message :[] should be same (:full_name)
       # 4. there should be a call node with message :save or :save! after attribute assignment nodes
-      # 5. and the subject of save or save! call node should be the same with the subject of attribute assignment nodes
+      # 5. and the receiver of save or save! call node should be the same with the receiver of attribute assignment nodes
       #
       # then the attribute assignment nodes can add model virtual attribute instead.
       add_callback :start_def do |node|
@@ -52,18 +52,18 @@ module RailsBestPractices
           return unless :field == left_value.sexp_type && :call == right_value.sexp_type
           aref_node = right_value.grep_node(sexp_type: :aref)
           if aref_node
-            assignments(left_value.subject.to_s) << {message: left_value.message.to_s, arguments: aref_node.to_s}
+            assignments(left_value.receiver.to_s) << {message: left_value.message.to_s, arguments: aref_node.to_s}
           end
         end
 
         # check a call node with message "save" or "save!",
-        # if there exists an attribute assignment for the subject of this call node,
+        # if there exists an attribute assignment for the receiver of this call node,
         # and if the arguments of this attribute assignments has duplicated entries (different message and same arguments),
         # then this node needs to add a virtual attribute.
         def call_assignment(node)
           if ["save", "save!"].include? node.message.to_s
-            subject = node.subject.to_s
-            add_error "add model virtual attribute (for #{subject})" if params_dup?(assignments(subject).collect {|h| h[:arguments]})
+            receiver = node.receiver.to_s
+            add_error "add model virtual attribute (for #{receiver})" if params_dup?(assignments(receiver).collect {|h| h[:arguments]})
           end
         end
 
@@ -73,9 +73,9 @@ module RailsBestPractices
           !dups(nodes).empty?
         end
 
-        # get the assignments of subject.
-        def assignments(subject)
-          @assignments[subject] ||= []
+        # get the assignments of receiver.
+        def assignments(receiver)
+          @assignments[receiver] ||= []
         end
 
         # Get the duplicate entries from an Enumerable.

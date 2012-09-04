@@ -33,14 +33,14 @@ module RailsBestPractices
         node.body.statements.each do |child_node|
           next if child_node.grep_nodes_count(sexp_type: [:fcall, :command], message: WITH_SAY_METHODS) > 0
 
-          subject_node = if :method_add_block == child_node.sexp_type
+          receiver_node = if :method_add_block == child_node.sexp_type
                            child_node[1]
                          elsif :method_add_arg == child_node.sexp_type
                            child_node[1]
                          else
                            child_node
                          end
-          if :call == subject_node.sexp_type
+          if :call == receiver_node.sexp_type
             add_error("use say with time in migrations", node.file, child_node.line)
           end
         end

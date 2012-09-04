@@ -56,7 +56,7 @@ module RailsBestPractices
 
       it "should not consider hash with charaters not valid for symbol" do
         content =<<-EOF
-        subject.stub(:` => 'Error')
+        receiver.stub(:` => 'Error')
         EOF
         runner.review('app/models/post.rb', content)
         runner.should have(0).errors

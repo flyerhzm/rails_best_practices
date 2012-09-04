@@ -13,7 +13,7 @@ module RailsBestPractices
     #   check model define nodes in all controller files,
     #   if there is an attribute assignment node with message xxx_id=,
     #   and after it, there is a call node with message "save" or "save!",
-    #   and the subjects of attribute assignment node and call node are the same,
+    #   and the receivers of attribute assignment node and call node are the same,
     #   then model association should be used instead of xxx_id assignment.
     class UseModelAssociationReview < Review
       interesting_nodes :def
@@ -25,9 +25,9 @@ module RailsBestPractices
       # it will check attribute assignment node with message xxx_id=, and call node with message "save" or "save!"
       #
       # 1. if there is an attribute assignment node with message xxx_id=,
-      #    then remember the subject of attribute assignment node.
+      #    then remember the receiver of attribute assignment node.
       # 2. after assignment, if there is a call node with message "save" or "save!",
-      #    and the subject of call node is one of the subject of attribute assignment node,
+      #    and the receiver of call node is one of the receiver of attribute assignment node,
       #    then the attribute assignment should be replaced by using model association.
       add_callback :start_def do |node|
         @assignments = {}
@@ -45,21 +45,21 @@ module RailsBestPractices
 
       private
         # check an attribute assignment node, if its message is xxx_id,
-        # then remember the subject of the attribute assignment in @assignments.
+        # then remember the receiver of the attribute assignment in @assignments.
         def attribute_assignment(node)
           if node.left_value.message.to_s =~ /_id$/
-            subject = node.left_value.subject.to_s
-            @assignments[subject] = true
+            receiver = node.left_value.receiver.to_s
+            @assignments[receiver] = true
           end
         end
 
         # check a call node with message "save" or "save!",
-        # if the subject of call node exists in @assignments,
+        # if the receiver of call node exists in @assignments,
         # then the attribute assignment should be replaced by using model association.
         def call_assignment(node)
           if ["save", "save!"].include? node.message.to_s
-            subject = node.subject.to_s
-            add_error "use model association (for #{subject})" if @assignments[subject]
+            receiver = node.receiver.to_s
+            add_error "use model association (for #{receiver})" if @assignments[receiver]
           end
         end
     end

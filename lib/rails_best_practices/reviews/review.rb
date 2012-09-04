@@ -34,11 +34,11 @@ module RailsBestPractices
 
       # find variable in the call or field node.
       def variable(node)
-        while [:call, :field, :method_add_arg, :method_add_block].include?(node.subject.sexp_type)
-          node = node.subject
+        while [:call, :field, :method_add_arg, :method_add_block].include?(node.receiver.sexp_type)
+          node = node.receiver
         end
-        return if [:fcall, :hash].include?(node.subject.sexp_type)
-        node.subject
+        return if [:fcall, :hash].include?(node.receiver.sexp_type)
+        node.receiver
       end
 
       # get the models from Prepares.
