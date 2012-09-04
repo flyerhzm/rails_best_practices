@@ -4,14 +4,12 @@ module RailsBestPractices
     # Error is the violation to rails best practice.
     #
     # it indicates the filenname, line number and error message for the violation.
-    class Error
-      attr_reader :filename, :line_number, :message, :type, :url
+    class Error < CodeAnalyzer::Warning
+      attr_reader :type, :url
       attr_accessor :git_commit, :git_username, :hg_commit, :hg_username, :highlight
 
       def initialize(options={})
-        @filename = options[:filename]
-        @line_number = options[:line_number].to_s
-        @message = options[:message]
+        super
         @type = options[:type]
         @url = options[:url]
         @git_commit = options[:git_commit]
@@ -27,10 +25,6 @@ module RailsBestPractices
 
       def first_line_number
         line_number.split(',').first
-      end
-
-      def to_s
-        "#{@filename}:#{@line_number} - #{@message}"
       end
     end
   end
