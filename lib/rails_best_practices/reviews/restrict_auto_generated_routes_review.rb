@@ -32,7 +32,7 @@ module RailsBestPractices
       end
 
       # check if the generated routes have the corresponding actions in controller for rails routes.
-      add_callback "start_command", "start_command_call" do |node|
+      add_callback :start_command, :start_command_call do |node|
         if "resources" == node.message.to_s
           check_resources(node)
           @resource_controllers << node.arguments.all.first.to_s
@@ -42,7 +42,7 @@ module RailsBestPractices
         end
       end
 
-      add_callback "end_command" do |node|
+      add_callback :end_command do |node|
         if "resources" == node.message.to_s
           @resource_controllers.pop
         elsif "resource" == node.message.to_s
@@ -51,7 +51,7 @@ module RailsBestPractices
       end
 
       # remember the namespace.
-      add_callback "start_method_add_block" do |node|
+      add_callback :start_method_add_block do |node|
         case node.message.to_s
         when "namespace"
           @namespaces << node.arguments.all.first.to_s if check_method_add_block?(node)
@@ -62,7 +62,7 @@ module RailsBestPractices
       end
 
       # end of namespace call.
-      add_callback "end_method_add_block" do |node|
+      add_callback :end_method_add_block do |node|
         if check_method_add_block?(node)
           case node.message.to_s
           when "namespace"

@@ -34,7 +34,7 @@ module RailsBestPractices
       # 5. and the subject of save or save! call node should be the same with the subject of attribute assignment nodes
       #
       # then the attribute assignment nodes can add model virtual attribute instead.
-      add_callback "start_def" do |node|
+      add_callback :start_def do |node|
         @assignments = {}
         node.recursive_children do |child|
           case child.sexp_type

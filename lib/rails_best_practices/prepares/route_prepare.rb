@@ -18,7 +18,7 @@ module RailsBestPractices
       end
 
       # remember route for rails3.
-      add_callback "start_command" do |node|
+      add_callback :start_command do |node|
         case node.message.to_s
         when "resources"
           add_resources_routes(node)
@@ -92,7 +92,7 @@ module RailsBestPractices
       end
 
       # remember route for rails2.
-      add_callback "start_command_call" do |node|
+      add_callback :start_command_call do |node|
         case node.message.to_s
         when "resources"
           add_resources_routes(node)
@@ -111,7 +111,7 @@ module RailsBestPractices
       end
 
       # remember the namespace.
-      add_callback "start_method_add_block" do |node|
+      add_callback :start_method_add_block do |node|
         case node.message.to_s
         when "namespace"
           @namespaces << node.arguments.all.first.to_s
@@ -136,7 +136,7 @@ module RailsBestPractices
       end
 
       # end of namespace call.
-      add_callback "end_method_add_block" do |node|
+      add_callback :end_method_add_block do |node|
         case node.message.to_s
         when "namespace"
           @namespaces.pop
@@ -150,12 +150,12 @@ module RailsBestPractices
       end
 
       # remember current controller name, used for nested resources.
-      add_callback "start_do_block", "start_brace_block" do |node|
+      add_callback :start_do_block, :start_brace_block do |node|
         @controller_names << @controller_name.try(:last)
       end
 
       # remove current controller name, and use upper lever resource name.
-      add_callback "end_do_block", "end_brace_block" do |node|
+      add_callback :end_do_block, :end_brace_block do |node|
         @controller_names.pop
       end
 

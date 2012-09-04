@@ -28,7 +28,7 @@ module CodeAnalyzer
     # @param [Sexp] node
     def node_start(node)
       @node = node
-      self.class.get_callbacks("start_#{node.sexp_type}").each do |block|
+      self.class.get_callbacks("start_#{node.sexp_type}".to_sym).each do |block|
         self.instance_exec(node, &block)
       end
     end
@@ -41,7 +41,7 @@ module CodeAnalyzer
     # @param [Sexp] node
     def node_end(node)
       @node = node
-      self.class.get_callbacks("end_#{node.sexp_type}").each do |block|
+      self.class.get_callbacks("end_#{node.sexp_type}".to_sym).each do |block|
         self.instance_exec(node, &block)
       end
     end

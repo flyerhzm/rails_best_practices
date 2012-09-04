@@ -31,7 +31,7 @@ module RailsBestPractices
       # and the subject of the subject call node matchs one of the class names,
       # and the message of the subject call node matchs one of the association name with the class name,
       # then it violates the law of demeter.
-      add_callback "start_call" do |node|
+      add_callback :start_call do |node|
         if :call == node.subject.sexp_type && need_delegate?(node)
           add_error "law of demeter"
         end

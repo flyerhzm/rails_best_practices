@@ -31,7 +31,7 @@ module RailsBestPractices
 
       # mark validate methods as used.
       # mark key method and value method for collection_select and grouped_collection_select.
-      add_callback "start_command" do |node|
+      add_callback :start_command do |node|
         arguments = node.arguments.all
         case node.message.to_s
         when "validate", "validate_on_create", "validate_on_update"
@@ -48,7 +48,7 @@ module RailsBestPractices
       end
 
       # mark key method and value method for collection_select and grouped_collection_select.
-      add_callback "start_command_call" do |node|
+      add_callback :start_command_call do |node|
         arguments = node.arguments.all
         case node.message.to_s
         when "collection_select"
@@ -64,7 +64,7 @@ module RailsBestPractices
 
       # mark key method and value method for options_from_collection_for_select and
       # option_groups_from_collection_for_select.
-      add_callback "start_method_add_arg" do |node|
+      add_callback :start_method_add_arg do |node|
         arguments = node.arguments.all
         case node.message.to_s
         when "options_from_collection_for_select"

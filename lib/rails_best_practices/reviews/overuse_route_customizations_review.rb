@@ -49,7 +49,7 @@ module RailsBestPractices
       # and the second argument of call node is a hash,
       # and the count of the pair (key/value) in hash is greater than @customize_count,
       # then they are overuse route customizations.
-      add_callback "start_command_call" do |node|
+      add_callback :start_command_call do |node|
         if member_and_collection_count_for_rails2(node) > @customize_count
           add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.subject.line
         end
@@ -62,7 +62,7 @@ module RailsBestPractices
       # and in the block body of method_add_block node, there are more than @customize_count call nodes,
       # whose message is :get, :post, :update or :delete,
       # then they are overuse route customizations.
-      add_callback "start_method_add_block" do |node|
+      add_callback :start_method_add_block do |node|
         if member_and_collection_count_for_rails3(node) > @customize_count
           add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.line
         end

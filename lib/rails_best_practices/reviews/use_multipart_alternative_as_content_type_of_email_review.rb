@@ -23,12 +23,12 @@ module RailsBestPractices
       end
 
       # check class node to remember the ActionMailer class name.
-      add_callback "start_class" do |node|
+      add_callback :start_class do |node|
         @klazz_name = node.class_name.to_s
       end
 
       # check def node and find if the corresponding views exist or not?
-      add_callback "start_def" do |node|
+      add_callback :start_def do |node|
         name = node.method_name.to_s
         if deliver_method?(name) && rails_canonical_mailer_views?(name)
           add_error("use multipart/alternative as content_type of email")

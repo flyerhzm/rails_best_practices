@@ -31,7 +31,7 @@ module RailsBestPractices
       # it will check every def nodes in the class node until protected or private identification,
       # if there are defn nodes who have the same first code line,
       # then these duplicated first code lines should be moved to before_filter.
-      add_callback "start_class" do |node|
+      add_callback :start_class do |node|
         @first_sentences = {}
 
         node.body.statements.each do |statement_node|

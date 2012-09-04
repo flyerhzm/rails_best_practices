@@ -32,7 +32,7 @@ module RailsBestPractices
       # it will check the first block node,
       # if any method call whose message is not default migration methods in the block node,
       # then such method call should be wrapped by say or say_with_time
-      add_callback "start_defs" do |node|
+      add_callback :start_defs do |node|
         node.body.statements.each do |child_node|
           next if child_node.grep_nodes_count(sexp_type: [:fcall, :command], message: WITH_SAY_METHODS) > 0
 
