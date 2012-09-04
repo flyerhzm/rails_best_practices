@@ -7,7 +7,6 @@ module RailsBestPractices
     class ModelPrepare < Core::Check
       include Core::Check::Classable
       include Core::Check::Accessable
-      include Core::Check::Afterable
 
       interesting_nodes :class, :def, :defs, :command, :alias
       interesting_files MODEL_FILES
@@ -107,7 +106,7 @@ module RailsBestPractices
       end
 
       # after prepare process, fix incorrect associations' class_name.
-      def after_prepare
+      add_callback :after_check do
         @model_associations.each do |model, model_associations|
           model_associations.each do |association_name, association_meta|
             unless @models.include?(association_meta["class_name"])

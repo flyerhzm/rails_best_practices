@@ -15,7 +15,6 @@ module RailsBestPractices
     class RemoveUnusedMethodsInControllersReview < Review
       include Classable
       include Moduleable
-      include Afterable
       include Callable
       include Exceptable
       include InheritedResourcesable
@@ -79,7 +78,7 @@ module RailsBestPractices
       end
 
       # get all unused methods at the end of review process.
-      def after_review
+      add_callback :after_check do
         @routes.each do |route|
           if "*" == route.action_name
             action_names = @controller_methods.get_methods(route.controller_name_with_namespaces).map(&:method_name)

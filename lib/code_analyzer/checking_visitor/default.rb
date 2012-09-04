@@ -3,7 +3,8 @@ module CodeAnalyzer::CheckingVisitor
   class Default
     def initialize(options={})
       @checks = {}
-      options[:checkers].each do |checker|
+      @checkers = options[:checkers]
+      @checkers.each do |checker|
         checker.interesting_nodes.each do |node|
           @checks[node] ||= []
           @checks[node] << checker
@@ -16,6 +17,15 @@ module CodeAnalyzer::CheckingVisitor
       node = parse(filename, content)
       node.file = filename
       check_node(node)
+    end
+
+    def after_check
+      @checkers.each do |checker|
+        after_check_callbacks = checker.class.get_callbacks(:after_check)
+        after_check_callbacks.each do |block|
+          checker.instance_exec &block
+        end
+      end
     end
 
     def parse(filename, content)
@@ -31,9 +41,9 @@ module CodeAnalyzer::CheckingVisitor
           checker.node_start(node) if checker.parse_file?(node.file)
         }
       end
-      node.children.each { |sexp|
-        sexp.file = node.file
-        sexp.check(self)
+      node.children.each { |child_node|
+        child_node.file = node.file
+        child_node.check(self)
       }
       if checkers
         checkers.each { |checker|

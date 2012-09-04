@@ -66,6 +66,10 @@ module RailsBestPractices
         @lexical_checker.check(filename, content)
       end
 
+      def after_lexical
+        @lexical_checker.after_check
+      end
+
       # lexical analysis the file.
       #
       # @param [String] filename
@@ -80,6 +84,10 @@ module RailsBestPractices
       def prepare(filename, content)
         puts filename if @debug
         @prepare_checker.check(filename, content)
+      end
+
+      def after_prepare
+        @prepare_checker.after_check
       end
 
       # parapare the file.
@@ -106,31 +114,15 @@ module RailsBestPractices
         review(filename, read_file(filename))
       end
 
+      def after_review
+        @review_checker.after_check
+      end
+
       # get all errors from lexicals and reviews.
       #
       # @return [Array] all errors from lexicals and reviews
       def errors
         @errors ||= (@reviews + @lexicals).collect {|check| check.errors}.flatten
-      end
-
-      def after_lexical; end
-
-      # provide a handler after all files reviewed.
-      def after_prepare
-        filename = "rails_best_practices.after_prepare"
-        content = "class RailsBestPractices::AfterPrepare; end"
-        node = parse_ruby(filename, content)
-        node.file = filename
-        node.check(@prepare_checker)
-      end
-
-      # provide a handler after all files reviewed.
-      def after_review
-        filename = "rails_best_practices.after_review"
-        content = "class RailsBestPractices::AfterReview; end"
-        node = parse_ruby(filename, content)
-        node.file = filename
-        node.check(@review_checker)
       end
 
       private

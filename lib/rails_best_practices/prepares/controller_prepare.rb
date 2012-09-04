@@ -8,7 +8,6 @@ module RailsBestPractices
       include Core::Check::Classable
       include Core::Check::InheritedResourcesable
       include Core::Check::Accessable
-      include Core::Check::Afterable
 
       interesting_nodes :class, :var_ref, :vcall, :command, :def
       interesting_files CONTROLLER_FILES
@@ -89,7 +88,7 @@ module RailsBestPractices
       end
 
       # ask Reviews::RemoveUnusedMoethodsInHelperReview to check the controllers who include helpers.
-      def after_prepare
+      add_callback :after_check do
         decendants = @helpers.map(&:decendants).flatten
         if decendants.present?
           Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *decendants.map { |decendant| %r|#{decendant.underscore}| }
