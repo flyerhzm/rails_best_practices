@@ -32,7 +32,7 @@ module RailsBestPractices
       end
 
       # mark custom inherited_resources methods as used.
-      add_callback "end_class" do |node|
+      add_callback :end_class do |node|
         if @inherited_resources
           INHERITED_RESOURCES_METHODS.each do |method|
             call_method(method)
@@ -46,7 +46,7 @@ module RailsBestPractices
       end
 
       # mark corresponding action as used for cells' render and render_call.
-      add_callback "start_command", "start_method_add_arg" do |node|
+      add_callback :start_command, :start_method_add_arg do |node|
         case node.message.to_s
         when "render_cell"
           controller_name, action_name, _ = *node.arguments.all.map(&:to_s)

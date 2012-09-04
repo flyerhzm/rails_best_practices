@@ -31,7 +31,7 @@ module RailsBestPractices
       #
       # if there are multiple call and assignment nodes who have the same subject,
       # and the subject is a variable, then the conditional statement nodes should be moved into model.
-      add_callback "start_if", "start_unless", "start_elsif" do |node|
+      add_callback :start_if, :start_unless, :start_elsif do |node|
         node.conditional_statement.grep_nodes(sexp_type: :call) { |child_node| remember_variable_use_count(child_node) }
 
         variable_use_count.each do |variable_node, count|

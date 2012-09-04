@@ -32,7 +32,7 @@ module RailsBestPractices
       # 2. after assignment, if there is a call node with message "save" or "save!",
       #    and the subject of call node is one of the subject of attribute assignment node,
       #    then the attribute assignment should be replaced by using model association.
-      add_callback "start_def" do |node|
+      add_callback :start_def do |node|
         @assignments = {}
         node.recursive_children do |child|
           case child.sexp_type

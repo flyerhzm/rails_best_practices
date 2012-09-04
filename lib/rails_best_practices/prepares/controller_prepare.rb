@@ -23,7 +23,7 @@ module RailsBestPractices
 
       # check class node to remember the class name.
       # also check if the controller is inherit from InheritedResources::Base.
-      add_callback "start_class" do |node|
+      add_callback :start_class do |node|
         @controllers << @klass
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
@@ -31,7 +31,7 @@ module RailsBestPractices
       end
 
       # remember the action names at the end of class node if the controller is a InheritedResources.
-      add_callback "end_class" do |node|
+      add_callback :end_class do |node|
         if @inherited_resources && "ApplicationController" != current_class_name
           @actions.each do |action|
             @methods.add_method(current_class_name, action, {"file" => node.file, "line" => node.line})
@@ -40,21 +40,21 @@ module RailsBestPractices
       end
 
       # check if there is a DSL call inherit_resources.
-      add_callback "start_var_ref" do |node|
+      add_callback :start_var_ref do |node|
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
         end
       end
 
       # check if there is a DSL call inherit_resources.
-      add_callback "start_vcall" do |node|
+      add_callback :start_vcall do |node|
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
         end
       end
 
       # restrict actions for inherited_resources
-      add_callback "start_command" do |node|
+      add_callback :start_command do |node|
         if "include" == node.message.to_s
           @helpers.add_module_decendant(node.arguments.all.first.to_s, current_class_name)
         elsif @inherited_resources && "actions" ==  node.message.to_s
@@ -82,7 +82,7 @@ module RailsBestPractices
       #         "create" => {"file" => "app/controllers/comments_controller.rb", "line" => 10, "unused" => false},
       #       }
       #     }
-      add_callback "start_def" do |node|
+      add_callback :start_def do |node|
         method_name = node.method_name.to_s
         @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
       end

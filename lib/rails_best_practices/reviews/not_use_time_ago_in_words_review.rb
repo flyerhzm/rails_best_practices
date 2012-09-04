@@ -20,7 +20,7 @@ module RailsBestPractices
       end
 
       # check fcall node to see if its message is time_ago_in_words or distance_of_time_in_words_to_now
-      add_callback "start_fcall" do |node|
+      add_callback :start_fcall do |node|
         if "time_ago_in_words" == node.message.to_s || "distance_of_time_in_words_to_now" == node.message.to_s
           add_error "not use time_ago_in_words"
         end

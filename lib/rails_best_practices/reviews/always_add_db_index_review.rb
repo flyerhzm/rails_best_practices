@@ -42,7 +42,7 @@ module RailsBestPractices
       #
       # if the message of command_call node is "create_table", then remember the table name.
       # if the message of command_call node is "add_index", then remember it as index columns.
-      add_callback "start_command_call" do |node|
+      add_callback :start_command_call do |node|
         if %w(integer string).include? node.message.to_s
           remember_foreign_key_columns(node)
         end
@@ -55,7 +55,7 @@ module RailsBestPractices
       #
       # if the message of command node is "type" and the name of argument is _type suffixed,
       # then remember it with _id suffixed column as polymorphic foreign key.
-      add_callback "start_command" do |node|
+      add_callback :start_command do |node|
         case node.message.to_s
         when "create_table"
           remember_table_nodes(node)

@@ -100,22 +100,22 @@ module RailsBestPractices
             interesting_nodes :module, :class
 
             # remember module name
-            add_callback "start_module" do |node|
+            add_callback :start_module do |node|
               classable_modules << node.module_name.to_s
             end
 
             # end of the module.
-            add_callback "end_module" do |node|
+            add_callback :end_module do |node|
               classable_modules.pop
             end
 
             # remember the class anem
-            add_callback "start_class" do |node|
+            add_callback :start_class do |node|
               @klass = Core::Klass.new(node.class_name.to_s, node.base_class.to_s, classable_modules)
             end
 
             # end of the class
-            add_callback "end_class" do |node|
+            add_callback :end_class do |node|
               #@klass = nil
             end
           end
@@ -144,12 +144,12 @@ module RailsBestPractices
             interesting_nodes :module
 
             # remember module name
-            add_callback "start_module" do |node|
+            add_callback :start_module do |node|
               moduleable_modules << node.module_name.to_s
             end
 
             # end of module
-            add_callback "end_module" do |node|
+            add_callback :end_module do |node|
               moduleable_modules.pop
             end
           end
@@ -173,22 +173,22 @@ module RailsBestPractices
             interesting_nodes :call, :fcall, :var_ref, :vcall, :command_call, :command, :alias, :bare_assoc_hash, :method_add_arg
 
             # remembe the message of call node.
-            add_callback "start_call" do |node|
+            add_callback :start_call do |node|
               mark_used(node.message)
             end
 
             # remembe the message of fcall node.
-            add_callback "start_fcall" do |node|
+            add_callback :start_fcall do |node|
               mark_used(node.message)
             end
 
             # remembe name of var_ref node.
-            add_callback "start_var_ref" do |node|
+            add_callback :start_var_ref do |node|
               mark_used(node)
             end
 
             # remembe name of vcall node.
-            add_callback "start_vcall" do |node|
+            add_callback :start_vcall do |node|
               mark_used(node)
             end
 
@@ -199,7 +199,7 @@ module RailsBestPractices
 
             # remember the message of command node.
             # remember the argument of alias_method and alias_method_chain as well.
-            add_callback "start_command" do |node|
+            add_callback :start_command do |node|
               case node.message.to_s
               when *skip_command_callback_nodes
                 # nothing
@@ -220,12 +220,12 @@ module RailsBestPractices
             end
 
             # remembe the message of command call node.
-            add_callback "start_command_call" do |node|
+            add_callback :start_command_call do |node|
               mark_used(node.message)
             end
 
             # remember the old method of alias node.
-            add_callback "start_alias" do |node|
+            add_callback :start_alias do |node|
               mark_used(node.old_method)
             end
 
@@ -234,14 +234,14 @@ module RailsBestPractices
             #     def to_xml(options = {})
             #       super options.merge(exclude: :visible, methods: [:is_discussion_conversation])
             #     end
-            add_callback "start_bare_assoc_hash" do |node|
+            add_callback :start_bare_assoc_hash do |node|
               if node.hash_keys.include? "methods"
                 mark_used(node.hash_value("methods"))
               end
             end
 
             # remember the first argument for try and send method.
-            add_callback "start_method_add_arg" do |node|
+            add_callback :start_method_add_arg do |node|
               case node.message.to_s
               when "try"
                 mark_used(node.arguments.all.first)
@@ -288,21 +288,21 @@ module RailsBestPractices
             interesting_files CONTROLLER_FILES
 
             # check if the controller is inherit from InheritedResources::Base.
-            add_callback "start_class" do |node|
+            add_callback :start_class do |node|
               if "InheritedResources::Base" == current_extend_class_name
                 @inherited_resources = true
               end
             end
 
             # check if there is a DSL call inherit_resources.
-            add_callback "start_var_ref" do |node|
+            add_callback :start_var_ref do |node|
               if "inherit_resources" == node.to_s
                 @inherited_resources = true
               end
             end
 
             # check if there is a DSL call inherit_resources.
-            add_callback "start_vcall" do |node|
+            add_callback :start_vcall do |node|
               if "inherit_resources" == node.to_s
                 @inherited_resources = true
               end
@@ -344,26 +344,26 @@ module RailsBestPractices
             interesting_nodes :var_ref, :vcall, :class, :module
 
             # remember the current access control for methods.
-            add_callback "start_var_ref" do |node|
+            add_callback :start_var_ref do |node|
               if %w(public protected private).include? node.to_s
                 @access_control = node.to_s
               end
             end
 
             # remember the current access control for methods.
-            add_callback "start_vcall" do |node|
+            add_callback :start_vcall do |node|
               if %w(public protected private).include? node.to_s
                 @access_control = node.to_s
               end
             end
 
             # set access control to "public" by default.
-            add_callback "start_class" do |node|
+            add_callback :start_class do |node|
               @access_control = "public"
             end
 
             # set access control to "public" by default.
-            add_callback "start_module" do |node|
+            add_callback :start_module do |node|
               @access_control = "public"
             end
           end

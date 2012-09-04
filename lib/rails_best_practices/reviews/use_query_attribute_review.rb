@@ -37,7 +37,7 @@ module RailsBestPractices
       #    the message is == and the argument is ""
       #
       # then the call node can use query attribute instead.
-      add_callback "start_if", "start_unless", "start_elsif" do |node|
+      add_callback :start_if, :start_unless, :start_elsif do |node|
         all_conditions = if node.conditional_statement == node.conditional_statement.all_conditions
           [node.conditional_statement]
         else
