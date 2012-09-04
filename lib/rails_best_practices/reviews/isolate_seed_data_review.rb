@@ -18,15 +18,12 @@ module RailsBestPractices
     #   if the message is "create" or "create!",
     #   then it should be isolated to db seed.
     #   if the message is "save" or "save!",
-    #   and the subject is included in new variables,
+    #   and the receiver is included in new variables,
     #   then it should be isolated to db seed.
     class IsolateSeedDataReview < Review
       interesting_nodes :call, :assign
       interesting_files MIGRATION_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/20-isolating-seed-data"
-      end
+      url "http://rails-bestpractices.com/posts/20-isolating-seed-data"
 
       def initialize
         super
@@ -37,7 +34,7 @@ module RailsBestPractices
       #
       # if the right value of the node is a call node with "new" message,
       # then remember it as new variables.
-      def start_assign(node)
+      add_callback :start_assign do |node|
         remember_new_variable(node)
       end
 
@@ -47,9 +44,9 @@ module RailsBestPractices
       # then you should isolate it to seed data.
       #
       # if the message of the call node is "save" or "save!",
-      # and the subject of the call node is included in @new_variables,
+      # and the receiver of the call node is included in @new_variables,
       # then you should isolate it to seed data.
-      def start_call(node)
+      add_callback :start_call do |node|
         if ["create", "create!"].include? node.message.to_s
           add_error("isolate seed data")
         elsif ["save", "save!"].include? node.message.to_s
@@ -68,9 +65,9 @@ module RailsBestPractices
           end
         end
 
-        # see if the subject of the call node is included in the @new_varaibles.
+        # see if the receiver of the call node is included in the @new_varaibles.
         def new_record?(node)
-          @new_variables.include? node.subject.to_s
+          @new_variables.include? node.receiver.to_s
         end
     end
   end

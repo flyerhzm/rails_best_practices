@@ -7,9 +7,7 @@ module RailsBestPractices
     #
     # See the best practice details here http://rails-bestpractices.com/posts/60-remove-trailing-whitespace
     class RemoveTrailingWhitespaceCheck < Core::Check
-      def url
-        "http://rails-bestpractices.com/posts/60-remove-trailing-whitespace"
-      end
+      url "http://rails-bestpractices.com/posts/60-remove-trailing-whitespace"
 
       # check if the content of file contain a trailing whitespace.
       #

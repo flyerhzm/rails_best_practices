@@ -23,19 +23,16 @@ module RailsBestPractices
     #   for rails3
     #
     #   check all method_add_block nodes in route file.
-    #   if the subject of method_add_block node is with message resources,
+    #   if the receiver of method_add_block node is with message resources,
     #   and in the block body of method_add_block node, there are more than @customize_count command nodes,
     #   whose message is get, post, update or delete,
     #   then these custom routes are overuse.
     class OveruseRouteCustomizationsReview < Review
       interesting_nodes :command_call, :method_add_block
       interesting_files ROUTE_FILES
+      url "http://rails-bestpractices.com/posts/10-overuse-route-customizations"
 
       VERBS = %w(get post update delete)
-
-      def url
-        "http://rails-bestpractices.com/posts/10-overuse-route-customizations"
-      end
 
       def initialize(options = {})
         super()
@@ -49,20 +46,20 @@ module RailsBestPractices
       # and the second argument of call node is a hash,
       # and the count of the pair (key/value) in hash is greater than @customize_count,
       # then they are overuse route customizations.
-      def start_command_call(node)
+      add_callback :start_command_call do |node|
         if member_and_collection_count_for_rails2(node) > @customize_count
-          add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.subject.line
+          add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.receiver.line
         end
       end
 
       # check method_add_block node to see if the count of member and collection custom routes is more than @customize_count defined.
       # this is for rails3 syntax.
       #
-      # if the subject of method_add_block node is with message "resources",
+      # if the receiver of method_add_block node is with message "resources",
       # and in the block body of method_add_block node, there are more than @customize_count call nodes,
       # whose message is :get, :post, :update or :delete,
       # then they are overuse route customizations.
-      def start_method_add_block(node)
+      add_callback :start_method_add_block do |node|
         if member_and_collection_count_for_rails3(node) > @customize_count
           add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.line
         end
@@ -91,7 +88,7 @@ module RailsBestPractices
         # check method_add_block node to calculate the count of member and collection custom routes.
         # this is for rails3 syntax.
         #
-        # if its subject is with message "resources",
+        # if its receiver is with message "resources",
         # then calculate the count of call nodes, whose message is get, post, update or delete,
         # it is just the count of member and collection custom routes.
         def member_and_collection_count_for_rails3(node)

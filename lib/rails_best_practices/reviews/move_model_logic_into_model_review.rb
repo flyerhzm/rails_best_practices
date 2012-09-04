@@ -11,16 +11,13 @@ module RailsBestPractices
     #
     # Review process:
     #   check all method defines in the controller files,
-    #   if there are multiple method calls apply to one subject,
-    #   and the subject is a variable,
+    #   if there are multiple method calls apply to one receiver,
+    #   and the receiver is a variable,
     #   then they are complex model logic, and they should be moved into model.
     class MoveModelLogicIntoModelReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/7-move-model-logic-into-the-model"
-      end
+      url "http://rails-bestpractices.com/posts/7-move-model-logic-into-the-model"
 
       def initialize(options = {})
         super()
@@ -30,10 +27,10 @@ module RailsBestPractices
       # check method define node to see if there are multiple method calls on one varialbe.
       #
       # it will check every call nodes,
-      # if there are multiple call nodes who have the same subject,
-      # and the subject is a variable,
+      # if there are multiple call nodes who have the same receiver,
+      # and the receiver is a variable,
       # then these method calls and attribute assignments should be moved into model.
-      def start_def(node)
+      add_callback :start_def do |node|
         node.grep_nodes(sexp_type: [:call, :assign]) do |child_node|
           remember_variable_use_count(child_node)
         end

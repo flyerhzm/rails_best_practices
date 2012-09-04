@@ -8,7 +8,6 @@ module RailsBestPractices
       include Core::Check::Classable
       include Core::Check::InheritedResourcesable
       include Core::Check::Accessable
-      include Core::Check::Afterable
 
       interesting_nodes :class, :var_ref, :vcall, :command, :def
       interesting_files CONTROLLER_FILES
@@ -24,7 +23,7 @@ module RailsBestPractices
 
       # check class node to remember the class name.
       # also check if the controller is inherit from InheritedResources::Base.
-      def start_class(node)
+      add_callback :start_class do |node|
         @controllers << @klass
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
@@ -32,7 +31,7 @@ module RailsBestPractices
       end
 
       # remember the action names at the end of class node if the controller is a InheritedResources.
-      def end_class(node)
+      add_callback :end_class do |node|
         if @inherited_resources && "ApplicationController" != current_class_name
           @actions.each do |action|
             @methods.add_method(current_class_name, action, {"file" => node.file, "line" => node.line})
@@ -41,21 +40,21 @@ module RailsBestPractices
       end
 
       # check if there is a DSL call inherit_resources.
-      def start_var_ref(node)
+      add_callback :start_var_ref do |node|
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
         end
       end
 
       # check if there is a DSL call inherit_resources.
-      def start_vcall(node)
+      add_callback :start_vcall do |node|
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
         end
       end
 
       # restrict actions for inherited_resources
-      def start_command(node)
+      add_callback :start_command do |node|
         if "include" == node.message.to_s
           @helpers.add_module_decendant(node.arguments.all.first.to_s, current_class_name)
         elsif @inherited_resources && "actions" ==  node.message.to_s
@@ -83,13 +82,13 @@ module RailsBestPractices
       #         "create" => {"file" => "app/controllers/comments_controller.rb", "line" => 10, "unused" => false},
       #       }
       #     }
-      def start_def(node)
+      add_callback :start_def do |node|
         method_name = node.method_name.to_s
         @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
       end
 
       # ask Reviews::RemoveUnusedMoethodsInHelperReview to check the controllers who include helpers.
-      def after_prepare
+      add_callback :after_check do
         decendants = @helpers.map(&:decendants).flatten
         if decendants.present?
           Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *decendants.map { |decendant| %r|#{decendant.underscore}| }

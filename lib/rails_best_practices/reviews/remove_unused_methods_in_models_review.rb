@@ -13,7 +13,6 @@ module RailsBestPractices
     #   if not, non called methods are unused.
     class RemoveUnusedMethodsInModelsReview < Review
       include Classable
-      include Afterable
       include Callable
       include Exceptable
 
@@ -32,7 +31,7 @@ module RailsBestPractices
 
       # mark validate methods as used.
       # mark key method and value method for collection_select and grouped_collection_select.
-      def start_command(node)
+      add_callback :start_command do |node|
         arguments = node.arguments.all
         case node.message.to_s
         when "validate", "validate_on_create", "validate_on_update"
@@ -49,7 +48,7 @@ module RailsBestPractices
       end
 
       # mark key method and value method for collection_select and grouped_collection_select.
-      def start_command_call(node)
+      add_callback :start_command_call do |node|
         arguments = node.arguments.all
         case node.message.to_s
         when "collection_select"
@@ -65,7 +64,7 @@ module RailsBestPractices
 
       # mark key method and value method for options_from_collection_for_select and
       # option_groups_from_collection_for_select.
-      def start_method_add_arg(node)
+      add_callback :start_method_add_arg do |node|
         arguments = node.arguments.all
         case node.message.to_s
         when "options_from_collection_for_select"
@@ -80,7 +79,7 @@ module RailsBestPractices
       end
 
       # get all unused methods at the end of review process.
-      def after_review
+      add_callback :after_check do
         @model_methods.get_all_unused_methods.each do |method|
           if !excepted?(method) && method.method_name !~ /=$/
             add_error "remove unused methods (#{method.class_name}##{method.method_name})", method.file, method.line

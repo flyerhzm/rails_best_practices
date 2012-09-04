@@ -7,7 +7,6 @@ module RailsBestPractices
     class ModelPrepare < Core::Check
       include Core::Check::Classable
       include Core::Check::Accessable
-      include Core::Check::Afterable
 
       interesting_nodes :class, :def, :defs, :command, :alias
       interesting_files MODEL_FILES
@@ -22,7 +21,7 @@ module RailsBestPractices
       end
 
       # remember the class name.
-      def start_class(node)
+      add_callback :start_class do |node|
         if "ActionMailer::Base" != current_extend_class_name
           @models << @klass
         end
@@ -40,7 +39,7 @@ module RailsBestPractices
       #         "create" => {"file" => "app/models/comment.rb", "line" => 10, "unused" => false, "unused" => false},
       #       }
       #     }
-      def start_def(node)
+      add_callback :start_def do |node|
         if @klass && "ActionMailer::Base" != current_extend_class_name
           method_name = node.method_name.to_s
           @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
@@ -59,7 +58,7 @@ module RailsBestPractices
       #         "create" => {"file" => "app/models/comment.rb", "line" => 10, "unused" => false, "unused" => false},
       #       }
       #     }
-      def start_defs(node)
+      add_callback :start_defs do |node|
         if @klass && "ActionMailer::Base" != current_extend_class_name
           method_name = node.method_name.to_s
           @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
@@ -77,7 +76,7 @@ module RailsBestPractices
       #         "milestones => {"has_many" => "Milestone"}
       #       }
       #     }
-      def start_command(node)
+      add_callback :start_command do |node|
         case node.message.to_s
         when *%w(named_scope scope alias_method)
           method_name = node.arguments.all.first.to_s
@@ -101,13 +100,13 @@ module RailsBestPractices
       end
 
       # check alias node to remembr the alias methods.
-      def start_alias(node)
+      add_callback :start_alias do |node|
         method_name = node.new_method.to_s
         @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
       end
 
       # after prepare process, fix incorrect associations' class_name.
-      def after_prepare
+      add_callback :after_check do
         @model_associations.each do |model, model_associations|
           model_associations.each do |association_name, association_meta|
             unless @models.include?(association_meta["class_name"])

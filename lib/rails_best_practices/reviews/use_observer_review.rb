@@ -22,10 +22,7 @@ module RailsBestPractices
     class UseObserverReview < Review
       interesting_nodes :def, :command
       interesting_files MODEL_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/19-use-observer"
-      end
+      url "http://rails-bestpractices.com/posts/19-use-observer"
 
       def initialize
         super
@@ -36,7 +33,7 @@ module RailsBestPractices
       #
       # if it is a callback definition,
       # then remember its callback methods.
-      def start_command(node)
+      add_callback :start_command do |node|
         remember_callback(node)
       end
 
@@ -45,7 +42,7 @@ module RailsBestPractices
       # if it is callback method,
       # and there is a actionmailer deliver call in the method define node,
       # then it should be replaced by using observer.
-      def start_def(node)
+      add_callback :start_def do |node|
         if callback_method?(node) && deliver_mailer?(node)
           add_error "use observer"
         end
@@ -73,22 +70,22 @@ module RailsBestPractices
         # for rails2
         #
         # if the message of call node is deliver_xxx,
-        # and the subject of the call node exists in @callbacks,
+        # and the receiver of the call node exists in @callbacks,
         #
         # for rails3
         #
         # if the message of call node is deliver,
-        # and the subject of the call node is with subject node who exists in @callbacks,
+        # and the receiver of the call node is with receiver node who exists in @callbacks,
         #
         # then the call node is actionmailer deliver call.
         def deliver_mailer?(node)
           node.grep_nodes(sexp_type: :call) do |child_node|
             # rails2 actionmailer deliver
-            return true if child_node.message.to_s =~ /^deliver_/ && mailers.include?(child_node.subject.to_s)
+            return true if child_node.message.to_s =~ /^deliver_/ && mailers.include?(child_node.receiver.to_s)
             # rails3 actionmailer deliver
             if "deliver" == child_node.message.to_s
-              if :method_add_arg == child_node.subject.sexp_type &&
-                mailers.include?(child_node.subject[1].subject.to_s)
+              if :method_add_arg == child_node.receiver.sexp_type &&
+                mailers.include?(child_node.receiver[1].receiver.to_s)
                 return true
               end
             end

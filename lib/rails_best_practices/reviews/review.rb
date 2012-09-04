@@ -7,9 +7,8 @@ module RailsBestPractices
     # A Review class that takes charge of reviewing one rails best practice.
     class Review < Core::Check
       # default url.
-      def url
-        "#"
-      end
+      url "#"
+
       # remember use count for the variable in the call or assign node.
       #
       # find the variable in the call or assign node,
@@ -35,11 +34,11 @@ module RailsBestPractices
 
       # find variable in the call or field node.
       def variable(node)
-        while [:call, :field, :method_add_arg, :method_add_block].include?(node.subject.sexp_type)
-          node = node.subject
+        while [:call, :field, :method_add_arg, :method_add_block].include?(node.receiver.sexp_type)
+          node = node.receiver
         end
-        return if [:fcall, :hash].include?(node.subject.sexp_type)
-        node.subject
+        return if [:fcall, :hash].include?(node.receiver.sexp_type)
+        node.receiver
       end
 
       # get the models from Prepares.

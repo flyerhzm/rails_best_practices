@@ -1,9 +1,7 @@
 # encoding: utf-8
 require 'rails_best_practices/core/check'
 require 'rails_best_practices/core/runner'
-require 'rails_best_practices/core/checking_visitor'
 require 'rails_best_practices/core/error'
-require 'rails_best_practices/core/nil'
 require 'rails_best_practices/core/klasses'
 require 'rails_best_practices/core/modules'
 require 'rails_best_practices/core/models'
@@ -16,6 +14,4 @@ require 'rails_best_practices/core/helpers'
 require 'rails_best_practices/core/routes'
 require 'rails_best_practices/core/configs'
 
-require 'rails_best_practices/core_ext/sexp'
-require 'rails_best_practices/core_ext/enumerable'
 require 'rails_best_practices/core_ext/erubis'

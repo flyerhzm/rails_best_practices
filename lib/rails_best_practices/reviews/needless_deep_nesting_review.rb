@@ -26,10 +26,7 @@ module RailsBestPractices
     class NeedlessDeepNestingReview < Review
       interesting_nodes :method_add_block
       interesting_files ROUTE_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/11-needless-deep-nesting"
-      end
+      url "http://rails-bestpractices.com/posts/11-needless-deep-nesting"
 
       def initialize(options = {})
         super()
@@ -48,7 +45,7 @@ module RailsBestPractices
       # if the child node is a command_call or command node with message "resources" or "resource",
       # test if the @counter is greater than or equal to @nested_count,
       # if so, it is a needless deep nesting.
-      def start_method_add_block(node)
+      add_callback :start_method_add_block do |node|
         @file = node.file
         recursively_check(node)
       end
@@ -56,7 +53,7 @@ module RailsBestPractices
       private
         # check nested route.
         #
-        # if the subject of the method_add_block is with message "resources" or "resource",
+        # if the receiver of the method_add_block is with message "resources" or "resource",
         # then increment the @counter, recursively check the block body, and decrement the @counter.
         #
         # if the node type is command_call or command,

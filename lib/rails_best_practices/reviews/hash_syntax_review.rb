@@ -16,13 +16,11 @@ module RailsBestPractices
       VALID_SYMBOL_KEY = /\A[@$_A-Za-z]([_\w]*[!_=?\w])?\z/
 
       # check hash node to see if it is ruby 1.8 style.
-      def start_hash(node)
+      add_callback :start_hash, :start_bare_assoc_hash do |node|
         if !empty_hash?(node) && hash_is_18?(node) && valid_keys?(node)
           add_error "change Hash Syntax to 1.9"
         end
       end
-
-      alias_method :start_bare_assoc_hash, :start_hash
 
       protected
         # check if hash node is empty.

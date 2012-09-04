@@ -13,7 +13,6 @@ module RailsBestPractices
     #   then they are unused methods in helpers.
     class RemoveUnusedMethodsInHelpersReview < Review
       include Moduleable
-      include Afterable
       include Callable
       include Exceptable
 
@@ -26,7 +25,7 @@ module RailsBestPractices
       end
 
       # get all unused methods at the end of review process
-      def after_review
+      add_callback :after_check do
         @helper_methods.get_all_unused_methods.each do |method|
           if !excepted?(method)
             add_error "remove unused methods (#{method.class_name}##{method.method_name})", method.file, method.line
