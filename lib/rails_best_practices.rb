@@ -27,6 +27,7 @@ require 'rails_best_practices/prepares'
 require 'rails_best_practices/reviews'
 require 'rails_best_practices/core'
 require 'rails_best_practices/analyzer'
+require 'code_analyzer'
 
 module RailsBestPractices
 end
