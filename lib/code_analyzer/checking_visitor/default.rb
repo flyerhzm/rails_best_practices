@@ -7,6 +7,7 @@ module CodeAnalyzer::CheckingVisitor
         checker.interesting_nodes.each do |node|
           @checks[node] ||= []
           @checks[node] << checker
+          @checks[node].uniq!
         end
       end
     end

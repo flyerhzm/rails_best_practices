@@ -37,7 +37,7 @@ module RailsBestPractices
       #
       # if the right value of the node is a call node with "new" message,
       # then remember it as new variables.
-      def start_assign(node)
+      add_callback "start_assign" do |node|
         remember_new_variable(node)
       end
 
@@ -49,7 +49,7 @@ module RailsBestPractices
       # if the message of the call node is "save" or "save!",
       # and the subject of the call node is included in @new_variables,
       # then you should isolate it to seed data.
-      def start_call(node)
+      add_callback "start_call" do |node|
         if ["create", "create!"].include? node.message.to_s
           add_error("isolate seed data")
         elsif ["save", "save!"].include? node.message.to_s

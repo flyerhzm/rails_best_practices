@@ -46,13 +46,10 @@ module RailsBestPractices
       # @param [Sexp] node
       def node_start(node)
         @node = node
-        if self.class.debug?
-          ap node
+        ap node if self.class.debug?
+        self.class.get_callbacks("start_#{node.sexp_type}").each do |block|
+          self.instance_exec(node, &block)
         end
-        Array(self.class.callbacks["start_#{node.sexp_type}"]).each do |callback|
-          self.instance_exec node, &callback
-        end
-        self.send("start_#{node.sexp_type}", node)
       end
 
       # delegate to end_### according to the sexp_type, like
@@ -63,9 +60,8 @@ module RailsBestPractices
       # @param [Sexp] node
       def node_end(node)
         @node = node
-        self.send("end_#{node.sexp_type}", node)
-        Array(self.class.callbacks["end_#{node.sexp_type}"]).each do |callback|
-          self.instance_exec node, &callback
+        self.class.get_callbacks("end_#{node.sexp_type}").each do |block|
+          self.instance_exec(node, &block)
         end
       end
 
@@ -118,18 +114,24 @@ module RailsBestPractices
       end
 
       class <<self
-        # callbacks for start_xxx and end_xxx.
         def callbacks
           @callbacks ||= {}
+        end
+
+        def get_callbacks(name)
+          callbacks[name] ||= []
+          callbacks[name]
         end
 
         # add a callback.
         #
         # @param [String] name, callback name, can be start_xxx or end_xxx
         # @param [Proc] block, be executed when callbacks are called
-        def add_callback(name, &block)
-          callbacks[name] ||= []
-          callbacks[name] << block
+        def add_callback(*names, &block)
+          names.each do |name|
+            callbacks[name] ||= []
+            callbacks[name] << block
+          end
         end
 
         def debug?
@@ -164,7 +166,7 @@ module RailsBestPractices
 
             # end of the class
             add_callback "end_class" do |node|
-              @klass = nil
+              #@klass = nil
             end
           end
         end

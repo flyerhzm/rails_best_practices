@@ -35,8 +35,7 @@ module RailsBestPractices
       # 3. the any of its arguments is a hash (complex finder)
       #
       # then it should keep finders on its own model.
-
-      def start_method_add_arg(node)
+      add_callback "start_method_add_arg" do |node|
         add_error "keep finders on their own model" if other_finder?(node)
       end
 

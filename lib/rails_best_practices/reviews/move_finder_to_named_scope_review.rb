@@ -27,7 +27,7 @@ module RailsBestPractices
       # check method_add_ag node if its message is one of find, all, first or last,
       # and it has a hash argument,
       # then the call node is the finder that should be moved to model's named_scope.
-      def start_method_add_arg(node)
+      add_callback "start_method_add_arg" do |node|
         add_error "move finder to named_scope" if finder?(node)
       end
 

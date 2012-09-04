@@ -48,7 +48,7 @@ module RailsBestPractices
       # if the child node is a command_call or command node with message "resources" or "resource",
       # test if the @counter is greater than or equal to @nested_count,
       # if so, it is a needless deep nesting.
-      def start_method_add_block(node)
+      add_callback "start_method_add_block" do |node|
         @file = node.file
         recursively_check(node)
       end

@@ -36,7 +36,7 @@ module RailsBestPractices
       #
       # if it is a callback definition,
       # then remember its callback methods.
-      def start_command(node)
+      add_callback "start_command" do |node|
         remember_callback(node)
       end
 
@@ -45,7 +45,7 @@ module RailsBestPractices
       # if it is callback method,
       # and there is a actionmailer deliver call in the method define node,
       # then it should be replaced by using observer.
-      def start_def(node)
+      add_callback "start_def" do |node|
         if callback_method?(node) && deliver_mailer?(node)
           add_error "use observer"
         end

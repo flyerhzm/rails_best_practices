@@ -33,7 +33,7 @@ module RailsBestPractices
       # if there are multiple call nodes who have the same subject,
       # and the subject is a variable,
       # then these method calls and attribute assignments should be moved into model.
-      def start_def(node)
+      add_callback "start_def" do |node|
         node.grep_nodes(sexp_type: [:call, :assign]) do |child_node|
           remember_variable_use_count(child_node)
         end

@@ -23,20 +23,26 @@ module RailsBestPractices
       end
 
       # check class node to remember the ActionMailer class name.
-      def start_class(node)
+      add_callback "start_class" do |node|
         @klazz_name = node.class_name.to_s
       end
 
       # check def node and find if the corresponding views exist or not?
-      def start_def(node)
+      add_callback "start_def" do |node|
         name = node.method_name.to_s
-        return unless deliver_method?(name)
-        if rails2_canonical_mailer_views?(name) || rails3_canonical_mailer_views?(name)
+        if deliver_method?(name) && rails_canonical_mailer_views?(name)
           add_error("use multipart/alternative as content_type of email")
         end
       end
 
       private
+        # check if rails's syntax mailer views are canonical.
+        #
+        # @param [String] name method name in action_mailer
+        def rails_canonical_mailer_views?(name)
+          rails2_canonical_mailer_views?(name) || rails3_canonical_mailer_views?(name)
+        end
+
         # check if rails2's syntax mailer views are canonical.
         #
         # @param [String] name method name in action_mailer

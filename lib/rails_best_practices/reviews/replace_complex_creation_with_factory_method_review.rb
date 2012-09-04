@@ -38,7 +38,7 @@ module RailsBestPractices
       # and the subject is a variable,
       # and after them, there is a call node with message "save" or "save!",
       # then these attribute assignments are complex creation, should be replaced with factory method.
-      def start_def(node)
+      add_callback "start_def" do |node|
         node.recursive_children do |child_node|
           case child_node.sexp_type
           when :assign

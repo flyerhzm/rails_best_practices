@@ -24,7 +24,7 @@ module RailsBestPractices
       # and if none of them is with message attr_accessible or attr_protected,
       # and if not use devise or authlogic,
       # then it should add attr_accessible or attr_protected to protect mass assignment.
-      def start_class(node)
+      add_callback "start_class" do |node|
         if !whitelist_attributes_config? && !rails_builtin?(node) && !devise?(node) &&
             !authlogic?(node) && is_active_record?(node)
           add_error "protect mass assignment"

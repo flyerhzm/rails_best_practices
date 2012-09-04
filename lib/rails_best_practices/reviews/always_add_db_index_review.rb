@@ -44,11 +44,9 @@ module RailsBestPractices
       #
       # if the message of command_call node is "create_table", then remember the table name.
       # if the message of command_call node is "add_index", then remember it as index columns.
-      def start_command_call(node)
-        case node.message.to_s
-        when "integer", "string"
+      add_callback "start_command_call" do |node|
+        if %w(integer string).include? node.message.to_s
           remember_foreign_key_columns(node)
-        else
         end
       end
 
@@ -59,7 +57,7 @@ module RailsBestPractices
       #
       # if the message of command node is "type" and the name of argument is _type suffixed,
       # then remember it with _id suffixed column as polymorphic foreign key.
-      def start_command(node)
+      add_callback "start_command" do |node|
         case node.message.to_s
         when "create_table"
           remember_table_nodes(node)
@@ -80,7 +78,7 @@ module RailsBestPractices
         @foreign_keys.each do |table, foreign_key|
           table_node = @table_nodes[table]
           foreign_key.each do |column|
-            if indexed?(table, column)
+            if not_indexed?(table, column)
               add_error "always add db index (#{table} => [#{Array(column).join(', ')}])", table_node.file, table_node.line
             end
           end
@@ -160,7 +158,7 @@ module RailsBestPractices
         end
 
         # check if the table's column is indexed.
-        def indexed?(table, column)
+        def not_indexed?(table, column)
           index_columns = @index_columns[table]
           !index_columns || !index_columns.any? { |e| greater_than_or_equal(Array(e), Array(column)) }
         end
