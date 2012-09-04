@@ -16,10 +16,7 @@ module RailsBestPractices
     class UseBeforeFilterReview < Review
       interesting_nodes :class
       interesting_files CONTROLLER_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/22-use-before_filter"
-      end
+      url "http://rails-bestpractices.com/posts/22-use-before_filter"
 
       def initialize(options = {})
         super()
@@ -31,7 +28,7 @@ module RailsBestPractices
       # it will check every def nodes in the class node until protected or private identification,
       # if there are defn nodes who have the same first code line,
       # then these duplicated first code lines should be moved to before_filter.
-      def start_class(node)
+      add_callback :start_class do |node|
         @first_sentences = {}
 
         node.body.statements.each do |statement_node|

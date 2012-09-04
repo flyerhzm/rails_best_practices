@@ -17,13 +17,10 @@ module RailsBestPractices
     class DryBundlerInCapistranoReview < Review
       interesting_nodes :command
       interesting_files DEPLOY_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/51-dry-bundler-in-capistrano"
-      end
+      url "http://rails-bestpractices.com/posts/51-dry-bundler-in-capistrano"
 
       # check call node to see if it is with message "namespace" and argument "bundler".
-      def start_command(node)
+      add_callback :start_command do |node|
         if "namespace" == node.message.to_s && "bundler" == node.arguments.all[0].to_s
           add_error "dry bundler in capistrano"
         end

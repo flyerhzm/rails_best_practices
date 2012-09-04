@@ -18,22 +18,16 @@ module RailsBestPractices
     class UseScopeAccessReview < Review
       interesting_nodes :if, :unless, :elsif
       interesting_files CONTROLLER_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/3-use-scope-access"
-      end
+      url "http://rails-bestpractices.com/posts/3-use-scope-access"
 
       # check if node.
       #
       # if it is a method call compared with current_user or current_user.id,
       # and there is a redirect_to method call in the block body,
       # then it should be replaced by using scope access.
-      def start_if(node)
+      add_callback :start_if, :start_unless, :start_elsif do |node|
         add_error "use scope access" if current_user_redirect?(node)
       end
-
-      alias_method :start_unless, :start_if
-      alias_method :start_elsif, :start_if
 
       private
         # check a if node to see
@@ -49,14 +43,14 @@ module RailsBestPractices
           end
           results = all_conditions.map do |condition_node|
             ["==", "!="].include?(condition_node.message.to_s) &&
-              (current_user?(condition_node.argument) || current_user?(condition_node.subject))
+              (current_user?(condition_node.argument) || current_user?(condition_node.receiver))
           end
           results.any? { |result| result == true } && node.body.grep_node(message: "redirect_to")
         end
 
         # check a call node to see if it uses current_user, or current_user.id.
         def current_user?(node)
-          "current_user" == node.to_s || ("current_user" == node.subject.to_s && "id" == node.message.to_s)
+          "current_user" == node.to_s || ("current_user" == node.receiver.to_s && "id" == node.message.to_s)
         end
     end
   end

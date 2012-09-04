@@ -11,33 +11,30 @@ module RailsBestPractices
     #
     # Review process:
     #   check all method calls within conditional statements, like @user.login.nil?
-    #   if their subjects are one of the model names
+    #   if their receivers are one of the model names
     #   and their messages of first call are not pluralize and not in any of the association names
     #   and their messages of second call are one of nil?, blank?, present?, or they are == ""
     #   then you can use query attribute instead.
     class UseQueryAttributeReview < Review
       interesting_nodes :if, :unless, :elsif
       interesting_files ALL_FILES
+      url "http://rails-bestpractices.com/posts/56-use-query-attribute"
 
       QUERY_METHODS = %w(nil? blank? present?)
-
-      def url
-        "http://rails-bestpractices.com/posts/56-use-query-attribute"
-      end
 
       # check if node to see whose conditional statement nodes contain nodes that can use query attribute instead.
       #
       # it will check every call nodes in the if nodes. If the call node is
       #
       # 1. two method calls, like @user.login.nil?
-      # 2. the subject is one of the model names
+      # 2. the receiver is one of the model names
       # 3. the message of first call is the model's attribute,
       #    the message is not in any of associations name and is not pluralize
       # 4. the message of second call is one of nil?, blank? or present? or
       #    the message is == and the argument is ""
       #
       # then the call node can use query attribute instead.
-      def start_if(node)
+      add_callback :start_if, :start_unless, :start_elsif do |node|
         all_conditions = if node.conditional_statement == node.conditional_statement.all_conditions
           [node.conditional_statement]
         else
@@ -45,16 +42,13 @@ module RailsBestPractices
         end
         all_conditions.each do |condition_node|
           if query_attribute_node = query_attribute_node(condition_node)
-            subject_node = query_attribute_node.subject
-            add_error "use query attribute (#{subject_node.subject}.#{subject_node.message}?)",
+            receiver_node = query_attribute_node.receiver
+            add_error "use query attribute (#{receiver_node.receiver}.#{receiver_node.message}?)",
               node.file,
               query_attribute_node.line
           end
         end
       end
-
-      alias_method :start_unless, :start_if
-      alias_method :start_elsif, :start_if
 
       private
         # recursively check conditional statement nodes to see if there is a call node that may be
@@ -81,7 +75,7 @@ module RailsBestPractices
         #
         # if the node contains two method calls, e.g. @user.login.nil?
         #
-        # for the first call, the subject should be one of the class names and
+        # for the first call, the receiver should be one of the class names and
         # the message should be one of the attribute name.
         #
         # for the second call, the message should be one of nil?, blank? or present? or
@@ -89,23 +83,23 @@ module RailsBestPractices
         #
         # the node that may use query attribute.
         def possible_query_attribute?(node)
-          return false unless :call == node.subject.sexp_type
+          return false unless :call == node.receiver.sexp_type
           variable_node = variable(node)
-          message_node = node.grep_node(subject: variable_node.to_s).message
+          message_node = node.grep_node(receiver: variable_node.to_s).message
 
           is_model?(variable_node) && model_attribute?(variable_node, message_node.to_s) &&
             (QUERY_METHODS.include?(node.message.to_s) || compare_with_empty_string?(node))
         end
 
-        # check if the subject is one of the models.
+        # check if the receiver is one of the models.
         def is_model?(variable_node)
           return false if variable_node.const?
           class_name = variable_node.to_s.sub(/^@/, '').classify
           models.include?(class_name)
         end
 
-        # check if the subject and message is one of the model's attribute.
-        # the subject should match one of the class model name, and the message should match one of attribute name.
+        # check if the receiver and message is one of the model's attribute.
+        # the receiver should match one of the class model name, and the message should match one of attribute name.
         def model_attribute?(variable_node, message)
           class_name = variable_node.to_s.sub(/^@/, '').classify
           attribute_type = model_attributes.get_attribute_type(class_name, message)

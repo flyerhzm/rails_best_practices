@@ -2,7 +2,7 @@
 module RailsBestPractices
   module Core
     # A Check class that takes charge of checking the sexp.
-    class Check
+    class Check < CodeAnalyzer::Checker
       ALL_FILES = /.*/
       CONTROLLER_FILES = /app\/(controllers|cells)\/.*\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
@@ -24,16 +24,6 @@ module RailsBestPractices
         end
       end
 
-      # interesting nodes that the check will parse.
-      def interesting_nodes
-        self.class.interesting_nodes
-      end
-
-      # interesting files that the check will parse.
-      def interesting_files
-        self.class.interesting_files
-      end
-
       # check if the check will need to parse the node file.
       #
       # @param [String] the file name of node.
@@ -47,40 +37,6 @@ module RailsBestPractices
           end
         end
       end
-
-      # delegate to start_### according to the sexp_type, like
-      #
-      #     start_call
-      #     start_def
-      #
-      # @param [Sexp] node
-      def node_start(node)
-        @node = node
-        if self.class.debug?
-          ap node
-        end
-        Array(self.class.callbacks["start_#{node.sexp_type}"]).each do |callback|
-          self.instance_exec node, &callback
-        end
-        self.send("start_#{node.sexp_type}", node)
-      end
-
-      # delegate to end_### according to the sexp_type, like
-      #
-      #     end_call
-      #     end_def
-      #
-      # @param [Sexp] node
-      def node_end(node)
-        @node = node
-        self.send("end_#{node.sexp_type}", node)
-        Array(self.class.callbacks["end_#{node.sexp_type}"]).each do |callback|
-          self.instance_exec node, &callback
-        end
-      end
-
-      def after_prepare; end
-      def after_review; end
 
       # add error if source code violates rails best practice.
       #
@@ -106,7 +62,7 @@ module RailsBestPractices
       #
       # @return [String] the url of rails best practice
       def url
-        ""
+        self.class.url
       end
 
       # method_missing to catch all start and end process for each node type, like
@@ -128,30 +84,8 @@ module RailsBestPractices
       end
 
       class <<self
-        def interesting_nodes(*nodes)
-          @interesting_nodes ||= []
-          @interesting_nodes += nodes
-          @interesting_nodes.uniq
-        end
-
-        def interesting_files(*file_patterns)
-          @interesting_files ||= []
-          @interesting_files += file_patterns
-          @interesting_files.uniq
-        end
-
-        # callbacks for start_xxx and end_xxx.
-        def callbacks
-          @callbacks ||= {}
-        end
-
-        # add a callback.
-        #
-        # @param [String] name, callback name, can be start_xxx or end_xxx
-        # @param [Proc] block, be executed when callbacks are called
-        def add_callback(name, &block)
-          callbacks[name] ||= []
-          callbacks[name] << block
+        def url(url=nil)
+          url ?  @url = url : @url
         end
 
         def debug?
@@ -170,23 +104,23 @@ module RailsBestPractices
             interesting_nodes :module, :class
 
             # remember module name
-            add_callback "start_module" do |node|
+            add_callback :start_module do |node|
               classable_modules << node.module_name.to_s
             end
 
             # end of the module.
-            add_callback "end_module" do |node|
+            add_callback :end_module do |node|
               classable_modules.pop
             end
 
             # remember the class anem
-            add_callback "start_class" do |node|
+            add_callback :start_class do |node|
               @klass = Core::Klass.new(node.class_name.to_s, node.base_class.to_s, classable_modules)
             end
 
             # end of the class
-            add_callback "end_class" do |node|
-              @klass = nil
+            add_callback :end_class do |node|
+              #@klass = nil
             end
           end
         end
@@ -214,12 +148,12 @@ module RailsBestPractices
             interesting_nodes :module
 
             # remember module name
-            add_callback "start_module" do |node|
+            add_callback :start_module do |node|
               moduleable_modules << node.module_name.to_s
             end
 
             # end of module
-            add_callback "end_module" do |node|
+            add_callback :end_module do |node|
               moduleable_modules.pop
             end
           end
@@ -236,24 +170,6 @@ module RailsBestPractices
         end
       end
 
-      # Helper to add callback after all files reviewed.
-      module Afterable
-        def self.included(base)
-          base.class_eval do
-            interesting_nodes :class
-            interesting_files /rails_best_practices\.after_(prepare|review)/
-
-            add_callback "end_class" do |node|
-              if "RailsBestPractices::AfterPrepare" == node.class_name.to_s
-                after_prepare
-              elsif "RailsBestPractices::AfterReview" == node.class_name.to_s
-                after_review
-              end
-            end
-          end
-        end
-      end
-
       # Helper to add callbacks to mark the methods are used.
       module Callable
         def self.included(base)
@@ -261,22 +177,22 @@ module RailsBestPractices
             interesting_nodes :call, :fcall, :var_ref, :vcall, :command_call, :command, :alias, :bare_assoc_hash, :method_add_arg
 
             # remembe the message of call node.
-            add_callback "start_call" do |node|
+            add_callback :start_call do |node|
               mark_used(node.message)
             end
 
             # remembe the message of fcall node.
-            add_callback "start_fcall" do |node|
+            add_callback :start_fcall do |node|
               mark_used(node.message)
             end
 
             # remembe name of var_ref node.
-            add_callback "start_var_ref" do |node|
+            add_callback :start_var_ref do |node|
               mark_used(node)
             end
 
             # remembe name of vcall node.
-            add_callback "start_vcall" do |node|
+            add_callback :start_vcall do |node|
               mark_used(node)
             end
 
@@ -287,7 +203,7 @@ module RailsBestPractices
 
             # remember the message of command node.
             # remember the argument of alias_method and alias_method_chain as well.
-            add_callback "start_command" do |node|
+            add_callback :start_command do |node|
               case node.message.to_s
               when *skip_command_callback_nodes
                 # nothing
@@ -308,12 +224,12 @@ module RailsBestPractices
             end
 
             # remembe the message of command call node.
-            add_callback "start_command_call" do |node|
+            add_callback :start_command_call do |node|
               mark_used(node.message)
             end
 
             # remember the old method of alias node.
-            add_callback "start_alias" do |node|
+            add_callback :start_alias do |node|
               mark_used(node.old_method)
             end
 
@@ -322,14 +238,14 @@ module RailsBestPractices
             #     def to_xml(options = {})
             #       super options.merge(exclude: :visible, methods: [:is_discussion_conversation])
             #     end
-            add_callback "start_bare_assoc_hash" do |node|
+            add_callback :start_bare_assoc_hash do |node|
               if node.hash_keys.include? "methods"
                 mark_used(node.hash_value("methods"))
               end
             end
 
             # remember the first argument for try and send method.
-            add_callback "start_method_add_arg" do |node|
+            add_callback :start_method_add_arg do |node|
               case node.message.to_s
               when "try"
                 mark_used(node.arguments.all.first)
@@ -376,21 +292,21 @@ module RailsBestPractices
             interesting_files CONTROLLER_FILES
 
             # check if the controller is inherit from InheritedResources::Base.
-            add_callback "start_class" do |node|
+            add_callback :start_class do |node|
               if "InheritedResources::Base" == current_extend_class_name
                 @inherited_resources = true
               end
             end
 
             # check if there is a DSL call inherit_resources.
-            add_callback "start_var_ref" do |node|
+            add_callback :start_var_ref do |node|
               if "inherit_resources" == node.to_s
                 @inherited_resources = true
               end
             end
 
             # check if there is a DSL call inherit_resources.
-            add_callback "start_vcall" do |node|
+            add_callback :start_vcall do |node|
               if "inherit_resources" == node.to_s
                 @inherited_resources = true
               end
@@ -432,26 +348,26 @@ module RailsBestPractices
             interesting_nodes :var_ref, :vcall, :class, :module
 
             # remember the current access control for methods.
-            add_callback "start_var_ref" do |node|
+            add_callback :start_var_ref do |node|
               if %w(public protected private).include? node.to_s
                 @access_control = node.to_s
               end
             end
 
             # remember the current access control for methods.
-            add_callback "start_vcall" do |node|
+            add_callback :start_vcall do |node|
               if %w(public protected private).include? node.to_s
                 @access_control = node.to_s
               end
             end
 
             # set access control to "public" by default.
-            add_callback "start_class" do |node|
+            add_callback :start_class do |node|
               @access_control = "public"
             end
 
             # set access control to "public" by default.
-            add_callback "start_module" do |node|
+            add_callback :start_module do |node|
               @access_control = "public"
             end
           end

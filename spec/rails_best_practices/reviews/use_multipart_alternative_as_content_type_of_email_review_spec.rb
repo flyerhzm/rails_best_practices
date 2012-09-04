@@ -31,7 +31,7 @@ module RailsBestPractices
             <<-EOF
             class ProjectMailer < ActionMailer::Base
               def send_email(email)
-                subject       email.subject
+                receiver      email.receiver
                 from          email.from
                 recipients    email.recipients
                 sent_on       Time.now
@@ -145,7 +145,7 @@ module RailsBestPractices
             <<-EOF
             class ProjectMailer < ActionMailer::Base
               def send_email(email)
-                subject       email.subject
+                receiver      email.receiver
                 from          email.from
                 recipients    email.recipients
                 sent_on       Time.now

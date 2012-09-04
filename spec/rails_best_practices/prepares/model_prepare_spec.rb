@@ -5,10 +5,6 @@ module RailsBestPractices
     describe ModelPrepare do
       let(:runner) { Core::Runner.new(prepares: ModelPrepare.new) }
 
-      before :each do
-        runner.whiny = true
-      end
-
       context "models" do
         it "class_name with modules ::" do
           content =<<-EOF
