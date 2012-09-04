@@ -1,6 +1,5 @@
 # encoding: utf-8
 require 'yaml'
-require 'ripper'
 require 'active_support/inflector'
 require 'active_support/core_ext/object/blank'
 begin
