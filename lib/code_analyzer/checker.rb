@@ -20,6 +20,32 @@ module CodeAnalyzer
       interesting_files.any? { |pattern| node_file =~ pattern }
     end
 
+    # delegate to start_### according to the sexp_type, like
+    #
+    #     start_call
+    #     start_def
+    #
+    # @param [Sexp] node
+    def node_start(node)
+      @node = node
+      self.class.get_callbacks("start_#{node.sexp_type}").each do |block|
+        self.instance_exec(node, &block)
+      end
+    end
+
+    # delegate to end_### according to the sexp_type, like
+    #
+    #     end_call
+    #     end_def
+    #
+    # @param [Sexp] node
+    def node_end(node)
+      @node = node
+      self.class.get_callbacks("end_#{node.sexp_type}").each do |block|
+        self.instance_exec(node, &block)
+      end
+    end
+
     # add an warning.
     #
     # @param [String] message, is the warning message
@@ -42,6 +68,22 @@ module CodeAnalyzer
       def interesting_files(*file_patterns)
         @interesting_files ||= []
         @interesting_files += file_patterns
+      end
+
+      def get_callbacks(name)
+        callbacks[name] ||= []
+        callbacks[name]
+      end
+
+      def add_callback(*names, &block)
+        names.each do |name|
+          callbacks[name] ||= []
+          callbacks[name] << block
+        end
+      end
+
+      def callbacks
+        @callbacks ||= {}
       end
     end
   end

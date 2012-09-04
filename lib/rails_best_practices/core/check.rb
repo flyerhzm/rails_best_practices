@@ -38,33 +38,6 @@ module RailsBestPractices
         end
       end
 
-      # delegate to start_### according to the sexp_type, like
-      #
-      #     start_call
-      #     start_def
-      #
-      # @param [Sexp] node
-      def node_start(node)
-        @node = node
-        ap node if self.class.debug?
-        self.class.get_callbacks("start_#{node.sexp_type}").each do |block|
-          self.instance_exec(node, &block)
-        end
-      end
-
-      # delegate to end_### according to the sexp_type, like
-      #
-      #     end_call
-      #     end_def
-      #
-      # @param [Sexp] node
-      def node_end(node)
-        @node = node
-        self.class.get_callbacks("end_#{node.sexp_type}").each do |block|
-          self.instance_exec(node, &block)
-        end
-      end
-
       def after_prepare; end
       def after_review; end
 
@@ -114,26 +87,6 @@ module RailsBestPractices
       end
 
       class <<self
-        def callbacks
-          @callbacks ||= {}
-        end
-
-        def get_callbacks(name)
-          callbacks[name] ||= []
-          callbacks[name]
-        end
-
-        # add a callback.
-        #
-        # @param [String] name, callback name, can be start_xxx or end_xxx
-        # @param [Proc] block, be executed when callbacks are called
-        def add_callback(*names, &block)
-          names.each do |name|
-            callbacks[name] ||= []
-            callbacks[name] << block
-          end
-        end
-
         def debug?
           @debug == true
         end
