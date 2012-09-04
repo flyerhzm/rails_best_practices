@@ -13,7 +13,6 @@ module RailsBestPractices
     #   if not, non called methods are unused.
     class RemoveUnusedMethodsInModelsReview < Review
       include Classable
-      include Afterable
       include Callable
       include Exceptable
 
@@ -80,7 +79,7 @@ module RailsBestPractices
       end
 
       # get all unused methods at the end of review process.
-      def after_review
+      add_callback :after_check do
         @model_methods.get_all_unused_methods.each do |method|
           if !excepted?(method) && method.method_name !~ /=$/
             add_error "remove unused methods (#{method.class_name}##{method.method_name})", method.file, method.line

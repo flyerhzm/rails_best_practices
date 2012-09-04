@@ -38,9 +38,6 @@ module RailsBestPractices
         end
       end
 
-      def after_prepare; end
-      def after_review; end
-
       # add error if source code violates rails best practice.
       #
       # @param [String] message, is the string message for violation of the rails best practice
@@ -166,24 +163,6 @@ module RailsBestPractices
         # modules.
         def moduleable_modules
           @moduleable_moduels ||= []
-        end
-      end
-
-      # Helper to add callback after all files reviewed.
-      module Afterable
-        def self.included(base)
-          base.class_eval do
-            interesting_nodes :class
-            interesting_files /rails_best_practices\.after_(prepare|review)/
-
-            add_callback "end_class" do |node|
-              if "RailsBestPractices::AfterPrepare" == node.class_name.to_s
-                after_prepare
-              elsif "RailsBestPractices::AfterReview" == node.class_name.to_s
-                after_review
-              end
-            end
-          end
         end
       end
 
