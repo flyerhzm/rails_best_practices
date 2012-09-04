@@ -53,8 +53,6 @@ module RailsBestPractices
 
       Core::Runner.base_path = @path
       @runner = Core::Runner.new
-      @runner.debug = true if @options["debug"]
-      @runner.color = !@options["without-color"]
 
       analyze_source_codes
       analyze_vcs
@@ -79,7 +77,15 @@ module RailsBestPractices
     # @param [String] process the process name, lexical, prepare or review.
     def process(process)
       parse_files.each do |file|
-        @runner.send("#{process}_file", file)
+        begin
+          puts file if @options["debug"]
+          @runner.send(process, file, File.read(file))
+        rescue
+          if @options["debug"]
+            warning = "#{file} looks like it's not a valid Ruby file.  Skipping..."
+            plain_output(warning, 'red')
+          end
+        end
         @bar.inc if display_bar?
       end
       @runner.send("after_#{process}")

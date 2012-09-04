@@ -4,7 +4,6 @@ module RailsBestPractices
   module Prepares
     describe ControllerPrepare do
       let(:runner) { Core::Runner.new(prepares: [ControllerPrepare.new, HelperPrepare.new]) }
-      before(:each) { runner.whiny = true }
 
       context "methods" do
         it "should parse controller methods" do

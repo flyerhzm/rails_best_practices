@@ -19,7 +19,6 @@ module RailsBestPractices
     # 2. review process, it does real check, if the source code violates some best practices, the violations will be notified.
     class Runner
       attr_reader :checks
-      attr_accessor :debug, :whiny, :color
 
       # set the base path.
       #
@@ -53,16 +52,13 @@ module RailsBestPractices
         @lexical_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @lexicals)
         @prepare_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @prepares)
         @review_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @reviews)
-        @debug = false
-        @whiny = false
       end
 
       # lexical analysis the file.
       #
-      # @param [String] filename name of the file
-      # @param [String] content content of the file
+      # @param [String] filename of the file
+      # @param [String] content of the file
       def lexical(filename, content)
-        puts filename if @debug
         @lexical_checker.check(filename, content)
       end
 
@@ -70,19 +66,11 @@ module RailsBestPractices
         @lexical_checker.after_check
       end
 
-      # lexical analysis the file.
+      # parepare the file.
       #
-      # @param [String] filename
-      def lexical_file(filename)
-        lexical(filename, read_file(filename))
-      end
-
-      # parepare a file's content with filename.
-      #
-      # @param [String] filename name of the file
-      # @param [String] content content of the file
+      # @param [String] filename of the file
+      # @param [String] content of the file
       def prepare(filename, content)
-        puts filename if @debug
         @prepare_checker.check(filename, content)
       end
 
@@ -90,28 +78,13 @@ module RailsBestPractices
         @prepare_checker.after_check
       end
 
-      # parapare the file.
-      #
-      # @param [String] filename
-      def prepare_file(filename)
-        prepare(filename, read_file(filename))
-      end
-
-      # review a file's content with filename.
-      #
-      # @param [String] filename name of the file
-      # @param [String] content content of the file
-      def review(filename, content)
-        puts filename if @debug
-        content = parse_html_template(filename, content)
-        @review_checker.check(filename, content)
-      end
-
       # review the file.
       #
-      # @param [String] filename
-      def review_file(filename)
-        review(filename, read_file(filename))
+      # @param [String] filename of the file
+      # @param [String] content of the file
+      def review(filename, content)
+        content = parse_html_template(filename, content)
+        @review_checker.check(filename, content)
       end
 
       def after_review
@@ -126,24 +99,6 @@ module RailsBestPractices
       end
 
       private
-        # parse ruby code.
-        #
-        # @param [String] filename is the filename of ruby file.
-        # @param [String] content is the source code of ruby file.
-        def parse_ruby(filename, content)
-          begin
-            Sexp.from_array(Ripper::SexpBuilder.new(content).parse)
-          rescue Exception => e
-            if @debug
-              warning = "#{filename} looks like it's not a valid Ruby file.  Skipping..."
-              warning = warning.red if self.color
-              puts warning
-            end
-            raise e if @whiny
-            nil
-          end
-        end
-
         # parse html tempalte code, erb, haml and slim.
         #
         # @param [String] filename is the filename of the erb, haml or slim code.
