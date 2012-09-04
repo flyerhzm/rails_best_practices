@@ -28,6 +28,10 @@ module CodeAnalyzer::CheckingVisitor
       end
     end
 
+    # parse ruby code.
+    #
+    # @param [String] filename is the filename of ruby file.
+    # @param [String] content is the source code of ruby file.
     def parse(filename, content)
       Sexp.from_array(Ripper::SexpBuilder.new(content).parse)
     rescue Exception
