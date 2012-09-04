@@ -6,7 +6,7 @@ class Sexp
   #
   # @param [RailsBestPractices::Core::CheckingVisitor] visitor the visitor to prepare current node
   def check(visitor)
-    visitor.check(self)
+    visitor.check_node(self)
   end
 
   # return the line number of a sexp node.
