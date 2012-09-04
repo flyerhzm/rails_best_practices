@@ -2,7 +2,7 @@
 module RailsBestPractices
   module Core
     # A Check class that takes charge of checking the sexp.
-    class Check
+    class Check < CodeAnalyzer::Checker
       ALL_FILES = /.*/
       CONTROLLER_FILES = /app\/(controllers|cells)\/.*\.rb$/
       MIGRATION_FILES = /db\/migrate\/.*\.rb$/
@@ -22,16 +22,6 @@ module RailsBestPractices
         options.each do |key, value|
           instance_variable_set("@#{key}", value)
         end
-      end
-
-      # interesting nodes that the check will parse.
-      def interesting_nodes
-        self.class.interesting_nodes
-      end
-
-      # interesting files that the check will parse.
-      def interesting_files
-        self.class.interesting_files
       end
 
       # check if the check will need to parse the node file.
@@ -128,18 +118,6 @@ module RailsBestPractices
       end
 
       class <<self
-        def interesting_nodes(*nodes)
-          @interesting_nodes ||= []
-          @interesting_nodes += nodes
-          @interesting_nodes.uniq
-        end
-
-        def interesting_files(*file_patterns)
-          @interesting_files ||= []
-          @interesting_files += file_patterns
-          @interesting_files.uniq
-        end
-
         # callbacks for start_xxx and end_xxx.
         def callbacks
           @callbacks ||= {}
