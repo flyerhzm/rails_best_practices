@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-module RailsBestPractices::Core
+module CodeAnalyzer
   describe Nil do
     let(:core_nil) { Nil.new }
 

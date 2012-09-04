@@ -2,9 +2,9 @@
 require 'sexp'
 
 class Sexp
-  # prepare current node.
+  # check current node.
   #
-  # @param [RailsBestPractices::Core::CheckingVisitor] visitor the visitor to prepare current node
+  # @param [CodeAnalyzer::CheckingVisitor::Default] visitor the visitor to check current node
   def check(visitor)
     visitor.check_node(self)
   end
@@ -86,7 +86,7 @@ class Sexp
   # the condition key is one of :sexp_type, :subject, :message, and to_s,
   # the condition value can be Symbol, Array or Sexp.
   def grep_node(options)
-    result = RailsBestPractices::Core::Nil.new
+    result = CodeAnalyzer::Nil.new
     grep_nodes(options) { |node| result = node; break; }
     result
   end
@@ -550,7 +550,7 @@ class Sexp
         end
       end
     end
-    RailsBestPractices::Core::Nil.new
+    CodeAnalyzer::Nil.new
   end
 
   # Get hash size.
@@ -821,14 +821,15 @@ class Sexp
     node
   end
 
-  # if the return value of these methods is nil, then return RailsBestPractices::Core::Nil.new instead
-  [:sexp_type, :subject, :message, :arguments, :argument, :class_name, :base_class, :method_name, :body, :block, :conditional_statement, :left_value, :right_value].each do |method|
+  # if the return value of these methods is nil, then return CodeAnalyzer::Nil.new instead
+  [:sexp_type, :subject, :message, :arguments, :argument, :class_name, :base_class, :method_name,
+   :body, :block, :conditional_statement, :left_value, :right_value].each do |method|
     class_eval <<-EOS
       alias_method :origin_#{method}, :#{method}
 
       def #{method}
         ret = origin_#{method}
-        ret.nil? ? RailsBestPractices::Core::Nil.new : ret
+        ret.nil? ? CodeAnalyzer::Nil.new : ret
       end
     EOS
   end
