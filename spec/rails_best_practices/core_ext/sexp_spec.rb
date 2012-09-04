@@ -283,7 +283,11 @@ describe Sexp do
 
     it "should get all arguments with command_call node" do
       node = parse_content("options_for_select(Account.get_business current_user)").grep_node(sexp_type: :args_add)
-      node.all.should == [s(:command_call, s(:var_ref, s(:@const, "Account", s(1, 19))), :".", s(:@ident, "get_business", s(1, 27)), s(:args_add_block, s(:args_add, s(:args_new), s(:vcall, s(:@ident, "current_user", s(1, 40)))), false))]
+      if RUBY_VERSION == "1.9.2"
+        node.all.should == [s(:command_call, s(:var_ref, s(:@const, "Account", s(1, 19))), :".", s(:@ident, "get_business", s(1, 27)), s(:args_add_block, s(:args_add, s(:args_new), s(:var_ref, s(:@ident, "current_user", s(1, 40)))), false))]
+      else
+        node.all.should == [s(:command_call, s(:var_ref, s(:@const, "Account", s(1, 19))), :".", s(:@ident, "get_business", s(1, 27)), s(:args_add_block, s(:args_add, s(:args_new), s(:vcall, s(:@ident, "current_user", s(1, 40)))), false))]
+      end
     end
 
     it "no error for args_add_star" do
