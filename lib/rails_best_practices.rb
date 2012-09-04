@@ -22,12 +22,12 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #++
+require 'code_analyzer'
 require 'rails_best_practices/lexicals'
 require 'rails_best_practices/prepares'
 require 'rails_best_practices/reviews'
 require 'rails_best_practices/core'
 require 'rails_best_practices/analyzer'
-require 'code_analyzer'
 
 module RailsBestPractices
 end
