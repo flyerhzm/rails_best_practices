@@ -18,7 +18,7 @@ module RailsBestPractices
       end
 
       # remember route for rails3.
-      def start_command(node)
+      add_callback "start_command" do |node|
         case node.message.to_s
         when "resources"
           add_resources_routes(node)
@@ -42,13 +42,14 @@ module RailsBestPractices
             if :bare_assoc_hash == first_argument.sexp_type
               route_node = first_argument.hash_values.first
               # do not parse redirect block
-              return if :method_add_arg == route_node.sexp_type
-              controller_name, action_name = route_node.to_s.split('#')
+              if :method_add_arg != route_node.sexp_type
+                controller_name, action_name = route_node.to_s.split('#')
+                @routes.add_route(current_namespaces, controller_name.underscore, action_name)
+              end
             elsif :array == first_argument.sexp_type
               first_argument.array_values.map(&:to_s).each do |action_node|
                 @routes.add_route(current_namespaces, controller_name, action_node.to_s)
               end
-              return
             elsif :bare_assoc_hash == second_argument.try(:sexp_type)
               if second_argument.hash_value("to").present?
                 controller_name, action_name = second_argument.hash_value("to").to_s.split('#')
@@ -56,10 +57,11 @@ module RailsBestPractices
                 controller_name = current_controller_name
                 action_name = second_argument.hash_value("action")
               end
+              @routes.add_route(current_namespaces, controller_name.try(:underscore), action_name)
             else
               controller_name, action_name = first_argument.to_s.split('/')
+              @routes.add_route(current_namespaces, controller_name.underscore, action_name)
             end
-            @routes.add_route(current_namespaces, controller_name.try(:underscore), action_name)
           end
         when "match", "root"
           options = node.arguments.all.last
@@ -90,7 +92,7 @@ module RailsBestPractices
       end
 
       # remember route for rails2.
-      def start_command_call(node)
+      add_callback "start_command_call" do |node|
         case node.message.to_s
         when "resources"
           add_resources_routes(node)
@@ -109,7 +111,7 @@ module RailsBestPractices
       end
 
       # remember the namespace.
-      def start_method_add_block(node)
+      add_callback "start_method_add_block" do |node|
         case node.message.to_s
         when "namespace"
           @namespaces << node.arguments.all.first.to_s
@@ -134,7 +136,7 @@ module RailsBestPractices
       end
 
       # end of namespace call.
-      def end_method_add_block(node)
+      add_callback "end_method_add_block" do |node|
         case node.message.to_s
         when "namespace"
           @namespaces.pop
@@ -148,17 +150,14 @@ module RailsBestPractices
       end
 
       # remember current controller name, used for nested resources.
-      def start_do_block(node)
+      add_callback "start_do_block", "start_brace_block" do |node|
         @controller_names << @controller_name.try(:last)
       end
 
       # remove current controller name, and use upper lever resource name.
-      def end_do_block(node)
+      add_callback "end_do_block", "end_brace_block" do |node|
         @controller_names.pop
       end
-
-      alias_method :start_brace_block, :start_do_block
-      alias_method :end_brace_block, :end_do_block
 
       [:resources, :resource].each do |route_name|
         class_eval <<-EOF

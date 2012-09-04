@@ -17,7 +17,7 @@ module RailsBestPractices
       end
 
       # check module node to remember the module name.
-      def start_module(node)
+      add_callback "start_module" do |node|
         @helpers << Core::Mod.new(current_module_name, [])
       end
 
@@ -30,7 +30,7 @@ module RailsBestPractices
       #         "update_time" => {"file" => "app/helpers/posts_helper.rb", "line" => 10, "unused" => false}
       #       }
       #     }
-      def start_def(node)
+      add_callback "start_def" do |node|
         if node.file =~ HELPER_FILES
           method_name = node.method_name.to_s
           @methods.add_method(current_module_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)

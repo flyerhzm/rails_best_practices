@@ -36,7 +36,7 @@ module RailsBestPractices
       # if the first argument of options_for_select method call is an array,
       # and the size of the array is more than @array_count defined,
       # then the options_for_select helper should be moved into helper.
-      def start_method_add_arg(node)
+      add_callback "start_method_add_arg" do |node|
         add_error "move code into helper (array_count >= #{@array_count})" if complex_select_options?(node)
       end
 

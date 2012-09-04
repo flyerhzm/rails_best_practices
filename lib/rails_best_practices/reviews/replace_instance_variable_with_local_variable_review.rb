@@ -23,15 +23,7 @@ module RailsBestPractices
 
       # check ivar node in partial view file,
       # it is an instance variable, and should be replaced with local variable.
-      def start_var_ref(node)
-        if node.to_s.start_with?('@')
-          add_error "replace instance variable with local variable"
-        end
-      end
-
-      # check ivar node in partial view file,
-      # it is an instance variable, and should be replaced with local variable.
-      def start_vcall(node)
+      add_callback "start_var_ref", "start_vcall" do |node|
         if node.to_s.start_with?('@')
           add_error "replace instance variable with local variable"
         end
