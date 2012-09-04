@@ -18,10 +18,7 @@ module RailsBestPractices
     class AddModelVirtualAttributeReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/4-add-model-virtual-attribute"
-      end
+      url "http://rails-bestpractices.com/posts/4-add-model-virtual-attribute"
 
       # check method define nodes to see if there are some attribute assignments that can use model virtual attribute instead in review process.
       #

@@ -14,10 +14,7 @@ module RailsBestPractices
     class NotUseTimeAgoInWordsReview < Review
       interesting_nodes :fcall
       interesting_files VIEW_FILES, HELPER_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/105-not-use-time_ago_in_words"
-      end
+      url "http://rails-bestpractices.com/posts/105-not-use-time_ago_in_words"
 
       # check fcall node to see if its message is time_ago_in_words or distance_of_time_in_words_to_now
       add_callback :start_fcall do |node|

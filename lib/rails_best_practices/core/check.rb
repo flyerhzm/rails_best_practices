@@ -62,7 +62,7 @@ module RailsBestPractices
       #
       # @return [String] the url of rails best practice
       def url
-        ""
+        self.class.url
       end
 
       # method_missing to catch all start and end process for each node type, like
@@ -84,6 +84,10 @@ module RailsBestPractices
       end
 
       class <<self
+        def url(url=nil)
+          url ?  @url = url : @url
+        end
+
         def debug?
           @debug == true
         end

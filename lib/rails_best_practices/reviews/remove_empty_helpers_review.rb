@@ -14,10 +14,7 @@ module RailsBestPractices
     class RemoveEmptyHelpersReview < Review
       interesting_nodes :module
       interesting_files HELPER_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/72-remove-empty-helpers"
-      end
+      url "http://rails-bestpractices.com/posts/72-remove-empty-helpers"
 
       # check the body of module node, if it is nil, then it should be removed.
       add_callback :start_module do |node|

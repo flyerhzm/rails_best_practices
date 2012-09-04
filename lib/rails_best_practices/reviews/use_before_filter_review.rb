@@ -16,10 +16,7 @@ module RailsBestPractices
     class UseBeforeFilterReview < Review
       interesting_nodes :class
       interesting_files CONTROLLER_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/22-use-before_filter"
-      end
+      url "http://rails-bestpractices.com/posts/22-use-before_filter"
 
       def initialize(options = {})
         super()

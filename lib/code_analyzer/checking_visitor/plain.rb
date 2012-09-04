@@ -10,5 +10,8 @@ module CodeAnalyzer::CheckingVisitor
         checker.check(filename, content)
       end
     end
+
+    def after_check
+    end
   end
 end

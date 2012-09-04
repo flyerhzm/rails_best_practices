@@ -15,12 +15,9 @@ module RailsBestPractices
     class SimplifyRenderInViewsReview < Review
       interesting_nodes :command
       interesting_files VIEW_FILES
+      url "http://rails-bestpractices.com/posts/61-simplify-render-in-views"
 
       VALID_KEYS = %w(object collection locals)
-
-      def url
-        "http://rails-bestpractices.com/posts/61-simplify-render-in-views"
-      end
 
       # check command node in view file,
       # if its message is render and the arguments contain a key partial,

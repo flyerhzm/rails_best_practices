@@ -17,12 +17,9 @@ module RailsBestPractices
     class MoveFinderToNamedScopeReview < Review
       interesting_nodes :method_add_arg
       interesting_files CONTROLLER_FILES
+      url "http://rails-bestpractices.com/posts/1-move-finder-to-named_scope"
 
       FINDERS = %w(find all first last)
-
-      def url
-        "http://rails-bestpractices.com/posts/1-move-finder-to-named_scope"
-      end
 
       # check method_add_ag node if its message is one of find, all, first or last,
       # and it has a hash argument,

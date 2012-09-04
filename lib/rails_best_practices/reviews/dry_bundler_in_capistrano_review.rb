@@ -17,10 +17,7 @@ module RailsBestPractices
     class DryBundlerInCapistranoReview < Review
       interesting_nodes :command
       interesting_files DEPLOY_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/51-dry-bundler-in-capistrano"
-      end
+      url "http://rails-bestpractices.com/posts/51-dry-bundler-in-capistrano"
 
       # check call node to see if it is with message "namespace" and argument "bundler".
       add_callback :start_command do |node|

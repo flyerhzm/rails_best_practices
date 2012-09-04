@@ -23,10 +23,7 @@ module RailsBestPractices
     class IsolateSeedDataReview < Review
       interesting_nodes :call, :assign
       interesting_files MIGRATION_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/20-isolating-seed-data"
-      end
+      url "http://rails-bestpractices.com/posts/20-isolating-seed-data"
 
       def initialize
         super

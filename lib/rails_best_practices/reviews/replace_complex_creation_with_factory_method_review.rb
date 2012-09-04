@@ -20,10 +20,7 @@ module RailsBestPractices
     class ReplaceComplexCreationWithFactoryMethodReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-
-      def url
-        "http://rails-bestpractices.com/posts/6-replace-complex-creation-with-factory-method"
-      end
+      url "http://rails-bestpractices.com/posts/6-replace-complex-creation-with-factory-method"
 
       def initialize(options = {})
         super()

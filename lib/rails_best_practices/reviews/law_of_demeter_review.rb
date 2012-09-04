@@ -18,12 +18,9 @@ module RailsBestPractices
     class LawOfDemeterReview < Review
       interesting_nodes :call
       interesting_files ALL_FILES
+      url "http://rails-bestpractices.com/posts/15-the-law-of-demeter"
 
       ASSOCIATION_METHODS = %w(belongs_to has_one)
-
-      def url
-        "http://rails-bestpractices.com/posts/15-the-law-of-demeter"
-      end
 
       # check the call node,
       #
