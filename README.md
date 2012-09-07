@@ -193,7 +193,7 @@ Migration
 
 Controller
 
-1. Use before_filter
+1. Use before_filter (disabled by default)
 2. Simplify render in controllers
 3. Remove unused methods in controllers
 
@@ -218,10 +218,10 @@ Deployment
 Other
 
 1. Remove trailing whitespace
-2. Remove tab
-3. Hash Syntax
-4. Use parentheses in method def
-5. Long line
+2. Remove tab (disabled by default)
+3. Hash Syntax (disabled by default)
+4. Use parentheses in method def (disabled by default)
+5. Long line (disabled by default)
 
 ## Write Your Own Check List
 
