@@ -19,6 +19,7 @@ following template engines:
 * erb
 * haml
 * slim
+* rabl
 
 rails_best_practices works well only in ruby 1.9.2 and ruby 1.9.3 so far.
 
