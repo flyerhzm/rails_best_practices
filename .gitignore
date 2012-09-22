@@ -3,6 +3,7 @@
 pkg/**
 *.gem
 .bundle
+Gemfile.lock
 rdoc/**
 doc/**
 .yardoc/**
