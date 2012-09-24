@@ -23,16 +23,16 @@ module RailsBestPractices
 
     # initialize
     #
-    # @param [String] path where to generate the configuration yaml file
+    # @param [Array] paths with files to parse
     # @param [Hash] options
-    def initialize(path, options={})
-      @path = path || "."
+    def initialize(paths, options={})
+      @paths = Array(paths || ".")
       @options = options
     end
 
     # generate configuration yaml file.
     def generate
-      FileUtils.cp DEFAULT_CONFIG, File.join(@path, 'config/rails_best_practices.yml')
+      FileUtils.cp DEFAULT_CONFIG, File.join(@paths.first, 'config/rails_best_practices.yml')
     end
 
     # Analyze rails codes.
@@ -43,15 +43,12 @@ module RailsBestPractices
     # 2. review process, check all files.
     #
     # if there are violations to rails best practices, output them.
-    #
-    # @param [String] path the directory of rails project
-    # @param [Hash] options
     def analyze
       @options["exclude"] ||= []
       @options["only"] ||= []
       @options["output-file"] ||= "rails_best_practices_output.html"
 
-      Core::Runner.base_path = @path
+      Core::Runner.base_path = @paths.first
       @runner = Core::Runner.new
 
       analyze_source_codes
@@ -96,7 +93,7 @@ module RailsBestPractices
     # @return [Array] all files for parsing
     def parse_files
       @parse_files ||= begin
-        files = expand_dirs_to_files(@path)
+        files = expand_dirs_to_files(@paths)
         files = file_sort(files)
 
         if @options["only"].present?

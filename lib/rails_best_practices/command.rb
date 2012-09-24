@@ -120,7 +120,7 @@ end
 if options["generate"]
   RailsBestPractices::Analyzer.new(ARGV.first).generate
 else
-  analyzer = RailsBestPractices::Analyzer.new(ARGV.first, options)
+  analyzer = RailsBestPractices::Analyzer.new(ARGV, options)
   analyzer.analyze
   analyzer.output
   exit analyzer.runner.errors.size
