@@ -95,13 +95,23 @@ module RailsBestPractices
       end
 
       it "should not protect mass assignment if checking non ActiveRecord::Base inherited model" do
-          content =<<-EOF
-          class User < Person
-          end
-          EOF
-          runner.review('app/models/user.rb', content)
-          runner.should have(0).errors
+        content =<<-EOF
+        class User < Person
         end
+        EOF
+        runner.review('app/models/user.rb', content)
+        runner.should have(0).errors
+      end
+
+      it "should not protect mass assignment for strong_parameters" do
+        content =<<-EOF
+        class User < ActiveRecord::Base
+          include ActiveModel::ForbiddenAttributesProtection
+        end
+        EOF
+        runner.review('app/models/user.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

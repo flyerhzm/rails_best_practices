@@ -3,56 +3,89 @@ require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices
   module Reviews
-    # Review model files to make sure to use attr_accessible or attr_protected to protect mass assignment.
+    # Review model files to make sure to use attr_accessible, attr_protected or strong_parameters to protect mass assignment.
     #
     # See the best practices details here http://rails-bestpractices.com/posts/148-protect-mass-assignment.
     #
     # Implmentation:
     #
     # Review process:
-    #   check class node to see if there is a command with message attr_accessible or attr_protected.
+    #   check nodes to see if there is a command with message attr_accessible or attr_protected,
+    #   or include ActiveModel::ForbiddenAttributesProtection.
     class ProtectMassAssignmentReview < Review
-      interesting_nodes :class
       interesting_files MODEL_FILES
+      interesting_nodes :class, :command, :var_ref, :vcall, :fcall
       url "http://rails-bestpractices.com/posts/148-protect-mass-assignment"
 
-      # check class node, grep all command nodes,
-      # if config.active_record.whitelist_attributes is not set true,
-      # and if none of them is with message attr_accessible or attr_protected,
-      # and if not use devise or authlogic,
-      # then it should add attr_accessible or attr_protected to protect mass assignment.
+      # we treat it as mass assignment by default.
       add_callback :start_class do |node|
-        if !whitelist_attributes_config? && !rails_builtin?(node) && !devise?(node) &&
-            !authlogic?(node) && is_active_record?(node)
-          add_error "protect mass assignment"
-        end
+        @mass_assignement = true
+      end
+
+      # check if it is ActiveRecord::Base subclass and
+      # if it sets config.active_record.whitelist_attributes to true.
+      add_callback :end_class do |node|
+        check_active_record(node)
+        check_whitelist_attributes_config
+
+        add_error "protect mass assignment" if @mass_assignement
+      end
+
+      # check if it is attr_accessible or attr_protected command,
+      # if it uses strong_parameters,
+      # and if it uses devise.
+      add_callback :start_command do |node|
+        check_rails_builtin(node)
+        check_strong_parameters(node)
+        check_devise(node)
+      end
+
+      # check if it is attr_accessible, attr_protected, acts_as_authlogic without parameters.
+      add_callback :start_var_ref, :start_vcall do |node|
+        check_rails_builtin(node)
+        check_authlogic(node)
+      end
+
+      # check if it uses authlogic.
+      add_callback :start_fcall do |node|
+        check_authlogic(node)
       end
 
       private
-        def whitelist_attributes_config?
-          Prepares.configs["config.active_record.whitelist_attributes"] == "true"
+        def check_whitelist_attributes_config
+          if "true" == Prepares.configs["config.active_record.whitelist_attributes"]
+            @mass_assignement = false
+          end
         end
 
-        def rails_builtin?(node)
-          node.grep_node(sexp_type: [:vcall, :var_ref], to_s: "attr_accessible").present? ||
-          node.grep_node(sexp_type: :command, message: %w(attr_accessible attr_protected)).present?
+        def check_rails_builtin(node)
+          if [node.to_s, node.message.to_s].any? { |str| %w(attr_accessible attr_protected).include? str }
+            @mass_assignement = false
+          end
         end
 
-        def devise?(node)
-          node.grep_node(sexp_type: :command, message: "devise").present?
+        def check_strong_parameters(command_node)
+          if "include" == command_node.message.to_s && "ActiveModel::ForbiddenAttributesProtection" == command_node.arguments.all.first.to_s
+            @mass_assignement = false
+          end
         end
 
-        def authlogic?(node)
-         node.grep_node(sexp_type: [:vcall, :var_ref], to_s: "acts_as_authentic").present? ||
-         node.grep_node(sexp_type: :fcall, message: "acts_as_authentic").present?
+        def check_devise(command_node)
+          if "devise" == command_node.message.to_s
+            @mass_assignement = false
+          end
         end
 
-        def is_active_record?(node)
-          node.grep_node(sexp_type: [:const_path_ref, :@const], to_s: "ActiveRecord::Base").present?
+        def check_authlogic(node)
+          if [node.to_s, node.message.to_s].include? "acts_as_authentic"
+            @mass_assignement = false
+          end
         end
 
-        def is_active_record?(node)
-          node.grep_node(:sexp_type => [:const_path_ref, :@const], :to_s => "ActiveRecord::Base").present?
+        def check_active_record(const_path_ref_node)
+          if "ActiveRecord::Base" != const_path_ref_node.base_class.to_s
+            @mass_assignement = false
+          end
         end
     end
   end
