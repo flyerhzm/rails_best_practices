@@ -181,7 +181,7 @@ module RailsBestPractices
     def load_hg_info
       hg_progressbar = ProgressBar.new('Hg Info', errors.size) if display_bar?
       errors.each do |error|
-        hg_info = `cd #{@runner.class.base_path}; hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, "")} | sed -n /:#{error.line_number.split(',').first}:/p`
+        hg_info = `cd #{@runner.class.base_path} && hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, "")} | sed -n /:#{error.line_number.split(',').first}:/p`
         unless hg_info == ""
           hg_commit_username = hg_info.split(':')[0].strip
           error.hg_username = hg_commit_username.split(/\ /)[0..-2].join(' ')
@@ -197,7 +197,7 @@ module RailsBestPractices
       git_progressbar = ProgressBar.new('Git Info', errors.size) if display_bar?
       start = @runner.class.base_path =~ /\/$/ ? @runner.class.base_path.size : @runner.class.base_path.size + 1
       errors.each do |error|
-        git_info = `cd #{@runner.class.base_path}; git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}`
+        git_info = `cd #{@runner.class.base_path} && git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}`
         unless git_info == ""
           git_commit, git_username = git_info.split(/\d{4}-\d{2}-\d{2}/).first.split("(")
           error.git_commit = git_commit.split(" ").first.strip
@@ -214,7 +214,7 @@ module RailsBestPractices
       template = @options["template"] ? File.read(File.expand_path(@options["template"])) : File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "result.html.erb"))
 
       if @options["with-github"]
-        last_commit_id = @options["last-commit-id"] ? @options["last-commit-id"] : `cd #{@runner.class.base_path}; git rev-parse HEAD`.chomp
+        last_commit_id = @options["last-commit-id"] ? @options["last-commit-id"] : `cd #{@runner.class.base_path} && git rev-parse HEAD`.chomp
       end
       File.open(@options["output-file"], "w+") do |file|
         eruby = Erubis::Eruby.new(template)
