@@ -72,22 +72,24 @@
       <% end %>
     </p>
     <table>
-      <% columnize(@error_types, 3).each do |row| %>
+      <% unless @errors.empty? %>
+        <% columnize(@error_types, 3).each do |row| %>
+          <tr>
+            <% row.map { |error_type| error_type.split(':').last }.each do |error_type| %>
+              <td>
+                <input type="checkbox" class="error-type" id="<%= error_type %>" value="<%= error_type %>"
+                />&nbsp;<label for="<%= error_type %>"><%= error_type.sub(/(Check|Review)$/, '').gsub(/([a-z\d])([A-Z])/,'\1 \2') %></label>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
         <tr>
-          <% row.map { |error_type| error_type.split(':').last }.each do |error_type| %>
-            <td>
-              <input type="checkbox" class="error-type" id="<%= error_type %>" value="<%= error_type %>"
-              />&nbsp;<label for="<%= error_type %>"><%= error_type.sub(/(Check|Review)$/, '').gsub(/([a-z\d])([A-Z])/,'\1 \2') %></label>
-            </td>
-          <% end %>
+          <td colspan="3">
+            <button id="show-all">Check all</button>
+            <button id="show-none">Uncheck all</button>
+          </td>
         </tr>
       <% end %>
-      <tr>
-        <td colspan="3">
-          <button id="show-all">Check all</button>
-          <button id="show-none">Uncheck all</button>
-        </td>
-      </tr>
     </table>
     <table class="result">
       <thead>
