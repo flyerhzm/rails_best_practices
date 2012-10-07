@@ -26,6 +26,15 @@ module RailsBestPractices
         runner.review('app/helpers/posts_helper.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not remove empty application_helper" do
+        content =<<-EOF
+        module ApplicationHelper
+        end
+        EOF
+        runner.review('app/helpers/application_helper.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end
