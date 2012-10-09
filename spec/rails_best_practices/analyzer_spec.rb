@@ -43,23 +43,5 @@ module RailsBestPractices
         result.should == ["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 warnings.".red].join("\n") + "\n"
       end
     end
-
-    describe "errors_filter_block" do
-      it "should call errors_filter_block after analyze" do
-        analyzer = Analyzer.new("path", "silent" => true)
-        analyzer.errors_filter_block = lambda { |errors| errors.each { |error| error.highlight = true } }
-        analyzer.stub(:expand_dirs_to_files).and_return([])
-        analyzer.stub(:file_sort).and_return([])
-        analyzer.stub(:file_ignore).and_return([])
-        analyzer.stub(:process)
-        runner = stub
-        runner.stub(:color=)
-        errors = [Core::Error.new, Core::Error.new]
-        Core::Runner.stub(:new).and_return(runner)
-        runner.stub(:errors).and_return(errors)
-        analyzer.analyze
-        analyzer.send(:errors).should be_all(&:highlight)
-      end
-    end
   end
 end
