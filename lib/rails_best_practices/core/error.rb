@@ -6,7 +6,7 @@ module RailsBestPractices
     # it indicates the filenname, line number and error message for the violation.
     class Error < CodeAnalyzer::Warning
       attr_reader :type, :url
-      attr_accessor :git_commit, :git_username, :hg_commit, :hg_username, :highlight
+      attr_accessor :git_commit, :git_username, :hg_commit, :hg_username
 
       def initialize(options={})
         super
@@ -16,7 +16,6 @@ module RailsBestPractices
         @git_username = options[:git_username]
         @hg_commit = options[:hg_commit]
         @hg_username = options[:hg_username]
-        @highlight = false
       end
 
       def short_filename
