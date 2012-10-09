@@ -261,10 +261,8 @@ module RailsBestPractices
 
     # analyze version control system info.
     def analyze_vcs
-      if @options["format"] == 'html'
-        load_git_info if @options["with-git"]
-        load_hg_info if @options["with-hg"]
-      end
+      load_git_info if @options["with-git"]
+      load_hg_info if @options["with-hg"]
     end
 
     # if disaply progress bar.
