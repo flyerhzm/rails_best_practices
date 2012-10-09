@@ -17,7 +17,7 @@ module RailsBestPractices
   #
   # After analyzing, output the violations.
   class Analyzer
-    attr_accessor :runner, :errors_filter_block
+    attr_accessor :runner
 
     DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "..", "rails_best_practices.yml")
 
@@ -56,8 +56,6 @@ module RailsBestPractices
 
       analyze_source_codes
       analyze_vcs
-
-      errors_filter_block.call(errors) if errors_filter_block
     end
 
     # Output the analyze result.
