@@ -49,7 +49,6 @@ module RailsBestPractices
     def analyze
       @options["exclude"] ||= []
       @options["only"] ||= []
-      @options["output-file"] ||= "rails_best_practices_output.html"
 
       Core::Runner.base_path = @path
       @runner = Core::Runner.new
@@ -61,7 +60,11 @@ module RailsBestPractices
     # Output the analyze result.
     def output
       if @options["format"] == 'html'
+        @options["output-file"] ||= "rails_best_practices_output.html"
         output_html_errors
+      elsif @options["format"] == 'yaml'
+        @options["output-file"] ||= "rails_best_practices_output.yaml"
+        output_yaml_errors
       else
         output_terminal_errors
       end
@@ -227,6 +230,13 @@ module RailsBestPractices
           git: @options["with-git"],
           hg: @options["with-hg"]
         )
+      end
+    end
+
+    # output errors with yaml format.
+    def output_yaml_errors
+      File.open(@options["output-file"], "w+") do |file|
+        file.write YAML.dump(errors)
       end
     end
 
