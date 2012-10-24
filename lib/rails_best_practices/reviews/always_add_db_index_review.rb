@@ -42,6 +42,8 @@ module RailsBestPractices
       add_callback :start_command_call do |node|
         if %w(integer string).include? node.message.to_s
           remember_foreign_key_columns(node)
+        elsif "index" == node.message.to_s
+          remember_index_columns_inside_table(node)
         end
       end
 
@@ -57,7 +59,7 @@ module RailsBestPractices
         when "create_table"
           remember_table_nodes(node)
         when "add_index"
-          remember_index_columns(node)
+          remember_index_columns_outside_table(node)
         end
       end
 
@@ -81,10 +83,23 @@ module RailsBestPractices
       end
 
       private
-        # remember the node as index columns
-        def remember_index_columns(node)
+        # remember the node as index columns, when used outside a table
+        # block, i.e.
+        #   add_index :table_name, :column_name
+        def remember_index_columns_outside_table(node)
           table_name = node.arguments.all.first.to_s
           index_column = node.arguments.all[1].to_object
+
+          @index_columns[table_name] ||= []
+          @index_columns[table_name] << index_column
+        end
+
+        # remember the node as index columns, when used inside a table
+        # block, i.e.
+        #    t.index [:column_name, ...]
+        def remember_index_columns_inside_table(node)
+          table_name = @table_name
+          index_column = node.arguments.all.first.to_object
 
           @index_columns[table_name] ||= []
           @index_columns[table_name] << index_column
