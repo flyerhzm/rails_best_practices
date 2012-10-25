@@ -153,6 +153,24 @@ module RailsBestPractices
         runner.should have(0).errors
       end
 
+      it "should not always add db index with t.index" do
+        # e.g. schema_plus creates indices like this https://github.com/lomba/schema_plus
+        content = <<-EOF
+        ActiveRecord::Schema.define(version: 20100603080629) do
+          create_table "comments", force: true do |t|
+            t.string "content"
+            t.integer "post_id"
+            t.index ["post_id"], :name => "index_comments_on_post_id"
+          end
+          create_table "posts", force: true do |t|
+          end
+        end
+        EOF
+        runner.review('db/schema.rb', content)
+        runner.after_review
+        runner.should have(0).errors
+      end
+
       it "should not always add db index with only _type column" do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
