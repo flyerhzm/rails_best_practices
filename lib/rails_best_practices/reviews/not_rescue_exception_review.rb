@@ -18,20 +18,9 @@ module RailsBestPractices
       url "http://rails-bestpractices.com/posts/702-don-t-rescue-exception-rescue-standarderror"
 
       # check rescue node to see if its type is Exception
-      add_callback :start_rescue do |node|
-        rescue_args = node[1]
-        if rescue_args
-          rescue_type = rescue_args.first
-          if rescue_type && rescue_type.first == :var_ref
-            rescue_type_var = rescue_type[1]
-            if rescue_type_var.first == :@const
-              if "Exception" == rescue_type_var[1]
-                # 'rescue' nodes do not have line-number info, but the rescue_type
-                # node does.
-                add_error "not rescue Exception", node.file, rescue_type.line
-              end
-            end
-          end
+      add_callback :start_rescue do |rescue_node|
+        if rescue_node.exception_classes.any? { |rescue_class| "Exception" == rescue_class.to_s }
+          add_error "not rescue Exception", rescue_node.file, rescue_node.exception_classes.first.line
         end
       end
     end
