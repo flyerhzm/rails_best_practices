@@ -6,7 +6,7 @@ module RailsBestPractices
     # Review all code to make sure we don't rescue Exception
     # This is a common mistake by Java or C# devs in ruby.
     #
-    # See the best practice details here http://stackoverflow.com/questions/10048173/why-is-it-bad-style-to-rescue-exception-e-in-ruby
+    # See the best practice details here http://rails-bestpractices.com/posts/702-don-t-rescue-exception-rescue-standarderror
     #
     # Implementation:
     #
@@ -15,7 +15,7 @@ module RailsBestPractices
     class NotRescueExceptionReview < Review
       interesting_nodes :rescue
       interesting_files ALL_FILES
-      url "http://stackoverflow.com/questions/10048173/why-is-it-bad-style-to-rescue-exception-e-in-ruby"
+      url "http://rails-bestpractices.com/posts/702-don-t-rescue-exception-rescue-standarderror"
 
       # check rescue node to see if its type is Exception
       add_callback :start_rescue do |node|
