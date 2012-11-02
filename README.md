@@ -128,6 +128,7 @@ Now you can customize this configuration file, the default configuration is as f
     MoveFinderToNamedScopeCheck: { }
     MoveModelLogicIntoModelCheck: { use_count: 4 }
     NeedlessDeepNestingCheck: { nested_count: 2 }
+    NotRescueExceptionCheck: { }
     NotUseDefaultRouteCheck: {  }
     NotUseTimeAgoInWordsCheck: {}
     OveruseRouteCustomizationsCheck: { customize_count: 3 }
@@ -219,9 +220,10 @@ Other
 
 1. Remove trailing whitespace
 2. Remove tab (disabled by default)
-3. Hash Syntax (disabled by default)
+3. Hash syntax (disabled by default)
 4. Use parentheses in method def (disabled by default)
 5. Long line (disabled by default)
+6. Not rescue exception
 
 ## Write Your Own Check List
 
