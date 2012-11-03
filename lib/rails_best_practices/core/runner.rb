@@ -153,7 +153,7 @@ module RailsBestPractices
           checks_from_config.inject([]) { |active_checks, check|
             begin
               check_name, options = *check
-              klass = RailsBestPractices::Reviews.const_get(check_name.gsub(/Check/, 'Review'))
+              klass = RailsBestPractices::Reviews.const_get(check_name.gsub(/Check$/, 'Review'))
               active_checks << (options.empty? ? klass.new : klass.new(options))
             rescue
               # the check does not exist in the Reviews namepace.
