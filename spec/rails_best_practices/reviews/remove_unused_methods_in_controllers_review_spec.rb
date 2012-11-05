@@ -12,13 +12,20 @@ module RailsBestPractices
         it "should remove unused methods" do
           content =<<-EOF
           RailsBestPracticesCom::Application.routes.draw do
-            resources :posts
+            resources :posts do
+              member do
+                post 'link_to/:other_id' => 'posts#link_to_post'
+                post 'extra_update' => 'posts#extra_update'
+              end
+            end
           end
           EOF
           runner.prepare('config/routes.rb', content)
           content =<<-EOF
           class PostsController < ActiveRecord::Base
             def show; end
+            def extra_update; end
+            def link_to_post; end
             protected
             def load_post; end
             private
@@ -29,8 +36,8 @@ module RailsBestPractices
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
           runner.should have(2).errors
-          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:4 - remove unused methods (PostsController#load_post)"
-          runner.errors[1].to_s.should == "app/controllers/posts_controller.rb:6 - remove unused methods (PostsController#load_user)"
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:6 - remove unused methods (PostsController#load_post)"
+          runner.errors[1].to_s.should == "app/controllers/posts_controller.rb:8 - remove unused methods (PostsController#load_user)"
         end
 
         it "should not remove unused methods for before_filter" do
