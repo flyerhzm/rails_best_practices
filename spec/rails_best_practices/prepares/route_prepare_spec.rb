@@ -354,6 +354,28 @@ module RailsBestPractices
             routes.size.should == 0
           end
 
+          it "should add resources routes with members" do
+            content =<<-EOF
+            RailsBestPracticesCom::Application.routes.draw do
+              namespace :admin do
+                resources :posts, :only => [:edit, :update] do
+                  member do
+                    post 'link_to/:other_id' => 'posts#link_to_post'
+                    post 'extra_update' => 'posts#extra_update'
+                  end
+                end
+              end
+            end
+            EOF
+            runner.prepare('config/routes.rb', content)
+            routes = Prepares.routes
+            routes.map(&:to_s).should == [
+              "Admin::PostsController#edit",
+              "Admin::PostsController#update",
+              "Admin::PostsController#link_to_post",
+              "Admin::PostsController#extra_update"]
+          end
+
           it "should add connect route" do
             content =<<-EOF
             ActionController::Routing::Routes.draw do |map|
