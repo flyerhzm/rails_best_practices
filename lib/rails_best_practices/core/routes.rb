@@ -19,6 +19,14 @@ module RailsBestPractices
 
       def initialize(namespaces, controller_name, action_name)
         @namespaces = namespaces
+
+        # mappings can be specified by e.g.
+        #   post 'some/:pattern' => 'controller#action'
+        if action_name =~ /^(\w+)#(\w+)$/
+          controller_name = $1
+          action_name = $2
+        end
+
         if controller_name
           entities = controller_name.split('/')
           @namespaces += entities[0..-2] if entities.size > 1
