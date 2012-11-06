@@ -134,6 +134,11 @@ module RailsBestPractices
 
         it "should warn you if you use create which is always unsafe" do
           content =<<-EOF
+          class Post < ActiveRecord::Base
+          end
+          EOF
+          runner.prepare('app/models/post.rb', content)
+          content =<<-EOF
           def my_method
             if post = Post.create(params)
               # post may or may not be saved here!
@@ -148,26 +153,33 @@ module RailsBestPractices
 
         it "should warn you if you use create with a block which is always unsafe" do
           content =<<-EOF
-          def my_method
-            post = Post.create do |p|
-              p.title = 'new post'
-            end
-            if post
-              # post may or may not be saved here!
-              redirect_to view_post_path post
+          module Blog
+            class Post < ActiveRecord::Base
             end
           end
           EOF
-          runner.review('app/helpers/posts_helper.rb', content)
+          runner.prepare('app/models/blog/post.rb', content)
+          content =<<-EOF
+          module Blog
+            class PostsHelper
+              def my_method
+                post = Post.create do |p|
+                  p.title = 'new post'
+                end
+                if post
+                  # post may or may not be saved here!
+                  redirect_to view_post_path post
+                end
+              end
+            end
+          end
+          EOF
+          runner.review('app/helpers/blog/posts_helper.rb', content)
           runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:2 - use 'create!' instead of 'create' as the latter may not always save"
+          runner.errors[0].to_s.should == "app/helpers/blog/posts_helper.rb:4 - use 'create!' instead of 'create' as the latter may not always save"
         end
 
-        it "is not clever enough to ignore create called on non-model classes" do
-          # I can't think of a reasonably local way to establish whether the receiver
-          # of a 'create' call is a model class or not.
-          # I suppose the review could monitor all model classes and build a list of model
-          # class names in the app... TODO
+        it "allows create called on non-model classes" do
           content =<<-EOF
           def my_method
             pk12 = OpenSSL::PKCS12.create(
@@ -178,8 +190,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:2 - use 'create!' instead of 'create' as the latter may not always save"
+          runner.errors.map(&:to_s).should == []
         end
       end
     end

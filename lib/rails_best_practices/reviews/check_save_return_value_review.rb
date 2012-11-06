@@ -14,6 +14,7 @@ module RailsBestPractices
     #   Track which nodes are used by 'if', 'unless', '&&' nodes etc. as we pass them by.
     #   Check all "save" calls to check the return value is used by a node we have visited.
     class CheckSaveReturnValueReview < Review
+      include Classable
       interesting_nodes :call, :command_call, :method_add_arg, :if, :ifop, :unless, :assign, :binary
       interesting_files ALL_FILES
       url "http://rails-bestpractices.com/posts/703-check-the-return-value-of-save-otherwise-use-save"
@@ -44,6 +45,10 @@ module RailsBestPractices
         node == @used_return_value_of or @used_return_value_of.include?(node)
       end
 
+      def model_classnames
+        @model_classnames ||= models.map(&:to_s)
+      end
+
       add_callback :start_call, :start_command_call, :start_method_add_arg do |node|
         unless @already_checked == node
           message = node.message.to_s
@@ -52,7 +57,13 @@ module RailsBestPractices
               add_error "check '#{message}' return value or use '#{message}!'"
             end
           elsif message == 'create'
-            add_error "use 'create!' instead of 'create' as the latter may not always save"
+            # We're only interested in 'create' calls on model classes:
+            possible_receiver_classes = [node.receiver.to_s] + classable_modules.map do |mod|
+                "#{mod}::#{node.receiver.to_s}"
+              end
+            unless (possible_receiver_classes & model_classnames).empty?
+              add_error "use 'create!' instead of 'create' as the latter may not always save"
+            end
           end
 
           if node.sexp_type == :method_add_arg
