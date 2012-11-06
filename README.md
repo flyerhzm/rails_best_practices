@@ -116,6 +116,7 @@ Now you can customize this configuration file, the default configuration is as f
 
     AddModelVirtualAttributeCheck: { }
     AlwaysAddDbIndexCheck: { }
+    CheckSaveReturnValueCheck: { }
     DryBundlerInCapistranoCheck: { }
     #HashSyntaxCheck: { }
     IsolateSeedDataCheck: { }
@@ -165,6 +166,7 @@ Move code from Controller to Model
 4. Add model virtual attribute
 5. Replace complex creation with factory method
 6. Move model logic into the Model
+7. Check return value of "save!"
 
 RESTful Conventions
 
