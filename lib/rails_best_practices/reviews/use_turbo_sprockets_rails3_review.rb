@@ -11,7 +11,7 @@ module RailsBestPractices
     #
     # Review process:
     #   only check if turbo-sprockets-rails3 gem is not used and load 'deploy/assets' in Capfile.
-    class UseTurboSprocketsRails3 < Review
+    class UseTurboSprocketsRails3Review < Review
       interesting_nodes :command
       interesting_files CAPFILE
       url "http://rails-bestpractices.com/posts/704-speed-up-assets-precompile-with-turbo-sprockets-rails3"
