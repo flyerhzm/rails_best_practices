@@ -15,6 +15,7 @@ module RailsBestPractices
       HELPER_FILES = /app\/helpers\/.*\.rb$/
       DEPLOY_FILES = /config\/deploy.*\.rb/
       CONFIG_FILES = /config\/(application|environment|environments\/.*)\.rb/
+      GEMFILE = /Gemfile/
 
       SKIP_FILES = /db\/schema.rb/
 

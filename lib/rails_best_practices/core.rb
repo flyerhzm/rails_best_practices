@@ -13,5 +13,6 @@ require 'rails_best_practices/core/controllers'
 require 'rails_best_practices/core/helpers'
 require 'rails_best_practices/core/routes'
 require 'rails_best_practices/core/configs'
+require 'rails_best_practices/core/gems'
 
 require 'rails_best_practices/core_ext/erubis'
