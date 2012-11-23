@@ -37,3 +37,4 @@ UseObserverCheck: { }
 UseQueryAttributeCheck: { }
 UseSayWithTimeInMigrationsCheck: { }
 UseScopeAccessCheck: { }
+UseTurboSprocketsRails3Check: { }

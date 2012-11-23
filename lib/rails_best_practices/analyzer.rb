@@ -114,6 +114,9 @@ module RailsBestPractices
           files = file_ignore(files, pattern)
         end
 
+        files.unshift File.join(@path, "Capfile")
+        files.unshift File.join(@path, "Gemfile")
+
         files.compact
       end
     end

@@ -153,6 +153,7 @@ Now you can customize this configuration file, the default configuration is as f
     UseQueryAttributeCheck: { }
     UseSayWithTimeInMigrationsCheck: { }
     UseScopeAccessCheck: { }
+    UseTurboSprocketsRails3Check: { }
 
 You can remove or comment one review to disable it, and you can change the options.
 
@@ -217,6 +218,7 @@ View
 Deployment
 
 1. Dry bundler in capistrano
+2. Speed up assets precompile with turbo-sprockets-rails3
 
 Other
 
