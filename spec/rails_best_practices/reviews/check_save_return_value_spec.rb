@@ -50,6 +50,25 @@ module RailsBestPractices
           runner.should have(0).errors
         end
 
+        it "should allow save return value used in elsif" do
+          content =<<-EOF
+          def my_method
+            post = Posts.new do |p|
+              p.title = "foo"
+            end
+            if current_user
+              "YES"
+            elsif post.save
+              "OK"
+            else
+              raise "could not save"
+            end
+          end
+          EOF
+          runner.review('app/helpers/posts_helper.rb', content)
+          runner.should have(0).errors
+        end
+
         it "should allow save return value used in unless" do
           content =<<-EOF
           def my_method
