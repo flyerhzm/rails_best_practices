@@ -39,6 +39,24 @@ module RailsBestPractices
         runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
       end
 
+      it "should use query attribute by blank call with if in one line" do
+        content = <<-EOF
+        <%= link_to 'login', new_session_path if @user.login.blank? %>
+        EOF
+        runner.review('app/views/users/show.html.erb', content)
+        runner.should have(1).errors
+        runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+      end
+
+      it "should use query attribute by blank call with '? :'" do
+        content = <<-EOF
+        <%= @user.login.blank? ? link_to('login', new_session_path) : '' %>
+        EOF
+        runner.review('app/views/users/show.html.erb', content)
+        runner.should have(1).errors
+        runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+      end
+
       it "should use query attribute by comparing empty string" do
         content = <<-EOF
         <% if @user.login == "" %>

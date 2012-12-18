@@ -24,6 +24,36 @@ module RailsBestPractices
           runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
         end
 
+        it "shoud use scope access with if in one line" do
+          content = <<-EOF
+          class PostsController < ApplicationController
+            def edit
+              @post = Post.find(params[:id])
+
+              redirect_to posts_url if @post.user != current_user
+            end
+          end
+          EOF
+          runner.review('app/controllers/posts_controller.rb', content)
+          runner.should have(1).errors
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
+        end
+
+        it "shoud use scope access with '? :'" do
+          content = <<-EOF
+          class PostsController < ApplicationController
+            def edit
+              @post = Post.find(params[:id])
+
+              @post.user != current_user ? redirect_to(posts_url) : render
+            end
+          end
+          EOF
+          runner.review('app/controllers/posts_controller.rb', content)
+          runner.should have(1).errors
+          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:5 - use scope access"
+        end
+
         it "shoud use scope access by comparing with id" do
           content = <<-EOF
           class PostsController < ApplicationController

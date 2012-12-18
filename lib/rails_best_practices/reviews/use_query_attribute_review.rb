@@ -16,7 +16,7 @@ module RailsBestPractices
     #   and their messages of second call are one of nil?, blank?, present?, or they are == ""
     #   then you can use query attribute instead.
     class UseQueryAttributeReview < Review
-      interesting_nodes :if, :unless, :elsif
+      interesting_nodes :if, :unless, :elsif, :ifop, :if_mod, :unless_mod
       interesting_files ALL_FILES
       url "http://rails-bestpractices.com/posts/56-use-query-attribute"
 
@@ -34,7 +34,7 @@ module RailsBestPractices
       #    the message is == and the argument is ""
       #
       # then the call node can use query attribute instead.
-      add_callback :start_if, :start_unless, :start_elsif do |node|
+      add_callback :start_if, :start_unless, :start_elsif, :start_ifop, :start_if_mod, :start_unless_mod do |node|
         all_conditions = if node.conditional_statement == node.conditional_statement.all_conditions
           [node.conditional_statement]
         else

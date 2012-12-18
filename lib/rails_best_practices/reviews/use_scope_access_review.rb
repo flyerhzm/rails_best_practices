@@ -16,7 +16,7 @@ module RailsBestPractices
     #   and there is redirect_to method call in if block body,
     #   then it should be replaced by using scope access.
     class UseScopeAccessReview < Review
-      interesting_nodes :if, :unless, :elsif
+      interesting_nodes :if, :unless, :elsif, :ifop, :if_mod, :unless_mod
       interesting_files CONTROLLER_FILES
       url "http://rails-bestpractices.com/posts/3-use-scope-access"
 
@@ -25,7 +25,7 @@ module RailsBestPractices
       # if it is a method call compared with current_user or current_user.id,
       # and there is a redirect_to method call in the block body,
       # then it should be replaced by using scope access.
-      add_callback :start_if, :start_unless, :start_elsif do |node|
+      add_callback :start_if, :start_unless, :start_elsif, :start_ifop, :start_if_mod, :start_unless_mod do |node|
         add_error "use scope access" if current_user_redirect?(node)
       end
 

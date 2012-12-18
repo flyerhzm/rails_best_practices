@@ -15,11 +15,11 @@ module RailsBestPractices
     #   Check all "save" calls to check the return value is used by a node we have visited.
     class CheckSaveReturnValueReview < Review
       include Classable
-      interesting_nodes :call, :command_call, :method_add_arg, :if, :ifop, :elsif, :unless, :assign, :binary
+      interesting_nodes :call, :command_call, :method_add_arg, :if, :ifop, :elsif, :unless, :if_mod, :unless_mod, :assign, :binary
       interesting_files ALL_FILES
       url "http://rails-bestpractices.com/posts/703-check-the-return-value-of-save-otherwise-use-save"
 
-      add_callback :start_if, :start_ifop, :start_elsif, :start_unless do |node|
+      add_callback :start_if, :start_ifop, :start_elsif, :start_unless, :start_if_mod, :start_unless_mod do |node|
         @used_return_value_of = node.conditional_statement.all_conditions
       end
 
@@ -74,5 +74,3 @@ module RailsBestPractices
     end
   end
 end
-
-
