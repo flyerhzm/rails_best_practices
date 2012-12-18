@@ -13,7 +13,7 @@ module RailsBestPractices
     #   check if, unless, elsif there are multiple method calls or attribute assignments apply to one receiver,
     #   and the receiver is a variable, then they should be moved into model.
     class MoveCodeIntoModelReview < Review
-      interesting_nodes :if, :unless, :elsif
+      interesting_nodes :if, :unless, :elsif, :ifop, :if_mod, :unless_mod
       interesting_files VIEW_FILES
       url "http://rails-bestpractices.com/posts/25-move-code-into-model"
 
@@ -28,7 +28,7 @@ module RailsBestPractices
       #
       # if there are multiple call and assignment nodes who have the same receiver,
       # and the receiver is a variable, then the conditional statement nodes should be moved into model.
-      add_callback :start_if, :start_unless, :start_elsif do |node|
+      add_callback :start_if, :start_unless, :start_elsif, :start_ifop, :start_if_mod, :start_unless_mod do |node|
         node.conditional_statement.grep_nodes(sexp_type: :call) { |child_node| remember_variable_use_count(child_node) }
 
         variable_use_count.each do |variable_node, count|

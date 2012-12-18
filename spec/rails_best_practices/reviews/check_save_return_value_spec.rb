@@ -81,6 +81,32 @@ module RailsBestPractices
           runner.should have(0).errors
         end
 
+        it "should allow save return value used in if_mod" do
+          content =<<-EOF
+          def my_method
+            post = Posts.new do |p|
+              p.title = "foo"
+            end
+            "OK" if post.save
+          end
+          EOF
+          runner.review('app/helpers/posts_helper.rb', content)
+          expect(runner).to have(0).errors
+        end
+
+        it "should allow save return value used in unless_mod" do
+          content =<<-EOF
+          def my_method
+            post = Posts.new do |p|
+              p.title = "foo"
+            end
+            "NO" unless post.save
+          end
+          EOF
+          runner.review('app/helpers/posts_helper.rb', content)
+          expect(runner).to have(0).errors
+        end
+
         it "should allow save return value used in unless with &&" do
           content =<<-EOF
           def my_method
