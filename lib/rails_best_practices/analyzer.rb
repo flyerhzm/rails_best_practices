@@ -87,7 +87,7 @@ module RailsBestPractices
             plain_output(warning, 'red')
           end
         end
-        @bar.inc if display_bar?
+        @bar.increment if display_bar?
       end
       @runner.send("after_#{process}")
     end
@@ -191,7 +191,7 @@ module RailsBestPractices
           error.hg_username = hg_commit_username.split(/\ /)[0..-2].join(' ')
           error.hg_commit = hg_commit_username.split(/\ /)[-1]
         end
-        hg_progressbar.inc if display_bar?
+        hg_progressbar.increment if display_bar?
       end
       hg_progressbar.finish if display_bar?
     end
@@ -207,7 +207,7 @@ module RailsBestPractices
           error.git_commit = git_commit.split(" ").first.strip
           error.git_username = git_username.strip
         end
-        git_progressbar.inc if display_bar?
+        git_progressbar.increment if display_bar?
       end
       git_progressbar.finish if display_bar?
     end
