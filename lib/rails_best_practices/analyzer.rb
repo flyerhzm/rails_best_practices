@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'fileutils'
 
-require 'progressbar'
+require 'ruby-progressbar'
 require 'colored'
 require 'ap'
 
@@ -183,7 +183,7 @@ module RailsBestPractices
 
     # load hg commit and hg username info.
     def load_hg_info
-      hg_progressbar = ProgressBar.new('Hg Info', errors.size) if display_bar?
+      hg_progressbar = ProgressBar.create(:title => 'Hg Info', :total => errors.size) if display_bar?
       errors.each do |error|
         hg_info = `cd #{@runner.class.base_path} && hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, "")} | sed -n /:#{error.line_number.split(',').first}:/p`
         unless hg_info == ""
@@ -198,7 +198,7 @@ module RailsBestPractices
 
     # load git commit and git username info.
     def load_git_info
-      git_progressbar = ProgressBar.new('Git Info', errors.size) if display_bar?
+      git_progressbar = ProgressBar.create(:title => 'Git Info', :total => errors.size) if display_bar?
       start = @runner.class.base_path =~ /\/$/ ? @runner.class.base_path.size : @runner.class.base_path.size + 1
       errors.each do |error|
         git_info = `cd #{@runner.class.base_path} && git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}`
@@ -257,7 +257,7 @@ module RailsBestPractices
 
     # analyze source codes.
     def analyze_source_codes
-      @bar = ProgressBar.new('Source Codes', parse_files.size * 3) if display_bar?
+      @bar = ProgressBar.create(:title => 'Source Codes', :total => parse_files.size * 3) if display_bar?
       ["lexical", "prepare", "review"].each { |process| send(:process, process) }
       @bar.finish if display_bar?
     end
