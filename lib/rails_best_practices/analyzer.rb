@@ -1,7 +1,7 @@
 # encoding: utf-8
 require 'fileutils'
 
-require 'progressbar'
+require 'ruby-progressbar'
 require 'colored'
 require 'ap'
 
@@ -87,7 +87,7 @@ module RailsBestPractices
             plain_output(warning, 'red')
           end
         end
-        @bar.inc if display_bar?
+        @bar.increment if display_bar?
       end
       @runner.send("after_#{process}")
     end
@@ -183,7 +183,7 @@ module RailsBestPractices
 
     # load hg commit and hg username info.
     def load_hg_info
-      hg_progressbar = ProgressBar.new('Hg Info', errors.size) if display_bar?
+      hg_progressbar = ProgressBar.create(:title => 'Hg Info', :total => errors.size) if display_bar?
       errors.each do |error|
         hg_info = `cd #{@runner.class.base_path} && hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, "")} | sed -n /:#{error.line_number.split(',').first}:/p`
         unless hg_info == ""
@@ -191,14 +191,14 @@ module RailsBestPractices
           error.hg_username = hg_commit_username.split(/\ /)[0..-2].join(' ')
           error.hg_commit = hg_commit_username.split(/\ /)[-1]
         end
-        hg_progressbar.inc if display_bar?
+        hg_progressbar.increment if display_bar?
       end
       hg_progressbar.finish if display_bar?
     end
 
     # load git commit and git username info.
     def load_git_info
-      git_progressbar = ProgressBar.new('Git Info', errors.size) if display_bar?
+      git_progressbar = ProgressBar.create(:title => 'Git Info', :total => errors.size) if display_bar?
       start = @runner.class.base_path =~ /\/$/ ? @runner.class.base_path.size : @runner.class.base_path.size + 1
       errors.each do |error|
         git_info = `cd #{@runner.class.base_path} && git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}`
@@ -207,7 +207,7 @@ module RailsBestPractices
           error.git_commit = git_commit.split(" ").first.strip
           error.git_username = git_username.strip
         end
-        git_progressbar.inc if display_bar?
+        git_progressbar.increment if display_bar?
       end
       git_progressbar.finish if display_bar?
     end
@@ -257,7 +257,7 @@ module RailsBestPractices
 
     # analyze source codes.
     def analyze_source_codes
-      @bar = ProgressBar.new('Source Codes', parse_files.size * 3) if display_bar?
+      @bar = ProgressBar.create(:title => 'Source Codes', :total => parse_files.size * 3) if display_bar?
       ["lexical", "prepare", "review"].each { |process| send(:process, process) }
       @bar.finish if display_bar?
     end
