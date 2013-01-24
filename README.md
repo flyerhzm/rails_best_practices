@@ -246,7 +246,7 @@ Follow us on twitter: <http://twitter.com/railsbp>
 Send us email: <team@railsbp.com>
 
 
-Copyright © 2009 - 2012 Richard Huang (flyerhzm@gmail.com), released under the MIT license
+Copyright © 2009 - 2013 Richard Huang (flyerhzm@gmail.com), released under the MIT license
 
 
 [1]: https://github.com/railsbp/rails_best_practices/wiki/How-to-write-your-own-check-list
