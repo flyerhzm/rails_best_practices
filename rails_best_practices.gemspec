@@ -11,6 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = "a code metric tool for rails codes."
   s.description = "a code metric tool for rails codes, written in Ruby."
 
+  s.required_ruby_version = ">= 1.9.0"
   s.required_rubygems_version = ">= 1.3.6"
 
   s.add_dependency("code_analyzer")
