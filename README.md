@@ -46,7 +46,7 @@ By default rails_best_practices will do parse codes in vendor, spec, test and fe
         -f, --format FORMAT              output format
             --without-color              only output plain text without color
             --with-textmate              open file by textmate in html format
-            --with-sublime               open file by sublime in html format
+            --with-sublime               open file by sublime in html format (requires https://github.com/asuth/subl-handler)
             --with-mvim                  open file by mvim in html format
             --with-hg                    display hg commit and username, only support html format
             --with-git                   display git commit and username, only support html format
@@ -92,6 +92,10 @@ rails_best_practices gem is rewritten based on ripper instead of ruby_parser to 
 or add in Gemfile
 
     gem "rails_best_practices"
+    
+#### --with-sublime
+
+Install <https://github.com/asuth/subl-handler>
 
 ## Issue
 
