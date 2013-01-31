@@ -8,6 +8,7 @@ require 'optparse'
 #        --output-file FILE           output html file for the analyzing result
 #        --without-color              only output plain text without color
 #        --with-textmate              open file by textmate in html format
+#        --with-sublime               open file by sublime in html format (requires subl-handler)
 #        --with-mvim                  open file by mvim in html format
 #        --with-github GITHUB_NAME    open file on github in html format, GITHUB_NAME is like railsbp/rails-bestpractices.com
 #        --with-git                   display git commit and username, only support html format
@@ -42,6 +43,10 @@ OptionParser.new do |opts|
 
   opts.on("--with-textmate", "open file by textmate in html format") do
     options["with-textmate"] = true
+  end
+  
+  opts.on("--with-sublime", "open file by sublime in html format") do
+    options["with-sublime"] = true
   end
 
   opts.on("--with-mvim", "open file by mvim in html format") do
