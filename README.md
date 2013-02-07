@@ -48,6 +48,7 @@ By default rails_best_practices will do parse codes in vendor, spec, test and fe
             --with-textmate              open file by textmate in html format
             --with-sublime               open file by sublime in html format (requires https://github.com/asuth/subl-handler)
             --with-mvim                  open file by mvim in html format
+            --with-github GITHUB_NAME    open file on github in html format. GITHUB_NAME is like railsbp/rails-bestpractices
             --with-hg                    display hg commit and username, only support html format
             --with-git                   display git commit and username, only support html format
             --template TEMPLATE          customize erb template
