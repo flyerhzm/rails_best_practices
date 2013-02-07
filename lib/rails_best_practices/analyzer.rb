@@ -226,7 +226,7 @@ module RailsBestPractices
           errors: errors,
           error_types: error_types,
           textmate: @options["with-textmate"],
-          sublime: @option["with-sublime"],
+          sublime: @options["with-sublime"],
           mvim: @options["with-mvim"],
           github: @options["with-github"],
           github_name: @options["github-name"],
