@@ -20,13 +20,13 @@ module RailsBestPractices
       # we treat it as mass assignment by default.
       add_callback :start_class do |node|
         @mass_assignement = true
+        check_whitelist_attributes_config
       end
 
       # check if it is ActiveRecord::Base subclass and
       # if it sets config.active_record.whitelist_attributes to true.
       add_callback :end_class do |node|
         check_active_record(node)
-        check_whitelist_attributes_config
 
         add_error "protect mass assignment" if @mass_assignement
       end
@@ -54,12 +54,12 @@ module RailsBestPractices
       private
         def check_whitelist_attributes_config
           if "true" == Prepares.configs["config.active_record.whitelist_attributes"]
-            @mass_assignement = false
+            @whitelist_attributes = true
           end
         end
 
         def check_rails_builtin(node)
-          if [node.to_s, node.message.to_s].any? { |str| %w(attr_accessible attr_protected).include? str }
+          if @whitelist_attributes && [node.to_s, node.message.to_s].any? { |str| %w(attr_accessible attr_protected).include? str }
             @mass_assignement = false
           end
         end
