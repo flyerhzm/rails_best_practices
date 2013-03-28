@@ -15,7 +15,15 @@ module RailsBestPractices
         runner.errors[0].to_s.should == "app/models/user.rb:1 - protect mass assignment"
       end
 
-      it "should not protect mass assignment if attr_accessible is used with arguments" do
+      it "should not protect mass assignment if attr_accessible is used with arguments and user set config.active_record.whitelist_attributes" do
+        content =<<-EOF
+        module RailsBestPracticesCom
+          class Application < Rails::Application
+            config.active_record.whitelist_attributes = true
+          end
+        end
+        EOF
+        runner.prepare('config/application.rb', content)
         content =<<-EOF
         class User < ActiveRecord::Base
           attr_accessible :email, :password, :password_confirmation
@@ -25,7 +33,15 @@ module RailsBestPractices
         runner.should have(0).errors
       end
 
-      it "should not protect mass assignment if attr_accessible is used without arguments" do
+      it "should not protect mass assignment if attr_accessible is used without arguments and user set config.active_record.whitelist_attributes" do
+        content =<<-EOF
+        module RailsBestPracticesCom
+          class Application < Rails::Application
+            config.active_record.whitelist_attributes = true
+          end
+        end
+        EOF
+        runner.prepare('config/application.rb', content)
         content =<<-EOF
         class User < ActiveRecord::Base
           attr_accessible
@@ -35,7 +51,15 @@ module RailsBestPractices
         runner.should have(0).errors
       end
 
-      it "should not protect mass assignment with attr_protected" do
+      it "should not protect mass assignment with attr_protected if user set config.active_record.whitelist_attributes" do
+        content =<<-EOF
+        module RailsBestPracticesCom
+          class Application < Rails::Application
+            config.active_record.whitelist_attributes = true
+          end
+        end
+        EOF
+        runner.prepare('config/application.rb', content)
         content =<<-EOF
         class User < ActiveRecord::Base
           attr_protected :role
@@ -71,23 +95,6 @@ module RailsBestPractices
         content =<<-EOF
         class User < ActiveRecord::Base
           acts_as_authentic
-        end
-        EOF
-        runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
-      end
-
-      it "should not protect mass assignment if user set config.active_record.whitelist_attributes" do
-        content =<<-EOF
-        module RailsBestPracticesCom
-          class Application < Rails::Application
-            config.active_record.whitelist_attributes = true
-          end
-        end
-        EOF
-        runner.prepare('config/application.rb', content)
-        content =<<-EOF
-        class User < ActiveRecord::Base
         end
         EOF
         runner.review('app/models/user.rb', content)
