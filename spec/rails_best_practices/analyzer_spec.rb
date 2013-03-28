@@ -57,7 +57,7 @@ module RailsBestPractices
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'vendor'))
           Dir.mkdir(File.join(random_dir, 'vendor', 'my_project'))
-          IO.write(File.join(random_dir, 'vendor', 'my_project', 'my_file.rb'), 'woot')
+          File.open(File.join(random_dir, 'vendor', 'my_project', 'my_file.rb'), "w") { |file| file << 'woot' }
           analyzer = Analyzer.new(File.join(random_dir, 'vendor', 'my_project'))
           analyzer.parse_files.should be_include File.join(random_dir, 'vendor', 'my_project', 'my_file.rb')
         }
@@ -67,7 +67,7 @@ module RailsBestPractices
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'spec'))
           Dir.mkdir(File.join(random_dir, 'spec', 'my_project'))
-          IO.write(File.join(random_dir, 'spec', 'my_project', 'my_file.rb'), 'woot')
+          File.open(File.join(random_dir, 'spec', 'my_project', 'my_file.rb'), "w") { |file| file << 'woot' }
           analyzer = Analyzer.new(File.join(random_dir, 'spec', 'my_project'))
           analyzer.parse_files.should be_include File.join(random_dir, 'spec', 'my_project', 'my_file.rb')
         }
@@ -77,7 +77,7 @@ module RailsBestPractices
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'test'))
           Dir.mkdir(File.join(random_dir, 'test', 'my_project'))
-          IO.write(File.join(random_dir, 'test', 'my_project', 'my_file.rb'), 'woot')
+          File.open(File.join(random_dir, 'test', 'my_project', 'my_file.rb'), "w") { |file| file << 'woot' }
           analyzer = Analyzer.new(File.join(random_dir, 'test', 'my_project'))
           analyzer.parse_files.should be_include File.join(random_dir, 'test', 'my_project', 'my_file.rb')
         }
@@ -87,7 +87,7 @@ module RailsBestPractices
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'test'))
           Dir.mkdir(File.join(random_dir, 'test', 'my_project'))
-          IO.write(File.join(random_dir, 'test', 'my_project', 'my_file.rb'), 'woot')
+          File.open(File.join(random_dir, 'test', 'my_project', 'my_file.rb'), "w") { |file| file << 'woot' }
           analyzer = Analyzer.new(File.join(random_dir, 'test', 'my_project'))
           analyzer.parse_files.should be_include File.join(random_dir, 'test', 'my_project', 'my_file.rb')
         }
@@ -97,7 +97,7 @@ module RailsBestPractices
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'tmp'))
           Dir.mkdir(File.join(random_dir, 'tmp', 'my_project'))
-          IO.write(File.join(random_dir, 'tmp', 'my_project', 'my_file.rb'), 'woot')
+          File.open(File.join(random_dir, 'tmp', 'my_project', 'my_file.rb'), "w") { |file| file << 'woot' }
           analyzer = Analyzer.new(File.join(random_dir, 'tmp', 'my_project'))
           analyzer.parse_files.should be_include File.join(random_dir, 'tmp', 'my_project', 'my_file.rb')
         }
