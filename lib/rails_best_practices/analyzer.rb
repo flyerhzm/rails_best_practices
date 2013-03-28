@@ -18,6 +18,7 @@ module RailsBestPractices
   # After analyzing, output the violations.
   class Analyzer
     attr_accessor :runner
+    attr_reader :path
 
     DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "..", "rails_best_practices.yml")
 
@@ -26,8 +27,11 @@ module RailsBestPractices
     # @param [String] path where to generate the configuration yaml file
     # @param [Hash] options
     def initialize(path, options={})
-      @path = path || "."
+      @path = File.expand_path(path || ".")
+
       @options = options
+      @options["exclude"] ||= []
+      @options["only"] ||= []
     end
 
     # generate configuration yaml file.
@@ -47,9 +51,6 @@ module RailsBestPractices
     # @param [String] path the directory of rails project
     # @param [Hash] options
     def analyze
-      @options["exclude"] ||= []
-      @options["only"] ||= []
-
       Core::Runner.base_path = @path
       @runner = Core::Runner.new
 
@@ -105,8 +106,8 @@ module RailsBestPractices
         end
 
         # By default, tmp, vender, spec, test, features are ignored.
-        ["vendor", "spec", "test", "features", "tmp"].each do |pattern|
-          files = file_ignore(files, "#{pattern}/") unless @options[pattern]
+        ["vendor", "spec", "test", "features", "tmp"].each do |dir|
+          files = file_ignore(files, File.join(@path, dir)) unless @options[dir]
         end
 
         # Exclude files based on exclude regexes if the option is set.
@@ -159,7 +160,8 @@ module RailsBestPractices
     # @param [Regexp] pattern files match the pattern will be ignored
     # @return [Array] files that not match the pattern
     def file_ignore(files, pattern)
-      files.reject { |file| file.index(pattern) }
+      pattern += '/' unless pattern.end_with? '/'
+      files.reject { |file| file.start_with? pattern }
     end
 
     # accept specific files.
