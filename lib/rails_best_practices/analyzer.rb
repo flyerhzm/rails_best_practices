@@ -21,6 +21,7 @@ module RailsBestPractices
     attr_reader :path
 
     DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "..", "rails_best_practices.yml")
+    GITHUB_URL = 'https://github.com/'
 
     # initialize
     #
@@ -221,6 +222,9 @@ module RailsBestPractices
 
       if @options["with-github"]
         last_commit_id = @options["last-commit-id"] ? @options["last-commit-id"] : `cd #{@runner.class.base_path} && git rev-parse HEAD`.chomp
+        unless @options["github-name"].start_with?('http')
+          @options["github-name"] = GITHUB_URL + @options["github-name"]
+        end
       end
       File.open(@options["output-file"], "w+") do |file|
         eruby = Erubis::Eruby.new(template)
