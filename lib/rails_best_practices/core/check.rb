@@ -118,11 +118,13 @@ module RailsBestPractices
             # remember the class anem
             add_callback :start_class do |node|
               @klass = Core::Klass.new(node.class_name.to_s, node.base_class.to_s, classable_modules)
+              klasses << @klass
             end
 
             # end of the class
             add_callback :end_class do |node|
-              #@klass = nil
+              klasses.pop
+              # @klass = nil
             end
           end
         end
@@ -140,6 +142,10 @@ module RailsBestPractices
         # modules.
         def classable_modules
           @class_moduels ||= []
+        end
+
+        def klasses
+          @klasses ||= []
         end
       end
 
