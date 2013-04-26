@@ -257,6 +257,23 @@ module RailsBestPractices
           methods = Prepares.model_methods
           methods.get_methods("Admin::Blog::Post").map(&:method_name).should == ["save", "find"]
         end
+
+        it "should not add methods from module" do
+          content =<<-EOF
+            class Model < ActiveRecord::Base
+            end
+          EOF
+          runner.prepare("app/models/model.rb", content)
+          content =<<-EOF
+            module Mixin
+              def mixed_method
+              end
+            end
+          EOF
+          runner.prepare("app/models/mixins/mixin.rb", content)
+          methods = Prepares.model_methods
+          methods.get_methods('Model').should be_empty
+        end
       end
 
       context "scope" do
