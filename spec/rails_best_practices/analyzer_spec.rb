@@ -26,9 +26,17 @@ module RailsBestPractices
     end
 
     describe "file_ignore" do
+      before do
+        @all = ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/models/user.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim", "lib/user.rb"]
+        @filtered = ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/models/user.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim"]
+      end
+
       it "should ignore lib" do
-        files = ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/models/user.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim", "lib/user.rb"]
-        subject.file_ignore(files, 'lib/').should == ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/models/user.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim"]
+        subject.file_ignore(@all, 'lib/').should == @filtered
+      end
+
+      it "should ignore regexp patterns" do
+        subject.file_ignore(@all, /lib/).should == @filtered
       end
     end
 
