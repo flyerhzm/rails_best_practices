@@ -161,8 +161,7 @@ module RailsBestPractices
     # @param [Regexp] pattern files match the pattern will be ignored
     # @return [Array] files that not match the pattern
     def file_ignore(files, pattern)
-      pattern += '/' unless pattern.end_with? '/'
-      files.reject { |file| file.start_with? pattern }
+      files.reject { |file| file.index(pattern) }
     end
 
     # accept specific files.
