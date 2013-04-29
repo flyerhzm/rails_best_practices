@@ -8,3 +8,4 @@ rdoc/**
 doc/**
 .yardoc/**
 rails_best_practices_output.*
+coverage/
