@@ -2,6 +2,9 @@
 
 [![Build Status](https://secure.travis-ci.org/railsbp/rails_best_practices.png)](http://travis-ci.org/railsbp/rails_best_practices)
 
+[![Coverage
+Status](https://coveralls.io/repos/railsbp/rails_best_practices/badge.png?branch=master)](https://coveralls.io/r/railsbp/rails_best_practices)
+
 [![Coderwall Endorse](http://api.coderwall.com/flyerhzm/endorsecount.png)](http://coderwall.com/flyerhzm)
 
 [![Click here to lend your support to: rails best practices and make a donation at www.pledgie.com !](http://www.pledgie.com/campaigns/12057.png?skin_name=chrome)](http://www.pledgie.com/campaigns/12057)
@@ -93,7 +96,7 @@ rails_best_practices gem is rewritten based on ripper instead of ruby_parser to 
 or add in Gemfile
 
     gem "rails_best_practices"
-    
+
 #### --with-sublime
 
 Install <https://github.com/asuth/subl-handler>
