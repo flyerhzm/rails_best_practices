@@ -54,7 +54,9 @@ module RailsBestPractices
 
       private
         def check_rails_version
-          @mass_assignement = false if Rails.version.split(".").first == "4"
+          if Rails.version.split(".").first == "4"
+              @mass_assignement = false
+          end
         end
 
         end
