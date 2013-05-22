@@ -54,12 +54,9 @@ module RailsBestPractices
 
       private
         def check_rails_version
-          if Rails.version.split(".").first == "4"
-              @mass_assignement = false
-          end
+          @mass_assignement = false if Rails.version.split(".").first == "4"
         end
 
-        end
         def check_whitelist_attributes_config
           if "true" == Prepares.configs["config.active_record.whitelist_attributes"]
             @whitelist_attributes = true
