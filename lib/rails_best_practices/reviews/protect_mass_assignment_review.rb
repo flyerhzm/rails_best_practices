@@ -21,6 +21,7 @@ module RailsBestPractices
       add_callback :start_class do |node|
         @mass_assignement = true
         check_whitelist_attributes_config
+        check_rails_version #checks for Rails 4
       end
 
       # check if it is ActiveRecord::Base subclass and
@@ -52,6 +53,10 @@ module RailsBestPractices
       end
 
       private
+        def check_rails_version
+          @mass_assignement = false if Rails.version.split(".").first == "4"
+        end
+
         def check_whitelist_attributes_config
           if "true" == Prepares.configs["config.active_record.whitelist_attributes"]
             @whitelist_attributes = true
