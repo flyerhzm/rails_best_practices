@@ -68,7 +68,7 @@
       <% if @errors.empty? %>
         No error found. Cool!
       <% else %>
-        Found <%= @errors.size %> warnings.
+        Found <span class='errors_size'><%= @errors.size %></span> warnings.
       <% end %>
     </p>
     <table>
@@ -149,15 +149,22 @@
             $(this).prop('checked', false);
             $('.'+$(this).val()).hide();
           }
+          updateErrorsCount();
         });
         $('#show-all').click(function() {
           $('input.error-type[type=checkbox]').prop('checked', true);
           $('table.result tbody tr').show();
+          updateErrorsCount();
         });
         $('#show-none').click(function() {
           $('input.error-type[type=checkbox]').prop('checked', false);
           $('table.result tbody tr').hide();
+          updateErrorsCount();
         });
+
+        var updateErrorsCount = function(){
+          $('.errors_size').html($('table.result tbody tr:visible').size())
+        }
       });
     </script>
   </body>
