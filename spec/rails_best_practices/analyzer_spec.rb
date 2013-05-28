@@ -40,27 +40,67 @@ module RailsBestPractices
       end
     end
 
-    describe "output_terminal_errors" do
-      it "should output errors in terminal" do
+    context 'outputs' do
+      let(:runner) do
         check1 = Reviews::LawOfDemeterReview.new
         check2 = Reviews::UseQueryAttributeReview.new
         runner = Core::Runner.new(reviews: [check1, check2])
         check1.add_error "law of demeter", "app/models/user.rb", 10
         check2.add_error "use query attribute", "app/models/post.rb", 100
-        subject.runner = runner
-        subject.instance_variable_set("@options", {"without-color" => false})
+        runner
+      end
 
-        $origin_stdout = $stdout
-        $stdout = StringIO.new
-        subject.output_terminal_errors
-        result = $stdout.string
-        $stdout = $origin_stdout
-        result.should == ["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 warnings.".red].join("\n") + "\n"
+      before do
+        subject.runner = runner
+      end
+
+      describe "output_terminal_errors" do
+        it "should output errors in terminal" do
+          subject.instance_variable_set("@options", {"without-color" => false})
+
+          $origin_stdout = $stdout
+          $stdout = StringIO.new
+          subject.output_terminal_errors
+          result = $stdout.string
+          $stdout = $origin_stdout
+          result.should == ["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 warnings.".red].join("\n") + "\n"
+        end
+      end
+
+      describe 'output_html_errors' do
+        let(:file){ StringIO.new }
+
+        before do
+          File.should_receive(:open).with("output", "w+").once.and_yield(file)
+        end
+
+        it 'should support template option' do
+          subject.instance_variable_set('@options', {'output-file' => 'output', 'template' => 'some/path.erb'})
+
+          template_file = mock(:template_file)
+          template_string = mock(:template_string)
+
+          File.should_receive(:expand_path).with('some/path.erb').once.and_return(template_file)
+          File.should_receive(:read).with(template_file).and_return(template_string)
+          Erubis::Eruby.should_receive(:new).with(template_string).once.and_return(mock(evaluate: true))
+
+          subject.output_html_errors
+        end
+
+        it 'should render output and print errors count' do
+          subject.instance_variable_set("@options", {"output-file" => 'output'})
+
+          Erubis::Eruby.should_receive(:new).with(kind_of(String)).once.and_call_original
+          subject.output_html_errors
+          result = file.string
+
+          errors_count = "<span class='errors_size'>2</span>"
+          result.should include errors_count
+        end
       end
     end
 
     describe 'parse_files' do
-
       it 'should not filter out all files when the path contains "vendor"' do
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'vendor'))
