@@ -23,13 +23,22 @@ module RailsBestPractices
 
       it "should not use turbo-sprockets-rails3 with turbo-sprockets-rails3 gem" do
         content = <<-EOF
-        source "http://rubygems.org"
-        gem "rails"
-        group :assets do
-          gem "turbo-sprockets-rails3"
-        end
+GEM
+  remote: http://rubygems.org
+  specs:
+    rails (3.2.13)
+      actionmailer (= 3.2.13)
+      actionpack (= 3.2.13)
+      activerecord (= 3.2.13)
+      activeresource (= 3.2.13)
+      activesupport (= 3.2.13)
+      bundler (~> 1.0)
+      railties (= 3.2.13)
+    turbo-sprockets-rails3 (0.3.6)
+      railties (> 3.2.8, < 4.0.0)
+      sprockets (>= 2.0.0)
         EOF
-        runner.prepare('Gemfile', content)
+        runner.prepare('Gemfile.lock', content)
         content = <<-EOF
         load 'deploy' if respond_to?(:namespace)
         load 'deploy/assets'
@@ -51,4 +60,3 @@ module RailsBestPractices
     end
   end
 end
-

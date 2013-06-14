@@ -18,7 +18,7 @@ module RailsBestPractices
 
       # check command node to see if load 'deploy/assets'
       add_callback :start_command do |node|
-        if !Prepares.gems.include?("turbo-sprockets-rails3") && "load" == node.message.to_s && "deploy/assets" == node.arguments.to_s
+        if !Prepares.gems.has_gem?("turbo-sprockets-rails3") && "load" == node.message.to_s && "deploy/assets" == node.arguments.to_s
           add_error "speed up assets precompile with turbo-sprockets-rails3"
         end
       end

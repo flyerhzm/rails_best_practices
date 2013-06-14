@@ -5,17 +5,17 @@ module RailsBestPractices
   module Prepares
     # Remember all gems in Gemfile
     class GemfilePrepare < Core::Check
-      interesting_nodes :command
-      interesting_files GEMFILE
+      interesting_files GEMFILE_LOCK
 
       def initialize
         @gems = Prepares.gems
       end
 
-      # Check all command nodes to get gem names.
-      add_callback :start_command do |node|
-        if "gem" == node.message.to_s
-          @gems << node.arguments.to_s
+      def check(filename, content)
+        content.split("\n").each do |line|
+          if line =~ /([^ ]+) \((\d.*)\)/
+            @gems << Core::Gem.new($1, $2)
+          end
         end
       end
     end

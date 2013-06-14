@@ -8,13 +8,25 @@ module RailsBestPractices
       context "gemfile" do
         it "should parse gems" do
           content =<<-EOF
-          source 'http://rubygems.org'
-          gem 'rails'
-          gem 'mysql2'
+GEM
+  remote: https://rubygems.org/
+  specs:
+    rails (3.2.13)
+      actionmailer (= 3.2.13)
+      actionpack (= 3.2.13)
+      activerecord (= 3.2.13)
+      activeresource (= 3.2.13)
+      activesupport (= 3.2.13)
+      bundler (~> 1.0)
+      railties (= 3.2.13)
+    mysql2 (0.3.12b6)
+
+PLATFORMS
+  ruby
           EOF
-          runner.prepare('Gemfile', content)
+          runner.prepare('Gemfile.lock', content)
           gems = Prepares.gems
-          gems.should == %w(rails mysql2)
+          gems.map(&:to_s).should == ["rails (3.2.13)", "mysql2 (0.3.12b6)"]
         end
       end
     end

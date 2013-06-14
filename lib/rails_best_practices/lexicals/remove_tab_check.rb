@@ -7,6 +7,7 @@ module RailsBestPractices
     #
     # See the best practice details here http://rails-bestpractices.com/posts/81-remove-tab
     class RemoveTabCheck < Core::Check
+      interesting_files ALL_FILES
       url "http://rails-bestpractices.com/posts/81-remove-tab"
 
       # check if the content of file contains a tab.

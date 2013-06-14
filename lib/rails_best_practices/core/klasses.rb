@@ -12,7 +12,7 @@ module RailsBestPractices
       end
     end
 
-    # Class info includes clas name, extend class name and module names.
+    # Class info includes class name, extend class name and module names.
     class Klass
       attr_reader :class_name, :extend_class_name
 

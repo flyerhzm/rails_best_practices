@@ -5,6 +5,8 @@ module RailsBestPractices
   module Lexicals
     # Keep lines fewer than 80 characters.
     class LongLineCheck < Core::Check
+      interesting_files ALL_FILES
+
       def initialize(options = {})
         super()
         @max_line_length = options['max_line_length'] || 80

@@ -49,7 +49,8 @@ module RailsBestPractices
         load_plugin_reviews if reviews.empty?
 
         @lexical_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @lexicals)
-        @prepare_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @prepares)
+        @plain_prepare_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @prepares.select { |checker| checker.is_a? Prepares::GemfilePrepare })
+        @default_prepare_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @prepares.select { |checker| !checker.is_a? Prepares::GemfilePrepare })
         @review_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @reviews)
       end
 
@@ -70,11 +71,13 @@ module RailsBestPractices
       # @param [String] filename of the file
       # @param [String] content of the file
       def prepare(filename, content)
-        @prepare_checker.check(filename, content)
+        @plain_prepare_checker.check(filename, content)
+        @default_prepare_checker.check(filename, content)
       end
 
       def after_prepare
-        @prepare_checker.after_check
+        @plain_prepare_checker.after_check
+        @default_prepare_checker.after_check
       end
 
       # review the file.
