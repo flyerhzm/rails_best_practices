@@ -5,6 +5,10 @@ module RailsBestPractices
       def has_gem?(gem_name)
         self.find { |gem| gem.name == gem_name }
       end
+
+      def gem_version(gem_name)
+        self.find { |gem| gem.name == gem_name }.try(:version)
+      end
     end
 
     # Gem info includes gem name and gem version

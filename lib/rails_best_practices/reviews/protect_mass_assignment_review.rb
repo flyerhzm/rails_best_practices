@@ -20,6 +20,7 @@ module RailsBestPractices
       # we treat it as mass assignment by default.
       add_callback :start_class do |node|
         @mass_assignement = true
+        check_rails_version
         check_whitelist_attributes_config
         check_include_forbidden_attributes_protection_config
       end
@@ -53,6 +54,12 @@ module RailsBestPractices
       end
 
       private
+        def check_rails_version
+          if Prepares.gems.gem_version("rails").to_i > 3
+            @mass_assignement = false
+          end
+        end
+
         def check_whitelist_attributes_config
           if "true" == Prepares.configs["config.active_record.whitelist_attributes"]
             @whitelist_attributes = true

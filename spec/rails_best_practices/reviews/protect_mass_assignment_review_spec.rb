@@ -3,7 +3,8 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe ProtectMassAssignmentReview do
-      let(:runner) { Core::Runner.new(reviews: ProtectMassAssignmentReview.new) }
+      let(:runner) { Core::Runner.new(prepares: [Prepares::GemfilePrepare.new, Prepares::ConfigPrepare.new, Prepares::InitializerPrepare.new],
+                                      reviews: ProtectMassAssignmentReview.new) }
 
       it "should protect mass assignment" do
         content =<<-EOF
@@ -134,6 +135,40 @@ module RailsBestPractices
           EOF
           runner.review('app/models/user.rb', content)
           runner.should have(0).errors
+        end
+      end
+
+      context "rails 4" do
+        it "should not protect mass assignment for rails 4" do
+          content =<<-EOF
+  GEM
+    remote: http://rubygems.org
+    specs:
+      rails (4.0.0)
+          EOF
+          runner.prepare('Gemfile.lock', content)
+          content =<<-EOF
+          class User < ActiveRecord::Base
+          end
+          EOF
+          runner.review('app/models/user.rb', content)
+          runner.should have(0).errors
+        end
+
+        it "should protect mass assignment for rails 3" do
+          content =<<-EOF
+  GEM
+    remote: http://rubygems.org
+    specs:
+      rails (3.2.13)
+          EOF
+          runner.prepare('Gemfile.lock', content)
+          content =<<-EOF
+          class User < ActiveRecord::Base
+          end
+          EOF
+          runner.review('app/models/user.rb', content)
+          runner.should have(1).errors
         end
       end
     end
