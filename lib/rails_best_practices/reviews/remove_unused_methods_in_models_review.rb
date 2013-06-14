@@ -98,7 +98,7 @@ module RailsBestPractices
             validate validate_each validate_on_create validate_on_update
             human_attribute_name
             assign_attributes
-            to_xml to_json to_param
+            to_xml to_json as_json to_param
             before_save before_create before_update before_destroy after_save after_create
             after_update after_destroy after_find after_initialize
             method_missing
