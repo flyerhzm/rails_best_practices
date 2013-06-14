@@ -7,6 +7,7 @@ require 'rails_best_practices/prepares/route_prepare'
 require 'rails_best_practices/prepares/helper_prepare'
 require 'rails_best_practices/prepares/config_prepare'
 require 'rails_best_practices/prepares/gemfile_prepare'
+require 'rails_best_practices/prepares/initializer_prepare'
 
 module RailsBestPractices
   module Prepares

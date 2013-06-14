@@ -15,6 +15,7 @@ module RailsBestPractices
       HELPER_FILES = /app\/helpers\/.*\.rb$/
       DEPLOY_FILES = /config\/deploy.*\.rb/
       CONFIG_FILES = /config\/(application|environment|environments\/.*)\.rb/
+      INITIALIZER_FILES = /config\/initializers\/.*\.rb/
       CAPFILE = /Capfile/
       GEMFILE = /Gemfile/
 

@@ -21,6 +21,7 @@ module RailsBestPractices
       add_callback :start_class do |node|
         @mass_assignement = true
         check_whitelist_attributes_config
+        check_include_forbidden_attributes_protection_config
       end
 
       # check if it is ActiveRecord::Base subclass and
@@ -55,6 +56,12 @@ module RailsBestPractices
         def check_whitelist_attributes_config
           if "true" == Prepares.configs["config.active_record.whitelist_attributes"]
             @whitelist_attributes = true
+          end
+        end
+
+        def check_include_forbidden_attributes_protection_config
+          if "true" == Prepares.configs["railsbp.include_forbidden_attributes_protection"]
+            @mass_assignement = false
           end
         end
 

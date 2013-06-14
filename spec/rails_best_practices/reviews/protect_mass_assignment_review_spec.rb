@@ -110,14 +110,31 @@ module RailsBestPractices
         runner.should have(0).errors
       end
 
-      it "should not protect mass assignment for strong_parameters" do
-        content =<<-EOF
-        class User < ActiveRecord::Base
-          include ActiveModel::ForbiddenAttributesProtection
+      context "strong_parameters" do
+        it "should not protect mass assignment for strong_parameters" do
+          content =<<-EOF
+          class User < ActiveRecord::Base
+            include ActiveModel::ForbiddenAttributesProtection
+          end
+          EOF
+          runner.review('app/models/user.rb', content)
+          runner.should have(0).errors
         end
-        EOF
-        runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+
+        it "should not protect mass assignment for strong_parameters" do
+          content =<<-EOF
+          class AR
+            ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)
+          end
+          EOF
+          runner.prepare('config/initializers/ar.rb', content)
+          content =<<-EOF
+          class User < ActiveRecord::Base
+          end
+          EOF
+          runner.review('app/models/user.rb', content)
+          runner.should have(0).errors
+        end
       end
     end
   end
