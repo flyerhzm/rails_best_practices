@@ -77,6 +77,7 @@ module RailsBestPractices
         end
       end
 
+      # mark assignment as used, like current_user = @user
       add_callback :start_assign do |node|
         if :var_field == node.left_value.sexp_type
           call_method "#{node.left_value}=", current_class_name
