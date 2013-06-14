@@ -186,6 +186,35 @@ module RailsBestPractices
         end
       end
 
+      context "assignment" do
+        it "should not remove unused methods if call in base class" do
+          content =<<-EOF
+          RailsBestPracticesCom::Application.routes.draw do
+            resources :user, only: :show do; end
+          end
+          EOF
+          runner.prepare('config/routes.rb', content)
+          application_content =<<-EOF
+          class ApplicationController
+            def current_user=(user); end
+          end
+          EOF
+          runner.prepare('app/controllers/application_controller.rb', application_content)
+          users_content =<<-EOF
+          class UsersController < ApplicationController
+            def show
+              current_user = @user
+            end
+          end
+          EOF
+          runner.prepare('app/controllers/users_controller.rb', users_content)
+          runner.review('app/controllers/application_controller.rb', application_content)
+          runner.review('app/controllers/users_controller.rb', users_content)
+          runner.after_review
+          runner.should have(0).errors
+        end
+      end
+
       context "helper_method" do
         it "should remove unused methods if helper method is not called" do
           content = <<-EOF

@@ -19,7 +19,7 @@ module RailsBestPractices
       include Exceptable
       include InheritedResourcesable
 
-      interesting_nodes :class, :command, :method_add_arg
+      interesting_nodes :class, :command, :method_add_arg, :assign
       interesting_files CONTROLLER_FILES, VIEW_FILES, HELPER_FILES
 
       INHERITED_RESOURCES_METHODS = %w(resource collection begin_of_association_chain build_resource)
@@ -74,6 +74,12 @@ module RailsBestPractices
           end
         else
           # nothing
+        end
+      end
+
+      add_callback :start_assign do |node|
+        if :var_field == node.left_value.sexp_type
+          call_method "#{node.left_value}=", current_class_name
         end
       end
 
