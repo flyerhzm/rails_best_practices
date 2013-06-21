@@ -17,7 +17,7 @@ module RailsBestPractices
       CONFIG_FILES = /config\/(application|environment|environments\/.*)\.rb/
       INITIALIZER_FILES = /config\/initializers\/.*\.rb/
       CAPFILE = /Capfile/
-      GEMFILE_LOCK = /Gemfile.lock/
+      GEMFILE_LOCK = /Gemfile\.lock/
 
       SKIP_FILES = /db\/schema.rb/
 
