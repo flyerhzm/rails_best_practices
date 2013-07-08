@@ -115,7 +115,7 @@
               <% elsif @textmate %>
                 <a href='txmt://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
               <% elsif @sublime %>
-                <a href='"subl://open?url=file://"<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
+                <a href='subl://open?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
               <% elsif @mvim %>
                 <a href='mvim://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
               <% else %>
