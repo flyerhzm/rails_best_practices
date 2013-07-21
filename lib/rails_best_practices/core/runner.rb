@@ -1,12 +1,12 @@
 # encoding: utf-8
 require 'yaml'
-require 'active_support/inflector'
 require 'active_support/core_ext/object/blank'
 begin
   require 'active_support/core_ext/object/try'
 rescue LoadError
   require 'active_support/core_ext/try'
 end
+require 'active_support/inflector'
 
 module RailsBestPractices
   module Core

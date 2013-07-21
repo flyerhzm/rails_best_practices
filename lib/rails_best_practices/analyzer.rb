@@ -1,10 +1,8 @@
 # encoding: utf-8
-require 'fileutils'
-
-require 'ruby-progressbar'
-require 'colored'
 require 'ap'
-
+require 'colored'
+require 'fileutils'
+require 'ruby-progressbar'
 
 module RailsBestPractices
   # RailsBestPractices Analyzer helps you to analyze your rails code, according to best practices on http://rails-bestpractices.
