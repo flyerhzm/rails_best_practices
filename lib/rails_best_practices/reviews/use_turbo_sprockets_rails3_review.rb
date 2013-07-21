@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'rails_best_practices/reviews/review'
-
 module RailsBestPractices
   module Reviews
     # Prepare Gemfile and review Capfile file to make sure using turbo-sprocket-rails3

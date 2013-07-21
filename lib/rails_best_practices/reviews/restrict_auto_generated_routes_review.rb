@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'rails_best_practices/reviews/review'
-
 module RailsBestPractices
   module Reviews
     # Review a route file to make sure all auto-generated routes have corresponding actions in controller.

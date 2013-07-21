@@ -14,13 +14,14 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 1.9.0"
   s.required_rubygems_version = ">= 1.3.6"
 
+  s.add_dependency("activesupport")
+  s.add_dependency("awesome_print")
   s.add_dependency("code_analyzer")
-  s.add_dependency("ruby-progressbar")
   s.add_dependency("colored")
   s.add_dependency("erubis")
   s.add_dependency("i18n")
-  s.add_dependency("activesupport")
-  s.add_dependency("awesome_print")
+  s.add_dependency("require_all")
+  s.add_dependency("ruby-progressbar")
 
   s.add_development_dependency("rake")
   s.add_development_dependency("rspec")

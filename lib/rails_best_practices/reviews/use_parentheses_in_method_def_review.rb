@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'rails_best_practices/reviews/review'
-
 module RailsBestPractices
   module Reviews
     # Check if method definition has parentheses around parameters.

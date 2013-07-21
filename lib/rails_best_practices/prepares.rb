@@ -1,13 +1,5 @@
 # encoding: utf-8
-require 'rails_best_practices/prepares/config_prepare'
-require 'rails_best_practices/prepares/controller_prepare'
-require 'rails_best_practices/prepares/gemfile_prepare'
-require 'rails_best_practices/prepares/helper_prepare'
-require 'rails_best_practices/prepares/initializer_prepare'
-require 'rails_best_practices/prepares/mailer_prepare'
-require 'rails_best_practices/prepares/model_prepare'
-require 'rails_best_practices/prepares/route_prepare'
-require 'rails_best_practices/prepares/schema_prepare'
+require_rel 'prepares'
 
 module RailsBestPractices
   module Prepares

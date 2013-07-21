@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'rails_best_practices/reviews/review'
-
 module RailsBestPractices
   module Reviews
     # Review config/routes file to make sure not use default route that rails generated.

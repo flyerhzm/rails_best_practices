@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'rails_best_practices/reviews/review'
-
 module RailsBestPractices
   module Reviews
     # Review model files to make sure not use default_scope

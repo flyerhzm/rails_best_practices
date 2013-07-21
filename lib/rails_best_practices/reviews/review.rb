@@ -1,7 +1,4 @@
 # encoding: utf-8
-require 'rails_best_practices/core/check'
-require 'rails_best_practices/core/error'
-
 module RailsBestPractices
   module Reviews
     # A Review class that takes charge of reviewing one rails best practice.

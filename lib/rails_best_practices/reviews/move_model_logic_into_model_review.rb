@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'rails_best_practices/reviews/review'
-
 module RailsBestPractices
   module Reviews
     # Review a controller file to make sure that complex model logic should not exist in controller, should be moved into a model.

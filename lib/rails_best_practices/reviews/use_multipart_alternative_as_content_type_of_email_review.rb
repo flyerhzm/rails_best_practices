@@ -1,7 +1,4 @@
 # encoding: utf-8
-require 'rails_best_practices/core/runner'
-require 'rails_best_practices/reviews/review'
-
 module RailsBestPractices
   module Reviews
     # Make sure to use multipart/alternative as content_type of email.

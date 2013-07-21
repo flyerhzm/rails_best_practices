@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'rails_best_practices/core/check'
-
 module RailsBestPractices
   module Lexicals
     # Make sure there are no trailing whitespace in codes.

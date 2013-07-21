@@ -1,6 +1,4 @@
 # encoding: utf-8
-require 'rails_best_practices/reviews/review'
-
 module RailsBestPractices
   module Reviews
     # Check ruby 1.8 style hash and suggest to change hash syntax to 1.9.
