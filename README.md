@@ -124,6 +124,7 @@ Now you can customize this configuration file, the default configuration is as f
     AddModelVirtualAttributeCheck: { }
     AlwaysAddDbIndexCheck: { }
     #CheckSaveReturnValueCheck: { }
+    DefaultScopeIsEvilCheck: { }
     DryBundlerInCapistranoCheck: { }
     #HashSyntaxCheck: { }
     IsolateSeedDataCheck: { }
