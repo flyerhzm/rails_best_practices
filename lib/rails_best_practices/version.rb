@@ -1,4 +1,4 @@
 # encoding: utf-8
 module RailsBestPractices
-  VERSION = "1.13.8"
+  VERSION = "1.14.0"
 end
