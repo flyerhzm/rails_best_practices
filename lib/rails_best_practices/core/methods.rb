@@ -12,7 +12,7 @@ module RailsBestPractices
       #
       # @param [String] class name
       # @param [String] method name
-      # @param [Hash] method meta, file and line, {"file" => "app/models/post.rb", "line" => 5}
+      # @param [Hash] method meta, file and line, {"file" => "app/models/post.rb", "line_number" => 5}
       # @param [String] access control, public, protected or private
       def add_method(class_name, method_name, meta={}, access_control="public")
         return if class_name == ""
@@ -141,15 +141,15 @@ module RailsBestPractices
         end
     end
 
-    # Method info includes class name, method name, access control, file, line, used.
+    # Method info includes class name, method name, access control, file, line_number, used.
     class Method
-      attr_reader :access_control, :class_name, :method_name, :used, :file, :line
+      attr_reader :access_control, :class_name, :method_name, :used, :file, :line_number
 
       def initialize(class_name, method_name, access_control, meta)
         @class_name = class_name
         @method_name = method_name
         @file = meta["file"]
-        @line = meta["line"]
+        @line_number = meta["line_number"]
         @access_control = access_control
         @used = false
       end
@@ -163,6 +163,7 @@ module RailsBestPractices
       def publicize
         @access_control = "public"
       end
+
     end
   end
 end

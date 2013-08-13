@@ -46,7 +46,7 @@ module RailsBestPractices
       # @param [String] message, is the string message for violation of the rails best practice
       # @param [String] filename, is the filename of source code
       # @param [Integer] line_number, is the line number of the source code which is reviewing
-      def add_error(message, filename = @node.file, line_number = @node.line)
+      def add_error(message, filename = @node.file, line_number = @node.line_number)
         errors << RailsBestPractices::Core::Error.new(
           filename: filename,
           line_number: line_number,

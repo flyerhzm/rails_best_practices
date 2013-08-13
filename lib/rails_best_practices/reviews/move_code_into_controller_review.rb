@@ -31,7 +31,7 @@ module RailsBestPractices
       # and the message of the right value node is one of the find, all, first and last,
       # then it is a finder and should be moved to controller.
       add_callback :start_assign do |node|
-        add_error "move code into controller", node.file, node.right_value.line if finder?(node.right_value)
+        add_error "move code into controller", node.file, node.right_value.line_number if finder?(node.right_value)
       end
 
       private
