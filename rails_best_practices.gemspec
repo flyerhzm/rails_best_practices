@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "http://rails-bestpractices.com"
   s.summary     = "a code metric tool for rails codes."
   s.description = "a code metric tool for rails codes, written in Ruby."
+  s.license     = 'MIT'
 
   s.required_ruby_version = ">= 1.9.0"
   s.required_rubygems_version = ">= 1.3.6"
