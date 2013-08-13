@@ -39,7 +39,7 @@ module RailsBestPractices
                            child_node
                          end
           if :call == receiver_node.sexp_type
-            add_error("use say with time in migrations", node.file, child_node.line)
+            add_error("use say with time in migrations", node.file, child_node.line_number)
           end
         end
       end

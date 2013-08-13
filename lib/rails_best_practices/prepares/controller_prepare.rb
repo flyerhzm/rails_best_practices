@@ -32,7 +32,7 @@ module RailsBestPractices
       add_callback :end_class do |node|
         if @inherited_resources && "ApplicationController" != current_class_name
           @actions.each do |action|
-            @methods.add_method(current_class_name, action, {"file" => node.file, "line" => node.line})
+            @methods.add_method(current_class_name, action, {"file" => node.file, "line_number" => node.line_number})
           end
         end
       end
@@ -73,16 +73,16 @@ module RailsBestPractices
       # the remembered methods (@methods) are like
       #     {
       #       "PostsController" => {
-      #         "save" => {"file" => "app/controllers/posts_controller.rb", "line" => 10, "unused" => false},
-      #         "find" => {"file" => "app/controllers/posts_controller.rb", "line" => 10, "unused" => false}
+      #         "save" => {"file" => "app/controllers/posts_controller.rb", "line_number" => 10, "unused" => false},
+      #         "find" => {"file" => "app/controllers/posts_controller.rb", "line_number" => 10, "unused" => false}
       #       },
       #       "CommentsController" => {
-      #         "create" => {"file" => "app/controllers/comments_controller.rb", "line" => 10, "unused" => false},
+      #         "create" => {"file" => "app/controllers/comments_controller.rb", "line_number" => 10, "unused" => false},
       #       }
       #     }
       add_callback :start_def do |node|
         method_name = node.method_name.to_s
-        @methods.add_method(current_class_name, method_name, {"file" => node.file, "line" => node.line}, current_access_control)
+        @methods.add_method(current_class_name, method_name, {"file" => node.file, "line_number" => node.line_number}, current_access_control)
       end
 
       # ask Reviews::RemoveUnusedMoethodsInHelperReview to check the controllers who include helpers.

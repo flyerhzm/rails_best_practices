@@ -70,7 +70,7 @@ module RailsBestPractices
             end
             @counter -= 1
           elsif [:command_call, :command].include?(node.sexp_type) && ["resources", "resource"].include?(node.message.to_s)
-            add_error "needless deep nesting (nested_count > #{@nested_count})", @file, node.line if @counter >= @nested_count && !@shallow_nodes.include?(node)
+            add_error "needless deep nesting (nested_count > #{@nested_count})", @file, node.line_number if @counter >= @nested_count && !@shallow_nodes.include?(node)
           end
         end
     end
