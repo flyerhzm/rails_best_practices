@@ -46,7 +46,7 @@ module RailsBestPractices
       # then they are overuse route customizations.
       add_callback :start_command_call do |node|
         if member_and_collection_count_for_rails2(node) > @customize_count
-          add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.receiver.line
+          add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.receiver.line_number
         end
       end
 
@@ -59,7 +59,7 @@ module RailsBestPractices
       # then they are overuse route customizations.
       add_callback :start_method_add_block do |node|
         if member_and_collection_count_for_rails3(node) > @customize_count
-          add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.line
+          add_error "overuse route customizations (customize_count > #{@customize_count})", node.file, node.line_number
         end
       end
 

@@ -43,7 +43,7 @@ module RailsBestPractices
             receiver_node = query_attribute_node.receiver
             add_error "use query attribute (#{receiver_node.receiver}.#{receiver_node.message}?)",
               node.file,
-              query_attribute_node.line
+              query_attribute_node.line_number
           end
         end
       end
