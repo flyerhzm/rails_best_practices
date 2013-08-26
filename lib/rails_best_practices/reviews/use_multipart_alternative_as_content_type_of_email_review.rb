@@ -51,9 +51,9 @@ module RailsBestPractices
         #
         # @param [String] name method name in action_mailer
         def rails3_canonical_mailer_views?(name)
-          (exist?("#{name}.html.erb") && !html_tempalte_exists?("#{name}.text")) ||
-          (exist?("#{name}.html.haml") && !html_tempalte_exists?("#{name}.text")) ||
-          (exist?("#{name}.html.slim") && !html_tempalte_exists?("#{name}.text"))
+          (exist?("#{name}.html.erb") && !html_template_exists?("#{name}.text")) ||
+          (exist?("#{name}.html.haml") && !html_template_exists?("#{name}.text")) ||
+          (exist?("#{name}.html.slim") && !html_template_exists?("#{name}.text"))
         end
 
         # check if the filename existed in the mailer directory.
@@ -62,7 +62,7 @@ module RailsBestPractices
         end
 
         # check if erb, haml or slim exists
-        def html_tempalte_exists?(filename)
+        def html_template_exists?(filename)
           exist?("#{filename}.erb") || exist?("#{filename}.haml") || exist?("#{filename}.slim")
         end
 
