@@ -7,10 +7,19 @@ module RailsBestPractices
 
       it "should use turbo-sprockets-rails3" do
         content = <<-EOF
-        source "http://rubygems.org"
-        gem "rails"
+GEM
+  remote: http://rubygems.org
+  specs:
+    rails (3.2.13)
+      actionmailer (= 3.2.13)
+      actionpack (= 3.2.13)
+      activerecord (= 3.2.13)
+      activeresource (= 3.2.13)
+      activesupport (= 3.2.13)
+      bundler (~> 1.0)
+      railties (= 3.2.13)
         EOF
-        runner.prepare('Gemfile', content)
+        runner.prepare('Gemfile.lock', content)
         content = <<-EOF
         load 'deploy' if respond_to?(:namespace)
         load 'deploy/assets'
@@ -52,6 +61,30 @@ GEM
         content = <<-EOF
         load 'deploy' if respond_to?(:namespace)
         #load 'deploy/assets'
+        load 'config/deploy'
+        EOF
+        runner.review('Capfile', content)
+        runner.should have(0).errors
+      end
+
+      it "should not use turbo-sprockets-rails3 with rails4 gem" do
+        content = <<-EOF
+GEM
+  remote: http://rubygems.org
+  specs:
+    rails (4.0.0)
+      actionmailer (= 4.0.0)
+      actionpack (= 4.0.0)
+      activerecord (= 4.0.0)
+      activeresource (= 4.0.0)
+      activesupport (= 4.0.0)
+      bundler (~> 1.0)
+      railties (= 3.2.13)
+        EOF
+        runner.prepare('Gemfile.lock', content)
+        content = <<-EOF
+        load 'deploy' if respond_to?(:namespace)
+        load 'deploy/assets'
         load 'config/deploy'
         EOF
         runner.review('Capfile', content)
