@@ -116,7 +116,7 @@ module RailsBestPractices
               classable_modules.pop
             end
 
-            # remember the class anem
+            # remember the class name
             add_callback :start_class do |node|
               @klass = Core::Klass.new(node.class_name.to_s, node.base_class.to_s, classable_modules)
               klasses << @klass

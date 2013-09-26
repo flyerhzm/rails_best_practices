@@ -371,6 +371,43 @@ module RailsBestPractices
           runner.should have(0).errors
         end
       end
+
+      it "should not remove unused methods" do
+        route_content =<<-EOF
+        RailsBestPracticesCom::Application.routes.draw do
+          namespace :admin do
+            resources :users, only: :index
+          end
+        end
+        EOF
+        app_controller_content =<<-EOF
+        module Admin
+          class AppController < ApplicationController
+            def index
+              @collection = model.all
+            end
+          end
+        end
+        EOF
+        users_controller_content =<<-EOF
+        module Admin
+          class UsersController < AppController
+            private
+
+            def model
+              User
+            end
+          end
+        end
+        EOF
+        runner.prepare('config/routes.rb', route_content)
+        runner.prepare('app/controllers/admin/app_controller.rb', app_controller_content)
+        runner.prepare('app/controllers/admin/users_controller.rb', users_controller_content)
+        runner.review('app/controllers/admin/app_controller.rb', app_controller_content)
+        runner.review('app/controllers/admin/users_controller.rb', users_controller_content)
+        runner.after_review
+        runner.should have(0).errors
+      end
     end
   end
 end

@@ -14,20 +14,30 @@ module RailsBestPractices
 
     # Class info includes class name, extend class name and module names.
     class Klass
-      attr_reader :class_name, :extend_class_name
-
       def initialize(class_name, extend_class_name, modules)
         @class_name = class_name
         @extend_class_name = extend_class_name
         @modules = modules.dup
       end
 
-      def to_s
+      def class_name
         if @modules.empty?
           @class_name
         else
           @modules.map { |modu| "#{modu}::" }.join("") + @class_name
         end
+      end
+
+      def extend_class_name
+        if @modules.empty?
+          @extend_class_name
+        else
+          @modules.map { |modu| "#{modu}::" }.join("") + @extend_class_name
+        end
+      end
+
+      def to_s
+        class_name
       end
     end
   end
