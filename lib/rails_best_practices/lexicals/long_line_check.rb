@@ -6,7 +6,7 @@ module RailsBestPractices
       interesting_files ALL_FILES
 
       def initialize(options = {})
-        super()
+        super(options)
         @max_line_length = options['max_line_length'] || 80
       end
 

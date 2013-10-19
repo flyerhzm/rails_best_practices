@@ -38,6 +38,19 @@ module RailsBestPractices
         runner.lexical('app/models/user.rb', content)
         runner.should have(0).errors
       end
+      it "should not check ignored files" do
+        runner = Core::Runner.new(lexicals: RemoveTabCheck.new('ignored_files' => /user/))
+        content =<<-EOF
+        class User < ActiveRecord::Base
+          has_many :projects
+
+  \t
+        end
+        EOF
+        content.gsub!("\n", "\t\n")
+        runner.lexical('app/models/user.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

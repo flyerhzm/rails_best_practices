@@ -42,6 +42,18 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         runner.lexical('app/views/users/index.html.erb', content)
         runner.should have(0).errors
       end
+      it "should not check ignored files" do
+        runner = Core::Runner.new(lexicals: LongLineCheck.new('max_line_length' => 80, 'ignored_files' => /user/))
+        content =<<-EOF
+class User < ActiveRecord::Base
+# 81 Chars
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+end
+        EOF
+        content.gsub!("\n", "\t\n")
+        runner.lexical('app/models/user.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end
