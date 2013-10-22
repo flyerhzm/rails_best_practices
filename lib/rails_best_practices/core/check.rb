@@ -56,7 +56,7 @@ module RailsBestPractices
         )
       end
 
-      # errors that vialote the rails best practices.
+      # errors that violate the rails best practices.
       def errors
         @errors ||= []
       end
