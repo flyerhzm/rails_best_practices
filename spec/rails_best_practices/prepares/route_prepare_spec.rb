@@ -689,6 +689,19 @@ module RailsBestPractices
           routes.last.to_s.should == "PostsController#stop"
         end
 
+        it "should parse custom route for resource with explicit to and different action name" do
+          content =<<-EOF
+          RailsBestPracticesCom::Application.routes.draw do
+            resources :posts do
+              get :halt, to: 'posts#stop'
+            end
+          end
+          EOF
+          runner.prepare('config/routes.rb', content)
+          routes = Prepares.routes
+          routes.last.to_s.should == "PostsController#stop"
+        end
+
         it "should not take former resources for direct get/post" do
           content =<<-EOF
           RailsBestPracticesCom::Application.routes.draw do
