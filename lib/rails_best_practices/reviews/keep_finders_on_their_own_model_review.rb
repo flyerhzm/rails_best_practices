@@ -1,7 +1,7 @@
 # encoding: utf-8
 module RailsBestPractices
   module Reviews
-    # Review model files to ake sure finders are on their own model.
+    # Review model files to make sure finders are on their own model.
     #
     # See the best practice details here http://rails-bestpractices.com/posts/13-keep-finders-on-their-own-model.
     #
