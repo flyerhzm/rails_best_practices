@@ -96,7 +96,7 @@ module RailsBestPractices
         runner.prepare('app/helpers/posts_helper.rb', content)
         runner.review('app/helpers/posts_helper.rb', content)
         runner.after_review
-        runner.should have(1).errors
+        runner.should have(0).errors
        end
     end
   end
