@@ -166,6 +166,11 @@ Now you can customize this configuration file, the default configuration is as f
 
 You can remove or comment one review to disable it, and you can change the options.
 
+You can apply the _ignored_files_ option on any rule by giving a regexp describing the path of the files you don't want to be checked:
+
+	LongLineCheck: { max_line_length: 80, ignored_files: /db\/migrate/ }
+	DefaultScopeIsEvilCheck: { ignored_files: /user\.rb/ }
+
 ## Implementation
 
 Move code from Controller to Model
