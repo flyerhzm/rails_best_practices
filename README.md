@@ -3,10 +3,9 @@
 [![Gem Version](https://badge.fury.io/rb/rails_best_practices.png)](http://badge.fury.io/rb/rails_best_practices)
 [![Build Status](https://secure.travis-ci.org/railsbp/rails_best_practices.png)](http://travis-ci.org/railsbp/rails_best_practices)
 [![Coverage Status](https://coveralls.io/repos/railsbp/rails_best_practices/badge.png?branch=master)](https://coveralls.io/r/railsbp/rails_best_practices)
-[![Code Climate](https://codeclimate.com/repos/51eb7073f3ea00179b00db0b/badges/095127e7bb641dbc825b/gpa.png)](https://codeclimate.com/repos/51eb7073f3ea00179b00db0b/feed)
 
 [![Coderwall Endorse](http://api.coderwall.com/flyerhzm/endorsecount.png)](http://coderwall.com/flyerhzm)
-[![Click here to lend your support to: rails best practices and make a donation at www.pledgie.com !](http://www.pledgie.com/campaigns/12057.png?skin_name=chrome)](http://www.pledgie.com/campaigns/12057)
+[![Click here to lend your support to: rails best practices and make a donation at www.pledgie.com !](https://pledgie.com/campaigns/12057.png?skin_name=chrome)](https://pledgie.com/campaigns/12057)
 
 rails_best_practices is a code metric tool to check the quality of rails codes.
 
