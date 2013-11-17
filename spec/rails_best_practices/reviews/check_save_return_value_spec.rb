@@ -238,6 +238,20 @@ module RailsBestPractices
           runner.errors.map(&:to_s).should == []
         end
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: CheckSaveReturnValueReview.new(ignored_files: /helpers/))
+        content =<<-EOF
+          def my_method
+            post = Posts.new do |p|
+              p.title = "foo"
+            end
+            post.save
+          end
+        EOF
+        runner.review('app/helpers/posts_helper.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

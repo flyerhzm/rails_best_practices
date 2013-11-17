@@ -85,6 +85,17 @@ module RailsBestPractices
         runner.review('app/views/jobs/show.html.erb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: MoveCodeIntoModelReview.new(ignored_files: /app\/views\/post/))
+        content =<<-EOF
+        <% if current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user)) %>
+          <%= link_to 'Edit this post', edit_post_url(@post) %>
+        <% end %>
+        EOF
+        runner.review('app/views/posts/show.html.erb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

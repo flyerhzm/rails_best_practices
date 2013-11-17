@@ -33,7 +33,7 @@ module RailsBestPractices
       VERBS = %w(get post update delete)
 
       def initialize(options = {})
-        super()
+        super(options)
         @customize_count = options['customize_count'] || 3
       end
 

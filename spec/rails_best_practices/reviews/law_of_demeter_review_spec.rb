@@ -160,6 +160,18 @@ module RailsBestPractices
         runner.review('app/controllers/comments_controller.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new],
+                                  reviews: LawOfDemeterReview.new(ignored_files: /app\/views\/invoices/))
+        content = <<-EOF
+          <%= @invoice.user.name %>
+          <%= @invoice.user.address %>
+          <%= @invoice.user.cellphone %>
+        EOF
+        runner.review('app/views/invoices/show.html.erb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

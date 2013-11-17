@@ -3,7 +3,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseBeforeFilterReview do
-      let(:runner) { Core::Runner.new(reviews: UseBeforeFilterReview.new('customize_count' => 2)) }
+      let(:runner) { Core::Runner.new(reviews: UseBeforeFilterReview.new(customize_count: 2)) }
 
       it "should use before_filter" do
         content = <<-EOF
@@ -101,6 +101,33 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
         runner.should have(0).errors
+      end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: UseBeforeFilterReview.new(customize_count: 2, ignored_files: /posts_controller/))
+        content = <<-EOF
+        class PostsController < ApplicationController
+          def show
+            @post = current_user.posts.find(params[:id])
+          end
+
+          def edit
+            @post = current_user.posts.find(params[:id])
+          end
+
+          def update
+            @post = current_user.posts.find(params[:id])
+            @post.update_attributes(params[:post])
+          end
+
+          def destroy
+            @post = current_user.posts.find(params[:id])
+            @post.destroy
+          end
+        end
+        EOF
+        runner.review('app/controllers/posts_controller.rb', content)
+        runner.should have(1).errors
       end
     end
   end

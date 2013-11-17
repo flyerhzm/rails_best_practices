@@ -60,6 +60,21 @@ module RailsBestPractices
         runner.review('app/controllers/posts_controller.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: UseModelAssociationReview.new(ignored_files: /posts_controller/))
+        content = <<-EOF
+        class PostsController < ApplicationController
+          def create
+            @post = Post.new(params[:post])
+            @post.user_id = current_user.id
+            @post.save
+          end
+        end
+        EOF
+        runner.review('app/controllers/posts_controller.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

@@ -20,7 +20,7 @@ EOF
         runner.errors[0].to_s.should == "app/models/user.rb:3 - line is longer than 80 characters (81 characters)"
       end
       it "should find long lines with own max size" do
-        runner = Core::Runner.new(lexicals: LongLineCheck.new('max_line_length' => 90))
+        runner = Core::Runner.new(lexicals: LongLineCheck.new(max_line_length: 90))
         content =<<-EOF
 class User < ActiveRecord::Base
 # 91 Chars
@@ -40,6 +40,18 @@ EOF
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 "
         runner.lexical('app/views/users/index.html.erb', content)
+        runner.should have(0).errors
+      end
+      it "should not check ignored files" do
+        runner = Core::Runner.new(lexicals: LongLineCheck.new(max_line_length: 80, ignored_files: /user/))
+        content =<<-EOF
+class User < ActiveRecord::Base
+# 81 Chars
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+end
+        EOF
+        content.gsub!("\n", "\t\n")
+        runner.lexical('app/models/user.rb', content)
         runner.should have(0).errors
       end
     end

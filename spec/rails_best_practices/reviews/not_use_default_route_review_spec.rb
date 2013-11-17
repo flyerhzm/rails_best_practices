@@ -30,6 +30,20 @@ module RailsBestPractices
           runner.review('config/routes.rb', content)
           runner.should have(0).errors
         end
+
+        it "should not check ignored files" do
+          runner = Core::Runner.new(reviews: NotUseDefaultRouteReview.new(ignored_files: /config\/routes\.rb/))
+          content = <<-EOF
+          ActionController::Routing::Routes.draw do |map|
+            map.resources :posts, member: { push: :post }
+
+            map.connect ':controller/:action/:id'
+            map.connect ':controller/:action/:id.:format'
+          end
+          EOF
+          runner.review('config/routes.rb', content)
+          runner.should have(0).errors
+        end
       end
 
       describe "rails3" do
@@ -50,6 +64,19 @@ module RailsBestPractices
           content = <<-EOF
           RailsBestpracticesCom::Application.routes.draw do |map|
             resources :posts
+          end
+          EOF
+          runner.review('config/routes.rb', content)
+          runner.should have(0).errors
+        end
+
+        it "should not check ignored files" do
+          runner = Core::Runner.new(reviews: NotUseDefaultRouteReview.new(ignored_files: /config\/routes\.rb/))
+          content = <<-EOF
+          RailsBestpracticesCom::Application.routes.draw do |map|
+            resources :posts
+
+            match ':controller(/:action(/:id(.:format)))'
           end
           EOF
           runner.review('config/routes.rb', content)

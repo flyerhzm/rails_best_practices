@@ -117,6 +117,20 @@ module RailsBestPractices
         runner.review('db/migrate/20101010080658_create_users.rb', content)
         runner.should have(3).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: UseSayWithTimeInMigrationsReview.new(ignored_files: /20101010080658_update_users/))
+        content =<<-EOF
+        def self.up
+          User.find_each do |user|
+            user.first_name, user.last_name = user.full_name.split(' ')
+            user.save
+          end
+        end
+        EOF
+        runner.review('db/migrate/20101010080658_update_users.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

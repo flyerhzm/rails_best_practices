@@ -48,6 +48,17 @@ module RailsBestPractices
           runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:2 - not use time_ago_in_words"
         end
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: NotUseTimeAgoInWordsReview.new(ignored_files: /posts_helper/))
+        content =<<-EOF
+          def timeago
+            content_tag(:p, time_ago_in_words(post.created_at))
+          end
+        EOF
+        runner.review('app/helpers/posts_helper.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

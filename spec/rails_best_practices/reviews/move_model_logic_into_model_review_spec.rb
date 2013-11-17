@@ -58,6 +58,28 @@ module RailsBestPractices
         runner.review('app/controllers/posts_controller.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: MoveModelLogicIntoModelReview.new(ignored_files: /app\/controllers\/posts/))
+        content = <<-EOF
+        class PostsController < ApplicationController
+          def publish
+            @post = Post.find(params[:id])
+            @post.update_attributes(:is_published, true)
+            @post.approved_by = current_user
+            if @post.created_at > Time.now - 7.days
+              @post.popular = 100
+            else
+              @post.popular = 0
+            end
+
+            redirect_to post_url(@post)
+          end
+        end
+        EOF
+        runner.review('app/controllers/posts_controller.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

@@ -65,6 +65,17 @@ module RailsBestPractices
         runner.review("app/controllers/posts_controller.rb", content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: SimplifyRenderInControllersReview.new(ignored_files: /posts_controller/))
+        content =<<-EOF
+        def edit
+          render action: :edit
+        end
+        EOF
+        runner.review("app/controllers/posts_controller.rb", content)
+        runner.should have(0).errors
+      end
     end
   end
 end

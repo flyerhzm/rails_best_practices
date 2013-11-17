@@ -34,6 +34,28 @@ module RailsBestPractices
         runner.review('config/deploy.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: DryBundlerInCapistranoReview.new(ignored_files: /deploy\.rb/))
+        content = <<-EOF
+        namespace :bundler do
+          task :create_symlink, roles: :app do
+            shared_dir = File.join(shared_path, 'bundle')
+            release_dir = File.join(current_release, '.bundle')
+            run("mkdir -p \#{shared_dir} && ln -s \#{shared_dir} \#{release_dir}")
+          end
+
+          task :bundle_new_release, roles: :app do
+            bundler.create_symlink
+            run "cd \#{release_path} && bundle install --without development test"
+          end
+        end
+
+        after 'deploy:update_code', 'bundler:bundle_new_release'
+        EOF
+        runner.review('config/deploy.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

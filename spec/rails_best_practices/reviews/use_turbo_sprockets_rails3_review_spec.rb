@@ -90,6 +90,32 @@ GEM
         runner.review('Capfile', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(prepares: Prepares::GemfilePrepare.new,
+                                  reviews: UseTurboSprocketsRails3Review.new(ignored_files: /Capfile/))
+        content = <<-EOF
+GEM
+  remote: http://rubygems.org
+  specs:
+    rails (3.2.13)
+      actionmailer (= 3.2.13)
+      actionpack (= 3.2.13)
+      activerecord (= 3.2.13)
+      activeresource (= 3.2.13)
+      activesupport (= 3.2.13)
+      bundler (~> 1.0)
+      railties (= 3.2.13)
+        EOF
+        runner.prepare('Gemfile.lock', content)
+        content = <<-EOF
+        load 'deploy' if respond_to?(:namespace)
+        load 'deploy/assets'
+        load 'config/deploy'
+        EOF
+        runner.review('Capfile', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

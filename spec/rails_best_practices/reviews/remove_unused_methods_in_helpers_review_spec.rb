@@ -83,6 +83,21 @@ module RailsBestPractices
         runner.after_review
         runner.should have(0).errors
       end
+
+       it "should not check ignored files" do
+        runner = Core::Runner.new(prepares: [Prepares::ControllerPrepare.new, Prepares::HelperPrepare.new],
+                                  reviews: RemoveUnusedMethodsInHelpersReview.new(ignored_files: /posts_helper/, except_methods: []))
+
+        content =<<-EOF
+        module PostsHelper
+          def unused; end
+        end
+        EOF
+        runner.prepare('app/helpers/posts_helper.rb', content)
+        runner.review('app/helpers/posts_helper.rb', content)
+        runner.after_review
+        runner.should have(1).errors
+       end
     end
   end
 end

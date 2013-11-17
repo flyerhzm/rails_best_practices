@@ -35,6 +35,16 @@ module RailsBestPractices
         runner.review('app/helpers/application_helper.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: RemoveEmptyHelpersReview.new(ignored_files: /posts_helper/))
+        content =<<-EOF
+        module PostsHelper
+        end
+        EOF
+        runner.review('app/helpers/posts_helper.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

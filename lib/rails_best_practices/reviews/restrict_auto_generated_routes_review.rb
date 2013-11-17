@@ -20,7 +20,8 @@ module RailsBestPractices
       RESOURCE_METHODS = ["show", "new", "create", "edit", "update", "destroy"]
       RESOURCES_METHODS = RESOURCE_METHODS + ["index"]
 
-      def initialize
+      def initialize(options={})
+        super(options)
         @namespaces = []
         @resource_controllers = []
       end

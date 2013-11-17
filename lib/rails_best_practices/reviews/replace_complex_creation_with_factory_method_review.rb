@@ -21,7 +21,7 @@ module RailsBestPractices
       url "http://rails-bestpractices.com/posts/6-replace-complex-creation-with-factory-method"
 
       def initialize(options = {})
-        super()
+        super(options)
         @assigns_count = options['attribute_assignment_count'] || 2
       end
 

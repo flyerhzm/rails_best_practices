@@ -27,7 +27,7 @@ module RailsBestPractices
       url "http://rails-bestpractices.com/posts/11-needless-deep-nesting"
 
       def initialize(options = {})
-        super()
+        super(options)
         @counter = 0
         @nested_count = options['nested_count'] || 2
         @shallow_nodes = []

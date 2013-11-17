@@ -89,6 +89,15 @@ module RailsBestPractices
         runner.review('app/views/posts/index.html.erb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: SimplifyRenderInViewsReview.new(ignored_files: /views\/posts\/index/))
+        content =<<-EOF
+        <%= render partial: 'sidebar' %>
+        EOF
+        runner.review('app/views/posts/index.html.erb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

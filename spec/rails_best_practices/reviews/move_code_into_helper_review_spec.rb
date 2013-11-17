@@ -23,6 +23,17 @@ module RailsBestPractices
         runner.review('app/views/posts/show.html.erb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: MoveCodeIntoControllerReview.new('array_count' => 2, 'ignored_files' => /app\/views\/post/))
+        content = <<-EOF
+        <%= select_tag :state, options_for_select( [[t(:draft), "draft"],
+                                                    [t(:published), "published"]],
+                                                   params[:default_state] ) %>
+        EOF
+        runner.review('app/views/posts/show.html.erb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

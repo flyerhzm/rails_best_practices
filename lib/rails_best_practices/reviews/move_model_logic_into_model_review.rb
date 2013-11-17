@@ -18,7 +18,7 @@ module RailsBestPractices
       url "http://rails-bestpractices.com/posts/7-move-model-logic-into-the-model"
 
       def initialize(options = {})
-        super()
+        super(options)
         @use_count = options['use_count'] || 4
       end
 

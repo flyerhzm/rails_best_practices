@@ -98,6 +98,22 @@ module RailsBestPractices
         runner.review('app/controllers/users_controller.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: AddModelVirtualAttributeReview.new(ignored_files: /user/))
+        content = <<-EOF
+        class UsersController < ApplicationController
+          def create
+            @user = User.new(params[:user])
+            @user.first_name = params[:full_name].split(' ', 2).first
+            @user.last_name = params[:full_name].split(' ', 2).last
+            @user.save
+          end
+        end
+        EOF
+        runner.review('app/controllers/users_controller.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end
