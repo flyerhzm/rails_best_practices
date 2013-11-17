@@ -22,7 +22,7 @@ module RailsBestPractices
       url "http://rails-bestpractices.com/posts/26-move-code-into-helper"
 
       def initialize(options = {})
-        super()
+        super(options)
         @array_count = options['array_count'] || 3
       end
 

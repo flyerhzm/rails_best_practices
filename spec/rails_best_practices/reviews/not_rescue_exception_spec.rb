@@ -89,6 +89,19 @@ module RailsBestPractices
           runner.review('app/helpers/posts_helper.rb', content)
           runner.should have(0).errors
         end
+
+        it "should not check ignored files" do
+          runner = Core::Runner.new(reviews: NotRescueExceptionReview.new(ignored_files: /posts_helper/))
+          content =<<-EOF
+          def my_method
+            do_something
+          rescue Exception => e
+            logger.error e
+          end
+          EOF
+          runner.review('app/helpers/posts_helper.rb', content)
+          runner.should have(0).errors
+        end
       end
     end
   end

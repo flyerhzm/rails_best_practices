@@ -703,6 +703,31 @@ module RailsBestPractices
         runner.prepare("app/mixins/date_range.rb", content)
         runner.review("app/mixins/date_range.rb", content)
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(prepares: Prepares::ModelPrepare.new,
+                                  reviews: RemoveUnusedMethodsInModelsReview.new(except_methods: [], ignored_files: /post/))
+
+          content =<<-EOF
+          class Post < ActiveRecord::Base
+            def find; end
+            private
+            def find_by_sql; end
+          end
+          EOF
+          runner.prepare('app/models/post.rb', content)
+          runner.review('app/models/post.rb', content)
+          content =<<-EOF
+          class PostsController < ApplicationController
+            def get
+              Post.new.find
+            end
+          end
+          EOF
+          runner.review('app/controllers/posts_controller.rb', content)
+          runner.after_review
+          runner.should have(0).errors
+      end
     end
   end
 end

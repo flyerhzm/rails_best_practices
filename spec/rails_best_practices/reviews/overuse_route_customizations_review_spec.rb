@@ -174,6 +174,20 @@ module RailsBestPractices
           runner.should have(0).errors
         end
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: OveruseRouteCustomizationsReview.new(ignored_files: /config\/routes\.rb/))
+        content = <<-EOF
+          ActionController::Routing::Routes.draw do |map|
+            map.resources :posts, member: { comments: :get,
+                                               create_comment: :post,
+                                               update_comment: :update,
+                                               delete_comment: :delete }
+          end
+        EOF
+        runner.review('config/routes.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

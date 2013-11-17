@@ -171,6 +171,18 @@ module RailsBestPractices
           runner.should have(1).errors
         end
       end
+
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(prepares: [Prepares::GemfilePrepare.new, Prepares::ConfigPrepare.new, Prepares::InitializerPrepare.new],
+                                  reviews: ProtectMassAssignmentReview.new(ignored_files: /app\/models\/user\.rb/))
+        content =<<-EOF
+        class User < ActiveRecord::Base
+        end
+        EOF
+        runner.review('app/models/user.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

@@ -61,6 +61,17 @@ module RailsBestPractices
         runner.review('app/models/post.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: HashSyntaxReview.new(ignored_files: /user/))
+        content =<<-EOF
+        class User < ActiveRecord::Base
+          CONST = { :foo => :bar }
+        end
+        EOF
+        runner.review('app/models/user.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

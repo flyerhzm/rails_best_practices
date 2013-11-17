@@ -40,6 +40,18 @@ module RailsBestPractices
         runner.review('app/views/posts/index.html.erb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: MoveCodeIntoControllerReview.new(ignored_files: /app\/views\/post/))
+        content = <<-EOF
+        <% Post.find(:all).each do |post| %>
+          <%=h post.title %>
+          <%=h post.content %>
+        <% end %>
+        EOF
+        runner.review('app/views/posts/index.html.erb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

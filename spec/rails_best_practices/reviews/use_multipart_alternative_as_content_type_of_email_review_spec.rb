@@ -208,6 +208,13 @@ module RailsBestPractices
               runner.should have(0).errors
             end
           end
+
+          it "should not check ignored files" do
+            runner = Core::Runner.new(reviews: UseMultipartAlternativeAsContentTypeOfEmailReview.new(ignored_files: /project_mailer/))
+            mock_email_files(["send_email.html.haml"], "html.haml" => true)
+            runner.review('app/mailers/project_mailer.rb', content)
+            runner.should have(0).errors
+          end
         end
       end
     end

@@ -97,6 +97,29 @@ module RailsBestPractices
         runner.review('db/migrate/20090818130258_create_roles.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: IsolateSeedDataReview.new(ignored_files: /create_roles/))
+        content = <<-EOF
+          class CreateRoles < ActiveRecord::Migration
+            def self.up
+              create_table "roles", force: true do |t|
+                t.string :name
+              end
+
+              ["admin", "author", "editor", "account"].each do |name|
+                Role.create!(name: name)
+              end
+            end
+
+            def self.down
+              drop_table "roles"
+            end
+          end
+        EOF
+        runner.review('db/migrate/20090818130258_create_roles.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

@@ -166,6 +166,19 @@ module RailsBestPractices
           runner.should have(0).errors
         end
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: NeedlessDeepNestingReview.new(ignored_files: /config\/routes/))
+        content = <<-EOF
+          map.resources :posts do |post|
+            post.resources :comments do |comment|
+              comment.resources :favorites
+            end
+          end
+        EOF
+        runner.review('config/routes.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

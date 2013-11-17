@@ -72,6 +72,25 @@ module RailsBestPractices
         runner.review('app/model/post.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: MoveFinderToNamedScopeReview.new(ignored_files: /app\/controllers\/posts/))
+        content = <<-EOF
+        class PostsController < ActionController::Base
+          def index
+            @public_posts = Post.find(:all, conditions: { state: 'public' },
+                                            limit: 10,
+                                            order: 'created_at desc')
+
+            @draft_posts  = Post.find(:all, conditions: { state: 'draft' },
+                                            limit: 10,
+                                            order: 'created_at desc')
+          end
+        end
+        EOF
+        runner.review('app/controllers/posts_controller.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

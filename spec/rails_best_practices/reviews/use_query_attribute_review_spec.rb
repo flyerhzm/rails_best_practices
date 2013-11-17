@@ -222,6 +222,18 @@ module RailsBestPractices
         EOF
         lambda { runner.review('app/models/users_controller.rb', content) }.should_not raise_error
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new],
+                                  reviews: UseQueryAttributeReview.new(ignored_files: /users\/show/))
+        content = <<-EOF
+        <% if @user.login.blank? %>
+          <%= link_to 'login', new_session_path %>
+        <% end %>
+        EOF
+        runner.review('app/views/users/show.html.erb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

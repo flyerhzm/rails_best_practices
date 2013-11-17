@@ -203,6 +203,24 @@ module RailsBestPractices
           runner.review('app/controllers/comments_controller.rb', content)
           runner.should have(0).errors
         end
+
+        it "should not check ignored files" do
+          runner = Core::Runner.new(reviews: UseScopeAccessReview.new(ignored_files: /posts_controller/))
+          content = <<-EOF
+          class PostsController < ApplicationController
+            def edit
+              @post = Post.find(params[:id])
+
+              unless @post.user == current_user
+                flash[:warning] = 'Access Denied'
+                redirect_to posts_url
+              end
+            end
+          end
+          EOF
+          runner.review('app/controllers/posts_controller.rb', content)
+          runner.should have(0).errors
+        end
       end
     end
   end

@@ -23,8 +23,8 @@ module RailsBestPractices
       interesting_files MIGRATION_FILES
       url "http://rails-bestpractices.com/posts/20-isolating-seed-data"
 
-      def initialize
-        super
+      def initialize(options={})
+        super(options)
         @new_variables = []
       end
 

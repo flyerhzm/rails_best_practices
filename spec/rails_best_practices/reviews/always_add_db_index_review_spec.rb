@@ -275,6 +275,26 @@ module RailsBestPractices
         runner.should have(1).errors
         runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (comments => [commentor_id])"
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: AlwaysAddDbIndexReview.new(ignored_files: /db\/schema/))
+        content = <<-EOF
+        ActiveRecord::Schema.define(version: 20100603080629) do
+          create_table "comments", force: true do |t|
+            t.string "content"
+            t.integer "post_id"
+            t.integer "user_id"
+          end
+          create_table "posts", force: true do |t|
+          end
+          create_table "users", force: true do |t|
+          end
+        end
+        EOF
+        runner.review('db/schema.rb', content)
+        runner.after_review
+        runner.should have(0).errors
+      end
     end
   end
 end

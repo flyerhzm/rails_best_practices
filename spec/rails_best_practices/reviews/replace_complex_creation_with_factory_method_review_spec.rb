@@ -67,6 +67,30 @@ module RailsBestPractices
         runner.review('app/controllers/invoices_controller.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: ReplaceComplexCreationWithFactoryMethodReview.new(ignored_files: /invoices_controller/))
+        content = <<-EOF
+        class InvoiceController < ApplicationController
+          def create
+            @invoice = Invoice.new(params[:invoice])
+            @invoice.address = current_user.address
+            @invoice.phone = current_user.phone
+            @invoice.vip = (@invoice.amount > 1000)
+
+            if Time.now.day > 15
+              @invoice.deliver_time = Time.now + 2.month
+            else
+              @invoice.deliver_time = Time.now + 1.month
+            end
+
+            @invoice.save
+          end
+        end
+        EOF
+        runner.review('app/controllers/invoices_controller.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end

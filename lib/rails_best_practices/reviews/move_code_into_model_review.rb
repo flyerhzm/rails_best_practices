@@ -16,7 +16,7 @@ module RailsBestPractices
       url "http://rails-bestpractices.com/posts/25-move-code-into-model"
 
       def initialize(options={})
-        super()
+        super(options)
         @use_count = options['use_count'] || 2
       end
 

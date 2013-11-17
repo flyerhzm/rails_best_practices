@@ -94,6 +94,22 @@ module RailsBestPractices
         runner.review('app/models/post.rb', content)
         runner.should have(0).errors
       end
+
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: KeepFindersOnTheirOwnModelReview.new(ignored_files: /app\/models\/post\.rb/))
+        content = <<-EOF
+        class Post < ActiveRecord::Base
+          has_many :comments
+
+          def find_valid_comments
+            self.comment.find(:all, conditions: { is_spam: false },
+                                    limit: 10)
+          end
+        end
+        EOF
+        runner.review('app/models/post.rb', content)
+        runner.should have(0).errors
+      end
     end
   end
 end
