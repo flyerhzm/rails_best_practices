@@ -46,7 +46,16 @@ module RailsBestPractices
       end
 
       def is_ignored?(node_file)
-        node_file =~ @ignored_files
+        regex_ignored_files.map{ |r| !!r.match(node_file) }.inject(:|)
+      end
+
+      def regex_ignored_files
+        @regex_ignored_files ||= begin
+          unless @ignored_files.instance_of?(Array)
+            @ignored_files = [@ignored_files].compact
+          end
+          @ignored_files.map{ |pattern| Regexp.new(pattern) }
+        end
       end
 
       # add error if source code violates rails best practice.
