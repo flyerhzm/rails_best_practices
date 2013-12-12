@@ -50,12 +50,7 @@ module RailsBestPractices
       end
 
       def regex_ignored_files
-        @regex_ignored_files ||= begin
-          unless @ignored_files.instance_of?(Array)
-            @ignored_files = [@ignored_files].compact
-          end
-          @ignored_files.map{ |pattern| Regexp.new(pattern) }
-        end
+        @regex_ignored_files ||= Array(@ignored_files).map{ |pattern| Regexp.new(pattern) }
       end
 
       # add error if source code violates rails best practice.
