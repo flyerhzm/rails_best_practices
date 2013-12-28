@@ -17,8 +17,8 @@ module RailsBestPractices
         runner.prepare('app/helpers/posts_helper.rb', content)
         runner.review('app/helpers/posts_helper.rb', content)
         runner.after_review
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:2 - remove unused methods (PostsHelper#unused)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:2 - remove unused methods (PostsHelper#unused)")
       end
 
       it "should not remove unused methods if called on views" do
@@ -35,7 +35,7 @@ module RailsBestPractices
         EOF
         runner.review('app/views/posts/show.html.erb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not remove unused methods if called on helpers" do
@@ -56,7 +56,7 @@ module RailsBestPractices
         EOF
         runner.review('app/views/posts/show.html.erb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not remove unused methods if called on controllers" do
@@ -81,7 +81,7 @@ module RailsBestPractices
         runner.review('app/helpers/posts_helper.rb', helper_content)
         runner.review('app/controllers/posts_controller.rb', controller_content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
        it "should not check ignored files" do
@@ -96,7 +96,7 @@ module RailsBestPractices
         runner.prepare('app/helpers/posts_helper.rb', content)
         runner.review('app/helpers/posts_helper.rb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
        end
     end
   end

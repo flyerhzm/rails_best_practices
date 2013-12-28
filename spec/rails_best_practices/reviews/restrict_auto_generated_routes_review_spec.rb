@@ -28,8 +28,8 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(1).errors
-            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])"
+            expect(runner.errors.size).to eq(1)
+            expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])")
           end
 
           it "should not restrict auto-generated routes with only" do
@@ -39,7 +39,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
 
           it "should not restrict auto-generated routes with except" do
@@ -49,7 +49,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
 
           it "should not restrict auto-generated routes with only: :none" do
@@ -59,7 +59,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
 
           it "should not restrict auto-generated routes with except: :all" do
@@ -69,7 +69,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
 
           describe "specify a controller" do
@@ -80,8 +80,8 @@ module RailsBestPractices
               end
               EOF
               runner.review('config/routes.rb', content)
-              runner.should have(1).errors
-              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes articles (except: [:index])"
+              expect(runner.errors.size).to eq(1)
+              expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - restrict auto-generated routes articles (except: [:index])")
             end
           end
 
@@ -110,8 +110,8 @@ module RailsBestPractices
               end
               EOF
               runner.review('config/routes.rb', content)
-              runner.should have(1).errors
-              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])"
+              expect(runner.errors.size).to eq(1)
+              expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])")
             end
 
             it "should not restrict auto-generated routes with only" do
@@ -123,7 +123,7 @@ module RailsBestPractices
               end
               EOF
               runner.review('config/routes.rb', content)
-              runner.should have(0).errors
+              expect(runner.errors.size).to eq(0)
             end
 
             it "should not restrict auto-generated routes with except" do
@@ -135,7 +135,7 @@ module RailsBestPractices
               end
               EOF
               runner.review('config/routes.rb', content)
-              runner.should have(0).errors
+              expect(runner.errors.size).to eq(0)
             end
           end
         end
@@ -148,8 +148,8 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(1).errors
-            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])"
+            expect(runner.errors.size).to eq(1)
+            expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])")
           end
 
           it "should not restrict auto-generated routes with only" do
@@ -159,7 +159,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
 
           it "should not restrict auto-generated routes with except" do
@@ -169,7 +169,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
 
           describe "specify a controller" do
@@ -180,8 +180,8 @@ module RailsBestPractices
               end
               EOF
               runner.review('config/routes.rb', content)
-              runner.should have(1).errors
-              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes articles (except: [:index])"
+              expect(runner.errors.size).to eq(1)
+              expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - restrict auto-generated routes articles (except: [:index])")
             end
           end
 
@@ -207,8 +207,8 @@ module RailsBestPractices
               end
               EOF
               runner.review('config/routes.rb', content)
-              runner.should have(1).errors
-              runner.errors[0].to_s.should == "config/routes.rb:3 - restrict auto-generated routes admin/comments (except: [:index])"
+              expect(runner.errors.size).to eq(1)
+              expect(runner.errors[0].to_s).to eq("config/routes.rb:3 - restrict auto-generated routes admin/comments (except: [:index])")
             end
           end
 
@@ -237,8 +237,8 @@ module RailsBestPractices
               end
               EOF
               runner.review('config/routes.rb', content)
-              runner.should have(1).errors
-              runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])"
+              expect(runner.errors.size).to eq(1)
+              expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])")
             end
 
             it "should not restrict auto-generated routes with only" do
@@ -250,7 +250,7 @@ module RailsBestPractices
               end
               EOF
               runner.review('config/routes.rb', content)
-              runner.should have(0).errors
+              expect(runner.errors.size).to eq(0)
             end
 
             it "should not restrict auto-generated routes with except" do
@@ -262,7 +262,7 @@ module RailsBestPractices
               end
               EOF
               runner.review('config/routes.rb', content)
-              runner.should have(0).errors
+              expect(runner.errors.size).to eq(0)
             end
           end
         end
@@ -290,8 +290,8 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(1).errors
-            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes account (except: [:destroy])"
+            expect(runner.errors.size).to eq(1)
+            expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - restrict auto-generated routes account (except: [:destroy])")
           end
 
           it "should not restrict auto-generated routes with only" do
@@ -301,7 +301,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
 
           it "should not restrict auto-generated routes with except" do
@@ -311,7 +311,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
         end
 
@@ -323,8 +323,8 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(1).errors
-            runner.errors[0].to_s.should == "config/routes.rb:2 - restrict auto-generated routes account (except: [:destroy])"
+            expect(runner.errors.size).to eq(1)
+            expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - restrict auto-generated routes account (except: [:destroy])")
           end
 
           it "should not restrict auto-generated routes with only" do
@@ -334,7 +334,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
 
           it "should not restrict auto-generated routes with except" do
@@ -344,7 +344,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
 
           it "should not check ignored files" do
@@ -357,7 +357,7 @@ module RailsBestPractices
             end
             EOF
             runner.review('config/routes.rb', content)
-            runner.should have(0).errors
+            expect(runner.errors.size).to eq(0)
           end
         end
       end

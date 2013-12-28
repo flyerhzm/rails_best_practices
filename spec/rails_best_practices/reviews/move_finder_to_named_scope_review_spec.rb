@@ -20,9 +20,9 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
-        runner.should have(2).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:3 - move finder to named_scope"
-        runner.errors[1].to_s.should == "app/controllers/posts_controller.rb:7 - move finder to named_scope"
+        expect(runner.errors.size).to eq(2)
+        expect(runner.errors[0].to_s).to eq("app/controllers/posts_controller.rb:3 - move finder to named_scope")
+        expect(runner.errors[1].to_s).to eq("app/controllers/posts_controller.rb:7 - move finder to named_scope")
       end
 
       it "should not move simple finder" do
@@ -39,7 +39,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not move namd_scope" do
@@ -52,7 +52,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not review model file" do
@@ -70,7 +70,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/model/post.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -89,7 +89,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

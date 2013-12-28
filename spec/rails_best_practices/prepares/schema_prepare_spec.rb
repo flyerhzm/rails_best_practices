@@ -20,12 +20,12 @@ module RailsBestPractices
         EOF
         runner.prepare("db/schema.rb", content)
         model_attributes = Prepares.model_attributes
-        model_attributes.get_attribute_type("Post", "title").should == "string"
-        model_attributes.get_attribute_type("Post", "body").should == "text"
-        model_attributes.get_attribute_type("Post", "created_at").should == "datetime"
-        model_attributes.get_attribute_type("Post", "user_id").should == "integer"
-        model_attributes.get_attribute_type("Post", "comments_count").should == "integer"
-        model_attributes.get_attribute_type("Post", "published").should == "boolean"
+        expect(model_attributes.get_attribute_type("Post", "title")).to eq("string")
+        expect(model_attributes.get_attribute_type("Post", "body")).to eq("text")
+        expect(model_attributes.get_attribute_type("Post", "created_at")).to eq("datetime")
+        expect(model_attributes.get_attribute_type("Post", "user_id")).to eq("integer")
+        expect(model_attributes.get_attribute_type("Post", "comments_count")).to eq("integer")
+        expect(model_attributes.get_attribute_type("Post", "published")).to eq("boolean")
       end
     end
   end

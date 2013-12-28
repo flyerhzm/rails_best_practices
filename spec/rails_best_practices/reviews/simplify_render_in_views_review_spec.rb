@@ -10,8 +10,8 @@ module RailsBestPractices
         <%= render partial: 'sidebar' %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/index.html.erb:1 - simplify render in views"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/index.html.erb:1 - simplify render in views")
       end
 
       it "should simplify render partial with object" do
@@ -19,8 +19,8 @@ module RailsBestPractices
         <%= render partial: 'post', object: @post %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/index.html.erb:1 - simplify render in views"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/index.html.erb:1 - simplify render in views")
       end
 
       it "should simplify render partial with collection" do
@@ -28,8 +28,8 @@ module RailsBestPractices
         <%= render partial: 'posts', collection: @posts %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/index.html.erb:1 - simplify render in views"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/index.html.erb:1 - simplify render in views")
       end
 
       it "should simplify render partial with local variables" do
@@ -37,8 +37,8 @@ module RailsBestPractices
         <%= render partial: 'comment', locals: { parent: post } %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/index.html.erb:1 - simplify render in views"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/index.html.erb:1 - simplify render in views")
       end
 
       it "should not simplify render simple partial" do
@@ -47,7 +47,7 @@ module RailsBestPractices
         <%= render 'shared/sidebar' %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not simplify render partial with object" do
@@ -55,7 +55,7 @@ module RailsBestPractices
         <%= render @post %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not simplify render partial with collection" do
@@ -63,7 +63,7 @@ module RailsBestPractices
         <%= render @posts %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not simplify render partial with local variables" do
@@ -71,7 +71,7 @@ module RailsBestPractices
         <%= render 'comment', parent: post %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not simplify render partial with complex partial" do
@@ -79,7 +79,7 @@ module RailsBestPractices
         <%= render partial: 'shared/post', object: @post %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not simplify render partial with layout option" do
@@ -87,7 +87,7 @@ module RailsBestPractices
         <%= render partial: 'post', layout: 'post' %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -96,7 +96,7 @@ module RailsBestPractices
         <%= render partial: 'sidebar' %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

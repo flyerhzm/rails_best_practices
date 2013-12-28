@@ -13,8 +13,8 @@ module RailsBestPractices
         EOF
         content.gsub!("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/models/user.rb:1 - remove tab, use spaces instead"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/models/user.rb:1 - remove tab, use spaces instead")
       end
 
       it "should remove tab with third line" do
@@ -25,8 +25,8 @@ module RailsBestPractices
         end
         EOF
         runner.lexical('app/models/user.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/models/user.rb:3 - remove tab, use spaces instead"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/models/user.rb:3 - remove tab, use spaces instead")
       end
 
       it "should not remove trailing whitespace" do
@@ -36,7 +36,7 @@ module RailsBestPractices
         end
         EOF
         runner.lexical('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
       it "should not check ignored files" do
         runner = Core::Runner.new(lexicals: RemoveTabCheck.new(ignored_files: /user/))
@@ -49,7 +49,7 @@ module RailsBestPractices
         EOF
         content.gsub!("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

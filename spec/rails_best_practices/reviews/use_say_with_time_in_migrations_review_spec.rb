@@ -15,8 +15,8 @@ module RailsBestPractices
         end
         EOF
         runner.review('db/migrate/20101010080658_update_users.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "db/migrate/20101010080658_update_users.rb:2 - use say with time in migrations"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("db/migrate/20101010080658_update_users.rb:2 - use say with time in migrations")
       end
 
       it "should use say with time in migrations with create_table" do
@@ -34,8 +34,8 @@ module RailsBestPractices
         end
         EOF
         runner.review('db/migrate/20101010080658_update_users.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "db/migrate/20101010080658_update_users.rb:7 - use say with time in migrations"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("db/migrate/20101010080658_update_users.rb:7 - use say with time in migrations")
       end
 
       it "should not use say with time in migrations" do
@@ -51,7 +51,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('db/migrate/20101010080658_update_users.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not use say with time in migrations when not first code line" do
@@ -65,7 +65,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('db/migrate/20101010080658_update_users.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not use say with time when default migration message" do
@@ -79,7 +79,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('db/migrate/20101010080658_create_users.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not raise an error" do
@@ -115,7 +115,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('db/migrate/20101010080658_create_users.rb', content)
-        runner.should have(3).errors
+        expect(runner.errors.size).to eq(3)
       end
 
       it "should not check ignored files" do
@@ -129,7 +129,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('db/migrate/20101010080658_update_users.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

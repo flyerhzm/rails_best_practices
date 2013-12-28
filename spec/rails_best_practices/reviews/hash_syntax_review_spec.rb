@@ -12,8 +12,8 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/models/user.rb:2 - change Hash Syntax to 1.9"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/models/user.rb:2 - change Hash Syntax to 1.9")
       end
 
       it "should not find 1.8 Hash with string" do
@@ -23,7 +23,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not alert on 1.9 Syntax" do
@@ -33,7 +33,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should ignore haml_out" do
@@ -43,7 +43,7 @@ module RailsBestPractices
 #div{ class: "foo3" }
         EOF
         runner.review('app/views/files/show.html.haml', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not consider hash with array key" do
@@ -51,7 +51,7 @@ module RailsBestPractices
         transition [:unverified, :verified] => :deleted
         EOF
         runner.review('app/models/post.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not consider hash with charaters not valid for symbol" do
@@ -59,7 +59,7 @@ module RailsBestPractices
         receiver.stub(:` => 'Error')
         EOF
         runner.review('app/models/post.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -70,7 +70,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

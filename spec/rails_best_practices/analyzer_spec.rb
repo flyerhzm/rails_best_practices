@@ -7,21 +7,21 @@ module RailsBestPractices
 
     describe '::new' do
       it 'should expand a relative path to an absolute' do
-        subject.path.should eq File.expand_path('.')
+        expect(subject.path).to eq File.expand_path('.')
       end
     end
 
     describe "expand_dirs_to_files" do
       it "should expand all files in spec directory" do
         dir = File.dirname(__FILE__)
-        subject.expand_dirs_to_files(dir).should be_include(dir + '/analyzer_spec.rb')
+        expect(subject.expand_dirs_to_files(dir)).to be_include(dir + '/analyzer_spec.rb')
       end
     end
 
     describe "file_sort" do
       it "should get models first, mailers, helpers and then others" do
         files = ["app/controllers/users_controller.rb", "app/mailers/user_mailer.rb", "app/helpers/users_helper.rb", "app/models/user.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim", "lib/user.rb"]
-        subject.file_sort(files).should == ["app/models/user.rb", "app/mailers/user_mailer.rb", "app/helpers/users_helper.rb", "app/controllers/users_controller.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim", "lib/user.rb"]
+        expect(subject.file_sort(files)).to eq(["app/models/user.rb", "app/mailers/user_mailer.rb", "app/helpers/users_helper.rb", "app/controllers/users_controller.rb", "app/views/users/index.html.haml", "app/views/users/show.html.slim", "lib/user.rb"])
       end
     end
 
@@ -32,11 +32,11 @@ module RailsBestPractices
       end
 
       it "should ignore lib" do
-        subject.file_ignore(@all, 'lib/').should == @filtered
+        expect(subject.file_ignore(@all, 'lib/')).to eq(@filtered)
       end
 
       it "should ignore regexp patterns" do
-        subject.file_ignore(@all, /lib/).should == @filtered
+        expect(subject.file_ignore(@all, /lib/)).to eq(@filtered)
       end
     end
 
@@ -55,7 +55,7 @@ module RailsBestPractices
         subject.output_terminal_errors
         result = $stdout.string
         $stdout = $origin_stdout
-        result.should == ["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 warnings.".red].join("\n") + "\n"
+        expect(result).to eq(["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 warnings.".red].join("\n") + "\n")
       end
     end
 
@@ -67,7 +67,7 @@ module RailsBestPractices
           Dir.mkdir(File.join(random_dir, 'vendor', 'my_project'))
           File.open(File.join(random_dir, 'vendor', 'my_project', 'my_file.rb'), "w") { |file| file << 'woot' }
           analyzer = Analyzer.new(File.join(random_dir, 'vendor', 'my_project'))
-          analyzer.parse_files.should be_include File.join(random_dir, 'vendor', 'my_project', 'my_file.rb')
+          expect(analyzer.parse_files).to be_include File.join(random_dir, 'vendor', 'my_project', 'my_file.rb')
         }
       end
 
@@ -77,7 +77,7 @@ module RailsBestPractices
           Dir.mkdir(File.join(random_dir, 'spec', 'my_project'))
           File.open(File.join(random_dir, 'spec', 'my_project', 'my_file.rb'), "w") { |file| file << 'woot' }
           analyzer = Analyzer.new(File.join(random_dir, 'spec', 'my_project'))
-          analyzer.parse_files.should be_include File.join(random_dir, 'spec', 'my_project', 'my_file.rb')
+          expect(analyzer.parse_files).to be_include File.join(random_dir, 'spec', 'my_project', 'my_file.rb')
         }
       end
 
@@ -87,7 +87,7 @@ module RailsBestPractices
           Dir.mkdir(File.join(random_dir, 'test', 'my_project'))
           File.open(File.join(random_dir, 'test', 'my_project', 'my_file.rb'), "w") { |file| file << 'woot' }
           analyzer = Analyzer.new(File.join(random_dir, 'test', 'my_project'))
-          analyzer.parse_files.should be_include File.join(random_dir, 'test', 'my_project', 'my_file.rb')
+          expect(analyzer.parse_files).to be_include File.join(random_dir, 'test', 'my_project', 'my_file.rb')
         }
       end
 
@@ -97,7 +97,7 @@ module RailsBestPractices
           Dir.mkdir(File.join(random_dir, 'test', 'my_project'))
           File.open(File.join(random_dir, 'test', 'my_project', 'my_file.rb'), "w") { |file| file << 'woot' }
           analyzer = Analyzer.new(File.join(random_dir, 'test', 'my_project'))
-          analyzer.parse_files.should be_include File.join(random_dir, 'test', 'my_project', 'my_file.rb')
+          expect(analyzer.parse_files).to be_include File.join(random_dir, 'test', 'my_project', 'my_file.rb')
         }
       end
 
@@ -107,7 +107,7 @@ module RailsBestPractices
           Dir.mkdir(File.join(random_dir, 'tmp', 'my_project'))
           File.open(File.join(random_dir, 'tmp', 'my_project', 'my_file.rb'), "w") { |file| file << 'woot' }
           analyzer = Analyzer.new(File.join(random_dir, 'tmp', 'my_project'))
-          analyzer.parse_files.should be_include File.join(random_dir, 'tmp', 'my_project', 'my_file.rb')
+          expect(analyzer.parse_files).to be_include File.join(random_dir, 'tmp', 'my_project', 'my_file.rb')
         }
       end
 

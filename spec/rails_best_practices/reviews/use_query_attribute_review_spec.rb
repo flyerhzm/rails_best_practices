@@ -35,8 +35,8 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/users/show.html.erb:1 - use query attribute (@user.login?)")
       end
 
       it "should use query attribute by blank call with if in one line" do
@@ -44,8 +44,8 @@ module RailsBestPractices
         <%= link_to 'login', new_session_path if @user.login.blank? %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/users/show.html.erb:1 - use query attribute (@user.login?)")
       end
 
       it "should use query attribute by blank call with '? :'" do
@@ -53,8 +53,8 @@ module RailsBestPractices
         <%= @user.login.blank? ? link_to('login', new_session_path) : '' %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/users/show.html.erb:1 - use query attribute (@user.login?)")
       end
 
       it "should use query attribute by comparing empty string" do
@@ -64,8 +64,8 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/users/show.html.erb:1 - use query attribute (@user.login?)")
       end
 
       it "should use query attribute by nil call" do
@@ -75,8 +75,8 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/users/show.html.erb:1 - use query attribute (@user.login?)")
       end
 
       it "should use query attribute by present call" do
@@ -86,8 +86,8 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/users/show.html.erb:1 - use query attribute (@user.login?)")
       end
 
       it "should use query attribute within and conditions" do
@@ -97,8 +97,8 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/users/show.html.erb:1 - use query attribute (@user.login?)")
       end
 
       it "should use query attribute within or conditions" do
@@ -108,8 +108,8 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/users/show.html.erb:1 - use query attribute (@user.login?)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/users/show.html.erb:1 - use query attribute (@user.login?)")
       end
 
       it "should not use query attribute" do
@@ -119,7 +119,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not use query attribute for number" do
@@ -129,7 +129,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not review for pluralize attribute" do
@@ -139,7 +139,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not review non model class" do
@@ -149,7 +149,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       context "association" do
@@ -160,7 +160,7 @@ module RailsBestPractices
           <% end %>
           EOF
           runner.review('app/views/users/show.html.erb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not review belongs_to category" do
@@ -170,7 +170,7 @@ module RailsBestPractices
           <% end %>
           EOF
           runner.review('app/views/users/show.html.erb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not review has_one association" do
@@ -180,7 +180,7 @@ module RailsBestPractices
           <% end %>
           EOF
           runner.review('app/views/users/show.html.erb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not review has_many association" do
@@ -190,7 +190,7 @@ module RailsBestPractices
           <% end %>
           EOF
           runner.review('app/views/users/show.html.erb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -201,7 +201,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not review for non attribute call" do
@@ -211,7 +211,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/users_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not raise error for common conditional statement" do
@@ -220,7 +220,7 @@ module RailsBestPractices
           puts voteable.title
         end
         EOF
-        lambda { runner.review('app/models/users_controller.rb', content) }.should_not raise_error
+        expect { runner.review('app/models/users_controller.rb', content) }.not_to raise_error
       end
 
       it "should not check ignored files" do
@@ -232,7 +232,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/users/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

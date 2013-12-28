@@ -13,8 +13,8 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/index.html.erb:1 - move code into controller"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/index.html.erb:1 - move code into controller")
       end
 
       it "should move code into controller for assign" do
@@ -26,8 +26,8 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/index.html.erb:1 - move code into controller"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/index.html.erb:1 - move code into controller")
       end
 
       it "should not move code into controller" do
@@ -38,7 +38,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -50,7 +50,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/posts/index.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

@@ -12,8 +12,8 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/models/user.rb:1 - protect mass assignment"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/models/user.rb:1 - protect mass assignment")
       end
 
       it "should not protect mass assignment if attr_accessible is used with arguments and user set config.active_record.whitelist_attributes" do
@@ -31,7 +31,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not protect mass assignment if attr_accessible is used without arguments and user set config.active_record.whitelist_attributes" do
@@ -49,7 +49,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not protect mass assignment with attr_protected if user set config.active_record.whitelist_attributes" do
@@ -67,7 +67,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not protect mass assignment if using devise" do
@@ -77,7 +77,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not protect mass assignment if using authlogic with configuration" do
@@ -89,7 +89,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not protect mass assignment if using authlogic without configuration" do
@@ -99,7 +99,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not protect mass assignment if checking non ActiveRecord::Base inherited model" do
@@ -108,7 +108,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       context "strong_parameters" do
@@ -119,7 +119,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/models/user.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not protect mass assignment for strong_parameters" do
@@ -134,7 +134,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/models/user.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -152,7 +152,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/models/user.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should protect mass assignment for rails 3" do
@@ -168,7 +168,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/models/user.rb', content)
-          runner.should have(1).errors
+          expect(runner.errors.size).to eq(1)
         end
       end
 
@@ -181,7 +181,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

@@ -21,9 +21,9 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(2).errors
-        runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (comments => [post_id])"
-        runner.errors[1].to_s.should == "db/schema.rb:2 - always add db index (comments => [user_id])"
+        expect(runner.errors.size).to eq(2)
+        expect(runner.errors[0].to_s).to eq("db/schema.rb:2 - always add db index (comments => [post_id])")
+        expect(runner.errors[1].to_s).to eq("db/schema.rb:2 - always add db index (comments => [user_id])")
       end
 
       it "should always add db index with polymorphic foreign key" do
@@ -38,8 +38,8 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])")
       end
 
       it "should always add db index with polymorphic foreign key and _type is defined before _id" do
@@ -54,8 +54,8 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])")
       end
 
       it "should always add db index with single index, but without polymorphic foreign key" do
@@ -74,8 +74,8 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (taggings => [taggable_id, taggable_type])"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("db/schema.rb:2 - always add db index (taggings => [taggable_id, taggable_type])")
       end
 
       it "should always add db index with polymorphic foreign key, but without single index" do
@@ -94,8 +94,8 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (taggings => [tag_id])"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("db/schema.rb:2 - always add db index (taggings => [tag_id])")
       end
 
       it "should always add db index only _id without non related _type column" do
@@ -113,8 +113,8 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (websites => [user_id])"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("db/schema.rb:2 - always add db index (websites => [user_id])")
       end
 
       it "should not always add db index with column has no id" do
@@ -128,7 +128,7 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not always add db index with add_index" do
@@ -150,7 +150,7 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not always add db index with t.index" do
@@ -168,7 +168,7 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not always add db index with only _type column" do
@@ -181,7 +181,7 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not always add db index with multi-column index" do
@@ -198,7 +198,7 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not always add db index if there is an index contains more columns" do
@@ -215,7 +215,7 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not always add db index if two indexes for polymorphic association" do
@@ -233,7 +233,7 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not always add db index if table does not exist" do
@@ -246,7 +246,7 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should always add db index if association_name is different to foreign_key" do
@@ -272,8 +272,8 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "db/schema.rb:2 - always add db index (comments => [commentor_id])"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("db/schema.rb:2 - always add db index (comments => [commentor_id])")
       end
 
       it "should not check ignored files" do
@@ -293,7 +293,7 @@ module RailsBestPractices
         EOF
         runner.review('db/schema.rb', content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

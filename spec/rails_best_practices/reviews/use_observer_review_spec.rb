@@ -28,8 +28,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/models/project.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/project.rb:5 - use observer"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/models/project.rb:5 - use observer")
         end
 
         it "should not use observer without callback" do
@@ -44,7 +44,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/models/project.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should use observer with two after_create" do
@@ -64,8 +64,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/models/project.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/project.rb:5 - use observer"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/models/project.rb:5 - use observer")
         end
 
         it "should not raise when initiate an object in callback" do
@@ -74,7 +74,7 @@ module RailsBestPractices
             after_create ProjectMailer.new
           end
           EOF
-          lambda { runner.review('app/models/project.rb', content) }.should_not raise_error
+          expect { runner.review('app/models/project.rb', content) }.not_to raise_error
         end
       end
 
@@ -93,8 +93,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/models/project.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/project.rb:5 - use observer"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/models/project.rb:5 - use observer")
         end
 
         it "should not use observer without callback" do
@@ -109,7 +109,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/models/project.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should use observer with two after_create" do
@@ -129,8 +129,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/models/project.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/project.rb:5 - use observer"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/models/project.rb:5 - use observer")
         end
 
         it "should not raise when initiate an object in callback" do
@@ -139,7 +139,7 @@ module RailsBestPractices
             after_create ProjectMailer.new
           end
           EOF
-          lambda { runner.review('app/models/project.rb', content) }.should_not raise_error
+          expect { runner.review('app/models/project.rb', content) }.not_to raise_error
         end
       end
     end

@@ -10,15 +10,15 @@ module RailsBestPractices::Core
     end
 
     it "should get model attributes" do
-      model_attributes.get_attribute_type("Post", "title").should == :string
-      model_attributes.get_attribute_type("Post", "user_id").should == :integer
-      model_attributes.get_attribute_type("Post", "unknonw").should be_nil
+      expect(model_attributes.get_attribute_type("Post", "title")).to eq(:string)
+      expect(model_attributes.get_attribute_type("Post", "user_id")).to eq(:integer)
+      expect(model_attributes.get_attribute_type("Post", "unknonw")).to be_nil
     end
 
     it "should check is model attributes" do
-      model_attributes.is_attribute?("Post", "title").should be_true
-      model_attributes.is_attribute?("Post", "user_id").should be_true
-      model_attributes.is_attribute?("Post", "unknonw").should be_false
+      expect(model_attributes.is_attribute?("Post", "title")).to be true
+      expect(model_attributes.is_attribute?("Post", "user_id")).to be true
+      expect(model_attributes.is_attribute?("Post", "unknonw")).to be false
     end
   end
 end
