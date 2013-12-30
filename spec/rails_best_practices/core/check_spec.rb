@@ -7,7 +7,7 @@ module RailsBestPractices::Core
     context "debug" do
       it "should be debug mode" do
         Check.debug
-        Check.should be_debug
+        expect(Check).to be_debug
         Check.class_eval { @debug = false }
       end
     end

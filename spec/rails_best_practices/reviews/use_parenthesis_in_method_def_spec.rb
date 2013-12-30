@@ -13,8 +13,8 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - use parentheses around parameters in method definitions"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/controllers/posts_controller.rb:2 - use parentheses around parameters in method definitions")
       end
       it "should find parentheses with no error" do
         content = <<-EOF
@@ -24,7 +24,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
       it "should not throw an error without parameters" do
         content = <<-EOF
@@ -34,7 +34,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -46,7 +46,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

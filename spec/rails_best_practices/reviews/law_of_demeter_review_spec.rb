@@ -33,8 +33,8 @@ module RailsBestPractices
           <%= @invoice.user.cellphone %>
           EOF
           runner.review('app/views/invoices/show.html.erb', content)
-          runner.should have(3).errors
-          runner.errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
+          expect(runner.errors.size).to eq(3)
+          expect(runner.errors[0].to_s).to eq("app/views/invoices/show.html.erb:1 - law of demeter")
         end
 
         it "should law of demeter with haml" do
@@ -44,8 +44,8 @@ module RailsBestPractices
 = @invoice.user.cellphone
           EOF
           runner.review('app/views/invoices/show.html.haml', content)
-          runner.should have(3).errors
-          runner.errors[0].to_s.should == "app/views/invoices/show.html.haml:1 - law of demeter"
+          expect(runner.errors.size).to eq(3)
+          expect(runner.errors[0].to_s).to eq("app/views/invoices/show.html.haml:1 - law of demeter")
         end
 
         it "should law of demeter with slim" do
@@ -55,8 +55,8 @@ module RailsBestPractices
 = @invoice.user.cellphone
           EOF
           runner.review('app/views/invoices/show.html.slim', content)
-          runner.should have(3).errors
-          runner.errors[0].to_s.should == "app/views/invoices/show.html.slim:1 - law of demeter"
+          expect(runner.errors.size).to eq(3)
+          expect(runner.errors[0].to_s).to eq("app/views/invoices/show.html.slim:1 - law of demeter")
         end
 
         it "should no law of demeter" do
@@ -66,7 +66,7 @@ module RailsBestPractices
           <%= @invoice.user_cellphone %>
           EOF
           runner.review('app/views/invoices/show.html.erb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -96,8 +96,8 @@ module RailsBestPractices
           <%= @invoice.price.number %>
           EOF
           runner.review('app/views/invoices/show.html.erb', content)
-          runner.should have(2).errors
-          runner.errors[0].to_s.should == "app/views/invoices/show.html.erb:1 - law of demeter"
+          expect(runner.errors.size).to eq(2)
+          expect(runner.errors[0].to_s).to eq("app/views/invoices/show.html.erb:1 - law of demeter")
         end
       end
 
@@ -132,8 +132,8 @@ module RailsBestPractices
           <%= @comment.commentable.title %>
           EOF
           runner.review('app/views/comments/index.html.erb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/views/comments/index.html.erb:1 - law of demeter"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/views/comments/index.html.erb:1 - law of demeter")
         end
       end
 
@@ -158,7 +158,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/comments_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -170,7 +170,7 @@ module RailsBestPractices
           <%= @invoice.user.cellphone %>
         EOF
         runner.review('app/views/invoices/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

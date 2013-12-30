@@ -16,7 +16,7 @@ module RailsBestPractices
           EOF
           runner.prepare('config/application.rb', content)
           configs = Prepares.configs
-          configs["config.active_record.whitelist_attributes"].should == "true"
+          expect(configs["config.active_record.whitelist_attributes"]).to eq("true")
         end
       end
     end

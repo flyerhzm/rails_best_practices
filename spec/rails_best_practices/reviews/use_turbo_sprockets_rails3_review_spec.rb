@@ -26,8 +26,8 @@ GEM
         load 'config/deploy'
         EOF
         runner.review('Capfile', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "Capfile:2 - speed up assets precompile with turbo-sprockets-rails3"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("Capfile:2 - speed up assets precompile with turbo-sprockets-rails3")
       end
 
       it "should not use turbo-sprockets-rails3 with turbo-sprockets-rails3 gem" do
@@ -54,7 +54,7 @@ GEM
         load 'config/deploy'
         EOF
         runner.review('Capfile', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not use turbo-sprockets-rails3 without deploy/assets" do
@@ -64,7 +64,7 @@ GEM
         load 'config/deploy'
         EOF
         runner.review('Capfile', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not use turbo-sprockets-rails3 with rails4 gem" do
@@ -88,7 +88,7 @@ GEM
         load 'config/deploy'
         EOF
         runner.review('Capfile', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -114,7 +114,7 @@ GEM
         load 'config/deploy'
         EOF
         runner.review('Capfile', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

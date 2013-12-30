@@ -12,8 +12,8 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/posts/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)")
       end
 
       it "should move code into model with haml" do
@@ -22,8 +22,8 @@ module RailsBestPractices
   = link_to 'Edit this post', edit_post_url(@post)
         EOF
         runner.review('app/views/posts/show.html.haml', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/show.html.haml:1 - move code into model (@post use_count > 2)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/show.html.haml:1 - move code into model (@post use_count > 2)")
       end
 
       it "should move code into model with slim" do
@@ -32,8 +32,8 @@ module RailsBestPractices
   = link_to 'Edit this post', edit_post_url(@post)
         EOF
         runner.review('app/views/posts/show.html.slim', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/show.html.slim:1 - move code into model (@post use_count > 2)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/show.html.slim:1 - move code into model (@post use_count > 2)")
       end
 
       it "should move code into model with if in one line" do
@@ -41,8 +41,8 @@ module RailsBestPractices
         <%= link_to 'Edit this post', edit_post_url(@post) if current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user)) %>
         EOF
         runner.review('app/views/posts/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)")
       end
 
       it "should move code into model with '? :'" do
@@ -50,8 +50,8 @@ module RailsBestPractices
         <%= current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user)) ? link_to('Edit this post', edit_post_url(@post)) : '' %>
         EOF
         runner.review('app/views/posts/show.html.erb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)")
       end
 
       it "should move code into model only review for current if conditional statement" do
@@ -64,7 +64,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/posts/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not move code into model" do
@@ -74,7 +74,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/posts/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not move code into model for multiple calls on same variable node" do
@@ -83,7 +83,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/jobs/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -94,7 +94,7 @@ module RailsBestPractices
         <% end %>
         EOF
         runner.review('app/views/posts/show.html.erb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

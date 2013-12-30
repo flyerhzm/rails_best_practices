@@ -12,8 +12,8 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/models/user.rb:2 - default_scope is evil"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/models/user.rb:2 - default_scope is evil")
       end
 
       it "should detect default_scope with old syntax" do
@@ -23,8 +23,8 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/models/user.rb:2 - default_scope is evil"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/models/user.rb:2 - default_scope is evil")
       end
 
       it "should not detect default_scope" do
@@ -34,7 +34,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -45,7 +45,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/user.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

@@ -25,8 +25,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('db/migrate/20090818130258_create_roles.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:8 - isolate seed data"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("db/migrate/20090818130258_create_roles.rb:8 - isolate seed data")
         end
       end
 
@@ -51,8 +51,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('db/migrate/20090818130258_create_roles.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:9 - isolate seed data"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("db/migrate/20090818130258_create_roles.rb:9 - isolate seed data")
         end
 
         it "should isolate seed data for instance variable" do
@@ -75,8 +75,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('db/migrate/20090818130258_create_roles.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "db/migrate/20090818130258_create_roles.rb:9 - isolate seed data"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("db/migrate/20090818130258_create_roles.rb:9 - isolate seed data")
         end
       end
 
@@ -95,7 +95,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('db/migrate/20090818130258_create_roles.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -118,7 +118,7 @@ module RailsBestPractices
           end
         EOF
         runner.review('db/migrate/20090818130258_create_roles.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

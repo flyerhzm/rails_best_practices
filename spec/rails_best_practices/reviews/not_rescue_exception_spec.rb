@@ -15,8 +15,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:3 - not rescue Exception"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:3 - not rescue Exception")
         end
 
         it "should not rescue exception in method rescue without named var" do
@@ -28,8 +28,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:3 - not rescue Exception"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:3 - not rescue Exception")
         end
 
         it "should not rescue exception in block rescue with named var" do
@@ -43,8 +43,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:4 - not rescue Exception"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:4 - not rescue Exception")
         end
 
         it "should not rescue exception in block rescue without named var" do
@@ -58,8 +58,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:4 - not rescue Exception"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:4 - not rescue Exception")
         end
 
         it "should allow rescue implicit StandardError in block rescue without named var" do
@@ -73,7 +73,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should allow rescue explicit StandardError in block rescue without named var" do
@@ -87,7 +87,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not check ignored files" do
@@ -100,7 +100,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
     end

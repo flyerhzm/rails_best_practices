@@ -16,8 +16,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:5 - check 'save' return value or use 'save!'"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:5 - check 'save' return value or use 'save!'")
         end
 
         it "should allow save return value assigned to var" do
@@ -30,7 +30,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should allow save return value used in if" do
@@ -47,7 +47,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should allow save return value used in elsif" do
@@ -66,7 +66,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should allow save return value used in unless" do
@@ -78,7 +78,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should allow save return value used in if_mod" do
@@ -91,7 +91,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          expect(runner).to have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should allow save return value used in unless_mod" do
@@ -104,7 +104,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          expect(runner).to have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should allow save return value used in unless with &&" do
@@ -116,7 +116,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should allow save!" do
@@ -129,7 +129,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should warn you if you fail to check update_attributes return value" do
@@ -139,8 +139,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:2 - check 'update_attributes' return value or use 'update_attributes!'"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:2 - check 'update_attributes' return value or use 'update_attributes!'")
         end
 
         it "should allow update_attributes if return value is checked" do
@@ -150,7 +150,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "is not clever enough to allow update_attributes if value is returned from method" do
@@ -173,8 +173,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:12 - check 'update_attributes' return value or use 'update_attributes!'"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/controllers/posts_controller.rb:12 - check 'update_attributes' return value or use 'update_attributes!'")
         end
 
         it "should warn you if you use create which is always unsafe" do
@@ -192,8 +192,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:2 - use 'create!' instead of 'create' as the latter may not always save"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:2 - use 'create!' instead of 'create' as the latter may not always save")
         end
 
         it "should warn you if you use create with a block which is always unsafe" do
@@ -220,8 +220,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/blog/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/blog/posts_helper.rb:4 - use 'create!' instead of 'create' as the latter may not always save"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/helpers/blog/posts_helper.rb:4 - use 'create!' instead of 'create' as the latter may not always save")
         end
 
         it "allows create called on non-model classes" do
@@ -235,7 +235,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.errors.map(&:to_s).should == []
+          expect(runner.errors.map(&:to_s)).to eq([])
         end
       end
 
@@ -250,7 +250,7 @@ module RailsBestPractices
           end
         EOF
         runner.review('app/helpers/posts_helper.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

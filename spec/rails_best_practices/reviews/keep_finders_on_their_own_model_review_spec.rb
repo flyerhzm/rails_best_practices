@@ -17,8 +17,8 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/post.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/models/post.rb:5 - keep finders on their own model"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/models/post.rb:5 - keep finders on their own model")
       end
 
       it "should keep finders on thier own model with all method" do
@@ -33,8 +33,8 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/post.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/models/post.rb:5 - keep finders on their own model"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/models/post.rb:5 - keep finders on their own model")
       end
 
       it "should not keep finders on thier own model with self finder" do
@@ -49,7 +49,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/post.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not keep finders on thier own model with own finder" do
@@ -64,7 +64,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/post.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not keep finders on their own model without finder" do
@@ -78,7 +78,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/post.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not keep finders on their own model with ruby Array#find" do
@@ -92,7 +92,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/post.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -108,7 +108,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/models/post.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

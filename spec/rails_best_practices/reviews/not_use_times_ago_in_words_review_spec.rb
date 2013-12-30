@@ -11,8 +11,8 @@ module RailsBestPractices
           <%= time_ago_in_words(post.created_at) %>
           EOF
           runner.review('app/views/posts/show.html.erb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/views/posts/show.html.erb:1 - not use time_ago_in_words"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/views/posts/show.html.erb:1 - not use time_ago_in_words")
         end
 
         it "should not use in helpers" do
@@ -22,8 +22,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:2 - not use time_ago_in_words"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:2 - not use time_ago_in_words")
         end
       end
 
@@ -33,8 +33,8 @@ module RailsBestPractices
           <%= distance_of_time_in_words_to_now(post.created_at) %>
           EOF
           runner.review('app/views/posts/show.html.erb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/views/posts/show.html.erb:1 - not use time_ago_in_words"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/views/posts/show.html.erb:1 - not use time_ago_in_words")
         end
 
         it "should not use in helpers" do
@@ -44,8 +44,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/helpers/posts_helper.rb:2 - not use time_ago_in_words"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:2 - not use time_ago_in_words")
         end
       end
 
@@ -57,7 +57,7 @@ module RailsBestPractices
           end
         EOF
         runner.review('app/helpers/posts_helper.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

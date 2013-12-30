@@ -25,8 +25,8 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/invoices_controller.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/invoices_controller.rb:2 - replace complex creation with factory method (@invoice attribute_assignment_count > 2)"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/controllers/invoices_controller.rb:2 - replace complex creation with factory method (@invoice attribute_assignment_count > 2)")
       end
 
       it "should not replace complex creation with factory method with simple creation" do
@@ -41,7 +41,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/invoices_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not replace complex creation with factory method when attrasgn_count is 5" do
@@ -65,7 +65,7 @@ module RailsBestPractices
         EOF
         runner = Core::Runner.new(reviews: ReplaceComplexCreationWithFactoryMethodReview.new('attribute_assignment_count' => 5))
         runner.review('app/controllers/invoices_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -89,7 +89,7 @@ module RailsBestPractices
         end
         EOF
         runner.review('app/controllers/invoices_controller.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

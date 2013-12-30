@@ -16,9 +16,9 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(2).errors
-          runner.errors[0].to_s.should == "config/routes.rb:4 - not use default route"
-          runner.errors[1].to_s.should == "config/routes.rb:5 - not use default route"
+          expect(runner.errors.size).to eq(2)
+          expect(runner.errors[0].to_s).to eq("config/routes.rb:4 - not use default route")
+          expect(runner.errors[1].to_s).to eq("config/routes.rb:5 - not use default route")
         end
 
         it "should no not use default route" do
@@ -28,7 +28,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not check ignored files" do
@@ -42,7 +42,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -56,8 +56,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "config/routes.rb:4 - not use default route"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("config/routes.rb:4 - not use default route")
         end
 
         it "should no not use default route" do
@@ -67,7 +67,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not check ignored files" do
@@ -80,7 +80,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
     end

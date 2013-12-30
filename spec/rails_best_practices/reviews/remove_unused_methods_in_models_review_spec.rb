@@ -28,8 +28,8 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/post.rb:4 - remove unused methods (Post#find_by_sql)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/models/post.rb:4 - remove unused methods (Post#find_by_sql)")
         end
 
         it "should not remove unused methods with except_methods" do
@@ -41,7 +41,7 @@ module RailsBestPractices
           runner.prepare('app/models/post.rb', content)
           runner.review('app/models/post.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused methods with var_ref" do
@@ -65,7 +65,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused methods with callback" do
@@ -79,7 +79,7 @@ module RailsBestPractices
           runner.prepare('app/models/post.rb', content)
           runner.review('app/models/post.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method with command" do
@@ -103,7 +103,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method with call" do
@@ -127,7 +127,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method with message" do
@@ -153,7 +153,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method with validation condition" do
@@ -167,7 +167,7 @@ module RailsBestPractices
           runner.prepare('app/models/post.rb', content)
           runner.review('app/models/post.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method with aasm" do
@@ -181,7 +181,7 @@ module RailsBestPractices
           runner.prepare('app/models/post.rb', content)
           runner.review('app/models/post.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method with initialize" do
@@ -194,7 +194,7 @@ module RailsBestPractices
           runner.prepare('app/models/post.rb', content)
           runner.review('app/models/post.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -207,8 +207,8 @@ module RailsBestPractices
           EOF
           runner.prepare('app/models/post.rb', content)
           runner.after_review
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/post.rb:2 - remove unused methods (Post#fetch)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/models/post.rb:2 - remove unused methods (Post#fetch)")
         end
 
         it "should not remove unused methods" do
@@ -227,7 +227,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused methods for attribute assignment" do
@@ -239,7 +239,7 @@ module RailsBestPractices
           runner.prepare('app/models/post.rb', content)
           runner.review('app/models/post.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused methods for try" do
@@ -259,7 +259,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused methods for send" do
@@ -279,7 +279,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should remove unused methods for send string_embexpre" do
@@ -300,7 +300,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(1).errors
+          expect(runner.errors.size).to eq(1)
         end
 
         it "should remove unused methods for send variable" do
@@ -321,7 +321,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(1).errors
+          expect(runner.errors.size).to eq(1)
         end
       end
 
@@ -344,8 +344,8 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/post.rb:3 - remove unused methods (Post#test)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/models/post.rb:3 - remove unused methods (Post#test)")
         end
 
         it "should not remove unused methods" do
@@ -375,7 +375,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -397,7 +397,7 @@ module RailsBestPractices
           EOF
           runner.review("app/controllers/posts_controller.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should remove unused named_scope" do
@@ -409,8 +409,8 @@ module RailsBestPractices
           runner.prepare("app/models/post.rb", content)
           runner.review("app/models/post.rb", content)
           runner.after_review
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/post.rb:2 - remove unused methods (Post#active)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/models/post.rb:2 - remove unused methods (Post#active)")
         end
       end
 
@@ -432,7 +432,7 @@ module RailsBestPractices
           EOF
           runner.review("app/controllers/posts_controller.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should remove unused named_scope" do
@@ -444,8 +444,8 @@ module RailsBestPractices
           runner.prepare("app/models/post.rb", content)
           runner.review("app/models/post.rb", content)
           runner.after_review
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "app/models/post.rb:2 - remove unused methods (Post#active)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("app/models/post.rb:2 - remove unused methods (Post#active)")
         end
       end
 
@@ -468,7 +468,7 @@ module RailsBestPractices
           EOF
           runner.review("app/controllers/posts_controller.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
          it "should not remove unused method with symbol alias" do
@@ -489,7 +489,7 @@ module RailsBestPractices
           EOF
           runner.review("app/controllers/posts_controller.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method with alias_method" do
@@ -510,7 +510,7 @@ module RailsBestPractices
           EOF
           runner.review("app/controllers/posts_controller.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method with alias_method_chain" do
@@ -531,7 +531,7 @@ module RailsBestPractices
           EOF
           runner.review("app/controllers/posts_controller.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -549,7 +549,7 @@ module RailsBestPractices
           runner.prepare("app/models/post.rb", content)
           runner.review("app/models/post.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -568,7 +568,7 @@ module RailsBestPractices
           runner.prepare("app/models/post.rb", content)
           runner.review("app/models/post.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -585,7 +585,7 @@ module RailsBestPractices
           runner.prepare("app/models/post.rb", content)
           runner.review("app/models/post.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method for validate_on_create and validate_on_update" do
@@ -602,7 +602,7 @@ module RailsBestPractices
           runner.prepare("app/models/post.rb", content)
           runner.review("app/models/post.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused methods for to_param" do
@@ -616,7 +616,7 @@ module RailsBestPractices
           runner.prepare("app/models/post.rb", content)
           runner.review("app/models/post.rb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -634,7 +634,7 @@ module RailsBestPractices
           EOF
           runner.review("app/views/categories/_form.html.erb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method for command collection_select" do
@@ -650,7 +650,7 @@ module RailsBestPractices
           EOF
           runner.review("app/views/categories/_form.html.erb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not remove unused method for options_from_collection_for_select" do
@@ -666,7 +666,7 @@ module RailsBestPractices
           EOF
           runner.review("app/views/categories/_form.html.erb", content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -686,7 +686,7 @@ module RailsBestPractices
         EOF
         runner.review("app/views/users/show.json.rabl", content)
         runner.after_review
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not skip :call as call message" do
@@ -726,7 +726,7 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
       end
     end
   end

@@ -22,7 +22,7 @@ following template engines:
 * slim
 * rabl
 
-rails_best_practices works well only in ruby 1.9.2 and ruby 1.9.3 so far.  It is incompatible with ruby 1.8.
+rails_best_practices works well only in ruby 1.9.3, 2.0.0, and 2.1.0 so far.  It is incompatible with ruby 1.8.
 
 ## External Introduction
 

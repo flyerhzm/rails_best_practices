@@ -16,8 +16,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - overuse route customizations (customize_count > 3)")
         end
 
         it "should overuse route customizations with member" do
@@ -30,8 +30,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - overuse route customizations (customize_count > 3)")
         end
 
         it "should overuse route customizations with collection" do
@@ -44,8 +44,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - overuse route customizations (customize_count > 3)")
         end
 
         it "should overuse route customizations with hash member and collection" do
@@ -60,8 +60,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "config/routes.rb:3 - overuse route customizations (customize_count > 3)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("config/routes.rb:3 - overuse route customizations (customize_count > 3)")
         end
 
         it "should overuse route customizations with array member and collection" do
@@ -74,8 +74,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "config/routes.rb:3 - overuse route customizations (customize_count > 3)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("config/routes.rb:3 - overuse route customizations (customize_count > 3)")
         end
 
         it "should not overuse route customizations without customization" do
@@ -85,7 +85,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not overuse route customizations when customize route is only one" do
@@ -95,7 +95,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not raise error for constants in routes" do
@@ -108,7 +108,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -130,8 +130,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - overuse route customizations (customize_count > 3)")
         end
 
         it "should overuse route customizations another way" do
@@ -146,8 +146,8 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(1).errors
-          runner.errors[0].to_s.should == "config/routes.rb:2 - overuse route customizations (customize_count > 3)"
+          expect(runner.errors.size).to eq(1)
+          expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - overuse route customizations (customize_count > 3)")
         end
 
         it "should not overuse route customizations without customization" do
@@ -157,7 +157,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
 
         it "should not overuse route customizations when customize route is only one" do
@@ -171,7 +171,7 @@ module RailsBestPractices
           end
           EOF
           runner.review('config/routes.rb', content)
-          runner.should have(0).errors
+          expect(runner.errors.size).to eq(0)
         end
       end
 
@@ -186,7 +186,7 @@ module RailsBestPractices
           end
         EOF
         runner.review('config/routes.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

@@ -23,8 +23,8 @@ module RailsBestPractices
         after 'deploy:update_code', 'bundler:bundle_new_release'
         EOF
         runner.review('config/deploy.rb', content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "config/deploy.rb:1 - dry bundler in capistrano"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("config/deploy.rb:1 - dry bundler in capistrano")
       end
 
       it "should not dry bundler in capistrano" do
@@ -32,7 +32,7 @@ module RailsBestPractices
           require 'bundler/capistrano'
         EOF
         runner.review('config/deploy.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -54,7 +54,7 @@ module RailsBestPractices
         after 'deploy:update_code', 'bundler:bundle_new_release'
         EOF
         runner.review('config/deploy.rb', content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

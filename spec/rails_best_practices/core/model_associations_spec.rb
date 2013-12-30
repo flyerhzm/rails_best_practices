@@ -10,15 +10,15 @@ module RailsBestPractices::Core
     end
 
     it "should get model associations" do
-      model_associations.get_association("Project", "project_manager").should == {"meta" => "belongs_to", "class_name" => "ProjectManager"}
-      model_associations.get_association("Project", "people").should == {"meta" => "has_many", "class_name" => "Person"}
-      model_associations.get_association("Project", "unknown").should be_nil
+      expect(model_associations.get_association("Project", "project_manager")).to eq({"meta" => "belongs_to", "class_name" => "ProjectManager"})
+      expect(model_associations.get_association("Project", "people")).to eq({"meta" => "has_many", "class_name" => "Person"})
+      expect(model_associations.get_association("Project", "unknown")).to be_nil
     end
 
     it "should check is model associatiosn" do
-      model_associations.is_association?("Project", "project_manager").should be_true
-      model_associations.is_association?("Project", "people").should be_true
-      model_associations.is_association?("Project", "unknown").should be_false
+      expect(model_associations.is_association?("Project", "project_manager")).to be_truthy
+      expect(model_associations.is_association?("Project", "people")).to be_truthy
+      expect(model_associations.is_association?("Project", "unknown")).to be_nil
     end
   end
 end

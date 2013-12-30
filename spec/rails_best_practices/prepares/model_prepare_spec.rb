@@ -13,7 +13,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/admin/post.rb", content)
           models = Prepares.models
-          models.map(&:to_s).should == ["Blog::Post"]
+          expect(models.map(&:to_s)).to eq(["Blog::Post"])
         end
 
         it "class_name with modules" do
@@ -25,7 +25,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/admin/post.rb", content)
           models = Prepares.models
-          models.map(&:to_s).should == ["Blog::Post"]
+          expect(models.map(&:to_s)).to eq(["Blog::Post"])
         end
       end
 
@@ -41,10 +41,10 @@ module RailsBestPractices
           EOF
           runner.prepare('app/models/project.rb', content)
           model_associations = Prepares.model_associations
-          model_associations.get_association("Project", "portfolio").should == {"meta" => "belongs_to", "class_name" => "Portfolio"}
-          model_associations.get_association("Project", "project_manager").should == {"meta" => "has_one", "class_name" => "ProjectManager"}
-          model_associations.get_association("Project", "milestones").should == {"meta" => "has_many", "class_name" => "Milestone"}
-          model_associations.get_association("Project", "categories").should == {"meta" => "has_and_belongs_to_many", "class_name" => "Category"}
+          expect(model_associations.get_association("Project", "portfolio")).to eq({"meta" => "belongs_to", "class_name" => "Portfolio"})
+          expect(model_associations.get_association("Project", "project_manager")).to eq({"meta" => "has_one", "class_name" => "ProjectManager"})
+          expect(model_associations.get_association("Project", "milestones")).to eq({"meta" => "has_many", "class_name" => "Milestone"})
+          expect(model_associations.get_association("Project", "categories")).to eq({"meta" => "has_and_belongs_to_many", "class_name" => "Category"})
         end
 
         context "with class_name option" do
@@ -56,7 +56,7 @@ module RailsBestPractices
             EOF
             runner.prepare("app/models/post.rb", content)
             model_associations = Prepares.model_associations
-            model_associations.get_association("Post", "author").should == {"meta" => "belongs_to", "class_name" => "Person"}
+            expect(model_associations.get_association("Post", "author")).to eq({"meta" => "belongs_to", "class_name" => "Person"})
           end
 
           it "should parse has_one" do
@@ -67,7 +67,7 @@ module RailsBestPractices
             EOF
             runner.prepare("app/models/post.rb", content)
             model_associations = Prepares.model_associations
-            model_associations.get_association("Project", "project_manager").should == {"meta" => "has_one", "class_name" => "Person"}
+            expect(model_associations.get_association("Project", "project_manager")).to eq({"meta" => "has_one", "class_name" => "Person"})
           end
 
           it "should parse has_many" do
@@ -78,7 +78,7 @@ module RailsBestPractices
             EOF
             runner.prepare("app/models/project.rb", content)
             model_associations = Prepares.model_associations
-            model_associations.get_association("Project", "people").should == {"meta" => "has_many", "class_name" => "Person"}
+            expect(model_associations.get_association("Project", "people")).to eq({"meta" => "has_many", "class_name" => "Person"})
           end
 
           it "should parse has_and_belongs_to_many" do
@@ -89,7 +89,7 @@ module RailsBestPractices
             EOF
             runner.prepare("app/models/citizen.rb", content)
             model_associations = Prepares.model_associations
-            model_associations.get_association("Citizen", "nations").should == {"meta" => "has_and_belongs_to_many", "class_name" => "Country"}
+            expect(model_associations.get_association("Citizen", "nations")).to eq({"meta" => "has_and_belongs_to_many", "class_name" => "Country"})
           end
 
           context "namespace" do
@@ -108,8 +108,8 @@ module RailsBestPractices
               runner.prepare("app/models/community/member.rb", content)
               runner.after_prepare
               model_associations = Prepares.model_associations
-              model_associations.get_association("Community", "members").should == {"meta" => "has_many", "class_name" => "Community::Member"}
-              model_associations.get_association("Community::Member", "community").should == {"meta" => "belongs_to", "class_name" => "Community"}
+              expect(model_associations.get_association("Community", "members")).to eq({"meta" => "has_many", "class_name" => "Community::Member"})
+              expect(model_associations.get_association("Community::Member", "community")).to eq({"meta" => "belongs_to", "class_name" => "Community"})
             end
 
             it "should parse without namespace" do
@@ -127,8 +127,8 @@ module RailsBestPractices
               runner.prepare("app/models/community/member.rb", content)
               runner.after_prepare
               model_associations = Prepares.model_associations
-              model_associations.get_association("Community::Member::Rating", "member").should == {"meta" => "belongs_to", "class_name" => "Community::Member"}
-              model_associations.get_association("Community::Member", "ratings").should == {"meta" => "has_many", "class_name" => "Community::Member::Rating"}
+              expect(model_associations.get_association("Community::Member::Rating", "member")).to eq({"meta" => "belongs_to", "class_name" => "Community::Member"})
+              expect(model_associations.get_association("Community::Member", "ratings")).to eq({"meta" => "has_many", "class_name" => "Community::Member::Rating"})
             end
           end
         end
@@ -143,7 +143,7 @@ module RailsBestPractices
             EOF
             runner.prepare("app/models/person.rb", content)
             model_associations = Prepares.model_associations
-            model_associations.get_association("Person", "addresses").should == {"meta" => "embeds_many", "class_name" => "Address"}
+            expect(model_associations.get_association("Person", "addresses")).to eq({"meta" => "embeds_many", "class_name" => "Address"})
           end
 
           it "should parse embeds_one" do
@@ -155,7 +155,7 @@ module RailsBestPractices
             EOF
             runner.prepare("app/models/lush.rb", content)
             model_associations = Prepares.model_associations
-            model_associations.get_association("Lush", "whiskey").should == {"meta" => "embeds_one", "class_name" => "Drink"}
+            expect(model_associations.get_association("Lush", "whiskey")).to eq({"meta" => "embeds_one", "class_name" => "Drink"})
           end
 
           it "should parse embedded_in" do
@@ -167,7 +167,7 @@ module RailsBestPractices
             EOF
             runner.prepare("app/models/drink.rb", content)
             model_associations = Prepares.model_associations
-            model_associations.get_association("Drink", "alcoholic").should == {"meta" => "embedded_in", "class_name" => "Lush"}
+            expect(model_associations.get_association("Drink", "alcoholic")).to eq({"meta" => "embedded_in", "class_name" => "Lush"})
           end
         end
 
@@ -181,7 +181,7 @@ module RailsBestPractices
             EOF
             runner.prepare("app/models/employee.rb", content)
             model_associations = Prepares.model_associations
-            model_associations.get_association("Employee", "desk").should == {"meta" => "one", "class_name" => "Desk"}
+            expect(model_associations.get_association("Employee", "desk")).to eq({"meta" => "one", "class_name" => "Desk"})
           end
 
           it "should parse many" do
@@ -193,7 +193,7 @@ module RailsBestPractices
             EOF
             runner.prepare("app/models/tree.rb", content)
             model_associations = Prepares.model_associations
-            model_associations.get_association("Tree", "birds").should == {"meta" => "many", "class_name" => "Bird"}
+            expect(model_associations.get_association("Tree", "birds")).to eq({"meta" => "many", "class_name" => "Bird"})
           end
         end
       end
@@ -208,7 +208,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/post.rb", content)
           methods = Prepares.model_methods
-          methods.get_methods("Post").map(&:method_name).should == ["save", "find"]
+          expect(methods.get_methods("Post").map(&:method_name)).to eq(["save", "find"])
         end
 
         it "should parse model methods with access control" do
@@ -224,10 +224,10 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/post.rb", content)
           methods = Prepares.model_methods
-          methods.get_methods("Post").map(&:method_name).should == ["save", "find", "create_or_update", "find_by_sql"]
-          methods.get_methods("Post", "public").map(&:method_name).should == ["save", "find"]
-          methods.get_methods("Post", "protected").map(&:method_name).should == ["create_or_update"]
-          methods.get_methods("Post", "private").map(&:method_name).should == ["find_by_sql"]
+          expect(methods.get_methods("Post").map(&:method_name)).to eq(["save", "find", "create_or_update", "find_by_sql"])
+          expect(methods.get_methods("Post", "public").map(&:method_name)).to eq(["save", "find"])
+          expect(methods.get_methods("Post", "protected").map(&:method_name)).to eq(["create_or_update"])
+          expect(methods.get_methods("Post", "private").map(&:method_name)).to eq(["find_by_sql"])
         end
 
         it "should parse model methods with module ::" do
@@ -239,7 +239,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/admin/blog/post.rb", content)
           methods = Prepares.model_methods
-          methods.get_methods("Admin::Blog::Post").map(&:method_name).should == ["save", "find"]
+          expect(methods.get_methods("Admin::Blog::Post").map(&:method_name)).to eq(["save", "find"])
         end
 
         it "should parse model methods with module" do
@@ -255,7 +255,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/admin/blog/post.rb", content)
           methods = Prepares.model_methods
-          methods.get_methods("Admin::Blog::Post").map(&:method_name).should == ["save", "find"]
+          expect(methods.get_methods("Admin::Blog::Post").map(&:method_name)).to eq(["save", "find"])
         end
 
         it "should not add methods from module" do
@@ -272,7 +272,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/mixins/mixin.rb", content)
           methods = Prepares.model_methods
-          methods.get_methods('Model').should be_empty
+          expect(methods.get_methods('Model')).to be_empty
         end
       end
 
@@ -285,7 +285,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/post.rb", content)
           methods = Prepares.model_methods
-          methods.get_methods("Post").map(&:method_name).should == ["active"]
+          expect(methods.get_methods("Post").map(&:method_name)).to eq(["active"])
         end
 
         it "should treat scope as method" do
@@ -296,7 +296,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/post.rb", content)
           methods = Prepares.model_methods
-          methods.get_methods("Post").map(&:method_name).should == ["active"]
+          expect(methods.get_methods("Post").map(&:method_name)).to eq(["active"])
         end
       end
 
@@ -309,7 +309,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/post.rb", content)
           methods = Prepares.model_methods
-          methods.get_methods("Post").map(&:method_name).should == ["new"]
+          expect(methods.get_methods("Post").map(&:method_name)).to eq(["new"])
         end
 
         it "should treat alias_method as method" do
@@ -320,7 +320,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/post.rb", content)
           methods = Prepares.model_methods
-          methods.get_methods("Post").map(&:method_name).should == ["new"]
+          expect(methods.get_methods("Post").map(&:method_name)).to eq(["new"])
         end
 
         it "should treat alias_method_chain as method" do
@@ -331,7 +331,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/post.rb", content)
           methods = Prepares.model_methods
-          methods.get_methods("Post").map(&:method_name).should == ["method_with_feature", "method"]
+          expect(methods.get_methods("Post").map(&:method_name)).to eq(["method_with_feature", "method"])
         end
       end
 
@@ -349,11 +349,11 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/post.rb", content)
           model_attributes = Prepares.model_attributes
-          model_attributes.get_attribute_type("Post", "title").should == "String"
-          model_attributes.get_attribute_type("Post", "tags").should == "Array"
-          model_attributes.get_attribute_type("Post", "comments_count").should == "Integer"
-          model_attributes.get_attribute_type("Post", "deleted_at").should == "DateTime"
-          model_attributes.get_attribute_type("Post", "active").should == "Boolean"
+          expect(model_attributes.get_attribute_type("Post", "title")).to eq("String")
+          expect(model_attributes.get_attribute_type("Post", "tags")).to eq("Array")
+          expect(model_attributes.get_attribute_type("Post", "comments_count")).to eq("Integer")
+          expect(model_attributes.get_attribute_type("Post", "deleted_at")).to eq("DateTime")
+          expect(model_attributes.get_attribute_type("Post", "active")).to eq("Boolean")
         end
 
         it "should parse mongomapper field" do
@@ -370,12 +370,12 @@ module RailsBestPractices
           EOF
           runner.prepare("app/models/post.rb", content)
           model_attributes = Prepares.model_attributes
-          model_attributes.get_attribute_type("Post", "first_name").should == "String"
-          model_attributes.get_attribute_type("Post", "last_name").should == "String"
-          model_attributes.get_attribute_type("Post", "age").should == "Integer"
-          model_attributes.get_attribute_type("Post", "born_at").should == "Time"
-          model_attributes.get_attribute_type("Post", "active").should == "Boolean"
-          model_attributes.get_attribute_type("Post", "fav_colors").should == "Array"
+          expect(model_attributes.get_attribute_type("Post", "first_name")).to eq("String")
+          expect(model_attributes.get_attribute_type("Post", "last_name")).to eq("String")
+          expect(model_attributes.get_attribute_type("Post", "age")).to eq("Integer")
+          expect(model_attributes.get_attribute_type("Post", "born_at")).to eq("Time")
+          expect(model_attributes.get_attribute_type("Post", "active")).to eq("Boolean")
+          expect(model_attributes.get_attribute_type("Post", "fav_colors")).to eq("Array")
         end
       end
 
@@ -387,7 +387,7 @@ module RailsBestPractices
           end
           EOF
           content.sub!('?', '\'SELECT event_notification_templates.* from event_notification_templates where event_type_id=#{event_type_id} and delivery_method_id=#{delivery_method_id}\'')
-          lambda { runner.prepare('app/models/event_subscription.rb', content) }.should_not raise_error
+          expect { runner.prepare('app/models/event_subscription.rb', content) }.not_to raise_error
         end
       end
     end

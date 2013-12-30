@@ -11,7 +11,7 @@ module RailsBestPractices
         end
         EOF
         runner.prepare('app/mailers/project_mailer.rb', content)
-        Prepares.mailers.map(&:to_s).should == ["ProjectMailer"]
+        expect(Prepares.mailers.map(&:to_s)).to eq(["ProjectMailer"])
       end
     end
   end

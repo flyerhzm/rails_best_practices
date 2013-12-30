@@ -15,7 +15,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/helpers/posts_helper.rb', content)
           methods = Prepares.helper_methods
-          methods.get_methods("PostsHelper").map(&:method_name).should == ["used", "unused"]
+          expect(methods.get_methods("PostsHelper").map(&:method_name)).to eq(["used", "unused"])
         end
 
         it "should parse helpers" do
@@ -37,7 +37,7 @@ module RailsBestPractices
           EOF
           runner.prepare("app/helpers/base_helper.rb", content)
           helpers = Prepares.helpers
-          helpers.map(&:to_s).should == ["PostsHelper", "Admin::UsersHelper", "Admin", "Admin::BaseHelper"]
+          expect(helpers.map(&:to_s)).to eq(["PostsHelper", "Admin::UsersHelper", "Admin", "Admin::BaseHelper"])
         end
       end
     end

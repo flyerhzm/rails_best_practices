@@ -12,8 +12,8 @@ module RailsBestPractices
         end
         EOF
         runner.review("app/controllers/posts_controller.rb", content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - simplify render in controllers"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/controllers/posts_controller.rb:2 - simplify render in controllers")
       end
 
       it "should simplify render actions's template" do
@@ -23,8 +23,8 @@ module RailsBestPractices
         end
         EOF
         runner.review("app/controllers/posts_controller.rb", content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - simplify render in controllers"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/controllers/posts_controller.rb:2 - simplify render in controllers")
       end
 
       it "should simplify render an arbitrary file" do
@@ -34,8 +34,8 @@ module RailsBestPractices
         end
         EOF
         runner.review("app/controllers/posts_controller.rb", content)
-        runner.should have(1).errors
-        runner.errors[0].to_s.should == "app/controllers/posts_controller.rb:2 - simplify render in controllers"
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/controllers/posts_controller.rb:2 - simplify render in controllers")
       end
 
       it "should not simplify render action view" do
@@ -43,7 +43,7 @@ module RailsBestPractices
         render :edit
         EOF
         runner.review("app/controllers/posts_controller", content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not simplify render actions's template" do
@@ -53,7 +53,7 @@ module RailsBestPractices
         end
         EOF
         runner.review("app/controllers/posts_controller.rb", content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not simplify render an arbitrary file" do
@@ -63,7 +63,7 @@ module RailsBestPractices
         end
         EOF
         runner.review("app/controllers/posts_controller.rb", content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
 
       it "should not check ignored files" do
@@ -74,7 +74,7 @@ module RailsBestPractices
         end
         EOF
         runner.review("app/controllers/posts_controller.rb", content)
-        runner.should have(0).errors
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

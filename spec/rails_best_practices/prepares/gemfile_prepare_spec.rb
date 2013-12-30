@@ -26,7 +26,7 @@ PLATFORMS
           EOF
           runner.prepare('Gemfile.lock', content)
           gems = Prepares.gems
-          gems.map(&:to_s).should == ["rails (3.2.13)", "mysql2 (0.3.12b6)"]
+          expect(gems.map(&:to_s)).to eq(["rails (3.2.13)", "mysql2 (0.3.12b6)"])
         end
       end
     end

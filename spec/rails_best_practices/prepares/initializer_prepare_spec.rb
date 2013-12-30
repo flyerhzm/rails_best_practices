@@ -14,7 +14,7 @@ module RailsBestPractices
           EOF
           runner.prepare('config/initializers/ar.rb', content)
           configs = Prepares.configs
-          configs["railsbp.include_forbidden_attributes_protection"].should == "true"
+          expect(configs["railsbp.include_forbidden_attributes_protection"]).to eq("true")
         end
 
         it "should not set include_forbidden_attributes_protection config" do
@@ -24,7 +24,7 @@ module RailsBestPractices
           EOF
           runner.prepare('config/initializers/ar.rb', content)
           configs = Prepares.configs
-          configs["railsbp.include_forbidden_attributes_protection"].should be_nil
+          expect(configs["railsbp.include_forbidden_attributes_protection"]).to be_nil
         end
       end
     end

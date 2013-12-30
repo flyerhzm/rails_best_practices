@@ -10,7 +10,7 @@ module RailsBestPractices::Core
       end
       subject { Modules.new.tap { |modules| modules << @mod } }
       it "should add decendant to the corresponding module" do
-        @mod.should_receive(:add_decendant).with("PostsController")
+        expect(@mod).to receive(:add_decendant).with("PostsController")
         subject.add_module_decendant("PostsHelper", "PostsController")
       end
     end
@@ -21,8 +21,8 @@ module RailsBestPractices::Core
           mod.add_decendant("Admin::UsersController")
         end
       }
-      its(:to_s) { should == "Admin::UsersHelper" }
-      its(:decendants) { should == ["Admin::UsersController"] }
+      it { expect(subject.to_s).to eq("Admin::UsersHelper") }
+      it { expect(subject.decendants).to eq(["Admin::UsersController"]) }
     end
   end
 end
