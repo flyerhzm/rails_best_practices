@@ -24,7 +24,7 @@ module RailsBestPractices
       # check def node and find if the corresponding views exist or not?
       add_callback :start_def do |node|
         name = node.method_name.to_s
-        if deliver_method?(name) && rails_canonical_mailer_views?(name)
+        if !rails_canonical_mailer_views?(name)
           add_error("use multipart/alternative as content_type of email")
         end
       end
@@ -34,45 +34,34 @@ module RailsBestPractices
         #
         # @param [String] name method name in action_mailer
         def rails_canonical_mailer_views?(name)
-          rails2_canonical_mailer_views?(name) || rails3_canonical_mailer_views?(name)
+          if Prepares.gems.gem_version("rails").to_i > 2
+            rails3_canonical_mailer_views?(name)
+          else
+            rails2_canonical_mailer_views?(name)
+          end
         end
 
         # check if rails2's syntax mailer views are canonical.
         #
         # @param [String] name method name in action_mailer
         def rails2_canonical_mailer_views?(name)
-          (exist?("#{name}.text.html.erb") && !exist?("#{name}.text.plain.erb")) ||
-          (exist?("#{name}.text.html.haml") && !exist?("#{name}.text.plain.haml")) ||
-          (exist?("#{name}.text.html.slim") && !exist?("#{name}.text.plain.slim")) ||
-          (exist?("#{name}.text.html.rhtml") && !exist?("#{name}.text.plain.rhtml"))
+          return true if mailer_files(name).length == 0
+          mailer_files(name).any? { |filename| filename.index 'text.html' } &&
+            mailer_files(name).any? { |filename| filename.index 'text.plain' }
         end
 
         # check if rails3's syntax mailer views are canonical.
         #
         # @param [String] name method name in action_mailer
         def rails3_canonical_mailer_views?(name)
-          (exist?("#{name}.html.erb") && !html_template_exists?("#{name}.text")) ||
-          (exist?("#{name}.html.haml") && !html_template_exists?("#{name}.text")) ||
-          (exist?("#{name}.html.slim") && !html_template_exists?("#{name}.text"))
+          return true if mailer_files(name).length == 0
+          mailer_files(name).any? { |filename| filename.index 'html' } &&
+            mailer_files(name).any? { |filename| filename.index 'text' }
         end
 
-        # check if the filename existed in the mailer directory.
-        def exist?(filename)
-          File.exist? File.join(mailer_directory, filename)
-        end
-
-        # check if erb, haml or slim exists
-        def html_template_exists?(filename)
-          exist?("#{filename}.erb") || exist?("#{filename}.haml") || exist?("#{filename}.slim")
-        end
-
-        # check if the method is a deliver_method.
-        #
-        # @param [String] name the name of the method
-        def deliver_method?(name)
-          Dir.entries(mailer_directory).find { |filename| filename.index name.to_s }
-        rescue
-          false
+        # all mail view files for a method name.
+        def mailer_files(name)
+          Dir.entries(mailer_directory) { |filename| filename.index name.to_s }
         end
 
         # the view directory of mailer.
