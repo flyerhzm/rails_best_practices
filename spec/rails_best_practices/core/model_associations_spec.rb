@@ -16,9 +16,9 @@ module RailsBestPractices::Core
     end
 
     it "should check is model associatiosn" do
-      expect(model_associations.is_association?("Project", "project_manager")).to be_truthy
-      expect(model_associations.is_association?("Project", "people")).to be_truthy
-      expect(model_associations.is_association?("Project", "unknown")).to be_nil
+      expect(model_associations.is_association?("Project", "project_manager")).to eq true
+      expect(model_associations.is_association?("Project", "people")).to eq true
+      expect(model_associations.is_association?("Project", "unknown")).to eq false
     end
   end
 end

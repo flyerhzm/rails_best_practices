@@ -34,7 +34,7 @@ module RailsBestPractices
       # @return [Boolean] true if it is the model's association
       def is_association?(model_name, association_name)
         associations = @associations[model_name]
-        associations && associations[association_name]
+        !!(associations && associations[association_name])
       end
 
       # delegate each to @associations.
