@@ -26,8 +26,9 @@ rails_best_practices works well only in ruby 1.9.3, 2.0.0, and 2.1.0 so far.  It
 
 ## External Introduction
 
-<http://ruby5.envylabs.com/episodes/257-episode-253-march-9th-2012/stories/2253-rails_best_practices>
-<http://railscasts.com/episodes/252-metrics-metrics-metrics>
+[Ruby5 - Episode #253](http://ruby5.envylabs.com/episodes/257-episode-253-march-9th-2012/stories/2253-rails_best_practices)
+
+[Railscasts - #252 Metrics Metrics Metrics](http://railscasts.com/episodes/252-metrics-metrics-metrics)
 
 ## Usage
 
