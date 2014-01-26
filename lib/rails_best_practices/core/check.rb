@@ -346,7 +346,7 @@ module RailsBestPractices
 
             # check if the method is in the except methods list.
             def excepted?(method)
-              method.file =~ @ignored_files ||
+              is_ignored?(method.file) ||
               except_methods.any? do |except_method|
                 class_name, method_name = except_method.split('#')
                 (class_name == '*' && method_name == method.method_name) ||
