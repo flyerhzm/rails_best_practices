@@ -40,9 +40,24 @@ or html output
 
     rails_best_practices -f html .
 
-By default rails_best_practices will do parse codes in vendor, spec, test and features directories. If you need, see the command options:
+By default rails_best_practices will do parse codes in vendor, spec, test and features directories. 
+
+### Excluding folders
+
+To exclude folder simply call it with -e or --exclude
+
+    rails_best_practices -e "db/migrate" .
+    
+To exclude multiple folders, separate them with comma
+
+    rails_best_practices -e "db/migrate,vendor" .
+
+### Other command line options
+
+To see full list of commandline options call:
 
     $ rails_best_practices -h
+    
     Usage: rails_best_practices [options]
         -d, --debug                      Debug mode
         -f, --format FORMAT              output format
