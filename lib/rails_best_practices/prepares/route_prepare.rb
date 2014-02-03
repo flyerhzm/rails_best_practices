@@ -64,7 +64,7 @@ module RailsBestPractices
               @routes.add_route(current_namespaces, controller_name.underscore, action_name)
             end
           end
-        when "match", "root"
+        when "match"
           options = node.arguments.all.last
           case options.sexp_type
           when :bare_assoc_hash
@@ -86,6 +86,19 @@ module RailsBestPractices
             end
           else
             # do nothing
+          end
+        when "root"
+          options = node.arguments.all.last
+          case options.sexp_type
+          when :bare_assoc_hash
+            route_node = options.hash_values.find { |value_node| :string_literal == value_node.sexp_type && value_node.to_s.include?('#') }
+            if route_node.present?
+              controller_name, action_name = route_node.to_s.split('#')
+              @routes.add_route(current_namespaces, controller_name.underscore, action_name)
+            end
+          when :string_literal
+            controller_name, action_name = options.to_s.split('#')
+            @routes.add_route(current_namespaces, controller_name.underscore, action_name)
           end
         else
           # nothing to do

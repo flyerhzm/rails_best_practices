@@ -652,6 +652,17 @@ module RailsBestPractices
           expect(routes.map(&:to_s)).to eq(["HomeController#index"])
         end
 
+        it "should add root shortcut route" do
+          content =<<-EOF
+          RailsBestPracticesCom::Application.routes.draw do
+            root 'home#index'
+          end
+          EOF
+          runner.prepare('config/routes.rb', content)
+          routes = Prepares.routes
+          expect(routes.map(&:to_s)).to eq(["HomeController#index"])
+        end
+
         it "should do nothing for default route" do
           content =<<-EOF
           RailsBestPracticesCom::Application.routes.draw do
