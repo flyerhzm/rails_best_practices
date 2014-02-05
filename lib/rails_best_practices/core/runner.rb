@@ -1,6 +1,12 @@
 # encoding: utf-8
 require 'yaml'
-require 'rails_best_practices/core_ext/ruby'
+require 'active_support/core_ext/object/blank'
+begin
+  require 'active_support/core_ext/object/try'
+rescue LoadError
+  require 'active_support/core_ext/try'
+end
+require 'active_support/inflector'
 
 module RailsBestPractices
   module Core

@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 1.9.0"
   s.required_rubygems_version = ">= 1.3.6"
 
-  s.add_dependency("inflecto")
+  s.add_dependency("activesupport")
   s.add_dependency("awesome_print")
   s.add_dependency("code_analyzer", ">= 0.4.3")
   s.add_dependency("colored")
