@@ -46,7 +46,7 @@ module RailsBestPractices
 
         checks_loader = ChecksLoader.new(@config)
         @lexicals = lexicals.empty? ? checks_loader.load_lexicals : lexicals
-        @prepares = prepares.empty? ? checks_loader.load_prepares : prepares
+        @prepares = prepares.empty? ? load_prepares : prepares
         @reviews = reviews.empty? ? checks_loader.load_reviews : reviews
         load_plugin_reviews if reviews.empty?
 
@@ -132,6 +132,11 @@ module RailsBestPractices
             end
           end
           content
+        end
+
+        # load all prepares.
+        def load_prepares
+          Prepares.constants.map { |prepare| Prepares.const_get(prepare).new }
         end
 
         # load all plugin reviews.

@@ -6,11 +6,6 @@ module RailsBestPractices
         @config = config
       end
 
-      # load all prepares.
-      def load_prepares
-        Prepares.constants.map { |prepare| Prepares.const_get(prepare).new }
-      end
-
       # load all lexical checks.
       def load_lexicals
         load_checks_from_config { |check_name| RailsBestPractices::Lexicals.const_get(check_name) }
