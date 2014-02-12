@@ -68,7 +68,7 @@ module RailsBestPractices
         @lexical_checker.after_check
       end
 
-      # parepare the file.
+      # prepare the file.
       #
       # @param [String] filename of the file
       # @param [String] content of the file
@@ -103,7 +103,7 @@ module RailsBestPractices
       end
 
       private
-        # parse html tempalte code, erb, haml and slim.
+        # parse html template code, erb, haml and slim.
         #
         # @param [String] filename is the filename of the erb, haml or slim code.
         # @param [String] content is the source code of erb, haml or slim file.
