@@ -43,9 +43,11 @@ module RailsBestPractices
         lexicals = Array(options[:lexicals])
         prepares = Array(options[:prepares])
         reviews = Array(options[:reviews])
-        @lexicals = lexicals.empty? ? load_lexicals : lexicals
-        @prepares = prepares.empty? ? load_prepares : prepares
-        @reviews = reviews.empty? ? load_reviews : reviews
+
+        checks_loader = ChecksLoader.new(@config)
+        @lexicals = lexicals.empty? ? checks_loader.load_lexicals : lexicals
+        @prepares = prepares.empty? ? checks_loader.load_prepares : prepares
+        @reviews = reviews.empty? ? checks_loader.load_reviews : reviews
         load_plugin_reviews if reviews.empty?
 
         @lexical_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @lexicals)
@@ -132,41 +134,6 @@ module RailsBestPractices
           content
         end
 
-        # load all lexical checks.
-        def load_lexicals
-          checks_from_config.inject([]) { |active_checks, check|
-            begin
-              check_name, options = *check
-              klass = RailsBestPractices::Lexicals.const_get(check_name)
-              options ||= {}
-              active_checks << klass.new(options)
-            rescue
-              # the check does not exist in the Lexicals namepace.
-            end
-            active_checks
-          }
-        end
-
-        # load all prepares.
-        def load_prepares
-          Prepares.constants.map { |prepare| Prepares.const_get(prepare).new }
-        end
-
-        # load all reviews according to configuration.
-        def load_reviews
-          checks_from_config.inject([]) { |active_checks, check|
-            begin
-              check_name, options = *check
-              klass = RailsBestPractices::Reviews.const_get(check_name.gsub(/Check$/, 'Review'))
-              options ||= {}
-              active_checks << klass.new(options)
-            rescue
-              # the check does not exist in the Reviews namepace.
-            end
-            active_checks
-          }
-        end
-
         # load all plugin reviews.
         def load_plugin_reviews
           begin
@@ -182,11 +149,6 @@ module RailsBestPractices
               end
             end
           end
-        end
-
-        # read the checks from yaml config.
-        def checks_from_config
-          @checks ||= YAML.load_file @config
         end
     end
   end
