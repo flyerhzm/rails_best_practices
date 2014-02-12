@@ -138,7 +138,7 @@ module RailsBestPractices
             begin
               check_name, options = *check
               klass = RailsBestPractices::Lexicals.const_get(check_name)
-              options = Hash(options)
+              options ||= {}
               active_checks << (options.empty? ? klass.new : klass.new(options))
             rescue
               # the check does not exist in the Lexicals namepace.
@@ -158,7 +158,7 @@ module RailsBestPractices
             begin
               check_name, options = *check
               klass = RailsBestPractices::Reviews.const_get(check_name.gsub(/Check$/, 'Review'))
-              options = Hash(options)
+              options ||= {}
               active_checks << (options.empty? ? klass.new : klass.new(options))
             rescue
               # the check does not exist in the Reviews namepace.
