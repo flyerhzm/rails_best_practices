@@ -188,14 +188,6 @@ module RailsBestPractices
         def checks_from_config
           @checks ||= YAML.load_file @config
         end
-
-        # read the file content.
-        #
-        # @param [String] filename
-        # @return [String] file conent
-        def read_file(filename)
-          File.open(filename, "r:UTF-8") { |f| f.read }
-        end
     end
   end
 end
