@@ -43,9 +43,11 @@ module RailsBestPractices
         lexicals = Array(options[:lexicals])
         prepares = Array(options[:prepares])
         reviews = Array(options[:reviews])
-        @lexicals = lexicals.empty? ? load_lexicals : lexicals
+
+        checks_loader = ChecksLoader.new(@config)
+        @lexicals = lexicals.empty? ? checks_loader.load_lexicals : lexicals
         @prepares = prepares.empty? ? load_prepares : prepares
-        @reviews = reviews.empty? ? load_reviews : reviews
+        @reviews = reviews.empty? ? checks_loader.load_reviews : reviews
         load_plugin_reviews if reviews.empty?
 
         @lexical_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @lexicals)
@@ -66,7 +68,7 @@ module RailsBestPractices
         @lexical_checker.after_check
       end
 
-      # parepare the file.
+      # prepare the file.
       #
       # @param [String] filename of the file
       # @param [String] content of the file
@@ -101,7 +103,7 @@ module RailsBestPractices
       end
 
       private
-        # parse html tempalte code, erb, haml and slim.
+        # parse html template code, erb, haml and slim.
         #
         # @param [String] filename is the filename of the erb, haml or slim code.
         # @param [String] content is the source code of erb, haml or slim file.
@@ -132,39 +134,9 @@ module RailsBestPractices
           content
         end
 
-        # load all lexical checks.
-        def load_lexicals
-          checks_from_config.inject([]) { |active_checks, check|
-            begin
-              check_name, options = *check
-              klass = RailsBestPractices::Lexicals.const_get(check_name)
-              options = Hash(options)
-              active_checks << (options.empty? ? klass.new : klass.new(options))
-            rescue
-              # the check does not exist in the Lexicals namepace.
-            end
-            active_checks
-          }
-        end
-
         # load all prepares.
         def load_prepares
           Prepares.constants.map { |prepare| Prepares.const_get(prepare).new }
-        end
-
-        # load all reviews according to configuration.
-        def load_reviews
-          checks_from_config.inject([]) { |active_checks, check|
-            begin
-              check_name, options = *check
-              klass = RailsBestPractices::Reviews.const_get(check_name.gsub(/Check$/, 'Review'))
-              options = Hash(options)
-              active_checks << (options.empty? ? klass.new : klass.new(options))
-            rescue
-              # the check does not exist in the Reviews namepace.
-            end
-            active_checks
-          }
         end
 
         # load all plugin reviews.
@@ -182,19 +154,6 @@ module RailsBestPractices
               end
             end
           end
-        end
-
-        # read the checks from yaml config.
-        def checks_from_config
-          @checks ||= YAML.load_file @config
-        end
-
-        # read the file content.
-        #
-        # @param [String] filename
-        # @return [String] file conent
-        def read_file(filename)
-          File.open(filename, "r:UTF-8") { |f| f.read }
         end
     end
   end

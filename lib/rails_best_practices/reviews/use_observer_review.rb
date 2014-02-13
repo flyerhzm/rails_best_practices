@@ -22,7 +22,7 @@ module RailsBestPractices
       interesting_files MODEL_FILES
       url "http://rails-bestpractices.com/posts/19-use-observer"
 
-      def initialize
+      def initialize(options = {})
         super
         @callbacks = []
       end
