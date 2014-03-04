@@ -29,6 +29,9 @@ module RailsBestPractices
       # check if the generated routes have the corresponding actions in controller for rails routes.
       add_callback :start_command, :start_command_call do |node|
         if "resources" == node.message.to_s
+          if (mod = module_option(node))
+            @namespaces << mod
+          end
           check_resources(node)
           @resource_controllers << node.arguments.all.first.to_s
         elsif "resource" == node.message.to_s
@@ -40,6 +43,7 @@ module RailsBestPractices
       add_callback :end_command do |node|
         if "resources" == node.message.to_s
           @resource_controllers.pop
+          @namespaces.pop if module_option(node)
         elsif "resource" == node.message.to_s
           @resource_controllers.pop
         end
@@ -52,6 +56,10 @@ module RailsBestPractices
           @namespaces << node.arguments.all.first.to_s if check_method_add_block?(node)
         when "resources", "resource"
           @resource_controllers << node.arguments.all.first.to_s if check_method_add_block?(node)
+        when 'scope'
+          if check_method_add_block?(node) && (mod = module_option(node))
+            @namespaces << mod
+          end
         else
         end
       end
@@ -64,6 +72,10 @@ module RailsBestPractices
             @namespaces.pop
           when "resources", "resource"
             @resource_controllers.pop
+          when 'scope'
+            if check_method_add_block?(node) && module_option(node)
+              @namespaces.pop
+            end
           end
         end
       end
@@ -140,6 +152,13 @@ module RailsBestPractices
             end
           else
             methods
+          end
+        end
+
+        def module_option(node)
+          option_node = node.arguments[1].last
+          if option_node && option_node.sexp_type == :bare_assoc_hash && hash_key_exist?(option_node, 'module')
+            option_node.hash_value('module').to_s
           end
         end
 
