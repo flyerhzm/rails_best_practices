@@ -186,7 +186,7 @@ module RailsBestPractices
           end
 
           describe "namespace" do
-            it "should restrict auto-generated routes" do
+            before do
               content =<<-EOF
               class Admin::CommentsController < ApplicationController
                 def show; end
@@ -198,7 +198,9 @@ module RailsBestPractices
               end
               EOF
               runner.prepare('app/controllers/admin/comments_controller.rb', content)
+            end
 
+            it "should restrict auto-generated routes" do
               content =<<-EOF
               RailsBestPracticesCom::Application.routes.draw do
                 namespace :admin do
@@ -209,6 +211,30 @@ module RailsBestPractices
               runner.review('config/routes.rb', content)
               expect(runner.errors.size).to eq(1)
               expect(runner.errors[0].to_s).to eq("config/routes.rb:3 - restrict auto-generated routes admin/comments (except: [:index])")
+            end
+
+            it "should restrict auto-generated routes with scope :module" do
+              content =<<-EOF
+              RailsBestPracticesCom::Application.routes.draw do
+                scope module: :admin do
+                  resources :comments
+                end
+              end
+              EOF
+              runner.review('config/routes.rb', content)
+              expect(runner.errors.size).to eq(1)
+              expect(runner.errors[0].to_s).to eq("config/routes.rb:3 - restrict auto-generated routes admin/comments (except: [:index])")
+            end
+
+            it "should restrict auto-generated routes with resources :module" do
+              content =<<-EOF
+              RailsBestPracticesCom::Application.routes.draw do
+                resources :comments, module: :admin
+              end
+              EOF
+              runner.review('config/routes.rb', content)
+              expect(runner.errors.size).to eq(1)
+              expect(runner.errors[0].to_s).to eq("config/routes.rb:2 - restrict auto-generated routes admin/comments (except: [:index])")
             end
           end
 
