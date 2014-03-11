@@ -347,19 +347,36 @@ module RailsBestPractices
             # check if the method is in the except methods list.
             def excepted?(method)
               is_ignored?(method.file) ||
-              except_methods.any? do |except_method|
-                class_name, method_name = except_method.split('#')
-                (class_name == '*' && method_name == method.method_name) ||
-                  (method_name == '*' && class_name == method.class_name) ||
-                  (method_name == '*' && class_name == Prepares.klasses.find { |klass| klass.class_name == method.class_name }.try(:extend_class_name)) ||
-                  (class_name == method.class_name && method_name == method.method_name)
-              end
+              except_methods.any? { |except_method| Exceptable.matches method, except_method }
             end
 
             def internal_except_methods
               raise NoMethodError.new "no method internal_except_methods"
             end
           end
+        end
+
+        def self.matches method, except_method
+          class_name, method_name = except_method.split('#')
+
+          method_name = ".*" if method_name == "*"
+          method_expression = Regexp.new method_name
+          matched = method.method_name =~ method_expression
+
+          if matched
+            class_name = ".*" if class_name == "*"
+            class_expression = Regexp.new class_name
+
+            class_names = Prepares.klasses
+                                  .select { |klass| klass.class_name == method.class_name }
+                                  .map(&:extend_class_name)
+                                  .compact
+
+            class_names.unshift method.class_name
+            matched = class_names.any? { |name| name =~ class_expression }
+          end
+
+          !!matched
         end
       end
 
