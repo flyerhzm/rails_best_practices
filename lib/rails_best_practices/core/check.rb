@@ -154,7 +154,7 @@ module RailsBestPractices
 
         # modules.
         def classable_modules
-          @class_moduels ||= []
+          @class_modules ||= []
         end
 
         def klasses
@@ -187,7 +187,7 @@ module RailsBestPractices
 
         # modules.
         def moduleable_modules
-          @moduleable_moduels ||= []
+          @moduleable_modules ||= []
         end
       end
 
