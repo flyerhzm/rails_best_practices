@@ -21,17 +21,11 @@ module RailsBestPractices
       end
 
       def class_name
-        if @modules.empty?
-          @class_name
-        else
-          @modules.map { |modu| "#{modu}::" }.join("") + @class_name
-        end
+        @modules.map { |modu| "#{modu}::" }.join("") + @class_name
       end
 
       def extend_class_name
-        if @modules.empty?
-          @extend_class_name
-        else
+        if @extend_class_name.present?
           @modules.map { |modu| "#{modu}::" }.join("") + @extend_class_name
         end
       end
