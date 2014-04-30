@@ -713,6 +713,19 @@ module RailsBestPractices
           expect(routes.last.to_s).to eq("PostsController#stop")
         end
 
+        it "should parse custom route for resource with symbol action name" do
+          content =<<-EOF
+          RailsBestPracticesCom::Application.routes.draw do
+            resources :posts do
+              get :halt, to: :stop
+            end
+          end
+          EOF
+          runner.prepare('config/routes.rb', content)
+          routes = Prepares.routes
+          expect(routes.last.to_s).to eq("PostsController#stop")
+        end
+
         it "should not take former resources for direct get/post" do
           content =<<-EOF
           RailsBestPracticesCom::Application.routes.draw do

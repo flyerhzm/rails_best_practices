@@ -31,8 +31,12 @@ module RailsBestPractices
             elsif :array == first_argument.sexp_type
               action_names = first_argument.array_values.map(&:to_s)
             elsif :bare_assoc_hash == second_argument.try(:sexp_type) && second_argument.hash_value("to").present?
-              controller_name, action_name = second_argument.hash_value("to").to_s.split('#')
-              action_names = [action_name]
+              if :string_literal == second_argument.hash_value("to").sexp_type
+                controller_name, action_name = second_argument.hash_value("to").to_s.split('#')
+                action_names = [action_name]
+              else
+                action_names = [second_argument.hash_value("to").to_s]
+              end
             else
               action_names = [first_argument.to_s]
             end
