@@ -95,6 +95,37 @@ module RailsBestPractices
       end
     end
 
+    describe "output_json_errors" do
+      let(:output_file) { "rails_best_practices_output.json" }
+
+      subject do
+        described_class.new(".", {
+          "format" => "json",
+          "output-file" => output_file
+        })
+      end
+
+      let(:check1) { Reviews::LawOfDemeterReview.new }
+      let(:check2) { Reviews::UseQueryAttributeReview.new }
+      let(:runner) { Core::Runner.new(reviews: [check1, check2]) }
+      let(:result) { File.read(output_file) }
+
+      before do
+        check1.add_error("law of demeter", "app/models/user.rb", 10)
+        check2.add_error("use query attribute", "app/models/post.rb", 100)
+        subject.runner = runner
+        subject.output
+      end
+
+      after do
+        File.delete(output_file) if File.exists?(output_file)
+      end
+
+      it "saves output as json into output file" do
+        expect(result).to eq '[{"filename":"app/models/user.rb","line_number":"10","message":"law of demeter"},{"filename":"app/models/post.rb","line_number":"100","message":"use query attribute"}]'
+      end
+    end
+
     describe 'parse_files' do
 
       it 'should not filter out all files when the path contains "vendor"' do
