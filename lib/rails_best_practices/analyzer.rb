@@ -25,7 +25,7 @@ module RailsBestPractices
     #
     # @param [String] path where to generate the configuration yaml file
     # @param [Hash] options
-    def initialize(path, options={})
+    def initialize(path, options = {})
       @path = File.expand_path(path || ".")
 
       @options = options
@@ -59,10 +59,11 @@ module RailsBestPractices
 
     # Output the analyze result.
     def output
-      if @options["format"] == 'html'
+      case @options["format"]
+      when "html"
         @options["output-file"] ||= "rails_best_practices_output.html"
         output_html_errors
-      elsif @options["format"] == 'yaml'
+      when "yaml"
         @options["output-file"] ||= "rails_best_practices_output.yaml"
         output_yaml_errors
       else

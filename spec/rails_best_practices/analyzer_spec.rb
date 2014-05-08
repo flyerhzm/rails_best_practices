@@ -40,6 +40,42 @@ module RailsBestPractices
       end
     end
 
+    describe "output" do
+      subject { described_class.new(".", "format" => format) }
+
+      before do
+        subject.stub(:output_terminal_errors)
+        subject.stub(:output_html_errors)
+        subject.stub(:output_yaml_errors)
+
+        subject.output
+      end
+
+      context "when format is not set" do
+        let(:format) { nil }
+
+        it "runs text output" do
+          expect(subject).to have_received(:output_terminal_errors)
+        end
+      end
+
+      context "when format is yaml" do
+        let(:format) { "yaml" }
+
+        it "runs yaml output" do
+          expect(subject).to have_received(:output_yaml_errors)
+        end
+      end
+
+      context "when format is html" do
+        let(:format) { "html" }
+
+        it "runs html output" do
+          expect(subject).to have_received(:output_html_errors)
+        end
+      end
+    end
+
     describe "output_terminal_errors" do
       it "should output errors in terminal" do
         check1 = Reviews::LawOfDemeterReview.new
