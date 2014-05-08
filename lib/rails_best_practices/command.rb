@@ -1,10 +1,10 @@
 # encoding: utf-8
-require 'optparse'
+require "optparse"
 
 # Usage: rails_best_practices [options] path
 #    -d, --debug                      debug mode
 #        --silent                     silent mode
-#    -f, --format FORMAT              output format
+#    -f, --format FORMAT              output format (text, html, yml)
 #        --output-file FILE           output html file for the analyzing result
 #        --without-color              only output plain text without color
 #        --with-textmate              open file by textmate in html format
@@ -25,16 +25,18 @@ require 'optparse'
 #    -g, --generate                   generate configuration yaml
 #    -v, --version                    show this version
 #    -h, --help                       show this message
+
 options = {}
+
 OptionParser.new do |opts|
   opts.banner = "Usage: rails_best_practices [options] path"
 
   opts.on("-d", "--debug", "Debug mode") do
-    options['debug'] = true
+    options["debug"] = true
   end
 
-  opts.on("-f", "--format FORMAT", "output format") do |format|
-    options['format'] = format
+  opts.on("-f", "--format FORMAT", "output format (text, html, yml)") do |format|
+    options["format"] = format
   end
 
   opts.on("--without-color", "only output plain text without color") do
@@ -88,8 +90,8 @@ OptionParser.new do |opts|
     end
   end
 
-  opts.on_tail('-v', '--version', 'Show this version') do
-    require 'rails_best_practices/version'
+  opts.on_tail("-v", "--version", "Show this version") do
+    require "rails_best_practices/version"
     puts RailsBestPractices::VERSION
     exit
   end
