@@ -4,7 +4,7 @@ require "optparse"
 # Usage: rails_best_practices [options] path
 #    -d, --debug                      debug mode
 #        --silent                     silent mode
-#    -f, --format FORMAT              output format (text, html, yml)
+#    -f, --format FORMAT              output format (text, html, yml, json)
 #        --output-file FILE           output html file for the analyzing result
 #        --without-color              only output plain text without color
 #        --with-textmate              open file by textmate in html format
@@ -35,7 +35,7 @@ OptionParser.new do |opts|
     options["debug"] = true
   end
 
-  opts.on("-f", "--format FORMAT", "output format (text, html, yml)") do |format|
+  opts.on("-f", "--format FORMAT", "output format (text, html, yml, json)") do |format|
     options["format"] = format
   end
 

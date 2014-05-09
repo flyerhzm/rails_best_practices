@@ -2,6 +2,7 @@
 require 'ap'
 require 'colored'
 require 'fileutils'
+require 'json'
 require 'ruby-progressbar'
 
 module RailsBestPractices
@@ -25,7 +26,7 @@ module RailsBestPractices
     #
     # @param [String] path where to generate the configuration yaml file
     # @param [Hash] options
-    def initialize(path, options={})
+    def initialize(path, options = {})
       @path = File.expand_path(path || ".")
 
       @options = options
@@ -59,10 +60,14 @@ module RailsBestPractices
 
     # Output the analyze result.
     def output
-      if @options["format"] == 'html'
+      case @options["format"]
+      when "html"
         @options["output-file"] ||= "rails_best_practices_output.html"
         output_html_errors
-      elsif @options["format"] == 'yaml'
+      when "json"
+        @options["output-file"] ||= "rails_best_practices_output.json"
+        output_json_errors
+      when "yaml"
         @options["output-file"] ||= "rails_best_practices_output.yaml"
         output_yaml_errors
       else
@@ -245,6 +250,21 @@ module RailsBestPractices
     def output_yaml_errors
       File.open(@options["output-file"], "w+") do |file|
         file.write YAML.dump(errors)
+      end
+    end
+
+    # output errors with json format.
+    def output_json_errors
+      errors_as_hashes = errors.map do |err|
+        {
+          filename:    err.filename,
+          line_number: err.line_number,
+          message:     err.message
+        }
+      end
+
+      File.open(@options["output-file"], "w+") do |file|
+        file.write JSON.dump(errors_as_hashes)
       end
     end
 
