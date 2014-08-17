@@ -47,6 +47,9 @@
        display: none;
        float: left;
       }
+      .result tbody tr{
+        display: none;
+      }
     </style>
 <%
   def columnize(arr, col_count)
@@ -140,23 +143,43 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script type="text/javascript">
       $(function() {
-        $('ul li').show();
-        $('input.error-type[type=checkbox]').prop('checked', true).click(function() {
+
+        keys = location.hash.slice(2).split("|");
+        keys = keys.filter(function(item){
+          return item != "";
+        });
+        keys.forEach(function(item){
+          $('.'+item).show();
+          $('input.error-type#'+item+'[type=checkbox]').prop('checked', true);
+        });
+
+        $('input.error-type[type=checkbox]').click(function() {
           if ($(this).attr('checked')) {
             $(this).prop('checked', true);
             $('.'+$(this).val()).show();
+
+            new_hash = location.hash.replace("|"+$(this).val().toString(), "");
+            location.hash = new_hash+"|"+$(this).val();
           } else {
             $(this).prop('checked', false);
             $('.'+$(this).val()).hide();
+
+            new_hash = location.hash.replace("|"+$(this).val().toString(), "");
+            location.hash = new_hash
           }
         });
         $('#show-all').click(function() {
+          $('input.error-type[type=checkbox]').each(function(index, item){
+            new_hash = location.hash.replace("|"+$(item).val().toString(), "");
+            location.hash = new_hash+"|"+$(item).val();
+          });
           $('input.error-type[type=checkbox]').prop('checked', true);
           $('table.result tbody tr').show();
         });
         $('#show-none').click(function() {
           $('input.error-type[type=checkbox]').prop('checked', false);
           $('table.result tbody tr').hide();
+          location.hash = "";
         });
       });
     </script>
