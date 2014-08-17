@@ -168,6 +168,7 @@
             location.hash = new_hash
           }
         });
+
         $('#show-all').click(function() {
           $('input.error-type[type=checkbox]').each(function(index, item){
             new_hash = location.hash.replace("|"+$(item).val().toString(), "");
@@ -176,6 +177,7 @@
           $('input.error-type[type=checkbox]').prop('checked', true);
           $('table.result tbody tr').show();
         });
+
         $('#show-none').click(function() {
           $('input.error-type[type=checkbox]').prop('checked', false);
           $('table.result tbody tr').hide();

@@ -9,4 +9,5 @@ if RUBY_PLATFORM =~ /darwin/i
 end
 gem 'pry'
 gem 'guard'
+gem 'rspec', '~> 2.14.0'
 gem 'guard-rspec'
