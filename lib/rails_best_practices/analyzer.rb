@@ -70,6 +70,9 @@ module RailsBestPractices
       when "yaml"
         @options["output-file"] ||= "rails_best_practices_output.yaml"
         output_yaml_errors
+      when "xml"
+        @options["output-file"] ||= "rails_best_practices_output.xml"
+        output_xml_errors
       else
         output_terminal_errors
       end
@@ -243,6 +246,36 @@ module RailsBestPractices
           git: @options["with-git"],
           hg: @options["with-hg"]
         )
+      end
+    end
+
+    def output_xml_errors
+      require 'rexml/document'
+
+      document = REXML::Document.new.tap do |d|
+        d << REXML::XMLDecl.new
+      end
+
+      checkstyle = REXML::Element.new('checkstyle', document)
+
+      errors.group_by(&:filename).each do |file, group|
+        REXML::Element.new('file', checkstyle).tap do |f|
+          f.attributes['name'] = file
+          group.each do |error|
+            REXML::Element.new('error', f).tap do |e|
+              e.attributes['line'] = error.line_number
+              e.attributes['column'] = 0
+              e.attributes['severity'] = 'error'
+              e.attributes['message'] = error.message
+              e.attributes['source'] = 'com.puppycrawl.tools.checkstyle.' + error.type
+            end
+          end  
+        end
+      end
+
+      formatter = REXML::Formatters::Default.new
+      File.open(@options["output-file"], 'w+') do |result|
+        formatter.write(document, result)
       end
     end
 

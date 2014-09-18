@@ -47,6 +47,7 @@ module RailsBestPractices
         subject.stub(:output_terminal_errors)
         subject.stub(:output_html_errors)
         subject.stub(:output_yaml_errors)
+        subject.stub(:output_xml_errors)
 
         subject.output
       end
@@ -74,6 +75,15 @@ module RailsBestPractices
           expect(subject).to have_received(:output_html_errors)
         end
       end
+
+      context "when format is xml" do
+        let(:format) { "xml" }
+
+        it "runs xml output" do
+          expect(subject).to have_received(:output_xml_errors)
+        end
+      end
+
     end
 
     describe "output_terminal_errors" do
