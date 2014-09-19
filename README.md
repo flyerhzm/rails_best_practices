@@ -7,7 +7,7 @@
 [![Coderwall Endorse](http://api.coderwall.com/flyerhzm/endorsecount.png)](http://coderwall.com/flyerhzm)
 [![Click here to lend your support to: rails best practices and make a donation at www.pledgie.com !](https://pledgie.com/campaigns/12057.png?skin_name=chrome)](https://pledgie.com/campaigns/12057)
 
-rails_best_practices is a code metric tool to check the quality of rails codes.
+rails_best_practices is a code metric tool to check the quality of rails code.
 
 it supports following ORM/ODMs:
 
@@ -40,14 +40,14 @@ or html output
 
     rails_best_practices -f html .
 
-By default rails_best_practices will do parse codes in vendor, spec, test and features directories. 
+By default rails_best_practices will do parse codes in vendor, spec, test and features directories.
 
 ### Excluding folders
 
 To exclude folder simply call it with -e or --exclude
 
     rails_best_practices -e "db/migrate" .
-    
+
 To exclude multiple folders, separate them with comma
 
     rails_best_practices -e "db/migrate,vendor" .
@@ -57,7 +57,7 @@ To exclude multiple folders, separate them with comma
 To see full list of commandline options call:
 
     $ rails_best_practices -h
-    
+
     Usage: rails_best_practices [options]
         -d, --debug                      Debug mode
         -f, --format FORMAT              output format
