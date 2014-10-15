@@ -16,7 +16,6 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = ">= 1.3.6"
 
   s.add_dependency("activesupport")
-  s.add_dependency("awesome_print")
   s.add_dependency("code_analyzer", ">= 0.4.3")
   s.add_dependency("colored")
   s.add_dependency("erubis")
@@ -30,6 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("haml")
   s.add_development_dependency("slim")
   s.add_development_dependency("bundler")
+  s.add_development_dependency("awesome_print")
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
