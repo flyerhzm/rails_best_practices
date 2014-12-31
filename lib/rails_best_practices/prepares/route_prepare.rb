@@ -22,7 +22,7 @@ module RailsBestPractices
           add_resources_routes(node)
         when "resource"
           add_resource_routes(node)
-        when "get", "post", "put", "delete"
+        when "get", "post", "put", "patch", "delete"
           first_argument = node.arguments.all.first
           second_argument = node.arguments.all[1]
           if @controller_names.last
