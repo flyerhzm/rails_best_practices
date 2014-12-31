@@ -469,7 +469,7 @@ module RailsBestPractices
             expect(routes.size).to eq(0)
           end
 
-          it "should add resource routes with get/post/put/delete routes" do
+          it "should add resource routes with get/post/put/patch/delete routes" do
             content =<<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :posts, only: [:show] do
@@ -481,14 +481,15 @@ module RailsBestPractices
                 post :create, on: :member
                 member do
                   put :update
+                  patch :update
                 end
               end
             end
             EOF
             runner.prepare('config/routes.rb', content)
             routes = Prepares.routes
-            expect(routes.size).to eq(6)
-            expect(routes.map(&:to_s)).to eq(["PostsController#show", "PostsController#list", "PostsController#search", "PostsController#available", "PostsController#create", "PostsController#update"])
+            expect(routes.size).to eq(7)
+            expect(routes.map(&:to_s)).to eq(["PostsController#show", "PostsController#list", "PostsController#search", "PostsController#available", "PostsController#create", "PostsController#update", "PostsController#update"])
           end
 
           it "should add custom resources routes with {}" do
