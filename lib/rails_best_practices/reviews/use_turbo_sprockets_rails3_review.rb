@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Prepare Gemfile and review Capfile file to make sure using turbo-sprocket-rails3
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/704-speed-up-assets-precompile-with-turbo-sprockets-rails3
+    # See the best practice details here http://rails-bestpractices.com/posts/2012/11/23/speed-up-assets-precompile-with-turbo-sprockets-rails3/
     #
     # Implementation:
     #
@@ -12,7 +12,7 @@ module RailsBestPractices
     class UseTurboSprocketsRails3Review < Review
       interesting_nodes :command
       interesting_files CAPFILE
-      url "http://rails-bestpractices.com/posts/704-speed-up-assets-precompile-with-turbo-sprockets-rails3"
+      url "http://rails-bestpractices.com/posts/2012/11/23/speed-up-assets-precompile-with-turbo-sprockets-rails3/"
 
       # check command node to see if load 'deploy/assets'
       add_callback :start_command do |node|

@@ -4,7 +4,7 @@ module RailsBestPractices
     # Review a controller file to make sure to use before_filter to remove duplicated first code
     # line_number in different action.
     #
-    # See the best practice detailed here http://rails-bestpractices.com/posts/22-use-before_filter.
+    # See the best practice detailed here http://rails-bestpractices.com/posts/2010/07/24/use-before_filter/
     #
     # Implementation:
     #
@@ -14,7 +14,7 @@ module RailsBestPractices
     class UseBeforeFilterReview < Review
       interesting_nodes :class
       interesting_files CONTROLLER_FILES
-      url "http://rails-bestpractices.com/posts/22-use-before_filter"
+      url "http://rails-bestpractices.com/posts/2010/07/24/use-before_filter/"
 
       def initialize(options = {})
         super()

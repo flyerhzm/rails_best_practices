@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review model files to make sure to use attr_accessible, attr_protected or strong_parameters to protect mass assignment.
     #
-    # See the best practices details here http://rails-bestpractices.com/posts/148-protect-mass-assignment.
+    # See the best practices details here http://rails-bestpractices.com/posts/2012/03/06/protect-mass-assignment/
     #
     # Implmentation:
     #
@@ -13,7 +13,7 @@ module RailsBestPractices
     class ProtectMassAssignmentReview < Review
       interesting_files MODEL_FILES
       interesting_nodes :class, :command, :var_ref, :vcall, :fcall
-      url "http://rails-bestpractices.com/posts/148-protect-mass-assignment"
+      url "http://rails-bestpractices.com/posts/2012/03/06/protect-mass-assignment/"
 
       # we treat it as mass assignment by default.
       add_callback :start_class do |node|

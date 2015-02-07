@@ -4,8 +4,7 @@ module RailsBestPractices
     # Review a controller file to make sure that complex model creation should not exist in
     # controller, should be replaced with factory method.
     #
-    # See the best practice details here
-    # http://rails-bestpractices.com/posts/6-replace-complex-creation-with-factory-method.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/21/replace-complex-creation-with-factory-method/
     #
     # Implementation:
     #
@@ -18,7 +17,7 @@ module RailsBestPractices
     class ReplaceComplexCreationWithFactoryMethodReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-      url "http://rails-bestpractices.com/posts/6-replace-complex-creation-with-factory-method"
+      url "http://rails-bestpractices.com/posts/2010/07/21/replace-complex-creation-with-factory-method/"
 
       def initialize(options = {})
         super(options)

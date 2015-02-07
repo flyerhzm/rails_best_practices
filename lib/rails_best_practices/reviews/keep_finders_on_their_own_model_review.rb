@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review model files to make sure finders are on their own model.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/13-keep-finders-on-their-own-model.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/23/keep-finders-on-their-own-model/
     #
     # Implementation:
     #
@@ -17,7 +17,7 @@ module RailsBestPractices
     class KeepFindersOnTheirOwnModelReview < Review
       interesting_nodes :method_add_arg
       interesting_files MODEL_FILES
-      url "http://rails-bestpractices.com/posts/13-keep-finders-on-their-own-model"
+      url "http://rails-bestpractices.com/posts/2010/07/23/keep-finders-on-their-own-model/"
 
       FINDERS = %w(find all first last)
 

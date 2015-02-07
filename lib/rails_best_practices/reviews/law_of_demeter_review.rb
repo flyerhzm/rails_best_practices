@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review to make sure not to avoid the law of demeter.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/15-the-law-of-demeter.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/
     #
     # Implementation:
     #
@@ -16,7 +16,7 @@ module RailsBestPractices
     class LawOfDemeterReview < Review
       interesting_nodes :call
       interesting_files ALL_FILES
-      url "http://rails-bestpractices.com/posts/15-the-law-of-demeter"
+      url "http://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/"
 
       ASSOCIATION_METHODS = %w(belongs_to has_one)
 

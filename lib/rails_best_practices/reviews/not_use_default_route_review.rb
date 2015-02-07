@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review config/routes file to make sure not use default route that rails generated.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/12-not-use-default-route-if-you-use-restful-design
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/22/not-use-default-route-if-you-use-restful-design/
     #
     # Implementation:
     #
@@ -19,7 +19,7 @@ module RailsBestPractices
     class NotUseDefaultRouteReview < Review
       interesting_nodes :command_call, :command
       interesting_files ROUTE_FILES
-      url "http://rails-bestpractices.com/posts/12-not-use-default-route-if-you-use-restful-design"
+      url "http://rails-bestpractices.com/posts/2010/07/22/not-use-default-route-if-you-use-restful-design/"
 
       # check all command call nodes, compare with rails2 default route
       add_callback :start_command_call do |node|
