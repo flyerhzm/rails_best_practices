@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review db/schema.rb file to make sure every reference key has a database index.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/21-always-add-db-index
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/24/always-add-db-index/
     #
     # Implementation:
     #
@@ -24,7 +24,7 @@ module RailsBestPractices
     class AlwaysAddDbIndexReview < Review
       interesting_nodes :command, :command_call
       interesting_files SCHEMA_FILE
-      url "http://rails-bestpractices.com/posts/21-always-add-db-index"
+      url "http://rails-bestpractices.com/posts/2010/07/24/always-add-db-index/"
 
       def initialize(options={})
         super(options)

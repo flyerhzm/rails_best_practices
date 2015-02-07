@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review a view file to make sure there is no complex options_for_select message call.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/26-move-code-into-helper.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/24/move-code-into-helper/
     #
     # TODO: we need a better soluation, any suggestion?
     #
@@ -19,7 +19,7 @@ module RailsBestPractices
     class MoveCodeIntoHelperReview < Review
       interesting_nodes :method_add_arg
       interesting_files VIEW_FILES
-      url "http://rails-bestpractices.com/posts/26-move-code-into-helper"
+      url "http://rails-bestpractices.com/posts/2010/07/24/move-code-into-helper/"
 
       def initialize(options = {})
         super(options)

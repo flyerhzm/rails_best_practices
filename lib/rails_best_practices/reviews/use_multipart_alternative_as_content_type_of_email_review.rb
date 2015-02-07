@@ -3,8 +3,7 @@ module RailsBestPractices
   module Reviews
     # Make sure to use multipart/alternative as content_type of email.
     #
-    # See the best practice details here
-    # http://rails-bestpractices.com/posts/41-use-multipart-alternative-as-content_type-of-email.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/08/05/use-multipart-alternative-as-content_type-of-email/
     #
     # Implementation:
     #
@@ -14,7 +13,7 @@ module RailsBestPractices
     class UseMultipartAlternativeAsContentTypeOfEmailReview < Review
       interesting_nodes :class, :def
       interesting_files MAILER_FILES
-      url "http://rails-bestpractices.com/posts/41-use-multipart-alternative-as-content_type-of-email"
+      url "http://rails-bestpractices.com/posts/2010/08/05/use-multipart-alternative-as-content_type-of-email/"
 
       # check class node to remember the ActionMailer class name.
       add_callback :start_class do |node|

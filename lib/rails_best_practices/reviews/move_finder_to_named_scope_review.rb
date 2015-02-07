@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review a controller file to make sure there are no complex finder.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/1-move-finder-to-named_scope.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/14/move-finder-to-named_scope/
     #
     # Implementation:
     #
@@ -15,7 +15,7 @@ module RailsBestPractices
     class MoveFinderToNamedScopeReview < Review
       interesting_nodes :method_add_arg
       interesting_files CONTROLLER_FILES
-      url "http://rails-bestpractices.com/posts/1-move-finder-to-named_scope"
+      url "http://rails-bestpractices.com/posts/2010/07/14/move-finder-to-named_scope/"
 
       FINDERS = %w(find all first last)
 

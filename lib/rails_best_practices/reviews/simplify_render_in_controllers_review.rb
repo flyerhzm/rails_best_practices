@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review a controller file to make sure using simplified syntax for render.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/62-simplify-render-in-controllers.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/12/12/simplify-render-in-controllers/
     #
     # Implementation:
     #
@@ -14,7 +14,7 @@ module RailsBestPractices
     class SimplifyRenderInControllersReview < Review
       interesting_nodes :command
       interesting_files CONTROLLER_FILES
-      url "http://rails-bestpractices.com/posts/62-simplify-render-in-controllers"
+      url "http://rails-bestpractices.com/posts/2010/12/12/simplify-render-in-controllers/"
 
       # check command node in the controller file,
       # if its message is render and the arguments contain a key action, template or file,

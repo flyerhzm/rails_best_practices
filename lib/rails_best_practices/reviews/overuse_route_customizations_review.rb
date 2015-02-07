@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review config/routes.rb file to make sure there are no overuse route customizations.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/10-overuse-route-customizations.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/22/overuse-route-customizations/
     #
     # Implementation:
     #
@@ -28,7 +28,7 @@ module RailsBestPractices
     class OveruseRouteCustomizationsReview < Review
       interesting_nodes :command_call, :method_add_block
       interesting_files ROUTE_FILES
-      url "http://rails-bestpractices.com/posts/10-overuse-route-customizations"
+      url "http://rails-bestpractices.com/posts/2010/07/22/overuse-route-customizations/"
 
       VERBS = %w(get post update delete)
 

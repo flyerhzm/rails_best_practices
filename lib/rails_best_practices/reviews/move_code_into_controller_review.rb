@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review a view file to make sure there is no finder, finder should be moved to controller.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/24-move-code-into-controller.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/24/move-code-into-controller/
     #
     # Implementation:
     #
@@ -12,7 +12,7 @@ module RailsBestPractices
     class MoveCodeIntoControllerReview < Review
       interesting_nodes :method_add_arg, :assign
       interesting_files VIEW_FILES
-      url "http://rails-bestpractices.com/posts/24-move-code-into-controller"
+      url "http://rails-bestpractices.com/posts/2010/07/24/move-code-into-controller/"
 
       FINDERS = %w(find all first last)
 

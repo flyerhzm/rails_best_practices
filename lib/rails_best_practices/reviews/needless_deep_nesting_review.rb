@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review config/routes.rb file to make sure not to use too deep nesting routes.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/11-needless-deep-nesting.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/22/needless-deep-nesting/
     #
     # Implementation:
     #
@@ -24,7 +24,7 @@ module RailsBestPractices
     class NeedlessDeepNestingReview < Review
       interesting_nodes :method_add_block
       interesting_files ROUTE_FILES
-      url "http://rails-bestpractices.com/posts/11-needless-deep-nesting"
+      url "http://rails-bestpractices.com/posts/2010/07/22/needless-deep-nesting/"
 
       def initialize(options = {})
         super(options)

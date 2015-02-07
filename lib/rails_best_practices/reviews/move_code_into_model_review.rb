@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review a view file to make sure there is no complex logic call for model.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/25-move-code-into-model.
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/24/move-code-into-model/
     #
     # Implementation:
     #
@@ -13,7 +13,7 @@ module RailsBestPractices
     class MoveCodeIntoModelReview < Review
       interesting_nodes :if, :unless, :elsif, :ifop, :if_mod, :unless_mod
       interesting_files VIEW_FILES
-      url "http://rails-bestpractices.com/posts/25-move-code-into-model"
+      url "http://rails-bestpractices.com/posts/2010/07/24/move-code-into-model/"
 
       def initialize(options={})
         super(options)
