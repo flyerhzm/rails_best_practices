@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'ap'
 require 'colored'
 require 'fileutils'
 require 'json'
@@ -269,7 +268,7 @@ module RailsBestPractices
               e.attributes['message'] = error.message
               e.attributes['source'] = 'com.puppycrawl.tools.checkstyle.' + error.type
             end
-          end  
+          end
         end
       end
 
