@@ -3,10 +3,10 @@ module RailsBestPractices
   module Lexicals
     # Make sure there are no trailing whitespace in codes.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/60-remove-trailing-whitespace
+    # See the best practice details here http://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/
     class RemoveTrailingWhitespaceCheck < Core::Check
       interesting_files ALL_FILES
-      url "http://rails-bestpractices.com/posts/60-remove-trailing-whitespace"
+      url "http://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/"
 
       # check if the content of file contain a trailing whitespace.
       #
