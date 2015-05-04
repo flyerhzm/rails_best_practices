@@ -30,6 +30,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency("slim")
   s.add_development_dependency("bundler")
   s.add_development_dependency("awesome_print")
+  s.add_development_dependency("rubocop", "= 0.30.1")
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
