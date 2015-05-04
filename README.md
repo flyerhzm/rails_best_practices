@@ -7,22 +7,22 @@
 [![Coderwall Endorse](http://api.coderwall.com/flyerhzm/endorsecount.png)](http://coderwall.com/flyerhzm)
 [![Click here to lend your support to: rails best practices and make a donation at www.pledgie.com !](https://pledgie.com/campaigns/12057.png?skin_name=chrome)](https://pledgie.com/campaigns/12057)
 
-rails_best_practices is a code metric tool to check the quality of rails code.
+rails_best_practices is a code metric tool to check the quality of Rails code.
 
-it supports following ORM/ODMs:
+It supports the following ORM/ODMs:
 
 * activerecord
 * mongoid
 * mongomapper
 
-following template engines:
+And the following template engines:
 
 * erb
 * haml
 * slim
 * rabl
 
-rails_best_practices works well only in ruby 1.9.3, 2.0.0, and 2.1.0 so far.  It is incompatible with ruby 1.8.
+rails_best_practices supports Ruby 1.9.3 or newer.
 
 ## External Introduction
 
@@ -32,29 +32,29 @@ rails_best_practices works well only in ruby 1.9.3, 2.0.0, and 2.1.0 so far.  It
 
 ## Usage
 
-At the root directory of rails app
+At the root directory of a Rails app, run:
 
     rails_best_practices .
 
-or html output
+Or for HTML output:
 
     rails_best_practices -f html .
 
-By default rails_best_practices will do parse codes in vendor, spec, test and features directories.
+By default rails_best_practices will parse code in the `vendor`, `spec`, `test` and `features` directories.
 
-### Excluding folders
+### Excluding directories
 
-To exclude folder simply call it with -e or --exclude
+To exclude a directory simply call it with `-e` or `--exclude`:
 
     rails_best_practices -e "db/migrate" .
 
-To exclude multiple folders, separate them with comma
+To exclude multiple directories, separate them with comma:
 
     rails_best_practices -e "db/migrate,vendor" .
 
-### Other command line options
+### Other command-line options
 
-To see full list of commandline options call:
+To see the full list of command-line options, run:
 
     $ rails_best_practices -h
 
@@ -89,7 +89,7 @@ Homepage: <http://rails-bestpractices.com>
 
 Online Service: <http://railsbp.com>
 
-Github: <http://github.com/railsbp/rails_best_practices>
+GitHub: <http://github.com/railsbp/rails_best_practices>
 
 RDoc: <http://rdoc.rails-bestpractices.com>
 
@@ -103,11 +103,9 @@ Issue Tracker: <http://github.com/railsbp/rails_best_practices/issues>
 
 ## Install
 
-rails_best_practices gem is rewritten based on ripper instead of ruby_parser to support ruby 1.9 new syntax.
-
     gem install rails_best_practices
 
-or add in Gemfile
+or add it to the Gemfile
 
     gem "rails_best_practices"
 
@@ -115,27 +113,27 @@ or add in Gemfile
 
 Install <https://github.com/asuth/subl-handler>
 
-## Issue
+## Issues
 
-If you install the rails_best_practices with bundler-installed github-sourced gem, please use the following command instead.
+If you install the rails_best_practices with bundler-installed GitHub-sourced gem, please use the following command instead.
 
     bundle exec rails_best_practices .
 
-If you got NoMethodError or any syntax error, you should use debug mode to detect which file rails_best_practices is parsing and getting the error.
+If you encounter a NoMethodError exception, or a syntax error, you can use debug mode to discover which file is to blame:
 
     rails_best_practices -d .
 
-Then give me the error stack and the source code of the file that rails_best_practices is parsing error.
+That will provide the error's stack trace and the source code of the file which is causing the error.
 
-## Customize Configuration
+## Custom Configuration
 
-First run
+First run:
 
     rails_best_practices -g
 
 to generate `rails_best_practices.yml` file.
 
-Now you can customize this configuration file, the default configuration is as follows:
+Now you can customize this configuration file. The default configuration is as follows:
 
     AddModelVirtualAttributeCheck: { }
     AlwaysAddDbIndexCheck: { }
@@ -179,7 +177,7 @@ Now you can customize this configuration file, the default configuration is as f
     UseScopeAccessCheck: { }
     UseTurboSprocketsRails3Check: { }
 
-You can remove or comment one review to disable it, and you can change the options.
+You can remove or comment a review to disable it, and you can change the options.
 
 You can apply the `ignored_files` option on any rule by giving a regexp or array of regexps describing the path of the files you don't want to be checked:
 
@@ -208,7 +206,7 @@ RESTful Conventions
 Model
 
 1. Keep finders on their own model (rails2 only)
-2. the law of demeter
+2. The law of demeter
 3. Use observer
 4. Use query attribute
 5. Remove unused methods in models
@@ -221,12 +219,12 @@ Mailer
 Migration
 
 1. Isolating seed data
-2. Always add db index
+2. Always add database index
 3. Use say with time in migrations
 
 Controller
 
-1. Use before_filter (disabled by default)
+1. Use `before_filter` (disabled by default)
 2. Simplify render in controllers
 3. Remove unused methods in controllers
 
@@ -246,21 +244,21 @@ View
 
 Deployment
 
-1. Dry bundler in capistrano
-2. Speed up assets precompile with turbo-sprockets-rails3
+1. Dry bundler in Capistrano
+2. Speed up assets precompilation with turbo-sprockets-rails3
 
 Other
 
 1. Remove trailing whitespace
 2. Remove tab (disabled by default)
 3. Hash syntax (disabled by default)
-4. Use parentheses in method def (disabled by default)
+4. Use parentheses in method definition (disabled by default)
 5. Long line (disabled by default)
 6. Not rescue exception
 
-## Write Your Own Check List
+## Write Your Own Checklist
 
-If you want to write your own check list (some check list only for your rails projects), please read this first, [How to write your own check list?][1]
+If you want to write your own checklist (some checklist only for your Rails projects), please read this first, [How to write your own check list?][1]
 
 ## Contribute
 
@@ -268,7 +266,7 @@ If you want to add your rails best practices into the gem, please post your best
 
 ## Contact Us
 
-We provide rails consulting services, you can contact us by twitter or email.
+We provide Rails consulting services, you can contact us by Twitter or email.
 
 Follow us on twitter: <http://twitter.com/railsbp>
 
