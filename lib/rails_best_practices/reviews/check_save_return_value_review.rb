@@ -57,7 +57,7 @@ module RailsBestPractices
           elsif message == 'create'
             # We're only interested in 'create' calls on model classes:
             possible_receiver_classes = [node.receiver.to_s] + classable_modules.map do |mod|
-                "#{mod}::#{node.receiver.to_s}"
+                "#{mod}::#{node.receiver}"
               end
             unless (possible_receiver_classes & model_classnames).empty?
               add_error "use 'create!' instead of 'create' as the latter may not always save"
