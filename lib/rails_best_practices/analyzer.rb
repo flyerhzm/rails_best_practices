@@ -316,7 +316,7 @@ module RailsBestPractices
     end
 
     def green(message)
-      "\e[42m#{message}\e[0m"
+      "\e[32m#{message}\e[0m"
     end
 
     # analyze source codes.
