@@ -307,16 +307,8 @@ module RailsBestPractices
       if @options["without-color"]
         puts message
       else
-        puts self.send(color, message)
+        puts Colorize.send(color, message)
       end
-    end
-
-    def red(message)
-      "\e[31m#{message}\e[0m"
-    end
-
-    def green(message)
-      "\e[32m#{message}\e[0m"
     end
 
     # analyze source codes.
