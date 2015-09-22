@@ -17,7 +17,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency("activesupport")
   s.add_dependency("code_analyzer", ">= 0.4.3")
-  s.add_dependency("colored")
   s.add_dependency("erubis")
   s.add_dependency("i18n")
   s.add_dependency("require_all")

@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'colored'
 require 'fileutils'
 require 'json'
 require 'ruby-progressbar'
@@ -308,8 +307,16 @@ module RailsBestPractices
       if @options["without-color"]
         puts message
       else
-        puts message.send(color)
+        puts self.send(color, message)
       end
+    end
+
+    def red(message)
+      "\e[31m#{message}\e[0m"
+    end
+
+    def green(message)
+      "\e[42m#{message}\e[0m"
     end
 
     # analyze source codes.
