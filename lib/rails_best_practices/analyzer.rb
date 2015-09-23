@@ -1,5 +1,4 @@
 # encoding: utf-8
-require 'colored'
 require 'fileutils'
 require 'json'
 require 'ruby-progressbar'
@@ -308,7 +307,7 @@ module RailsBestPractices
       if @options["without-color"]
         puts message
       else
-        puts message.send(color)
+        puts Colorize.send(color, message)
       end
     end
 

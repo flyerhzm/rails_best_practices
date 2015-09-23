@@ -101,7 +101,11 @@ module RailsBestPractices
         subject.output_terminal_errors
         result = $stdout.string
         $stdout = $origin_stdout
-        expect(result).to eq(["app/models/user.rb:10 - law of demeter".red, "app/models/post.rb:100 - use query attribute".red, "\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.".green, "\nFound 2 warnings.".red].join("\n") + "\n")
+        expect(result).to eq([
+          "\e[31mapp/models/user.rb:10 - law of demeter\e[0m",
+          "\e[31mapp/models/post.rb:100 - use query attribute\e[0m",
+          "\e[32m\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.\e[0m",
+          "\e[31m\nFound 2 warnings.\e[0m"].join("\n") + "\n")
       end
     end
 
