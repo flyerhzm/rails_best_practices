@@ -123,7 +123,7 @@ module RailsBestPractices
       end
 
       context "helpers" do
-        it "should add helper decendant" do
+        it "should add helper descendant" do
           content =<<-EOF
           module PostsHelper
           end
@@ -136,7 +136,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/controllers/posts_controller.rb', content)
           helpers = Prepares.helpers
-          expect(helpers.first.decendants).to eq(["PostsController"])
+          expect(helpers.first.descendants).to eq(["PostsController"])
         end
       end
     end

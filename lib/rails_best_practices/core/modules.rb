@@ -3,28 +3,28 @@ module RailsBestPractices
   module Core
     # Module container
     class Modules < Array
-      # add module decendant.
+      # add module descendant.
       #
       # @param [String] module name
-      # @param [String] decendant name
-      def add_module_decendant(module_name, decendant)
+      # @param [String] descendant name
+      def add_module_descendant(module_name, descendant)
         mod = find { |mod| mod.to_s == module_name }
-        mod.add_decendant(decendant) if mod
+        mod.add_descendant(descendant) if mod
       end
     end
 
     # Module info include module name and module spaces.
     class Mod
-      attr_reader :decendants
+      attr_reader :descendants
 
       def initialize(module_name, modules)
         @module_name = module_name
         @modules = modules
-        @decendants = []
+        @descendants = []
       end
 
-      def add_decendant(decendant)
-        @decendants << decendant
+      def add_descendant(descendant)
+        @descendants << descendant
       end
 
       def to_s
