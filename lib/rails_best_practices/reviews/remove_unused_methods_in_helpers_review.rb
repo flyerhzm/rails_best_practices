@@ -19,7 +19,7 @@ module RailsBestPractices
       def initialize(options={})
         super
         @helper_methods = Prepares.helper_methods
-        self.class.interesting_files Prepares.helpers.map(&:decendants)
+        self.class.interesting_files Prepares.helpers.map(&:descendants)
       end
 
       # get all unused methods at the end of review process

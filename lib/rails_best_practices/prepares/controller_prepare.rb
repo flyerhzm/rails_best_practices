@@ -54,7 +54,7 @@ module RailsBestPractices
       # restrict actions for inherited_resources
       add_callback :start_command do |node|
         if "include" == node.message.to_s
-          @helpers.add_module_decendant(node.arguments.all.first.to_s, current_class_name)
+          @helpers.add_module_descendant(node.arguments.all.first.to_s, current_class_name)
         elsif @inherited_resources && "actions" ==  node.message.to_s
           if "all" == node.arguments.all.first.to_s
             @actions = DEFAULT_ACTIONS
@@ -87,9 +87,9 @@ module RailsBestPractices
 
       # ask Reviews::RemoveUnusedMoethodsInHelperReview to check the controllers who include helpers.
       add_callback :after_check do
-        decendants = @helpers.map(&:decendants).flatten
-        if decendants.present?
-          Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *decendants.map { |decendant| %r|#{decendant.underscore}| }
+        descendants = @helpers.map(&:descendants).flatten
+        if descendants.present?
+          Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *descendants.map { |descendant| %r|#{descendant.underscore}| }
         end
       end
     end
