@@ -7,14 +7,14 @@ module RailsBestPractices
     #
     # Review process:
     #   remember all method calls in helpers.
-    #   if they are not called in views or helpers,
+    #   if they are not called in views, helpers, or controllers
     #   then they are unused methods in helpers.
     class RemoveUnusedMethodsInHelpersReview < Review
       include Moduleable
       include Callable
       include Exceptable
 
-      interesting_files HELPER_FILES, VIEW_FILES
+      interesting_files HELPER_FILES, VIEW_FILES, CONTROLLER_FILES
 
       def initialize(options={})
         super

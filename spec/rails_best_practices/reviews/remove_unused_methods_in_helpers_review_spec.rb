@@ -84,6 +84,36 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
+      it "should not remove unused methods if called in descendant controllers" do
+        application_helper_content =<<-EOF
+        module ApplicationHelper
+          def admin?; end
+        end
+        EOF
+        application_controller_content =<<-EOF
+        class ApplicationController
+          include ApplicationHelper
+        end
+        EOF
+        controller_content =<<-EOF
+        class PostsController < ApplicationController
+
+          def show
+            head(:forbidden) unless admin?
+          end
+        end
+        EOF
+        runner.prepare('app/helpers/application_helper.rb', application_helper_content)
+        runner.prepare('app/controllers/application_controller.rb', application_controller_content)
+        runner.prepare('app/controllers/posts_controller.rb', controller_content)
+        runner.after_prepare
+        runner.review('app/helpers/application_helper.rb', application_helper_content)
+        runner.review('app/controllers/application_controller.rb', application_controller_content)
+        runner.review('app/controllers/posts_controller.rb', controller_content)
+        runner.after_review
+        expect(runner.errors.size).to eq(0)
+      end
+
        it "should not check ignored files" do
         runner = Core::Runner.new(prepares: [Prepares::ControllerPrepare.new, Prepares::HelperPrepare.new],
                                   reviews: RemoveUnusedMethodsInHelpersReview.new(ignored_files: /posts_helper/, except_methods: []))
