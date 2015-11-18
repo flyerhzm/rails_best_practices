@@ -1,8 +1,8 @@
 # encoding: utf-8
 module RailsBestPractices
   module Reviews
-    # Review all code to make sure we either check the return value of "save"
-    # or use "save!"
+    # Review all code to make sure we either check the return value of "save", "update_attributes"
+    # and "create" or use "save!", "update_attributes!", or "create!", respectively.
     #
     # See the best practice details here http://rails-bestpractices.com/posts/2012/11/02/check-the-return-value-of-save-otherwise-use-save/
     #
