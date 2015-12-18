@@ -52,11 +52,10 @@ GEM
               expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
             end
 
-            it "should use multiple/alternative as content_type of email when only plain text" do
+            it "should not use multiple/alternative as content_type of email when only plain text" do
               mock_email_files(["send_email.text.plain.erb"])
               runner.review('app/mailers/project_mailer.rb', content)
-              expect(runner.errors.size).to eq(1)
-              expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
+              expect(runner.errors.size).to eq(0)
             end
 
             it "should not use multipart/alternative as content_type of email" do
@@ -74,11 +73,10 @@ GEM
               expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
             end
 
-            it "should use multiple/alternative as content_type of email when only plain text" do
+            it "should not use multiple/alternative as content_type of email when only plain text" do
               mock_email_files(["send_email.text.plain.haml"])
               runner.review('app/mailers/project_mailer.rb', content)
-              expect(runner.errors.size).to eq(1)
-              expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
+              expect(runner.errors.size).to eq(0)
             end
 
             it "should not use multipart/alternative as content_type of email" do
@@ -96,11 +94,10 @@ GEM
               expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
             end
 
-            it "should use multiple/alternative as content_type of email when only plain text" do
+            it "should not use multiple/alternative as content_type of email when only plain text" do
               mock_email_files(["send_email.text.plain.slim"])
               runner.review('app/mailers/project_mailer.rb', content)
-              expect(runner.errors.size).to eq(1)
-              expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
+              expect(runner.errors.size).to eq(0)
             end
 
             it "should not use multipart/alternative as content_type of email" do
@@ -118,11 +115,10 @@ GEM
               expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
             end
 
-            it "should use multiple/alternative as content_type of email when only plain text" do
+            it "should not use multiple/alternative as content_type of email when only plain text" do
               mock_email_files(["send_email.text.plain.rhtml"])
               runner.review('app/mailers/project_mailer.rb', content)
-              expect(runner.errors.size).to eq(1)
-              expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
+              expect(runner.errors.size).to eq(0)
             end
 
             it "should not use multipart/alternative as content_type of email" do
@@ -187,11 +183,10 @@ GEM
               expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
             end
 
-            it "should use multiple/alternative as content_type of email when only plain text" do
+            it "should not use multiple/alternative as content_type of email when only plain text" do
               mock_email_files(["send_email.text.erb"])
               runner.review('app/mailers/project_mailer.rb', content)
-              expect(runner.errors.size).to eq(1)
-              expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
+              expect(runner.errors.size).to eq(0)
             end
 
             it "should not use multipart/alternative as content_type of email" do
@@ -209,11 +204,10 @@ GEM
               expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
             end
 
-            it "should use multiple/alternative as content_type of email when only plain text" do
+            it "should not use multiple/alternative as content_type of email when only plain text" do
               mock_email_files(["send_email.text.haml"])
               runner.review('app/mailers/project_mailer.rb', content)
-              expect(runner.errors.size).to eq(1)
-              expect(runner.errors[0].to_s).to eq("app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email")
+              expect(runner.errors.size).to eq(0)
             end
 
             it "should not use multipart/alternative as content_type of email" do

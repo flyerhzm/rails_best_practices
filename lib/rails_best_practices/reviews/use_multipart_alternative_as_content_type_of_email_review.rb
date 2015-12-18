@@ -45,6 +45,7 @@ module RailsBestPractices
         # @param [String] name method name in action_mailer
         def rails2_canonical_mailer_views?(name)
           return true if mailer_files(name).length == 0
+          return true if mailer_files(name).none? { |filename| filename.index 'text.html' }
           mailer_files(name).any? { |filename| filename.index 'text.html' } &&
             mailer_files(name).any? { |filename| filename.index 'text.plain' }
         end
@@ -54,6 +55,7 @@ module RailsBestPractices
         # @param [String] name method name in action_mailer
         def rails3_canonical_mailer_views?(name)
           return true if mailer_files(name).length == 0
+          return true if mailer_files(name).none? { |filename| filename.index 'html' }
           mailer_files(name).any? { |filename| filename.index 'html' } &&
             mailer_files(name).any? { |filename| filename.index 'text' }
         end
