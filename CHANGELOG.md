@@ -1,5 +1,8 @@
 # Next Release
 
+## 1.16.0 (2016-02-22)
+
+* Add check destroy return value review
 * Support json and xml output
 * Update urls on rails-bestpractices.com
 
