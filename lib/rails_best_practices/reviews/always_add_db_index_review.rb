@@ -10,8 +10,9 @@ module RailsBestPractices
     # Review process:
     #   only check the command and command_calls nodes and at the end of review process,
     #   if the receiver of command node is "create_table", then remember the table names
-    #   if the receiver of command_call node is "integer" and suffix with id, then remember it as foreign key
-    #   if the sujbect of command_call node is "string", the name of it is _type suffixed and there is an integer column _id suffixed, then remember it as polymorphic foreign key
+    #   if the receiver of command_call node is "integer" or "string" and suffix with _id, then remember it as foreign key
+    #   if the receiver of command_call node is "string", the name of it is _type suffixed and there is an integer or string column _id suffixed, then remember it as polymorphic foreign key
+    #   if the receiver of command_call node is remembered as foreign key and it have argument non-false "index", then remember the index columns
     #   if the receiver of command node is "add_index", then remember the index columns
     #   after all of these, at the end of review process
     #
@@ -121,11 +122,21 @@ module RailsBestPractices
             else
               @foreign_keys[table_name] << foreign_key_column
             end
+            foreign_id_column = foreign_key_column
           elsif foreign_key_column =~ /(.*?)_type$/
             if @foreign_keys[table_name].delete("#{$1}_id")
               @foreign_keys[table_name] << ["#{$1}_id", "#{$1}_type"]
             else
               @foreign_keys[table_name] << foreign_key_column
+            end
+            foreign_id_column = "#{$1}_id"
+          end
+
+          if foreign_id_column
+            index_node = node.arguments.all.last.hash_value('index')
+            if index_node.present? and "false" != index_node.to_s
+              @index_columns[table_name] ||= []
+              @index_columns[table_name] << foreign_id_column
             end
           end
         end
