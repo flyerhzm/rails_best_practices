@@ -145,7 +145,6 @@ module RailsBestPractices
       }.flatten
     end
 
-
     # sort files, models first, mailers, helpers, and then sort other files by characters.
     #
     # models and mailers first as for prepare process.

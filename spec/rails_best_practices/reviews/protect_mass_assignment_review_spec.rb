@@ -172,7 +172,6 @@ module RailsBestPractices
         end
       end
 
-
       it "should not check ignored files" do
         runner = Core::Runner.new(prepares: [Prepares::GemfilePrepare.new, Prepares::ConfigPrepare.new, Prepares::InitializerPrepare.new],
                                   reviews: ProtectMassAssignmentReview.new(ignored_files: /app\/models\/user\.rb/))

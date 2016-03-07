@@ -110,7 +110,6 @@ module RailsBestPractices
           @table_nodes[@table_name] = node
         end
 
-
         # remember foreign key columns
         def remember_foreign_key_columns(node)
           table_name = @table_name
