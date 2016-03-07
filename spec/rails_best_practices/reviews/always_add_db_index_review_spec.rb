@@ -295,6 +295,33 @@ module RailsBestPractices
         runner.after_review
         expect(runner.errors.size).to eq(0)
       end
+
+      it "should detect index option in column creation" do
+        content = <<-EOF
+        ActiveRecord::Schema.define(version: 20100603080629) do
+          create_table "comments", force: true do |t|
+            t.string "content"
+            t.integer "post_id", index: true
+            t.string "user_id", index: { unique: true }
+            t.integer "image_id", index: false
+            t.integer "link_id"
+          end
+          create_table "posts", force: true do |t|
+          end
+          create_table "users", id: :string, force: true do |t|
+          end
+          create_table "images", force: true do |t|
+          end
+          create_table "links", force: true do |t|
+          end
+        end
+        EOF
+        runner.review('db/schema.rb', content)
+        runner.after_review
+        expect(runner.errors.size).to eq(2)
+        expect(runner.errors[0].to_s).to eq("db/schema.rb:2 - always add db index (comments => [image_id])")
+        expect(runner.errors[1].to_s).to eq("db/schema.rb:2 - always add db index (comments => [link_id])")
+      end
     end
   end
 end
