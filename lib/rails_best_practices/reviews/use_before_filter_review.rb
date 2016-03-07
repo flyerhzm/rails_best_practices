@@ -38,8 +38,8 @@ module RailsBestPractices
         @first_sentences.each do |first_sentence, def_nodes|
           if def_nodes.size > @customize_count
             add_error "use before_filter for #{def_nodes.map { |node| node.method_name.to_s }.join(',')}",
-              node.file,
-              def_nodes.map(&:line_number).join(',')
+                      node.file,
+                      def_nodes.map(&:line_number).join(',')
           end
         end
       end

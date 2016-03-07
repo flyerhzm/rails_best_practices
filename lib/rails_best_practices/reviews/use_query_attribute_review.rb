@@ -42,8 +42,8 @@ module RailsBestPractices
           if query_attribute_node = query_attribute_node(condition_node)
             receiver_node = query_attribute_node.receiver
             add_error "use query attribute (#{receiver_node.receiver}.#{receiver_node.message}?)",
-              node.file,
-              query_attribute_node.line_number
+                      node.file,
+                      query_attribute_node.line_number
           end
         end
       end
