@@ -138,13 +138,13 @@ module RailsBestPractices
         end
       end
 
-      context "rails 4" do
-        it "should not protect mass assignment for rails 4" do
+      context "activerecord 4" do
+        it "should not protect mass assignment for activerecord 4" do
           content =<<-EOF
   GEM
     remote: http://rubygems.org
     specs:
-      rails (4.0.0)
+      activerecord (4.0.0)
           EOF
           runner.prepare('Gemfile.lock', content)
           content =<<-EOF
@@ -155,12 +155,12 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it "should protect mass assignment for rails 3" do
+        it "should protect mass assignment for activerecord 3" do
           content =<<-EOF
   GEM
     remote: http://rubygems.org
     specs:
-      rails (3.2.13)
+      activerecord (3.2.13)
           EOF
           runner.prepare('Gemfile.lock', content)
           content =<<-EOF

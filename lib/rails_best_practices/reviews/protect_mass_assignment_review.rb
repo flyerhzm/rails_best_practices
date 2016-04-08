@@ -18,7 +18,7 @@ module RailsBestPractices
       # we treat it as mass assignment by default.
       add_callback :start_class do |node|
         @mass_assignement = true
-        check_rails_version
+        check_activerecord_version
         check_whitelist_attributes_config
         check_include_forbidden_attributes_protection_config
       end
@@ -52,8 +52,8 @@ module RailsBestPractices
       end
 
       private
-        def check_rails_version
-          if Prepares.gems.gem_version("rails").to_i > 3
+        def check_activerecord_version
+          if Prepares.gems.gem_version("activerecord").to_i > 3
             @mass_assignement = false
           end
         end
