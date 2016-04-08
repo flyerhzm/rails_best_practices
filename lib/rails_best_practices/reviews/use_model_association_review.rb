@@ -42,6 +42,7 @@ module RailsBestPractices
       end
 
       private
+
         # check an attribute assignment node, if its message is xxx_id,
         # then remember the receiver of the attribute assignment in @assignments.
         def attribute_assignment(node)

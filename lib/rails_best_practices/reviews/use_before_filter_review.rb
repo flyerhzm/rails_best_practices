@@ -45,6 +45,7 @@ module RailsBestPractices
       end
 
       private
+
         # check method define node, and remember the first sentence.
         def remember_first_sentence(node)
           first_sentence = node.body.statements.first

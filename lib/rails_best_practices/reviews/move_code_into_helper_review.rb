@@ -36,6 +36,7 @@ module RailsBestPractices
       end
 
       private
+
         # check if the arguments of options_for_select are complex.
         #
         # if the first argument is an array,

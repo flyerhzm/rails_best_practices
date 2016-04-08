@@ -28,6 +28,7 @@ module RailsBestPractices
       end
 
       private
+
         # check a if node to see
         #
         # if the conditional statement is compared with current_user or current_user.id,

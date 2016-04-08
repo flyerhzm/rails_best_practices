@@ -35,6 +35,7 @@ module RailsBestPractices
       end
 
       private
+
         # check if the call node is the finder of other model.
         #
         # the message of the node should be one of find, all, first or last,

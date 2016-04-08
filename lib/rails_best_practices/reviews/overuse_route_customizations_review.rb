@@ -64,6 +64,7 @@ module RailsBestPractices
       end
 
       private
+
         # check command_call node to calculate the count of member and collection custom routes.
         # this is for rails2 syntax.
         #

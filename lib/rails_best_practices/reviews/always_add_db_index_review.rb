@@ -82,6 +82,7 @@ module RailsBestPractices
       end
 
       private
+
         # remember the node as index columns, when used outside a table
         # block, i.e.
         #   add_index :table_name, :column_name

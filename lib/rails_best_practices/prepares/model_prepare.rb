@@ -121,6 +121,7 @@ module RailsBestPractices
       end
 
       private
+
         # remember associations, with class to association names.
         def remember_association(node)
           association_meta = node.message.to_s

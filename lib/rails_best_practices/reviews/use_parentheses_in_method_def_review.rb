@@ -19,6 +19,7 @@ module RailsBestPractices
       end
 
       protected
+
         def no_parentheses_around_parameters?(def_node)
           :parent != def_node[2][0]
         end

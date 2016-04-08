@@ -52,6 +52,7 @@ module RailsBestPractices
       end
 
       private
+
         def check_activerecord_version
           if Prepares.gems.gem_version("activerecord").to_i > 3
             @mass_assignement = false

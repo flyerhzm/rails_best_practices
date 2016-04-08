@@ -31,6 +31,7 @@ module RailsBestPractices
       end
 
       protected
+
         def include_partial?(hash_node)
           hash_node.hash_keys.include?("partial") && !hash_node.hash_value("partial").to_s.include?('/')
         end

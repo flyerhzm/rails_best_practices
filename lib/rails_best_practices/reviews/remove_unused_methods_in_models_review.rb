@@ -86,6 +86,7 @@ module RailsBestPractices
       end
 
       protected
+
         def methods
           @model_methods
         end

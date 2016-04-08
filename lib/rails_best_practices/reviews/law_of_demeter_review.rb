@@ -33,6 +33,7 @@ module RailsBestPractices
       end
 
       private
+
         # check if the call node can use delegate to avoid violating law of demeter.
         #
         # if the receiver of receiver of the call node matchs any in model names,

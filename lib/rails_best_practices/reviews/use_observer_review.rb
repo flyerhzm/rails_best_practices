@@ -47,6 +47,7 @@ module RailsBestPractices
       end
 
       private
+
         # check a command node, if it is a callback definition, such as after_create, before_create,
         # then save the callback methods in @callbacks
         def remember_callback(node)

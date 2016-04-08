@@ -27,6 +27,7 @@ module RailsBestPractices
       end
 
       private
+
         # check if the method_add_arg node is a finder.
         #
         # if the receiver of method_add_arg node is a constant,

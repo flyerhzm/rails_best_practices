@@ -132,6 +132,7 @@ module RailsBestPractices
       end
 
       private
+
         # Methods of a class.
         #
         # @param [String] class name

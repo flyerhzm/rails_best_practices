@@ -29,6 +29,7 @@ module RailsBestPractices
       end
 
       private
+
         # check if rails's syntax mailer views are canonical.
         #
         # @param [String] name method name in action_mailer

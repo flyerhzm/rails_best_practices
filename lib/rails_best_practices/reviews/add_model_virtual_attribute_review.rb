@@ -42,6 +42,7 @@ module RailsBestPractices
       end
 
       private
+
         # check an attribute assignment node, if there is a array reference node in the right value of assignment node,
         # then remember this attribute assignment.
         def assign(node)

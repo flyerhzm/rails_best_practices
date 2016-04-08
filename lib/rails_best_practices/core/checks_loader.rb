@@ -17,6 +17,7 @@ module RailsBestPractices
       end
 
       private
+
         # read the checks from yaml config.
         def checks_from_config
           @checks ||= YAML.load_file @config

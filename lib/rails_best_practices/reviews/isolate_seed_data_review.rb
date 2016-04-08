@@ -53,6 +53,7 @@ module RailsBestPractices
       end
 
       private
+
         # check assignment node,
         # if the right vavlue is a method_add_arg node with message "new",
         # then remember the left value as new variable.

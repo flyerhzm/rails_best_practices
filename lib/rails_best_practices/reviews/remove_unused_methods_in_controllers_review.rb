@@ -100,6 +100,7 @@ module RailsBestPractices
       end
 
       protected
+
         def methods
           @controller_methods
         end

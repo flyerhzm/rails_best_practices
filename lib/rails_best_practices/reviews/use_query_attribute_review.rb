@@ -49,6 +49,7 @@ module RailsBestPractices
       end
 
       private
+
         # recursively check conditional statement nodes to see if there is a call node that may be
         # possible query attribute.
         def query_attribute_node(conditional_statement_node)

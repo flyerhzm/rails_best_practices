@@ -48,6 +48,7 @@ module RailsBestPractices
       end
 
       private
+
         # check the call node to see if it is with message "save" or "save!",
         # and the count attribute assignment on the receiver of the call node is greater than @assign_count defined,
         # then it is a complex creation, should be replaced with factory method.

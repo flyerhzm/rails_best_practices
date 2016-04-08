@@ -21,6 +21,7 @@ module RailsBestPractices
       end
 
       protected
+
         # check if hash node is empty.
         def empty_hash?(node)
           s(:hash, nil) == node || s(:bare_assoc_hash, nil) == node

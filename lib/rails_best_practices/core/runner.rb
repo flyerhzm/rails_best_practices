@@ -103,6 +103,7 @@ module RailsBestPractices
       end
 
       private
+
         # parse html template code, erb, haml and slim.
         #
         # @param [String] filename is the filename of the erb, haml or slim code.

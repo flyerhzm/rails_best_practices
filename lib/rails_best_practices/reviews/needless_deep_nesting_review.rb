@@ -49,6 +49,7 @@ module RailsBestPractices
       end
 
       private
+
         # check nested route.
         #
         # if the receiver of the method_add_block is with message "resources" or "resource",

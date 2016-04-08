@@ -32,6 +32,7 @@ module RailsBestPractices
       end
 
       protected
+
         def methods
           @helper_methods
         end
