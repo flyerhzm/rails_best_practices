@@ -1,5 +1,11 @@
 # Next Release
 
+## 1.17.0 (2016-07-14)
+
+* Detect index option in column creation
+* Check against activerecord not rails
+* Optimize methods of Klass for performance
+
 ## 1.16.0 (2016-02-22)
 
 * Add check destroy return value review
