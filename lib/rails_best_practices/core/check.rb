@@ -130,7 +130,8 @@ module RailsBestPractices
 
             # remember the class name
             add_callback :start_class do |node|
-              @klass = Core::Klass.new(node.class_name.to_s, node.base_class.to_s, classable_modules)
+              base_class_name = node.base_class.is_a?(CodeAnalyzer::Nil) ? nil : node.base_class.to_s
+              @klass = Core::Klass.new(node.class_name.to_s, base_class_name, classable_modules)
               klasses << @klass
             end
 
