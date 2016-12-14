@@ -113,6 +113,12 @@ or add it to the Gemfile
 
 Install <https://github.com/asuth/subl-handler>
 
+## Editor Integration
+
+#### TextMate 2
+
+If you use `TextMate 2`, you can install the [RailsBestPractices.tmbundle](https://github.com/jjuliano/RailsBestPractices.tmbundle) bundle.
+
 ## Issues
 
 If you install the rails_best_practices with bundler-installed GitHub-sourced gem, please use the following command instead.
