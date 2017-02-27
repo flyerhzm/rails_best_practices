@@ -33,12 +33,26 @@ module RailsBestPractices
         @base_path || "."
       end
 
+      # set the configuration path
+      #
+      # @param path [String] path to rbc config file
+      def self.config_path=(path)
+        @config_path = path
+      end
+
+      # get the configuration path, if will default to config/rails_best_practices.yml
+      #
+      # @return [String] the config path
+      def self.config_path
+        custom_config = File.join(Runner.base_path, @config_path || 'config/rails_best_practices.yml')
+        File.exists?(custom_config) ? custom_config : RailsBestPractices::Analyzer::DEFAULT_CONFIG
+      end
+
       # initialize the runner.
       #
       # @param [Hash] options pass the prepares and reviews.
       def initialize(options={})
-        custom_config = File.join(Runner.base_path, 'config/rails_best_practices.yml')
-        @config = File.exists?(custom_config) ? custom_config : RailsBestPractices::Analyzer::DEFAULT_CONFIG
+        @config = self.class.config_path
 
         lexicals = Array(options[:lexicals])
         prepares = Array(options[:prepares])
