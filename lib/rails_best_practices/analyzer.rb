@@ -50,6 +50,7 @@ module RailsBestPractices
     # @param [Hash] options
     def analyze
       Core::Runner.base_path = @path
+      Core::Runner.config_path = @options['config']
       @runner = Core::Runner.new
 
       analyze_source_codes
