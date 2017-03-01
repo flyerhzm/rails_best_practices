@@ -1,5 +1,9 @@
 # Next Release
 
+## 1.18.0 (2017-03-01)
+
+* Add --config option
+
 ## 1.17.0 (2016-07-14)
 
 * Detect index option in column creation
