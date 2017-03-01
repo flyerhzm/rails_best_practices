@@ -142,5 +142,5 @@ else
   analyzer = RailsBestPractices::Analyzer.new(ARGV.first, options)
   analyzer.analyze
   analyzer.output
-  exit analyzer.runner.errors.size
+  exit analyzer.runner.errors.size > 0 ? 1 : 0
 end
