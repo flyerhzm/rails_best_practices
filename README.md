@@ -80,6 +80,7 @@ To see the full list of command-line options, run:
         -o, --only PATTERNS              analyze files only matching a pattern
                                          (comma-separated regexp list)
         -g, --generate                   Generate configuration yaml
+        -c, --config CONFIG_PATH         configuration file location (defaults to config/rails_best_practices.yml)
         -v, --version                    Show this version
         -h, --help                       Show this message
 
