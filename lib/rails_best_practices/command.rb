@@ -121,6 +121,13 @@ OptionParser.new do |opts|
     options["generate"] = true
   end
 
+  opts.on(
+    '-c',
+    '--config CONFIG_PATH', 'configuration file location (defaults to config/rails_best_practices.yml)'
+  ) do |config_path|
+    options['config'] = config_path
+  end
+
   opts.parse!
 end
 
@@ -135,5 +142,5 @@ else
   analyzer = RailsBestPractices::Analyzer.new(ARGV.first, options)
   analyzer.analyze
   analyzer.output
-  exit analyzer.runner.errors.size
+  exit analyzer.runner.errors.size > 0 ? 1 : 0
 end
