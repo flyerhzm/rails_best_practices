@@ -16,7 +16,7 @@ module RailsBestPractices
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:3 - not rescue Exception")
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:3 - Don't rescue Exception")
         end
 
         it "should not rescue exception in method rescue without named var" do
@@ -29,7 +29,7 @@ module RailsBestPractices
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:3 - not rescue Exception")
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:3 - Don't rescue Exception")
         end
 
         it "should not rescue exception in block rescue with named var" do
@@ -44,7 +44,7 @@ module RailsBestPractices
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:4 - not rescue Exception")
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:4 - Don't rescue Exception")
         end
 
         it "should not rescue exception in block rescue without named var" do
@@ -59,7 +59,7 @@ module RailsBestPractices
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:4 - not rescue Exception")
+          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:4 - Don't rescue Exception")
         end
 
         it "should allow rescue implicit StandardError in block rescue without named var" do
