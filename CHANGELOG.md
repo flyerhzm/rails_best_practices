@@ -1,5 +1,9 @@
 # Next Release
 
+## 1.18.1
+
+* Remove haml ugly option
+
 ## 1.18.0 (2017-03-01)
 
 * Add --config option
