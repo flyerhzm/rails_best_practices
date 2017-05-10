@@ -128,7 +128,7 @@ module RailsBestPractices
           elsif filename =~ /.*\.haml$/
             begin
               require 'haml'
-              content = Haml::Engine.new(content, {ugly: true}).precompiled
+              content = Haml::Engine.new(content).precompiled
               # remove \xxx characters
               content.gsub!(/\\\d{3}/, '')
             rescue LoadError
