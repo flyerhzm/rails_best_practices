@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Make sure to add a model virual attribute to simplify model creation.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/21/add-model-virtual-attribute/
+    # See the best practice details here https://rails-bestpractices.com/posts/2010/07/21/add-model-virtual-attribute/
     #
     # Implementation:
     #
@@ -16,7 +16,7 @@ module RailsBestPractices
     class AddModelVirtualAttributeReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-      url "http://rails-bestpractices.com/posts/2010/07/21/add-model-virtual-attribute/"
+      url "https://rails-bestpractices.com/posts/2010/07/21/add-model-virtual-attribute/"
 
       # check method define nodes to see if there are some attribute assignments that can use model virtual attribute instead in review process.
       #

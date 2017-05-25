@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review view and helper files to make sure not use time_ago_in_words or distance_of_time_in_words_to_now.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2012/02/10/not-use-time_ago_in_words/
+    # See the best practice details here https://rails-bestpractices.com/posts/2012/02/10/not-use-time_ago_in_words/
     #
     # Implementation:
     #
@@ -12,7 +12,7 @@ module RailsBestPractices
     class NotUseTimeAgoInWordsReview < Review
       interesting_nodes :fcall
       interesting_files VIEW_FILES, HELPER_FILES
-      url "http://rails-bestpractices.com/posts/2012/02/10/not-use-time_ago_in_words/"
+      url "https://rails-bestpractices.com/posts/2012/02/10/not-use-time_ago_in_words/"
 
       # check fcall node to see if its message is time_ago_in_words or distance_of_time_in_words_to_now
       add_callback :start_fcall do |node|

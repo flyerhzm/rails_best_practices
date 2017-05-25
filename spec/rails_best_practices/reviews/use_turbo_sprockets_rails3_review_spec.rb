@@ -8,7 +8,7 @@ module RailsBestPractices
       it "should use turbo-sprockets-rails3" do
         content = <<-EOF
 GEM
-  remote: http://rubygems.org
+  remote: https://rubygems.org
   specs:
     rails (3.2.13)
       actionmailer (= 3.2.13)
@@ -33,7 +33,7 @@ GEM
       it "should not use turbo-sprockets-rails3 with turbo-sprockets-rails3 gem" do
         content = <<-EOF
 GEM
-  remote: http://rubygems.org
+  remote: https://rubygems.org
   specs:
     rails (3.2.13)
       actionmailer (= 3.2.13)
@@ -70,7 +70,7 @@ GEM
       it "should not use turbo-sprockets-rails3 with rails4 gem" do
         content = <<-EOF
 GEM
-  remote: http://rubygems.org
+  remote: https://rubygems.org
   specs:
     rails (4.0.0)
       actionmailer (= 4.0.0)
@@ -96,7 +96,7 @@ GEM
                                   reviews: UseTurboSprocketsRails3Review.new(ignored_files: /Capfile/))
         content = <<-EOF
 GEM
-  remote: http://rubygems.org
+  remote: https://rubygems.org
   specs:
     rails (3.2.13)
       actionmailer (= 3.2.13)

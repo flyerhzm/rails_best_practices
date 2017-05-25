@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Make sure to use observer (sorry we only check the mailer deliver now).
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/24/use-observer/
+    # See the best practice details here https://rails-bestpractices.com/posts/2010/07/24/use-observer/
     #
     # TODO: we need a better solution, any suggestion?
     #
@@ -20,7 +20,7 @@ module RailsBestPractices
     class UseObserverReview < Review
       interesting_nodes :def, :command
       interesting_files MODEL_FILES
-      url "http://rails-bestpractices.com/posts/2010/07/24/use-observer/"
+      url "https://rails-bestpractices.com/posts/2010/07/24/use-observer/"
 
       def initialize(options = {})
         super

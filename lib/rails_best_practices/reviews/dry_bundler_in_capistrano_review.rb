@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review config/deploy.rb file to make sure using the bundler's capistrano recipe.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2010/09/02/dry-bundler-in-capistrano/
+    # See the best practice details here https://rails-bestpractices.com/posts/2010/09/02/dry-bundler-in-capistrano/
     #
     # Implementation:
     #
@@ -15,7 +15,7 @@ module RailsBestPractices
     class DryBundlerInCapistranoReview < Review
       interesting_nodes :command
       interesting_files DEPLOY_FILES
-      url "http://rails-bestpractices.com/posts/2010/09/02/dry-bundler-in-capistrano/"
+      url "https://rails-bestpractices.com/posts/2010/09/02/dry-bundler-in-capistrano/"
 
       # check call node to see if it is with message "namespace" and argument "bundler".
       add_callback :start_command do |node|

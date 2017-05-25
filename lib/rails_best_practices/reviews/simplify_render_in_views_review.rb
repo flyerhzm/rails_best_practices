@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review a view file to make sure using simplified syntax for render.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2010/12/04/simplify-render-in-views/
+    # See the best practice details here https://rails-bestpractices.com/posts/2010/12/04/simplify-render-in-views/
     #
     # Implementation:
     #
@@ -13,7 +13,7 @@ module RailsBestPractices
     class SimplifyRenderInViewsReview < Review
       interesting_nodes :command
       interesting_files VIEW_FILES
-      url "http://rails-bestpractices.com/posts/2010/12/04/simplify-render-in-views/"
+      url "https://rails-bestpractices.com/posts/2010/12/04/simplify-render-in-views/"
 
       VALID_KEYS = %w(object collection locals)
 

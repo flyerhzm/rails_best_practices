@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review a controller file to make sure that complex model logic should not exist in controller, should be moved into a model.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/
+    # See the best practice details here https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/
     #
     # Implementation:
     #
@@ -15,7 +15,7 @@ module RailsBestPractices
     class MoveModelLogicIntoModelReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-      url "http://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/"
+      url "https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/"
 
       def initialize(options = {})
         super(options)

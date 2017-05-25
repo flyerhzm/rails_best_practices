@@ -142,7 +142,7 @@ module RailsBestPractices
         it "should not protect mass assignment for activerecord 4" do
           content =<<-EOF
   GEM
-    remote: http://rubygems.org
+    remote: https://rubygems.org
     specs:
       activerecord (4.0.0)
           EOF
@@ -158,7 +158,7 @@ module RailsBestPractices
         it "should protect mass assignment for activerecord 3" do
           content =<<-EOF
   GEM
-    remote: http://rubygems.org
+    remote: https://rubygems.org
     specs:
       activerecord (3.2.13)
           EOF

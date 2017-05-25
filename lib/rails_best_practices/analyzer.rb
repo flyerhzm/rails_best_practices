@@ -4,7 +4,7 @@ require 'json'
 require 'ruby-progressbar'
 
 module RailsBestPractices
-  # RailsBestPractices Analyzer helps you to analyze your rails code, according to best practices on http://rails-bestpractices.
+  # RailsBestPractices Analyzer helps you to analyze your rails code, according to best practices on https://rails-bestpractices.
   # if it finds any violatioins to best practices, it will give you some readable suggestions.
   #
   # The analysis process is partitioned into two parts,
@@ -180,7 +180,7 @@ module RailsBestPractices
     # output errors on terminal.
     def output_terminal_errors
       errors.each { |error| plain_output(error.to_s, 'red') }
-      plain_output("\nPlease go to http://rails-bestpractices.com to see more useful Rails Best Practices.", 'green')
+      plain_output("\nPlease go to https://rails-bestpractices.com to see more useful Rails Best Practices.", 'green')
       if errors.empty?
         plain_output("\nNo warning found. Cool!", 'green')
       else
@@ -226,7 +226,7 @@ module RailsBestPractices
 
       if @options["with-github"]
         last_commit_id = @options["last-commit-id"] ? @options["last-commit-id"] : `cd #{@runner.class.base_path} && git rev-parse HEAD`.chomp
-        unless @options["github-name"].start_with?('http')
+        unless @options["github-name"].start_with?('https')
           @options["github-name"] = GITHUB_URL + @options["github-name"]
         end
       end

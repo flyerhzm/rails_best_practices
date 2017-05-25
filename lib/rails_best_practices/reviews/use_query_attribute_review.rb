@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Make sure to use query attribute instead of nil?, blank? and present?.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2010/10/03/use-query-attribute/
+    # See the best practice details here https://rails-bestpractices.com/posts/2010/10/03/use-query-attribute/
     #
     # Implementation:
     #
@@ -16,7 +16,7 @@ module RailsBestPractices
     class UseQueryAttributeReview < Review
       interesting_nodes :if, :unless, :elsif, :ifop, :if_mod, :unless_mod
       interesting_files ALL_FILES
-      url "http://rails-bestpractices.com/posts/2010/10/03/use-query-attribute/"
+      url "https://rails-bestpractices.com/posts/2010/10/03/use-query-attribute/"
 
       QUERY_METHODS = %w(nil? blank? present?)
 

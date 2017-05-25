@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review a helper file to make sure it is not an empty moduel.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2011/04/09/remove-empty-helpers/
+    # See the best practice details here https://rails-bestpractices.com/posts/2011/04/09/remove-empty-helpers/
     #
     # Implementation:
     #
@@ -12,7 +12,7 @@ module RailsBestPractices
     class RemoveEmptyHelpersReview < Review
       interesting_nodes :module
       interesting_files HELPER_FILES
-      url "http://rails-bestpractices.com/posts/2011/04/09/remove-empty-helpers/"
+      url "https://rails-bestpractices.com/posts/2011/04/09/remove-empty-helpers/"
 
       # check the body of module node, if it is nil, then it should be removed.
       add_callback :start_module do |module_node|

@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # review a controller file to make sure to use model association instead of foreign key id assignment.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/19/use-model-association/
+    # See the best practice details here https://rails-bestpractices.com/posts/2010/07/19/use-model-association/
     #
     # Implementation:
     #
@@ -16,7 +16,7 @@ module RailsBestPractices
     class UseModelAssociationReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-      url "http://rails-bestpractices.com/posts/2010/07/19/use-model-association/"
+      url "https://rails-bestpractices.com/posts/2010/07/19/use-model-association/"
 
       # check method define nodes to see if there are some attribute assignments that can use model association instead.
       #

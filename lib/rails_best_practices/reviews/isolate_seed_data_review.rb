@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Make sure not to insert data in migration, move them to seed file.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/24/isolating-seed-data/
+    # See the best practice details here https://rails-bestpractices.com/posts/2010/07/24/isolating-seed-data/
     #
     # Implementation:
     #
@@ -21,7 +21,7 @@ module RailsBestPractices
     class IsolateSeedDataReview < Review
       interesting_nodes :call, :assign
       interesting_files MIGRATION_FILES
-      url "http://rails-bestpractices.com/posts/2010/07/24/isolating-seed-data/"
+      url "https://rails-bestpractices.com/posts/2010/07/24/isolating-seed-data/"
 
       def initialize(options={})
         super(options)

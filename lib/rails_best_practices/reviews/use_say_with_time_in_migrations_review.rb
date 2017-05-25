@@ -4,7 +4,7 @@ module RailsBestPractices
     # Review a migration file to make sure to use say or say_with_time for customized data changes
     # to produce a more readable output.
     #
-    # See the best practice detials here http://rails-bestpractices.com/posts/2010/08/19/use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log/
+    # See the best practice detials here https://rails-bestpractices.com/posts/2010/08/19/use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log/
     #
     # Implementation:
     #
@@ -16,7 +16,7 @@ module RailsBestPractices
     class UseSayWithTimeInMigrationsReview < Review
       interesting_nodes :defs
       interesting_files MIGRATION_FILES
-      url "http://rails-bestpractices.com/posts/2010/08/19/use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log/"
+      url "https://rails-bestpractices.com/posts/2010/08/19/use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log/"
 
       WITH_SAY_METHODS = %w(say say_with_time)
 

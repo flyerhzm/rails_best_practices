@@ -15,7 +15,7 @@ module RailsBestPractices
         before do
         content = <<-EOF
 GEM
-  remote: http://rubygems.org
+  remote: https://rubygems.org
   specs:
     rails (2.3.14)
       actionmailer (= 2.3.14)
@@ -146,7 +146,7 @@ GEM
         before do
         content = <<-EOF
 GEM
-  remote: http://rubygems.org
+  remote: https://rubygems.org
   specs:
     rails (3.2.13)
       actionmailer (= 3.2.13)

@@ -4,7 +4,7 @@ module RailsBestPractices
     # Review all code to make sure we don't rescue Exception
     # This is a common mistake by Java or C# devs in ruby.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2012/11/01/don-t-rescue-exception-rescue-standarderror/
+    # See the best practice details here https://rails-bestpractices.com/posts/2012/11/01/don-t-rescue-exception-rescue-standarderror/
     #
     # Implementation:
     #
@@ -13,7 +13,7 @@ module RailsBestPractices
     class NotRescueExceptionReview < Review
       interesting_nodes :rescue
       interesting_files ALL_FILES
-      url "http://rails-bestpractices.com/posts/2012/11/01/don-t-rescue-exception-rescue-standarderror/"
+      url "https://rails-bestpractices.com/posts/2012/11/01/don-t-rescue-exception-rescue-standarderror/"
 
       # check rescue node to see if its type is Exception
       add_callback :start_rescue do |rescue_node|

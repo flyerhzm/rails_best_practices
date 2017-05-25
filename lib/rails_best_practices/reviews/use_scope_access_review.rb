@@ -3,7 +3,7 @@ module RailsBestPractices
   module Reviews
     # Review a controller to make sure to use scope access instead of manually checking current_user and redirect.
     #
-    # See the best practice details here http://rails-bestpractices.com/posts/2010/07/20/use-scope-access/
+    # See the best practice details here https://rails-bestpractices.com/posts/2010/07/20/use-scope-access/
     #
     # Implementation:
     #
@@ -16,7 +16,7 @@ module RailsBestPractices
     class UseScopeAccessReview < Review
       interesting_nodes :if, :unless, :elsif, :ifop, :if_mod, :unless_mod
       interesting_files CONTROLLER_FILES
-      url "http://rails-bestpractices.com/posts/2010/07/20/use-scope-access/"
+      url "https://rails-bestpractices.com/posts/2010/07/20/use-scope-access/"
 
       # check if node.
       #
