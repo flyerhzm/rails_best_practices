@@ -5,83 +5,40 @@ module RailsBestPractices
     describe NotUseDefaultRouteReview do
       let(:runner) { Core::Runner.new(reviews: NotUseDefaultRouteReview.new) }
 
-      describe "rails2" do
-        it "should not use default route" do
-          content = <<-EOF
-          ActionController::Routing::Routes.draw do |map|
-            map.resources :posts, member: { push: :post }
+      it "should not use default route" do
+        content = <<-EOF
+        RailsBestpracticesCom::Application.routes.draw do |map|
+          resources :posts
 
-            map.connect ':controller/:action/:id'
-            map.connect ':controller/:action/:id.:format'
-          end
-          EOF
-          runner.review('config/routes.rb', content)
-          expect(runner.errors.size).to eq(2)
-          expect(runner.errors[0].to_s).to eq("config/routes.rb:4 - not use default route")
-          expect(runner.errors[1].to_s).to eq("config/routes.rb:5 - not use default route")
+          match ':controller(/:action(/:id(.:format)))'
         end
-
-        it "should no not use default route" do
-          content = <<-EOF
-          ActionController::Routing::Routes.draw do |map|
-            map.resources :posts, member: { push: :post }
-          end
-          EOF
-          runner.review('config/routes.rb', content)
-          expect(runner.errors.size).to eq(0)
-        end
-
-        it "should not check ignored files" do
-          runner = Core::Runner.new(reviews: NotUseDefaultRouteReview.new(ignored_files: /config\/routes\.rb/))
-          content = <<-EOF
-          ActionController::Routing::Routes.draw do |map|
-            map.resources :posts, member: { push: :post }
-
-            map.connect ':controller/:action/:id'
-            map.connect ':controller/:action/:id.:format'
-          end
-          EOF
-          runner.review('config/routes.rb', content)
-          expect(runner.errors.size).to eq(0)
-        end
+        EOF
+        runner.review('config/routes.rb', content)
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("config/routes.rb:4 - not use default route")
       end
 
-      describe "rails3" do
-        it "should not use default route" do
-          content = <<-EOF
-          RailsBestpracticesCom::Application.routes.draw do |map|
-            resources :posts
-
-            match ':controller(/:action(/:id(.:format)))'
-          end
-          EOF
-          runner.review('config/routes.rb', content)
-          expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("config/routes.rb:4 - not use default route")
+      it "should no not use default route" do
+        content = <<-EOF
+        RailsBestpracticesCom::Application.routes.draw do |map|
+          resources :posts
         end
+        EOF
+        runner.review('config/routes.rb', content)
+        expect(runner.errors.size).to eq(0)
+      end
 
-        it "should no not use default route" do
-          content = <<-EOF
-          RailsBestpracticesCom::Application.routes.draw do |map|
-            resources :posts
-          end
-          EOF
-          runner.review('config/routes.rb', content)
-          expect(runner.errors.size).to eq(0)
+      it "should not check ignored files" do
+        runner = Core::Runner.new(reviews: NotUseDefaultRouteReview.new(ignored_files: /config\/routes\.rb/))
+        content = <<-EOF
+        RailsBestpracticesCom::Application.routes.draw do |map|
+          resources :posts
+
+          match ':controller(/:action(/:id(.:format)))'
         end
-
-        it "should not check ignored files" do
-          runner = Core::Runner.new(reviews: NotUseDefaultRouteReview.new(ignored_files: /config\/routes\.rb/))
-          content = <<-EOF
-          RailsBestpracticesCom::Application.routes.draw do |map|
-            resources :posts
-
-            match ':controller(/:action(/:id(.:format)))'
-          end
-          EOF
-          runner.review('config/routes.rb', content)
-          expect(runner.errors.size).to eq(0)
-        end
+        EOF
+        runner.review('config/routes.rb', content)
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

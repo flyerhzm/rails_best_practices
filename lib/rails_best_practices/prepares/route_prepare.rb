@@ -109,6 +109,7 @@ module RailsBestPractices
         end
       end
 
+      # TODO: should remove but breaks some tests
       # remember route for rails2.
       add_callback :start_command_call do |node|
         case node.message.to_s
