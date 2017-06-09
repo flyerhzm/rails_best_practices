@@ -23,7 +23,7 @@ module RailsBestPractices
       # check def node and find if the corresponding views exist or not?
       add_callback :start_def do |node|
         name = node.method_name.to_s
-        if !rails_canonical_mailer_views?(name)
+        if !rails3_canonical_mailer_views?(name)
           add_error("use multipart/alternative as content_type of email")
         end
       end
@@ -34,21 +34,6 @@ module RailsBestPractices
         #
         # @param [String] name method name in action_mailer
         def rails_canonical_mailer_views?(name)
-          if Prepares.gems.gem_version("rails").to_i > 2
-            rails3_canonical_mailer_views?(name)
-          else
-            rails2_canonical_mailer_views?(name)
-          end
-        end
-
-        # check if rails2's syntax mailer views are canonical.
-        #
-        # @param [String] name method name in action_mailer
-        def rails2_canonical_mailer_views?(name)
-          return true if mailer_files(name).length == 0
-          return true if mailer_files(name).none? { |filename| filename.index 'text.html' }
-          mailer_files(name).any? { |filename| filename.index 'text.html' } &&
-            mailer_files(name).any? { |filename| filename.index 'text.plain' }
         end
 
         # check if rails3's syntax mailer views are canonical.

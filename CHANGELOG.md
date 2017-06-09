@@ -1,5 +1,7 @@
 # Next Release
 
+* [#294](https://github.com/flyerhzm/rails_best_practices/pull/294)Remove Rails 2 support
+
 ## 1.18.1
 
 * Remove haml ugly option

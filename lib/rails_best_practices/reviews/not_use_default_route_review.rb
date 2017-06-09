@@ -21,16 +21,7 @@ module RailsBestPractices
       interesting_files ROUTE_FILES
       url "https://rails-bestpractices.com/posts/2010/07/22/not-use-default-route-if-you-use-restful-design/"
 
-      # check all command call nodes, compare with rails2 default route
-      add_callback :start_command_call do |node|
-        if "map" == node.receiver.to_s && "connect" == node.message.to_s &&
-          (":controller/:action/:id" == node.arguments.all.first.to_s ||
-           ":controller/:action/:id.:format" == node.arguments.all.first.to_s)
-          add_error "not use default route"
-        end
-      end
-
-      # check all command nodes, compare with rails3 default route
+      # check all command nodes
       add_callback :start_command do |node|
         if "match" == node.message.to_s &&
           ":controller(/:action(/:id(.:format)))" == node.arguments.all.first.to_s

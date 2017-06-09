@@ -66,22 +66,11 @@ module RailsBestPractices
 
         # check a def node to see if it contains a actionmailer deliver call.
         #
-        # for rails2
-        #
-        # if the message of call node is deliver_xxx,
-        # and the receiver of the call node exists in @callbacks,
-        #
-        # for rails3
-        #
         # if the message of call node is deliver,
         # and the receiver of the call node is with receiver node who exists in @callbacks,
-        #
         # then the call node is actionmailer deliver call.
         def deliver_mailer?(node)
           node.grep_nodes(sexp_type: :call) do |child_node|
-            # rails2 actionmailer deliver
-            return true if child_node.message.to_s =~ /^deliver_/ && mailers.include?(child_node.receiver.to_s)
-            # rails3 actionmailer deliver
             if "deliver" == child_node.message.to_s
               if :method_add_arg == child_node.receiver.sexp_type &&
                 mailers.include?(child_node.receiver[1].receiver.to_s)

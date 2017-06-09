@@ -13,134 +13,67 @@ module RailsBestPractices
         runner.prepare('app/models/project_mailer.rb', content)
       end
 
-      describe "rails2" do
-        it "should use observer" do
-          content =<<-EOF
-          class Project < ActiveRecord::Base
-            after_create :send_create_notification
+      it "should use observer" do
+        content =<<-EOF
+        class Project < ActiveRecord::Base
+          after_create :send_create_notification
 
-            private
-            def send_create_notification
-              self.members.each do |member|
-                ProjectMailer.deliver_notification(self, member)
-              end
+          private
+          def send_create_notification
+            self.members.each do |member|
+              ProjectMailer.notification(self, member).deliver
             end
           end
-          EOF
-          runner.review('app/models/project.rb', content)
-          expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/models/project.rb:5 - use observer")
         end
-
-        it "should not use observer without callback" do
-          content =<<-EOF
-          class Project < ActiveRecord::Base
-            private
-            def send_create_notification
-              self.members.each do |member|
-                ProjectMailer.deliver_notification(self, member)
-              end
-            end
-          end
-          EOF
-          runner.review('app/models/project.rb', content)
-          expect(runner.errors.size).to eq(0)
-        end
-
-        it "should use observer with two after_create" do
-          content =<<-EOF
-          class Project < ActiveRecord::Base
-            after_create :send_create_notification, :update_author
-
-            private
-            def send_create_notification
-              self.members.each do |member|
-                ProjectMailer.deliver_notification(self, member)
-              end
-            end
-
-            def update_author
-            end
-          end
-          EOF
-          runner.review('app/models/project.rb', content)
-          expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/models/project.rb:5 - use observer")
-        end
-
-        it "should not raise when initiate an object in callback" do
-          content =<<-EOF
-          class Project < ActiveRecord::Base
-            after_create ProjectMailer.new
-          end
-          EOF
-          expect { runner.review('app/models/project.rb', content) }.not_to raise_error
-        end
+        EOF
+        runner.review('app/models/project.rb', content)
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/models/project.rb:5 - use observer")
       end
 
-      describe "rails3" do
-        it "should use observer" do
-          content =<<-EOF
-          class Project < ActiveRecord::Base
-            after_create :send_create_notification
-
-            private
-            def send_create_notification
-              self.members.each do |member|
-                ProjectMailer.notification(self, member).deliver
-              end
+      it "should not use observer without callback" do
+        content =<<-EOF
+        class Project < ActiveRecord::Base
+          private
+          def send_create_notification
+            self.members.each do |member|
+              ProjectMailer.notification(self, member).deliver
             end
           end
-          EOF
-          runner.review('app/models/project.rb', content)
-          expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/models/project.rb:5 - use observer")
         end
+        EOF
+        runner.review('app/models/project.rb', content)
+        expect(runner.errors.size).to eq(0)
+      end
 
-        it "should not use observer without callback" do
-          content =<<-EOF
-          class Project < ActiveRecord::Base
-            private
-            def send_create_notification
-              self.members.each do |member|
-                ProjectMailer.notification(self, member).deliver
-              end
+      it "should use observer with two after_create" do
+        content =<<-EOF
+        class Project < ActiveRecord::Base
+          after_create :send_create_notification, :update_author
+
+          private
+          def send_create_notification
+            self.members.each do |member|
+              ProjectMailer.notification(self, member).deliver
             end
           end
-          EOF
-          runner.review('app/models/project.rb', content)
-          expect(runner.errors.size).to eq(0)
-        end
 
-        it "should use observer with two after_create" do
-          content =<<-EOF
-          class Project < ActiveRecord::Base
-            after_create :send_create_notification, :update_author
-
-            private
-            def send_create_notification
-              self.members.each do |member|
-                ProjectMailer.notification(self, member).deliver
-              end
-            end
-
-            def update_author
-            end
+          def update_author
           end
-          EOF
-          runner.review('app/models/project.rb', content)
-          expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/models/project.rb:5 - use observer")
         end
+        EOF
+        runner.review('app/models/project.rb', content)
+        expect(runner.errors.size).to eq(1)
+        expect(runner.errors[0].to_s).to eq("app/models/project.rb:5 - use observer")
+      end
 
-        it "should not raise when initiate an object in callback" do
-          content =<<-EOF
-          class Project < ActiveRecord::Base
-            after_create ProjectMailer.new
-          end
-          EOF
-          expect { runner.review('app/models/project.rb', content) }.not_to raise_error
+      it "should not raise when initiate an object in callback" do
+        content =<<-EOF
+        class Project < ActiveRecord::Base
+          after_create ProjectMailer.new
         end
+        EOF
+        expect { runner.review('app/models/project.rb', content) }.not_to raise_error
       end
     end
   end
