@@ -109,6 +109,26 @@ module RailsBestPractices
             "Admin::PostsController#extra_update"])
         end
 
+        it "should add resources routes with members inline" do
+          content =<<-EOF
+          RailsBestPracticesCom::Application.routes.draw do
+            namespace :admin do
+              resources :posts, :only => [:edit, :update] do
+                post :link_to_post, :extra_update, :retrieve, on: :member
+              end
+            end
+          end
+          EOF
+          runner.prepare('config/routes.rb', content)
+          routes = Prepares.routes
+          expect(routes.map(&:to_s)).to eq([
+            "Admin::PostsController#edit",
+            "Admin::PostsController#update",
+            "Admin::PostsController#link_to_post",
+            "Admin::PostsController#extra_update",
+            "Admin::PostsController#retrieve"])
+        end
+
         it "should add connect route" do
           content =<<-EOF
           ActionController::Routing::Routes.draw do |map|

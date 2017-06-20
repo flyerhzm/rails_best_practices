@@ -153,6 +153,27 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq("app/controllers/posts_controller.rb:3 - remove unused methods (PostsController#list)")
         end
 
+        it "should not remove inline routes" do
+          content =<<-EOF
+          RailsBestPracticesCom::Application.routes.draw do
+            resources :posts, only: :none do
+              get :display, :list, on: :member
+            end
+          end
+          EOF
+          runner.prepare('config/routes.rb', content)
+          content =<<-EOF
+          class PostsController < ApplicationController
+            def display; end
+            def list; end
+          end
+          EOF
+          runner.prepare('app/controllers/posts_controller.rb', content)
+          runner.review('app/controllers/posts_controller.rb', content)
+          runner.after_review
+          expect(runner.errors.size).to eq(0)
+        end
+
         it "should not remove unused methods if all actions are used in route" do
           content =<<-EOF
           ActionController::Routing::Routes.draw do |map|
