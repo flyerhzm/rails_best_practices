@@ -22,7 +22,7 @@ module RailsBestPractices
 
         # mappings can be specified by e.g.
         #   post 'some/:pattern' => 'controller#action'
-        if action_name =~ /^(\w+)#(\w+)$/
+        if action_name.is_a?(String) && action_name =~ /\A(\w+)#(\w+)\z/
           controller_name = $1
           action_name = $2
         end
