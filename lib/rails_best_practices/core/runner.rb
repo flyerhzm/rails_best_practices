@@ -51,7 +51,7 @@ module RailsBestPractices
       # initialize the runner.
       #
       # @param [Hash] options pass the prepares and reviews.
-      def initialize(options={})
+      def initialize(options = {})
         @config = self.class.config_path
 
         lexicals = Array(options[:lexicals])
@@ -113,7 +113,7 @@ module RailsBestPractices
       #
       # @return [Array] all errors from lexicals and reviews
       def errors
-        @errors ||= (@reviews + @lexicals).collect {|check| check.errors}.flatten
+        @errors ||= (@reviews + @lexicals).collect { |check| check.errors }.flatten
       end
 
       private
