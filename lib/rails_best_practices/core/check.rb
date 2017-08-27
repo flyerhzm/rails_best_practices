@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Core
     # A Check class that takes charge of checking the sexp.

@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Lexicals
     # Make sure there are no trailing whitespace in codes.

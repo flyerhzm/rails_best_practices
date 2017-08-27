@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Reviews
     # Review config/routes.rb file to make sure not to use too deep nesting routes.

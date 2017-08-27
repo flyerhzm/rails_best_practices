@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Reviews
     # Review a controller to make sure to use scope access instead of manually checking current_user and redirect.

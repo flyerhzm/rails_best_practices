@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Lexicals
     # Keep lines fewer than 80 characters.
