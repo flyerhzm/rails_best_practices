@@ -13,16 +13,16 @@ module RailsBestPractices
       # check if AR include ActiveModel::ForbiddenAttributesProtection
       add_callback :start_method_add_arg do |node|
         if include_forbidden_attributes_protection?(node)
-          @configs["railsbp.include_forbidden_attributes_protection"] = "true"
+          @configs['railsbp.include_forbidden_attributes_protection'] = 'true'
         end
       end
 
       # check if the node is
       #     ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)
       def include_forbidden_attributes_protection?(node)
-        "ActiveRecord::Base" == node.receiver.to_s &&
-          "send" == node.message.to_s &&
-          ["include", "ActiveModel::ForbiddenAttributesProtection"] == node.arguments.all.map(&:to_s)
+        'ActiveRecord::Base' == node.receiver.to_s &&
+          'send' == node.message.to_s &&
+          ['include', 'ActiveModel::ForbiddenAttributesProtection'] == node.arguments.all.map(&:to_s)
       end
     end
   end

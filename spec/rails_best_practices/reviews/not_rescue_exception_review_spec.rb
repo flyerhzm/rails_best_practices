@@ -5,8 +5,8 @@ module RailsBestPractices
     describe NotRescueExceptionReview do
       let(:runner) { Core::Runner.new(reviews: NotRescueExceptionReview.new) }
 
-      describe "not_rescue_exception" do
-        it "should not rescue exception in method rescue with named var" do
+      describe 'not_rescue_exception' do
+        it 'should not rescue exception in method rescue with named var' do
           content =<<-EOF
           def my_method
             do_something
@@ -19,7 +19,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:3 - Don't rescue Exception")
         end
 
-        it "should not rescue exception in method rescue without named var" do
+        it 'should not rescue exception in method rescue without named var' do
           content =<<-EOF
           def my_method
             do_something
@@ -32,7 +32,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:3 - Don't rescue Exception")
         end
 
-        it "should not rescue exception in block rescue with named var" do
+        it 'should not rescue exception in block rescue with named var' do
           content =<<-EOF
           def my_method
             begin
@@ -47,7 +47,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:4 - Don't rescue Exception")
         end
 
-        it "should not rescue exception in block rescue without named var" do
+        it 'should not rescue exception in block rescue without named var' do
           content =<<-EOF
           def my_method
             begin
@@ -62,7 +62,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:4 - Don't rescue Exception")
         end
 
-        it "should allow rescue implicit StandardError in block rescue without named var" do
+        it 'should allow rescue implicit StandardError in block rescue without named var' do
           content =<<-EOF
           def my_method
             begin
@@ -76,7 +76,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it "should allow rescue explicit StandardError in block rescue without named var" do
+        it 'should allow rescue explicit StandardError in block rescue without named var' do
           content =<<-EOF
           def my_method
             begin
@@ -90,7 +90,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it "should not check ignored files" do
+        it 'should not check ignored files' do
           runner = Core::Runner.new(reviews: NotRescueExceptionReview.new(ignored_files: /posts_helper/))
           content =<<-EOF
           def my_method

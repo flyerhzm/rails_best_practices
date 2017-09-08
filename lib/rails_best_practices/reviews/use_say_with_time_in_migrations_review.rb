@@ -16,7 +16,7 @@ module RailsBestPractices
     class UseSayWithTimeInMigrationsReview < Review
       interesting_nodes :defs
       interesting_files MIGRATION_FILES
-      url "https://rails-bestpractices.com/posts/2010/08/19/use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log/"
+      url 'https://rails-bestpractices.com/posts/2010/08/19/use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log/'
 
       WITH_SAY_METHODS = %w(say say_with_time)
 
@@ -38,7 +38,7 @@ module RailsBestPractices
                            child_node
                          end
           if :call == receiver_node.sexp_type
-            add_error("use say with time in migrations", node.file, child_node.line_number)
+            add_error('use say with time in migrations', node.file, child_node.line_number)
           end
         end
       end

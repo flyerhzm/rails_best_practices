@@ -15,7 +15,7 @@ module RailsBestPractices
     class MoveModelLogicIntoModelReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/"
+      url 'https://rails-bestpractices.com/posts/2010/07/21/move-model-logic-into-the-model/'
 
       def initialize(options = {})
         super(options)

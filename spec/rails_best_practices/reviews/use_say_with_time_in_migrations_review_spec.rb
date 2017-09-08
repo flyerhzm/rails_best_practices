@@ -5,7 +5,7 @@ module RailsBestPractices
     describe UseSayWithTimeInMigrationsReview do
       let(:runner) { Core::Runner.new(reviews: UseSayWithTimeInMigrationsReview.new) }
 
-      it "should use say with time in migrations" do
+      it 'should use say with time in migrations' do
         content =<<-EOF
         def self.up
           User.find_each do |user|
@@ -16,10 +16,10 @@ module RailsBestPractices
         EOF
         runner.review('db/migrate/20101010080658_update_users.rb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq("db/migrate/20101010080658_update_users.rb:2 - use say with time in migrations")
+        expect(runner.errors[0].to_s).to eq('db/migrate/20101010080658_update_users.rb:2 - use say with time in migrations')
       end
 
-      it "should use say with time in migrations with create_table" do
+      it 'should use say with time in migrations with create_table' do
         content =<<-EOF
         def self.up
           create_table :users do |t|
@@ -35,10 +35,10 @@ module RailsBestPractices
         EOF
         runner.review('db/migrate/20101010080658_update_users.rb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq("db/migrate/20101010080658_update_users.rb:7 - use say with time in migrations")
+        expect(runner.errors[0].to_s).to eq('db/migrate/20101010080658_update_users.rb:7 - use say with time in migrations')
       end
 
-      it "should not use say with time in migrations" do
+      it 'should not use say with time in migrations' do
         content =<<-EOF
         def self.up
           say_with_time("Initialize first_name and last_name for users") do
@@ -54,7 +54,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it "should not use say with time in migrations when not first code line" do
+      it 'should not use say with time in migrations when not first code line' do
         content =<<-EOF
         def self.up
           User.find_each do |user|
@@ -68,7 +68,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it "should not use say with time when default migration message" do
+      it 'should not use say with time when default migration message' do
         content =<<-EOF
         def self.up
           create_table :users do |t|
@@ -82,7 +82,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it "should not raise an error" do
+      it 'should not raise an error' do
         content =<<-EOF
         class AddAdmin < ActiveRecord::Migration
 
@@ -118,7 +118,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(3)
       end
 
-      it "should not check ignored files" do
+      it 'should not check ignored files' do
         runner = Core::Runner.new(reviews: UseSayWithTimeInMigrationsReview.new(ignored_files: /20101010080658_update_users/))
         content =<<-EOF
         def self.up

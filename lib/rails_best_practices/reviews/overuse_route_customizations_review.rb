@@ -17,7 +17,7 @@ module RailsBestPractices
     class OveruseRouteCustomizationsReview < Review
       interesting_nodes :command_call, :method_add_block
       interesting_files ROUTE_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/22/overuse-route-customizations/"
+      url 'https://rails-bestpractices.com/posts/2010/07/22/overuse-route-customizations/'
 
       VERBS = %w(get post update delete)
 
@@ -46,7 +46,7 @@ module RailsBestPractices
         # then calculate the count of call nodes, whose message is get, post, update or delete,
         # it is just the count of member and collection custom routes.
         def member_and_collection_count_for_rails3(node)
-          "resources" == node[1].message.to_s ? node.grep_nodes_count(sexp_type: :command, message: VERBS) : 0
+          'resources' == node[1].message.to_s ? node.grep_nodes_count(sexp_type: :command, message: VERBS) : 0
         end
     end
   end

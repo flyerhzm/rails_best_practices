@@ -25,7 +25,7 @@ module RailsBestPractices
     class AlwaysAddDbIndexReview < Review
       interesting_nodes :command, :command_call
       interesting_files SCHEMA_FILE
-      url "https://rails-bestpractices.com/posts/2010/07/24/always-add-db-index/"
+      url 'https://rails-bestpractices.com/posts/2010/07/24/always-add-db-index/'
 
       def initialize(options={})
         super(options)
@@ -41,7 +41,7 @@ module RailsBestPractices
       add_callback :start_command_call do |node|
         if %w(integer string).include? node.message.to_s
           remember_foreign_key_columns(node)
-        elsif "index" == node.message.to_s
+        elsif 'index' == node.message.to_s
           remember_index_columns_inside_table(node)
         end
       end
@@ -55,9 +55,9 @@ module RailsBestPractices
       # then remember it with _id suffixed column as polymorphic foreign key.
       add_callback :start_command do |node|
         case node.message.to_s
-        when "create_table"
+        when 'create_table'
           remember_table_nodes(node)
-        when "add_index"
+        when 'add_index'
           remember_index_columns_outside_table(node)
         end
       end
@@ -134,7 +134,7 @@ module RailsBestPractices
 
           if foreign_id_column
             index_node = node.arguments.all.last.hash_value('index')
-            if index_node.present? and "false" != index_node.to_s
+            if index_node.present? and 'false' != index_node.to_s
               @index_columns[table_name] ||= []
               @index_columns[table_name] << foreign_id_column
             end
@@ -147,7 +147,7 @@ module RailsBestPractices
             foreign_keys.delete_if do |key|
               if key =~ /_id$/
                 class_name = Prepares.model_associations.get_association_class_name(table, key[0..-4])
-                class_name ? !@table_nodes[class_name.gsub("::", "").tableize] : !@table_nodes[key[0..-4].pluralize]
+                class_name ? !@table_nodes[class_name.gsub('::', '').tableize] : !@table_nodes[key[0..-4].pluralize]
               end
             end
           end
@@ -167,7 +167,7 @@ module RailsBestPractices
             foreign_id_keys = foreign_keys.select { |key| key.size == 1 && key.first =~ /_id/ }
             foreign_type_keys = foreign_keys.select { |key| key.size == 1 && key.first =~ /_type/ }
             foreign_id_keys.each do |id_key|
-              if type_key = foreign_type_keys.detect { |type_key| type_key.first == id_key.first.sub(/_id/, '') + "_type" }
+              if type_key = foreign_type_keys.detect { |type_key| type_key.first == id_key.first.sub(/_id/, '') + '_type' }
                 foreign_keys.delete(id_key)
                 foreign_keys.delete(type_key)
                 foreign_keys << id_key + type_key

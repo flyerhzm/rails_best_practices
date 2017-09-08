@@ -30,9 +30,9 @@ module RailsBestPractices
 
       # remember the action names at the end of class node if the controller is a InheritedResources.
       add_callback :end_class do |node|
-        if @inherited_resources && "ApplicationController" != current_class_name
+        if @inherited_resources && 'ApplicationController' != current_class_name
           @actions.each do |action|
-            @methods.add_method(current_class_name, action, {"file" => node.file, "line_number" => node.line_number})
+            @methods.add_method(current_class_name, action, {'file' => node.file, 'line_number' => node.line_number})
           end
         end
       end
@@ -53,14 +53,14 @@ module RailsBestPractices
 
       # restrict actions for inherited_resources
       add_callback :start_command do |node|
-        if "include" == node.message.to_s
+        if 'include' == node.message.to_s
           @helpers.add_module_descendant(node.arguments.all.first.to_s, current_class_name)
-        elsif @inherited_resources && "actions" ==  node.message.to_s
-          if "all" == node.arguments.all.first.to_s
+        elsif @inherited_resources && 'actions' ==  node.message.to_s
+          if 'all' == node.arguments.all.first.to_s
             @actions = DEFAULT_ACTIONS
             option_argument = node.arguments.all[1]
-            if option_argument && :bare_assoc_hash == option_argument.sexp_type && option_argument.hash_value("except")
-              @actions -= option_argument.hash_value("except").to_object
+            if option_argument && :bare_assoc_hash == option_argument.sexp_type && option_argument.hash_value('except')
+              @actions -= option_argument.hash_value('except').to_object
             end
           else
             @actions = node.arguments.all.map(&:to_s)
@@ -82,7 +82,7 @@ module RailsBestPractices
       #     }
       add_callback :start_def do |node|
         method_name = node.method_name.to_s
-        @methods.add_method(current_class_name, method_name, {"file" => node.file, "line_number" => node.line_number}, current_access_control)
+        @methods.add_method(current_class_name, method_name, {'file' => node.file, 'line_number' => node.line_number}, current_access_control)
       end
 
       # ask Reviews::RemoveUnusedMoethodsInHelperReview to check the controllers who include helpers.

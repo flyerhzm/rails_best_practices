@@ -16,7 +16,7 @@ module RailsBestPractices
     class UseQueryAttributeReview < Review
       interesting_nodes :if, :unless, :elsif, :ifop, :if_mod, :unless_mod
       interesting_files ALL_FILES
-      url "https://rails-bestpractices.com/posts/2010/10/03/use-query-attribute/"
+      url 'https://rails-bestpractices.com/posts/2010/10/03/use-query-attribute/'
 
       QUERY_METHODS = %w(nil? blank? present?)
 
@@ -102,13 +102,13 @@ module RailsBestPractices
         def model_attribute?(variable_node, message)
           class_name = variable_node.to_s.sub(/^@/, '').classify
           attribute_type = model_attributes.get_attribute_type(class_name, message)
-          attribute_type && !["integer", "float"].include?(attribute_type)
+          attribute_type && !['integer', 'float'].include?(attribute_type)
         end
 
         # check if the node is with node type :binary, node message :== and node argument is empty string.
         def compare_with_empty_string?(node)
           :binary == node.sexp_type &&
-            ["==", "!="].include?(node.message.to_s) &&
+            ['==', '!='].include?(node.message.to_s) &&
             s(:string_literal, s(:string_content)) == node.argument
         end
     end

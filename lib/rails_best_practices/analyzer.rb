@@ -17,7 +17,7 @@ module RailsBestPractices
     attr_accessor :runner
     attr_reader :path
 
-    DEFAULT_CONFIG = File.join(File.dirname(__FILE__), "..", "..", "rails_best_practices.yml")
+    DEFAULT_CONFIG = File.join(File.dirname(__FILE__), '..', '..', 'rails_best_practices.yml')
     GITHUB_URL = 'https://github.com/'
 
     # initialize
@@ -25,11 +25,11 @@ module RailsBestPractices
     # @param [String] path where to generate the configuration yaml file
     # @param [Hash] options
     def initialize(path, options = {})
-      @path = File.expand_path(path || ".")
+      @path = File.expand_path(path || '.')
 
       @options = options
-      @options["exclude"] ||= []
-      @options["only"] ||= []
+      @options['exclude'] ||= []
+      @options['only'] ||= []
     end
 
     # generate configuration yaml file.
@@ -59,18 +59,18 @@ module RailsBestPractices
 
     # Output the analyze result.
     def output
-      case @options["format"]
-      when "html"
-        @options["output-file"] ||= "rails_best_practices_output.html"
+      case @options['format']
+      when 'html'
+        @options['output-file'] ||= 'rails_best_practices_output.html'
         output_html_errors
-      when "json"
-        @options["output-file"] ||= "rails_best_practices_output.json"
+      when 'json'
+        @options['output-file'] ||= 'rails_best_practices_output.json'
         output_json_errors
-      when "yaml"
-        @options["output-file"] ||= "rails_best_practices_output.yaml"
+      when 'yaml'
+        @options['output-file'] ||= 'rails_best_practices_output.yaml'
         output_yaml_errors
-      when "xml"
-        @options["output-file"] ||= "rails_best_practices_output.xml"
+      when 'xml'
+        @options['output-file'] ||= 'rails_best_practices_output.xml'
         output_xml_errors
       else
         output_terminal_errors
@@ -86,10 +86,10 @@ module RailsBestPractices
     def process(process)
       parse_files.each do |file|
         begin
-          puts file if @options["debug"]
+          puts file if @options['debug']
           @runner.send(process, file, File.read(file))
         rescue
-          if @options["debug"]
+          if @options['debug']
             warning = "#{file} looks like it's not a valid Ruby file.  Skipping..."
             plain_output(warning, 'red')
           end
@@ -107,17 +107,17 @@ module RailsBestPractices
         files = expand_dirs_to_files(@path)
         files = file_sort(files)
 
-        if @options["only"].present?
-          files = file_accept(files, @options["only"])
+        if @options['only'].present?
+          files = file_accept(files, @options['only'])
         end
 
         # By default, tmp, vender, spec, test, features are ignored.
-        ["vendor", "spec", "test", "features", "tmp"].each do |dir|
+        ['vendor', 'spec', 'test', 'features', 'tmp'].each do |dir|
           files = file_ignore(files, File.join(@path, dir)) unless @options[dir]
         end
 
         # Exclude files based on exclude regexes if the option is set.
-        @options["exclude"].each do |pattern|
+        @options['exclude'].each do |pattern|
           files = file_ignore(files, pattern)
         end
 
@@ -192,8 +192,8 @@ module RailsBestPractices
     def load_hg_info
       hg_progressbar = ProgressBar.create(:title => 'Hg Info', :total => errors.size) if display_bar?
       errors.each do |error|
-        hg_info = `cd #{@runner.class.base_path} && hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, "")} | sed -n /:#{error.line_number.split(',').first}:/p`
-        unless hg_info == ""
+        hg_info = `cd #{@runner.class.base_path} && hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, '')} | sed -n /:#{error.line_number.split(',').first}:/p`
+        unless hg_info == ''
           hg_commit_username = hg_info.split(':')[0].strip
           error.hg_username = hg_commit_username.split(/\ /)[0..-2].join(' ')
           error.hg_commit = hg_commit_username.split(/\ /)[-1]
@@ -209,9 +209,9 @@ module RailsBestPractices
       start = @runner.class.base_path =~ /\/$/ ? @runner.class.base_path.size : @runner.class.base_path.size + 1
       errors.each do |error|
         git_info = `cd #{@runner.class.base_path} && git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}`
-        unless git_info == ""
-          git_commit, git_username = git_info.split(/\d{4}-\d{2}-\d{2}/).first.split("(")
-          error.git_commit = git_commit.split(" ").first.strip
+        unless git_info == ''
+          git_commit, git_username = git_info.split(/\d{4}-\d{2}-\d{2}/).first.split('(')
+          error.git_commit = git_commit.split(' ').first.strip
           error.git_username = git_username.strip
         end
         git_progressbar.increment if display_bar?
@@ -222,27 +222,27 @@ module RailsBestPractices
     # output errors with html format.
     def output_html_errors
       require 'erubis'
-      template = @options["template"] ? File.read(File.expand_path(@options["template"])) : File.read(File.join(File.dirname(__FILE__), "..", "..", "assets", "result.html.erb"))
+      template = @options['template'] ? File.read(File.expand_path(@options['template'])) : File.read(File.join(File.dirname(__FILE__), '..', '..', 'assets', 'result.html.erb'))
 
-      if @options["with-github"]
-        last_commit_id = @options["last-commit-id"] ? @options["last-commit-id"] : `cd #{@runner.class.base_path} && git rev-parse HEAD`.chomp
-        unless @options["github-name"].start_with?('https')
-          @options["github-name"] = GITHUB_URL + @options["github-name"]
+      if @options['with-github']
+        last_commit_id = @options['last-commit-id'] ? @options['last-commit-id'] : `cd #{@runner.class.base_path} && git rev-parse HEAD`.chomp
+        unless @options['github-name'].start_with?('https')
+          @options['github-name'] = GITHUB_URL + @options['github-name']
         end
       end
-      File.open(@options["output-file"], "w+") do |file|
+      File.open(@options['output-file'], 'w+') do |file|
         eruby = Erubis::Eruby.new(template)
         file.puts eruby.evaluate(
           errors: errors,
           error_types: error_types,
-          textmate: @options["with-textmate"],
-          sublime: @options["with-sublime"],
-          mvim: @options["with-mvim"],
-          github: @options["with-github"],
-          github_name: @options["github-name"],
+          textmate: @options['with-textmate'],
+          sublime: @options['with-sublime'],
+          mvim: @options['with-mvim'],
+          github: @options['with-github'],
+          github_name: @options['github-name'],
           last_commit_id: last_commit_id,
-          git: @options["with-git"],
-          hg: @options["with-hg"]
+          git: @options['with-git'],
+          hg: @options['with-hg']
         )
       end
     end
@@ -272,14 +272,14 @@ module RailsBestPractices
       end
 
       formatter = REXML::Formatters::Default.new
-      File.open(@options["output-file"], 'w+') do |result|
+      File.open(@options['output-file'], 'w+') do |result|
         formatter.write(document, result)
       end
     end
 
     # output errors with yaml format.
     def output_yaml_errors
-      File.open(@options["output-file"], "w+") do |file|
+      File.open(@options['output-file'], 'w+') do |file|
         file.write YAML.dump(errors)
       end
     end
@@ -294,7 +294,7 @@ module RailsBestPractices
         }
       end
 
-      File.open(@options["output-file"], "w+") do |file|
+      File.open(@options['output-file'], 'w+') do |file|
         file.write JSON.dump(errors_as_hashes)
       end
     end
@@ -304,7 +304,7 @@ module RailsBestPractices
     # @param [String] message to output
     # @param [String] color
     def plain_output(message, color)
-      if @options["without-color"]
+      if @options['without-color']
         puts message
       else
         puts Colorize.send(color, message)
@@ -314,19 +314,19 @@ module RailsBestPractices
     # analyze source codes.
     def analyze_source_codes
       @bar = ProgressBar.create(:title => 'Source Code', :total => parse_files.size * 3) if display_bar?
-      ["lexical", "prepare", "review"].each { |process| send(:process, process) }
+      ['lexical', 'prepare', 'review'].each { |process| send(:process, process) }
       @bar.finish if display_bar?
     end
 
     # analyze version control system info.
     def analyze_vcs
-      load_git_info if @options["with-git"]
-      load_hg_info if @options["with-hg"]
+      load_git_info if @options['with-git']
+      load_hg_info if @options['with-hg']
     end
 
     # if disaply progress bar.
     def display_bar?
-      !@options["debug"] && !@options["silent"]
+      !@options['debug'] && !@options['silent']
     end
 
     # unique error types.

@@ -5,7 +5,7 @@ module RailsBestPractices
     describe NotUseDefaultRouteReview do
       let(:runner) { Core::Runner.new(reviews: NotUseDefaultRouteReview.new) }
 
-      it "should not use default route" do
+      it 'should not use default route' do
         content = <<-EOF
         RailsBestpracticesCom::Application.routes.draw do |map|
           resources :posts
@@ -15,10 +15,10 @@ module RailsBestPractices
         EOF
         runner.review('config/routes.rb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq("config/routes.rb:4 - not use default route")
+        expect(runner.errors[0].to_s).to eq('config/routes.rb:4 - not use default route')
       end
 
-      it "should no not use default route" do
+      it 'should no not use default route' do
         content = <<-EOF
         RailsBestpracticesCom::Application.routes.draw do |map|
           resources :posts
@@ -28,7 +28,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it "should not check ignored files" do
+      it 'should not check ignored files' do
         runner = Core::Runner.new(reviews: NotUseDefaultRouteReview.new(ignored_files: /config\/routes\.rb/))
         content = <<-EOF
         RailsBestpracticesCom::Application.routes.draw do |map|

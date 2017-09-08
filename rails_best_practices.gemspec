@@ -1,40 +1,40 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path("../lib/rails_best_practices/version", __FILE__)
+require File.expand_path('../lib/rails_best_practices/version', __FILE__)
 
 Gem::Specification.new do |s|
-  s.name        = "rails_best_practices"
+  s.name        = 'rails_best_practices'
   s.version     = RailsBestPractices::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Richard Huang"]
-  s.email       = ["flyerhzm@gmail.com"]
-  s.homepage    = "http://rails-bestpractices.com"
-  s.summary     = "a code metric tool for rails codes."
-  s.description = "a code metric tool for rails codes, written in Ruby."
+  s.authors     = ['Richard Huang']
+  s.email       = ['flyerhzm@gmail.com']
+  s.homepage    = 'http://rails-bestpractices.com'
+  s.summary     = 'a code metric tool for rails codes.'
+  s.description = 'a code metric tool for rails codes, written in Ruby.'
   s.license     = 'MIT'
 
-  s.required_ruby_version = ">= 1.9.0"
-  s.required_rubygems_version = ">= 1.3.6"
+  s.required_ruby_version = '>= 1.9.0'
+  s.required_rubygems_version = '>= 1.3.6'
 
-  s.add_dependency("activesupport")
+  s.add_dependency('activesupport')
   # TODO: add a dependency for Rails >= 3 ?
-  s.add_dependency("code_analyzer", ">= 0.4.8")
-  s.add_dependency("erubis")
-  s.add_dependency("i18n")
-  s.add_dependency("require_all")
-  s.add_dependency("ruby-progressbar")
-  s.add_dependency("json")
+  s.add_dependency('code_analyzer', '>= 0.4.8')
+  s.add_dependency('erubis')
+  s.add_dependency('i18n')
+  s.add_dependency('require_all')
+  s.add_dependency('ruby-progressbar')
+  s.add_dependency('json')
 
-  s.add_development_dependency("rake", '< 11.0')
-  s.add_development_dependency("rspec")
-  s.add_development_dependency("haml")
-  s.add_development_dependency("slim")
-  s.add_development_dependency("bundler")
-  s.add_development_dependency("awesome_print")
+  s.add_development_dependency('rake', '< 11.0')
+  s.add_development_dependency('rspec')
+  s.add_development_dependency('haml')
+  s.add_development_dependency('slim')
+  s.add_development_dependency('bundler')
+  s.add_development_dependency('awesome_print')
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib", "assets"]
+  s.require_paths = ['lib', 'assets']
 
   s.post_install_message = <<-POST_INSTALL_MESSAGE
 #{"*" * 80}

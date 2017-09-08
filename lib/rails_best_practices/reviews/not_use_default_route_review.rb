@@ -19,13 +19,13 @@ module RailsBestPractices
     class NotUseDefaultRouteReview < Review
       interesting_nodes :command_call, :command
       interesting_files ROUTE_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/22/not-use-default-route-if-you-use-restful-design/"
+      url 'https://rails-bestpractices.com/posts/2010/07/22/not-use-default-route-if-you-use-restful-design/'
 
       # check all command nodes
       add_callback :start_command do |node|
-        if "match" == node.message.to_s &&
-          ":controller(/:action(/:id(.:format)))" == node.arguments.all.first.to_s
-          add_error "not use default route"
+        if 'match' == node.message.to_s &&
+          ':controller(/:action(/:id(.:format)))' == node.arguments.all.first.to_s
+          add_error 'not use default route'
         end
       end
     end

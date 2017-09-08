@@ -14,11 +14,11 @@ describe Erubis::OnlyRuby do
     Erubis::OnlyRuby.new(content).src
   }
 
-  it { should_not include("h1") }
-  it { should_not include("Title") }
-  it { should_not include("Not logged in") }
-  it { should include("current_user") }
-  it { should include("if") }
-  it { should include("else") }
-  it { should include("end") }
+  it { should_not include('h1') }
+  it { should_not include('Title') }
+  it { should_not include('Not logged in') }
+  it { should include('current_user') }
+  it { should include('if') }
+  it { should include('else') }
+  it { should include('end') }
 end

@@ -17,7 +17,7 @@ module RailsBestPractices
     class ReplaceComplexCreationWithFactoryMethodReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/21/replace-complex-creation-with-factory-method/"
+      url 'https://rails-bestpractices.com/posts/2010/07/21/replace-complex-creation-with-factory-method/'
 
       def initialize(options = {})
         super(options)
@@ -53,7 +53,7 @@ module RailsBestPractices
         # and the count attribute assignment on the receiver of the call node is greater than @assign_count defined,
         # then it is a complex creation, should be replaced with factory method.
         def check_variable_save(node)
-          if ["save", "save!"].include? node.message.to_s
+          if ['save', 'save!'].include? node.message.to_s
             variable = node.receiver.to_s
             if variable_use_count[variable].to_i > @assigns_count
               hint = "#{variable} attribute_assignment_count > #{@assigns_count}"

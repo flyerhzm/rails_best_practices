@@ -12,13 +12,13 @@ module RailsBestPractices
     class UseTurboSprocketsRails3Review < Review
       interesting_nodes :command
       interesting_files CAPFILE
-      url "https://rails-bestpractices.com/posts/2012/11/23/speed-up-assets-precompile-with-turbo-sprockets-rails3/"
+      url 'https://rails-bestpractices.com/posts/2012/11/23/speed-up-assets-precompile-with-turbo-sprockets-rails3/'
 
       # check command node to see if load 'deploy/assets'
       add_callback :start_command do |node|
-        if Prepares.gems.gem_version("rails").to_i == 3
-          if !Prepares.gems.has_gem?("turbo-sprockets-rails3") && "load" == node.message.to_s && "deploy/assets" == node.arguments.to_s
-            add_error "speed up assets precompile with turbo-sprockets-rails3"
+        if Prepares.gems.gem_version('rails').to_i == 3
+          if !Prepares.gems.has_gem?('turbo-sprockets-rails3') && 'load' == node.message.to_s && 'deploy/assets' == node.arguments.to_s
+            add_error 'speed up assets precompile with turbo-sprockets-rails3'
           end
         end
       end

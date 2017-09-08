@@ -37,9 +37,9 @@ module RailsBestPractices
 
       def controller_name_with_namespaces
         if controller_name
-          namespaces.map { |namespace| "#{namespace.camelize}::" }.join("") + "#{controller_name.camelize}Controller"
+          namespaces.map { |namespace| "#{namespace.camelize}::" }.join('') + "#{controller_name.camelize}Controller"
         else
-          namespaces.map(&:camelize).join("::") + "Controller"
+          namespaces.map(&:camelize).join('::') + 'Controller'
         end
       end
 

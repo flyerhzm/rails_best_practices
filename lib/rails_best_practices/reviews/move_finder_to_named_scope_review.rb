@@ -15,7 +15,7 @@ module RailsBestPractices
     class MoveFinderToNamedScopeReview < Review
       interesting_nodes :method_add_arg
       interesting_files CONTROLLER_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/14/move-finder-to-named_scope/"
+      url 'https://rails-bestpractices.com/posts/2010/07/14/move-finder-to-named_scope/'
 
       FINDERS = %w(find all first last)
 
@@ -23,7 +23,7 @@ module RailsBestPractices
       # and it has a hash argument,
       # then the call node is the finder that should be moved to model's named_scope.
       add_callback :start_method_add_arg do |node|
-        add_error "move finder to named_scope" if finder?(node)
+        add_error 'move finder to named_scope' if finder?(node)
       end
 
       private

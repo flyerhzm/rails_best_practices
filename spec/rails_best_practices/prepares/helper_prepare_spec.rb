@@ -5,8 +5,8 @@ module RailsBestPractices
     describe HelperPrepare do
       let(:runner) { Core::Runner.new(prepares: HelperPrepare.new) }
 
-      context "methods" do
-        it "should parse helper methods" do
+      context 'methods' do
+        it 'should parse helper methods' do
           content =<<-EOF
           module PostsHelper
             def used; end
@@ -15,10 +15,10 @@ module RailsBestPractices
           EOF
           runner.prepare('app/helpers/posts_helper.rb', content)
           methods = Prepares.helper_methods
-          expect(methods.get_methods("PostsHelper").map(&:method_name)).to eq(["used", "unused"])
+          expect(methods.get_methods('PostsHelper').map(&:method_name)).to eq(['used', 'unused'])
         end
 
-        it "should parse helpers" do
+        it 'should parse helpers' do
           content =<<-EOF
           module PostsHelper
           end
@@ -35,9 +35,9 @@ module RailsBestPractices
             end
           end
           EOF
-          runner.prepare("app/helpers/base_helper.rb", content)
+          runner.prepare('app/helpers/base_helper.rb', content)
           helpers = Prepares.helpers
-          expect(helpers.map(&:to_s)).to eq(["PostsHelper", "Admin::UsersHelper", "Admin", "Admin::BaseHelper"])
+          expect(helpers.map(&:to_s)).to eq(['PostsHelper', 'Admin::UsersHelper', 'Admin', 'Admin::BaseHelper'])
         end
       end
     end

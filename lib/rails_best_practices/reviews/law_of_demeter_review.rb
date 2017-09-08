@@ -16,7 +16,7 @@ module RailsBestPractices
     class LawOfDemeterReview < Review
       interesting_nodes :call
       interesting_files ALL_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/"
+      url 'https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/'
 
       ASSOCIATION_METHODS = %w(belongs_to has_one)
 
@@ -28,7 +28,7 @@ module RailsBestPractices
       # then it violates the law of demeter.
       add_callback :start_call do |node|
         if :call == node.receiver.sexp_type && need_delegate?(node)
-          add_error "law of demeter"
+          add_error 'law of demeter'
         end
       end
 
@@ -45,8 +45,8 @@ module RailsBestPractices
           association_name = node.receiver.message.to_s
           association = model_associations.get_association(class_name, association_name)
           attribute_name = node.message.to_s
-          association && ASSOCIATION_METHODS.include?(association["meta"]) &&
-            is_association_attribute?(association["class_name"], association_name, attribute_name)
+          association && ASSOCIATION_METHODS.include?(association['meta']) &&
+            is_association_attribute?(association['class_name'], association_name, attribute_name)
         end
 
         def is_association_attribute?(association_class, association_name, attribute_name)

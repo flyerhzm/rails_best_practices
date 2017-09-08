@@ -20,7 +20,7 @@ module RailsBestPractices
     class UseObserverReview < Review
       interesting_nodes :def, :command
       interesting_files MODEL_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/24/use-observer/"
+      url 'https://rails-bestpractices.com/posts/2010/07/24/use-observer/'
 
       def initialize(options = {})
         super
@@ -42,7 +42,7 @@ module RailsBestPractices
       # then it should be replaced by using observer.
       add_callback :start_def do |node|
         if callback_method?(node) && deliver_mailer?(node)
-          add_error "use observer"
+          add_error 'use observer'
         end
       end
 
@@ -71,7 +71,7 @@ module RailsBestPractices
         # then the call node is actionmailer deliver call.
         def deliver_mailer?(node)
           node.grep_nodes(sexp_type: :call) do |child_node|
-            if "deliver" == child_node.message.to_s
+            if 'deliver' == child_node.message.to_s
               if :method_add_arg == child_node.receiver.sexp_type &&
                 mailers.include?(child_node.receiver[1].receiver.to_s)
                 return true

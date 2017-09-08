@@ -15,7 +15,7 @@ module RailsBestPractices
       include Classable
       interesting_nodes :call, :command_call, :method_add_arg, :if, :ifop, :elsif, :unless, :if_mod, :unless_mod, :assign, :binary
       interesting_files ALL_FILES
-      url "https://rails-bestpractices.com/posts/2012/11/02/check-the-return-value-of-save-otherwise-use-save/"
+      url 'https://rails-bestpractices.com/posts/2012/11/02/check-the-return-value-of-save-otherwise-use-save/'
 
       add_callback :start_if, :start_ifop, :start_elsif, :start_unless, :start_if_mod, :start_unless_mod do |node|
         @used_return_value_of = node.conditional_statement.all_conditions

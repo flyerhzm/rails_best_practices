@@ -14,7 +14,7 @@ module RailsBestPractices
       end
 
       add_callback :start_command do |node|
-        if "create_table" == node.message.to_s
+        if 'create_table' == node.message.to_s
           @last_klazz = node.arguments.all.first.to_s.classify
         end
       end

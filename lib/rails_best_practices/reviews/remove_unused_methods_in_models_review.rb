@@ -32,12 +32,12 @@ module RailsBestPractices
       add_callback :start_command do |node|
         arguments = node.arguments.all
         case node.message.to_s
-        when "validate", "validate_on_create", "validate_on_update"
+        when 'validate', 'validate_on_create', 'validate_on_update'
           arguments.each { |argument| mark_used(argument) }
-        when "collection_select"
+        when 'collection_select'
           mark_used(arguments[3])
           mark_used(arguments[4])
-        when "grouped_collection_select"
+        when 'grouped_collection_select'
           mark_used(arguments[3])
           mark_used(arguments[4])
           mark_used(arguments[5])
@@ -49,10 +49,10 @@ module RailsBestPractices
       add_callback :start_command_call do |node|
         arguments = node.arguments.all
         case node.message.to_s
-        when "collection_select"
+        when 'collection_select'
           mark_used(arguments[2])
           mark_used(arguments[3])
-        when "grouped_collection_select"
+        when 'grouped_collection_select'
           mark_used(arguments[2])
           mark_used(arguments[3])
           mark_used(arguments[4])
@@ -65,10 +65,10 @@ module RailsBestPractices
       add_callback :start_method_add_arg do |node|
         arguments = node.arguments.all
         case node.message.to_s
-        when "options_from_collection_for_select"
+        when 'options_from_collection_for_select'
           mark_used(arguments[1])
           mark_used(arguments[2])
-        when "option_groups_from_collection_for_select"
+        when 'option_groups_from_collection_for_select'
           mark_used(arguments[1])
           mark_used(arguments[2])
           mark_used(arguments[3])

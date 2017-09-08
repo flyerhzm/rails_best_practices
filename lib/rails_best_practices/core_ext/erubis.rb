@@ -12,22 +12,22 @@ module Erubis
 
     def add_stmt(src, code)
       src << code
-      src << ";"
+      src << ';'
     end
 
     def add_expr_literal(src, code)
       src << code
-      src << ";"
+      src << ';'
     end
 
     def add_expr_escaped(src, code)
       src << code
-      src << ";"
+      src << ';'
     end
 
     def add_expr_debug(src, code)
       src << code
-      src << ";"
+      src << ';'
     end
 
     def add_postamble(src)

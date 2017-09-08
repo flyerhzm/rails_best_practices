@@ -13,11 +13,11 @@ module RailsBestPractices
     class NotRescueExceptionReview < Review
       interesting_nodes :rescue
       interesting_files ALL_FILES
-      url "https://rails-bestpractices.com/posts/2012/11/01/don-t-rescue-exception-rescue-standarderror/"
+      url 'https://rails-bestpractices.com/posts/2012/11/01/don-t-rescue-exception-rescue-standarderror/'
 
       # check rescue node to see if its type is Exception
       add_callback :start_rescue do |rescue_node|
-        if rescue_node.exception_classes.any? { |rescue_class| "Exception" == rescue_class.to_s }
+        if rescue_node.exception_classes.any? { |rescue_class| 'Exception' == rescue_class.to_s }
           add_error "Don't rescue Exception", rescue_node.file, rescue_node.exception_classes.first.line_number
         end
       end

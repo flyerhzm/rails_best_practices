@@ -6,7 +6,7 @@ module RailsBestPractices
     # See the best practice details here https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/
     class RemoveTrailingWhitespaceCheck < Core::Check
       interesting_files ALL_FILES
-      url "https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/"
+      url 'https://rails-bestpractices.com/posts/2010/12/02/remove-trailing-whitespace/'
 
       # check if the content of file contain a trailing whitespace.
       #
@@ -15,7 +15,7 @@ module RailsBestPractices
       def check(filename, content)
         if content =~ / +\n/m
           line_no = $`.count("\n") + 1
-          add_error("remove trailing whitespace", filename, line_no)
+          add_error('remove trailing whitespace', filename, line_no)
         end
       end
     end

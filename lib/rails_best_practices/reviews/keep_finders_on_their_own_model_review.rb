@@ -17,7 +17,7 @@ module RailsBestPractices
     class KeepFindersOnTheirOwnModelReview < Review
       interesting_nodes :method_add_arg
       interesting_files MODEL_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/23/keep-finders-on-their-own-model/"
+      url 'https://rails-bestpractices.com/posts/2010/07/23/keep-finders-on-their-own-model/'
 
       FINDERS = %w(find all first last)
 
@@ -31,7 +31,7 @@ module RailsBestPractices
       #
       # then it should keep finders on its own model.
       add_callback :start_method_add_arg do |node|
-        add_error "keep finders on their own model" if other_finder?(node)
+        add_error 'keep finders on their own model' if other_finder?(node)
       end
 
       private

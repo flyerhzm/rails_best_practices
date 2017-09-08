@@ -12,12 +12,12 @@ module RailsBestPractices
     class DefaultScopeIsEvilReview < Review
       interesting_nodes :command
       interesting_files MODEL_FILES
-      url "https://rails-bestpractices.com/posts/2013/06/15/default_scope-is-evil/"
+      url 'https://rails-bestpractices.com/posts/2013/06/15/default_scope-is-evil/'
 
       # check all command nodes' message
       add_callback :start_command do |node|
-        if "default_scope" == node.message.to_s
-          add_error "default_scope is evil"
+        if 'default_scope' == node.message.to_s
+          add_error 'default_scope is evil'
         end
       end
     end

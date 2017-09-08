@@ -21,7 +21,7 @@ module RailsBestPractices
     class IsolateSeedDataReview < Review
       interesting_nodes :call, :assign
       interesting_files MIGRATION_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/24/isolating-seed-data/"
+      url 'https://rails-bestpractices.com/posts/2010/07/24/isolating-seed-data/'
 
       def initialize(options={})
         super(options)
@@ -45,10 +45,10 @@ module RailsBestPractices
       # and the receiver of the call node is included in @new_variables,
       # then you should isolate it to seed data.
       add_callback :start_call do |node|
-        if ["create", "create!"].include? node.message.to_s
-          add_error("isolate seed data")
-        elsif ["save", "save!"].include? node.message.to_s
-          add_error("isolate seed data") if new_record?(node)
+        if ['create', 'create!'].include? node.message.to_s
+          add_error('isolate seed data')
+        elsif ['save', 'save!'].include? node.message.to_s
+          add_error('isolate seed data') if new_record?(node)
         end
       end
 
@@ -59,7 +59,7 @@ module RailsBestPractices
         # then remember the left value as new variable.
         def remember_new_variable(node)
           right_value = node.right_value
-          if :method_add_arg == right_value.sexp_type && "new" == right_value.message.to_s
+          if :method_add_arg == right_value.sexp_type && 'new' == right_value.message.to_s
             @new_variables << node.left_value.to_s
           end
         end

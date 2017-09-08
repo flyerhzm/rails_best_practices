@@ -5,13 +5,13 @@ module RailsBestPractices
     describe MailerPrepare do
       let(:runner) { Core::Runner.new(prepares: MailerPrepare.new) }
 
-      it "should parse mailer names" do
+      it 'should parse mailer names' do
         content =<<-EOF
         class ProjectMailer < ActionMailer::Base
         end
         EOF
         runner.prepare('app/mailers/project_mailer.rb', content)
-        expect(Prepares.mailers.map(&:to_s)).to eq(["ProjectMailer"])
+        expect(Prepares.mailers.map(&:to_s)).to eq(['ProjectMailer'])
       end
     end
   end

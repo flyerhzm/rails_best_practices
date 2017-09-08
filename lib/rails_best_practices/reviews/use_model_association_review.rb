@@ -16,7 +16,7 @@ module RailsBestPractices
     class UseModelAssociationReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/19/use-model-association/"
+      url 'https://rails-bestpractices.com/posts/2010/07/19/use-model-association/'
 
       # check method define nodes to see if there are some attribute assignments that can use model association instead.
       #
@@ -56,7 +56,7 @@ module RailsBestPractices
         # if the receiver of call node exists in @assignments,
         # then the attribute assignment should be replaced by using model association.
         def call_assignment(node)
-          if ["save", "save!"].include? node.message.to_s
+          if ['save', 'save!'].include? node.message.to_s
             receiver = node.receiver.to_s
             add_error "use model association (for #{receiver})" if @assignments[receiver]
           end

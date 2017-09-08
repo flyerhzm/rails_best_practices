@@ -13,7 +13,7 @@ module RailsBestPractices
     class UseMultipartAlternativeAsContentTypeOfEmailReview < Review
       interesting_nodes :class, :def
       interesting_files MAILER_FILES
-      url "https://rails-bestpractices.com/posts/2010/08/05/use-multipart-alternative-as-content_type-of-email/"
+      url 'https://rails-bestpractices.com/posts/2010/08/05/use-multipart-alternative-as-content_type-of-email/'
 
       # check class node to remember the ActionMailer class name.
       add_callback :start_class do |node|
@@ -24,7 +24,7 @@ module RailsBestPractices
       add_callback :start_def do |node|
         name = node.method_name.to_s
         if !rails3_canonical_mailer_views?(name)
-          add_error("use multipart/alternative as content_type of email")
+          add_error('use multipart/alternative as content_type of email')
         end
       end
 

@@ -14,7 +14,7 @@ module RailsBestPractices
       # check def node to see if parameters are wrapped by parentheses.
       add_callback :start_def do |node|
         if no_parentheses_around_parameters?(node) && has_parameters?(node)
-          add_error("use parentheses around parameters in method definitions")
+          add_error('use parentheses around parameters in method definitions')
         end
       end
 

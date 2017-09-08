@@ -14,11 +14,11 @@ module RailsBestPractices
       # @param [String] method name
       # @param [Hash] method meta, file and line, {"file" => "app/models/post.rb", "line_number" => 5}
       # @param [String] access control, public, protected or private
-      def add_method(class_name, method_name, meta={}, access_control="public")
-        return if class_name == ""
+      def add_method(class_name, method_name, meta={}, access_control='public')
+        return if class_name == ''
         return if has_method?(class_name, method_name)
         methods(class_name) << Method.new(class_name, method_name, access_control, meta)
-        if access_control == "public"
+        if access_control == 'public'
           @possible_methods[method_name] = false
         end
       end
@@ -128,7 +128,7 @@ module RailsBestPractices
           else
             methods.select { |method| !method.used }
           end
-        }.reject { |method| method.access_control == "public" && @possible_methods[method.method_name] }
+        }.reject { |method| method.access_control == 'public' && @possible_methods[method.method_name] }
       end
 
       private
@@ -149,8 +149,8 @@ module RailsBestPractices
       def initialize(class_name, method_name, access_control, meta)
         @class_name = class_name
         @method_name = method_name
-        @file = meta["file"]
-        @line_number = meta["line_number"]
+        @file = meta['file']
+        @line_number = meta['line_number']
         @access_control = access_control
         @used = false
       end
@@ -162,7 +162,7 @@ module RailsBestPractices
 
       # Mark the method as public
       def publicize
-        @access_control = "public"
+        @access_control = 'public'
       end
 
     end

@@ -183,7 +183,7 @@ module RailsBestPractices
 
         # get the current module name.
         def current_module_name
-          moduleable_modules.join("::")
+          moduleable_modules.join('::')
         end
 
         # modules.
@@ -229,9 +229,9 @@ module RailsBestPractices
               case node.message.to_s
               when *skip_command_callback_nodes
                 # nothing
-              when "alias_method"
+              when 'alias_method'
                 mark_used(node.arguments.all[1])
-              when "alias_method_chain"
+              when 'alias_method_chain'
                 method, feature = *node.arguments.all.map(&:to_s)
                 call_method("#{method}_with_#{feature}")
               when /^(before|after)_/
@@ -261,17 +261,17 @@ module RailsBestPractices
             #       super options.merge(exclude: :visible, methods: [:is_discussion_conversation])
             #     end
             add_callback :start_bare_assoc_hash do |node|
-              if node.hash_keys.include? "methods"
-                mark_used(node.hash_value("methods"))
+              if node.hash_keys.include? 'methods'
+                mark_used(node.hash_value('methods'))
               end
             end
 
             # remember the first argument for try and send method.
             add_callback :start_method_add_arg do |node|
               case node.message.to_s
-              when "try"
+              when 'try'
                 mark_used(node.arguments.all.first)
-              when "send"
+              when 'send'
                 if [:symbol_literal, :string_literal].include?(node.arguments.all.first.sexp_type)
                   mark_used(node.arguments.all.first)
                 end
@@ -315,21 +315,21 @@ module RailsBestPractices
 
             # check if the controller is inherit from InheritedResources::Base.
             add_callback :start_class do |node|
-              if "InheritedResources::Base" == current_extend_class_name
+              if 'InheritedResources::Base' == current_extend_class_name
                 @inherited_resources = true
               end
             end
 
             # check if there is a DSL call inherit_resources.
             add_callback :start_var_ref do |node|
-              if "inherit_resources" == node.to_s
+              if 'inherit_resources' == node.to_s
                 @inherited_resources = true
               end
             end
 
             # check if there is a DSL call inherit_resources.
             add_callback :start_vcall do |node|
-              if "inherit_resources" == node.to_s
+              if 'inherit_resources' == node.to_s
                 @inherited_resources = true
               end
             end
@@ -352,7 +352,7 @@ module RailsBestPractices
             end
 
             def internal_except_methods
-              raise NoMethodError.new "no method internal_except_methods"
+              raise NoMethodError.new 'no method internal_except_methods'
             end
           end
         end
@@ -360,12 +360,12 @@ module RailsBestPractices
         def self.matches method, except_method
           class_name, method_name = except_method.split('#')
 
-          method_name = ".*" if method_name == "*"
+          method_name = '.*' if method_name == '*'
           method_expression = Regexp.new method_name
           matched = method.method_name =~ method_expression
 
           if matched
-            class_name = ".*" if class_name == "*"
+            class_name = '.*' if class_name == '*'
             class_expression = Regexp.new class_name
 
             class_names = Prepares.klasses
@@ -403,12 +403,12 @@ module RailsBestPractices
 
             # set access control to "public" by default.
             add_callback :start_class do |node|
-              @access_control = "public"
+              @access_control = 'public'
             end
 
             # set access control to "public" by default.
             add_callback :start_module do |node|
-              @access_control = "public"
+              @access_control = 'public'
             end
           end
 

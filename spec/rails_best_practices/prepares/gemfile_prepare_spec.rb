@@ -5,8 +5,8 @@ module RailsBestPractices
     describe GemfilePrepare do
       let(:runner) { Core::Runner.new(prepares: GemfilePrepare.new) }
 
-      context "gemfile" do
-        it "should parse gems" do
+      context 'gemfile' do
+        it 'should parse gems' do
           content =<<-EOF
 GEM
   remote: https://rubygems.org/
@@ -26,7 +26,7 @@ PLATFORMS
           EOF
           runner.prepare('Gemfile.lock', content)
           gems = Prepares.gems
-          expect(gems.map(&:to_s)).to eq(["rails (3.2.13)", "mysql2 (0.3.12b6)"])
+          expect(gems.map(&:to_s)).to eq(['rails (3.2.13)', 'mysql2 (0.3.12b6)'])
         end
       end
     end

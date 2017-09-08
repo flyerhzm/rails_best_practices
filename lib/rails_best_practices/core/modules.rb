@@ -31,7 +31,7 @@ module RailsBestPractices
         if @modules.empty?
           @module_name
         else
-          @modules.map { |modu| "#{modu}::" }.join("") + @module_name
+          @modules.map { |modu| "#{modu}::" }.join('') + @module_name
         end
       end
     end

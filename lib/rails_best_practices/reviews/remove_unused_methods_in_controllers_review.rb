@@ -46,28 +46,28 @@ module RailsBestPractices
       # mark corresponding action as used for cells' render and render_call.
       add_callback :start_command, :start_method_add_arg do |node|
         case node.message.to_s
-        when "render_cell"
+        when 'render_cell'
           controller_name, action_name, _ = *node.arguments.all.map(&:to_s)
           call_method(action_name, "#{controller_name}_cell".classify)
-        when "render"
+        when 'render'
           first_argument = node.arguments.all.first
-          if first_argument.present? && first_argument.hash_value("state").present?
-            action_name = first_argument.hash_value("state").to_s
+          if first_argument.present? && first_argument.hash_value('state').present?
+            action_name = first_argument.hash_value('state').to_s
             call_method(action_name, current_class_name)
           end
-        when "around_filter"
+        when 'around_filter'
           node.arguments.all.each { |argument| mark_used(argument) }
-        when "layout"
+        when 'layout'
           first_argument = node.arguments.all.first
           if first_argument.sexp_type == :symbol_literal
             mark_used(first_argument)
           end
-        when "helper_method"
+        when 'helper_method'
           node.arguments.all.each { |argument| mark_publicize(argument.to_s) }
-        when "delegate"
+        when 'delegate'
           last_argument = node.arguments.all.last
-          if :bare_assoc_hash == last_argument.sexp_type && "controller" == last_argument.hash_value("to").to_s
-            controller_name = current_module_name.sub("Helper", "Controller")
+          if :bare_assoc_hash == last_argument.sexp_type && 'controller' == last_argument.hash_value('to').to_s
+            controller_name = current_module_name.sub('Helper', 'Controller')
             node.arguments.all[0..-2].each { |method| mark_publicize(method.to_s, controller_name) }
           end
         else
@@ -85,7 +85,7 @@ module RailsBestPractices
       # get all unused methods at the end of review process.
       add_callback :after_check do
         @routes.each do |route|
-          if "*" == route.action_name
+          if '*' == route.action_name
             action_names = @controller_methods.get_methods(route.controller_name_with_namespaces).map(&:method_name)
             action_names.each { |action_name| call_method(action_name, route.controller_name_with_namespaces) }
           else

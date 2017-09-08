@@ -30,7 +30,7 @@ module RailsBestPractices
       #
       # @return [String] the base path
       def self.base_path
-        @base_path || "."
+        @base_path || '.'
       end
 
       # set the configuration path
@@ -159,7 +159,7 @@ module RailsBestPractices
           begin
             plugins = File.join(Runner.base_path, 'lib', 'rails_best_practices', 'plugins', 'reviews')
             if File.directory?(plugins)
-              Dir[File.expand_path(File.join(plugins, "*.rb"))].each do |review|
+              Dir[File.expand_path(File.join(plugins, '*.rb'))].each do |review|
                 require review
               end
               if RailsBestPractices.constants.map(&:to_sym).include? :Plugins

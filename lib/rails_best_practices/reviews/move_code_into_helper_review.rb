@@ -19,7 +19,7 @@ module RailsBestPractices
     class MoveCodeIntoHelperReview < Review
       interesting_nodes :method_add_arg
       interesting_files VIEW_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/24/move-code-into-helper/"
+      url 'https://rails-bestpractices.com/posts/2010/07/24/move-code-into-helper/'
 
       def initialize(options = {})
         super(options)
@@ -43,7 +43,7 @@ module RailsBestPractices
         # and the size of array is greater than @array_count you defined,
         # then it is complext.
         def complex_select_options?(node)
-          "options_for_select" == node[1].message.to_s &&
+          'options_for_select' == node[1].message.to_s &&
             :array == node.arguments.all.first.sexp_type &&
             node.arguments.all.first.array_size > @array_count
         end

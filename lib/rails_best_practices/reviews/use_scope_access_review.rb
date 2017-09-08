@@ -16,7 +16,7 @@ module RailsBestPractices
     class UseScopeAccessReview < Review
       interesting_nodes :if, :unless, :elsif, :ifop, :if_mod, :unless_mod
       interesting_files CONTROLLER_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/20/use-scope-access/"
+      url 'https://rails-bestpractices.com/posts/2010/07/20/use-scope-access/'
 
       # check if node.
       #
@@ -24,7 +24,7 @@ module RailsBestPractices
       # and there is a redirect_to method call in the block body,
       # then it should be replaced by using scope access.
       add_callback :start_if, :start_unless, :start_elsif, :start_ifop, :start_if_mod, :start_unless_mod do |node|
-        add_error "use scope access" if current_user_redirect?(node)
+        add_error 'use scope access' if current_user_redirect?(node)
       end
 
       private
@@ -41,15 +41,15 @@ module RailsBestPractices
             node.conditional_statement.all_conditions
           end
           results = all_conditions.map do |condition_node|
-            ["==", "!="].include?(condition_node.message.to_s) &&
+            ['==', '!='].include?(condition_node.message.to_s) &&
               (current_user?(condition_node.argument) || current_user?(condition_node.receiver))
           end
-          results.any? { |result| result == true } && node.body.grep_node(message: "redirect_to")
+          results.any? { |result| result == true } && node.body.grep_node(message: 'redirect_to')
         end
 
         # check a call node to see if it uses current_user, or current_user.id.
         def current_user?(node)
-          "current_user" == node.to_s || ("current_user" == node.receiver.to_s && "id" == node.message.to_s)
+          'current_user' == node.to_s || ('current_user' == node.receiver.to_s && 'id' == node.message.to_s)
         end
     end
   end

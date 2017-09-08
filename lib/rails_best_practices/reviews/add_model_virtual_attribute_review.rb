@@ -16,7 +16,7 @@ module RailsBestPractices
     class AddModelVirtualAttributeReview < Review
       interesting_nodes :def
       interesting_files CONTROLLER_FILES
-      url "https://rails-bestpractices.com/posts/2010/07/21/add-model-virtual-attribute/"
+      url 'https://rails-bestpractices.com/posts/2010/07/21/add-model-virtual-attribute/'
 
       # check method define nodes to see if there are some attribute assignments that can use model virtual attribute instead in review process.
       #
@@ -60,7 +60,7 @@ module RailsBestPractices
         # and if the arguments of this attribute assignments has duplicated entries (different message and same arguments),
         # then this node needs to add a virtual attribute.
         def call_assignment(node)
-          if ["save", "save!"].include? node.message.to_s
+          if ['save', 'save!'].include? node.message.to_s
             receiver = node.receiver.to_s
             add_error "add model virtual attribute (for #{receiver})" if params_dup?(assignments(receiver).collect {|h| h[:arguments]})
           end
