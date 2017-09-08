@@ -22,7 +22,7 @@ module RailsBestPractices
 
       INHERITED_RESOURCES_METHODS = %w(resource collection begin_of_association_chain build_resource)
 
-      def initialize(options={})
+      def initialize(options = {})
         super
         @controller_methods = Prepares.controller_methods
         @routes = Prepares.routes
@@ -110,7 +110,7 @@ module RailsBestPractices
             %w(Devise::OmniauthCallbacksController).map { |controller_name| "#{controller_name}#*" }
         end
 
-        def mark_publicize(method_name, class_name=current_class_name)
+        def mark_publicize(method_name, class_name = current_class_name)
           @controller_methods.mark_publicize(class_name, method_name)
           @controller_methods.mark_parent_class_methods_publicize(class_name, method_name)
         end

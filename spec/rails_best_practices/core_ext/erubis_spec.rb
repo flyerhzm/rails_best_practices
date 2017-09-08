@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Erubis::OnlyRuby do
   subject {
-    content =<<-EOF
+    content = <<-EOF
     <h1>Title</h1>
     <% if current_user %>
       <%= link_to 'account', edit_user_path(current_user) %>

@@ -51,7 +51,7 @@ module RailsBestPractices
       # initialize the runner.
       #
       # @param [Hash] options pass the prepares and reviews.
-      def initialize(options={})
+      def initialize(options = {})
         @config = self.class.config_path
 
         lexicals = Array(options[:lexicals])

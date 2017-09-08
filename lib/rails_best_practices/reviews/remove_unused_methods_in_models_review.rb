@@ -17,7 +17,7 @@ module RailsBestPractices
       interesting_nodes :command, :command_call, :method_add_arg
       interesting_files ALL_FILES
 
-      def initialize(options={})
+      def initialize(options = {})
         super
         @model_methods = Prepares.model_methods
       end
