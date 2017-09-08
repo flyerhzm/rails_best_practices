@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Reviews
     # Review config/routes.rb file to make sure there are no overuse route customizations.

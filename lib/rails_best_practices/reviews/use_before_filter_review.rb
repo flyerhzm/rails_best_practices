@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Reviews
     # Review a controller file to make sure to use before_filter to remove duplicated first code

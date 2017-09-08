@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Reviews
     # A Review class that takes charge of reviewing one rails best practice.

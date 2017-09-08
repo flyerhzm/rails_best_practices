@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Reviews
     # review a controller file to make sure to use model association instead of foreign key id assignment.

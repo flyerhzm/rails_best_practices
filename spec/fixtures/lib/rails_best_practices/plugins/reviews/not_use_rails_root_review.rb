@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 require 'rails_best_practices/reviews/review'
 
 module RailsBestPractices

@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Reviews
     # Review config/deploy.rb file to make sure using the bundler's capistrano recipe.

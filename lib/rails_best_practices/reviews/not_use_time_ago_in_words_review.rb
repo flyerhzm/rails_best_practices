@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Reviews
     # Review view and helper files to make sure not use time_ago_in_words or distance_of_time_in_words_to_now.
