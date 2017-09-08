@@ -7,8 +7,6 @@
 [![Coderwall Endorse](http://api.coderwall.com/flyerhzm/endorsecount.png)](http://coderwall.com/flyerhzm)
 [![Click here to lend your support to: rails best practices and make a donation at www.pledgie.com !](https://pledgie.com/campaigns/12057.png?skin_name=chrome)](https://pledgie.com/campaigns/12057)
 
-<a href="https://app.codesponsor.io/link/bbd9eCjVVe4zd2ppN5SZaf9C/flyerhzm/rails_best_practices" rel="nofollow"><img src="https://app.codesponsor.io/embed/bbd9eCjVVe4zd2ppN5SZaf9C/flyerhzm/rails_best_practices.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
-
 rails_best_practices is a code metric tool to check the quality of Rails code.
 
 It supports the following ORM/ODMs:
@@ -289,3 +287,5 @@ Copyright © 2009 - 2013 Richard Huang (flyerhzm@gmail.com), released under the 
 
 
 [1]: https://github.com/railsbp/rails_best_practices/wiki/How-to-write-your-own-check-list
+
+<a href="https://app.codesponsor.io/link/bbd9eCjVVe4zd2ppN5SZaf9C/flyerhzm/rails_best_practices" rel="nofollow" target="_blank"><img src="https://app.codesponsor.io/embed/bbd9eCjVVe4zd2ppN5SZaf9C/flyerhzm/rails_best_practices.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
