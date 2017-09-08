@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Core
     # Error is the violation to rails best practice.

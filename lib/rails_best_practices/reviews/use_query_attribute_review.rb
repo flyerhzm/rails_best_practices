@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Reviews
     # Make sure to use query attribute instead of nil?, blank? and present?.
