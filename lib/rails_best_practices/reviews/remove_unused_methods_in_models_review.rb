@@ -100,6 +100,7 @@ module RailsBestPractices
             before_save before_create before_update before_destroy after_save after_create
             after_update after_destroy after_find after_initialize
             method_missing
+            table_name module_prefix
           ).map { |method_name| "*\##{method_name}" }
         end
     end
