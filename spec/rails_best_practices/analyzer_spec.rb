@@ -83,7 +83,6 @@ module RailsBestPractices
           expect(subject).to have_received(:output_xml_errors)
         end
       end
-
     end
 
     describe 'output_terminal_errors' do
@@ -141,7 +140,6 @@ module RailsBestPractices
     end
 
     describe 'parse_files' do
-
       it 'should not filter out all files when the path contains "vendor"' do
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'vendor'))
@@ -191,8 +189,6 @@ module RailsBestPractices
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'tmp', 'my_project', 'my_file.rb')
         }
       end
-
     end
-
   end
 end

@@ -164,7 +164,6 @@ module RailsBestPractices
       def publicize
         @access_control = 'public'
       end
-
     end
   end
 end

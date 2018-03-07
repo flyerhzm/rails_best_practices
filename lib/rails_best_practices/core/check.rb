@@ -281,6 +281,7 @@ module RailsBestPractices
             end
 
             private
+
               def mark_used(method_node)
                 return if method_node == :call
                 if :bare_assoc_hash == method_node.sexp_type
