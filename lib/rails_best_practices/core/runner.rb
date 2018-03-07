@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 require 'yaml'
 require 'active_support/core_ext/object/blank'
 begin

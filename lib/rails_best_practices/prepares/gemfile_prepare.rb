@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 module RailsBestPractices
   module Prepares
     # Remember all gems in Gemfile

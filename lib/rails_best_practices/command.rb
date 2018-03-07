@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 require 'optparse'
 
 # Usage: rails_best_practices [options] path

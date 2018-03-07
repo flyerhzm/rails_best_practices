@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 require_rel 'prepares'
 
 module RailsBestPractices
