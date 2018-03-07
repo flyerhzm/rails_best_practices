@@ -27,7 +27,7 @@ module RailsBestPractices
       interesting_files SCHEMA_FILE
       url 'https://rails-bestpractices.com/posts/2010/07/24/always-add-db-index/'
 
-      def initialize(options={})
+      def initialize(options = {})
         super(options)
         @index_columns = {}
         @foreign_keys = {}

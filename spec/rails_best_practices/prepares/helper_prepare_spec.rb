@@ -7,7 +7,7 @@ module RailsBestPractices
 
       context 'methods' do
         it 'should parse helper methods' do
-          content =<<-EOF
+          content = <<-EOF
           module PostsHelper
             def used; end
             def unused; end
@@ -19,17 +19,17 @@ module RailsBestPractices
         end
 
         it 'should parse helpers' do
-          content =<<-EOF
+          content = <<-EOF
           module PostsHelper
           end
           EOF
           runner.prepare('app/helpers/posts_helper.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           module Admin::UsersHelper
           end
           EOF
           runner.prepare('app/helpers/users_helper.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           module Admin
             module BaseHelper
             end

@@ -6,7 +6,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(reviews: RemoveEmptyHelpersReview.new) }
 
       it 'should remove empty helpers' do
-        content =<<-EOF
+        content = <<-EOF
         module PostsHelper
         end
         EOF
@@ -16,7 +16,7 @@ module RailsBestPractices
       end
 
       it 'should not remove empty helpers' do
-        content =<<-EOF
+        content = <<-EOF
         module PostsHelper
           def post_link(post)
             post_path(post)
@@ -28,7 +28,7 @@ module RailsBestPractices
       end
 
       it 'should not remove empty application_helper' do
-        content =<<-EOF
+        content = <<-EOF
         module ApplicationHelper
         end
         EOF
@@ -38,7 +38,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(reviews: RemoveEmptyHelpersReview.new(ignored_files: /posts_helper/))
-        content =<<-EOF
+        content = <<-EOF
         module PostsHelper
         end
         EOF

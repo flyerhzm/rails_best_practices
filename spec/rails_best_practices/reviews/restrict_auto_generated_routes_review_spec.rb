@@ -7,7 +7,7 @@ module RailsBestPractices
 
       describe 'resources' do
         before :each do
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < ApplicationController
             def show; end
             def new; end
@@ -21,7 +21,7 @@ module RailsBestPractices
         end
 
         it 'should restrict auto-generated routes' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
           end
@@ -32,7 +32,7 @@ module RailsBestPractices
         end
 
         it 'should not restrict auto-generated routes with only' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: %w(show new create edit update destroy)
           end
@@ -42,7 +42,7 @@ module RailsBestPractices
         end
 
         it 'should not restrict auto-generated routes with except' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, except: :index
           end
@@ -53,7 +53,7 @@ module RailsBestPractices
 
         describe 'specify a controller' do
           it 'should restrict auto-generated routes' do
-            content =<<-EOF
+            content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :articles, controller: "posts"
             end
@@ -66,7 +66,7 @@ module RailsBestPractices
 
         describe 'namespace' do
           before do
-            content =<<-EOF
+            content = <<-EOF
             class Admin::CommentsController < ApplicationController
               def show; end
               def new; end
@@ -80,7 +80,7 @@ module RailsBestPractices
           end
 
           it 'should restrict auto-generated routes' do
-            content =<<-EOF
+            content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               namespace :admin do
                 resources :comments
@@ -93,7 +93,7 @@ module RailsBestPractices
           end
 
           it 'should restrict auto-generated routes with scope :module' do
-            content =<<-EOF
+            content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               scope module: :admin do
                 resources :comments
@@ -106,7 +106,7 @@ module RailsBestPractices
           end
 
           it 'should restrict auto-generated routes with resources :module' do
-            content =<<-EOF
+            content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :comments, module: :admin
             end
@@ -119,7 +119,7 @@ module RailsBestPractices
 
         describe 'nested routes' do
           before :each do
-            content =<<-EOF
+            content = <<-EOF
             class CommentsController < ApplicationController
               def index; end
               def show; end
@@ -134,7 +134,7 @@ module RailsBestPractices
           end
 
           it 'should restrict auto-generated routes' do
-            content =<<-EOF
+            content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :posts do
                 resources :comments
@@ -147,7 +147,7 @@ module RailsBestPractices
           end
 
           it 'should not restrict auto-generated routes with only' do
-            content =<<-EOF
+            content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :posts, only: %w(show new create edit update destroy) do
                 resources :comments
@@ -159,7 +159,7 @@ module RailsBestPractices
           end
 
           it 'should not restrict auto-generated routes with except' do
-            content =<<-EOF
+            content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :posts, except: :index do
                 resources :comments
@@ -174,7 +174,7 @@ module RailsBestPractices
 
       describe 'resource' do
         before :each do
-          content =<<-EOF
+          content = <<-EOF
           class AccountsController < ApplicationController
             def show; end
             def new; end
@@ -187,7 +187,7 @@ module RailsBestPractices
         end
 
         it 'should restrict auto-generated routes' do
-          content =<<-EOF
+          content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.resource :account
           end
@@ -198,7 +198,7 @@ module RailsBestPractices
         end
 
         it 'should not restrict auto-generated routes with only' do
-          content =<<-EOF
+          content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.resource :account, only: %w(show new create edit update)
           end
@@ -208,7 +208,7 @@ module RailsBestPractices
         end
 
         it 'should not restrict auto-generated routes with except' do
-          content =<<-EOF
+          content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.resource :account, except: :destroy
           end
@@ -221,7 +221,7 @@ module RailsBestPractices
           runner = Core::Runner.new(prepares: Prepares::ControllerPrepare.new,
                                     reviews: RestrictAutoGeneratedRoutesReview.new(ignored_files: /config\/routes\.rb/))
 
-          content =<<-EOF
+          content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.resource :account
           end
@@ -235,7 +235,7 @@ module RailsBestPractices
         let(:runner) { Core::Runner.new(prepares: [Prepares::ConfigPrepare.new, Prepares::ControllerPrepare.new], reviews: RestrictAutoGeneratedRoutesReview.new) }
 
         before do
-          content =<<-EOF
+          content = <<-EOF
           module RailsBestPracticesCom
             class Application < Rails::Application
               config.api_only = true
@@ -243,7 +243,7 @@ module RailsBestPractices
           end
           EOF
           runner.prepare('config/application.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < ApplicationController
             def show; end
             def create; end
@@ -255,7 +255,7 @@ module RailsBestPractices
         end
 
         it 'should restrict auto-generated routes' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
           end
@@ -266,7 +266,7 @@ module RailsBestPractices
         end
 
         it 'should not restrict auto-generated routes with only' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: %w(show create update destroy)
           end

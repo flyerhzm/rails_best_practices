@@ -29,7 +29,7 @@ module RailsBestPractices
         resource_methods + ['index']
       end
 
-      def initialize(options={})
+      def initialize(options = {})
         super(options)
         @namespaces = []
         @resource_controllers = []
@@ -109,7 +109,7 @@ module RailsBestPractices
         def controller_name(node)
           if option_with_hash(node)
             option_node = node.arguments.all[1]
-            if hash_key_exist?(option_node,'controller')
+            if hash_key_exist?(option_node, 'controller')
               name = option_node.hash_value('controller').to_s
             else
               name = node.arguments.all.first.to_s.gsub('::', '').tableize
