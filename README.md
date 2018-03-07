@@ -287,5 +287,3 @@ Copyright © 2009 - 2013 Richard Huang (flyerhzm@gmail.com), released under the 
 
 
 [1]: https://github.com/railsbp/rails_best_practices/wiki/How-to-write-your-own-check-list
-
-<a href="https://app.codesponsor.io/link/bbd9eCjVVe4zd2ppN5SZaf9C/flyerhzm/rails_best_practices" rel="nofollow" target="_blank"><img src="https://app.codesponsor.io/embed/bbd9eCjVVe4zd2ppN5SZaf9C/flyerhzm/rails_best_practices.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
