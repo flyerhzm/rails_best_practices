@@ -6,7 +6,7 @@ module RailsBestPractices
 
       it 'should find long lines' do
         runner = Core::Runner.new(lexicals: LongLineCheck.new)
-        content =<<-EOF
+        content = <<-EOF
 class User < ActiveRecord::Base
 # 81 Chars
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -21,7 +21,7 @@ EOF
       end
       it 'should find long lines with own max size' do
         runner = Core::Runner.new(lexicals: LongLineCheck.new('max_line_length' => 90))
-        content =<<-EOF
+        content = <<-EOF
 class User < ActiveRecord::Base
 # 91 Chars
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -44,7 +44,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       end
       it 'should not check ignored files' do
         runner = Core::Runner.new(lexicals: LongLineCheck.new(max_line_length: 80, ignored_files: /user/))
-        content =<<-EOF
+        content = <<-EOF
 class User < ActiveRecord::Base
 # 81 Chars
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

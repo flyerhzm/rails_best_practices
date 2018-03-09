@@ -123,7 +123,7 @@ module RailsBestPractices
       end
 
       it 'should not use query attribute for number' do
-        content =<<-EOF
+        content = <<-EOF
         <% unless @user.age.blank? %>
           <%= @user.age %>
         <% end %>

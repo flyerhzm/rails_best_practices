@@ -12,9 +12,9 @@ module RailsBestPractices
       # @param [String] association name
       # @param [String] association meta, has_many, has_one, belongs_to and has_and_belongs_to_many
       # @param [String] association class name
-      def add_association(model_name, association_name, association_meta, association_class=nil)
+      def add_association(model_name, association_name, association_meta, association_class = nil)
         @associations[model_name] ||= {}
-        @associations[model_name][association_name] = {'meta' => association_meta, 'class_name' => association_class || association_name.classify}
+        @associations[model_name][association_name] = { 'meta' => association_meta, 'class_name' => association_class || association_name.classify }
       end
 
       # Get a model association.

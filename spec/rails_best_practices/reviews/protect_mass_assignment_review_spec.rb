@@ -7,7 +7,7 @@ module RailsBestPractices
                                       reviews: ProtectMassAssignmentReview.new) }
 
       it 'should protect mass assignment' do
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
         end
         EOF
@@ -17,7 +17,7 @@ module RailsBestPractices
       end
 
       it 'should not protect mass assignment if attr_accessible is used with arguments and user set config.active_record.whitelist_attributes' do
-        content =<<-EOF
+        content = <<-EOF
         module RailsBestPracticesCom
           class Application < Rails::Application
             config.active_record.whitelist_attributes = true
@@ -25,7 +25,7 @@ module RailsBestPractices
         end
         EOF
         runner.prepare('config/application.rb', content)
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           attr_accessible :email, :password, :password_confirmation
         end
@@ -35,7 +35,7 @@ module RailsBestPractices
       end
 
       it 'should not protect mass assignment if attr_accessible is used without arguments and user set config.active_record.whitelist_attributes' do
-        content =<<-EOF
+        content = <<-EOF
         module RailsBestPracticesCom
           class Application < Rails::Application
             config.active_record.whitelist_attributes = true
@@ -43,7 +43,7 @@ module RailsBestPractices
         end
         EOF
         runner.prepare('config/application.rb', content)
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           attr_accessible
         end
@@ -53,7 +53,7 @@ module RailsBestPractices
       end
 
       it 'should not protect mass assignment with attr_protected if user set config.active_record.whitelist_attributes' do
-        content =<<-EOF
+        content = <<-EOF
         module RailsBestPracticesCom
           class Application < Rails::Application
             config.active_record.whitelist_attributes = true
@@ -61,7 +61,7 @@ module RailsBestPractices
         end
         EOF
         runner.prepare('config/application.rb', content)
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           attr_protected :role
         end
@@ -71,7 +71,7 @@ module RailsBestPractices
       end
 
       it 'should not protect mass assignment if using devise' do
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           devise :database_authenticatable, :registerable, :confirmable, :recoverable, stretches: 20
         end
@@ -81,7 +81,7 @@ module RailsBestPractices
       end
 
       it 'should not protect mass assignment if using authlogic with configuration' do
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           acts_as_authentic do |c|
             c.my_config_option = my_value
@@ -93,7 +93,7 @@ module RailsBestPractices
       end
 
       it 'should not protect mass assignment if using authlogic without configuration' do
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           acts_as_authentic
         end
@@ -103,7 +103,7 @@ module RailsBestPractices
       end
 
       it 'should not protect mass assignment if checking non ActiveRecord::Base inherited model' do
-        content =<<-EOF
+        content = <<-EOF
         class User < Person
         end
         EOF
@@ -113,7 +113,7 @@ module RailsBestPractices
 
       context 'strong_parameters' do
         it 'should not protect mass assignment for strong_parameters' do
-          content =<<-EOF
+          content = <<-EOF
           class User < ActiveRecord::Base
             include ActiveModel::ForbiddenAttributesProtection
           end
@@ -123,13 +123,13 @@ module RailsBestPractices
         end
 
         it 'should not protect mass assignment for strong_parameters' do
-          content =<<-EOF
+          content = <<-EOF
           class AR
             ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)
           end
           EOF
           runner.prepare('config/initializers/ar.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class User < ActiveRecord::Base
           end
           EOF
@@ -140,14 +140,14 @@ module RailsBestPractices
 
       context 'activerecord 4' do
         it 'should not protect mass assignment for activerecord 4' do
-          content =<<-EOF
+          content = <<-EOF
   GEM
     remote: https://rubygems.org
     specs:
       activerecord (4.0.0)
           EOF
           runner.prepare('Gemfile.lock', content)
-          content =<<-EOF
+          content = <<-EOF
           class User < ActiveRecord::Base
           end
           EOF
@@ -156,14 +156,14 @@ module RailsBestPractices
         end
 
         it 'should protect mass assignment for activerecord 3' do
-          content =<<-EOF
+          content = <<-EOF
   GEM
     remote: https://rubygems.org
     specs:
       activerecord (3.2.13)
           EOF
           runner.prepare('Gemfile.lock', content)
-          content =<<-EOF
+          content = <<-EOF
           class User < ActiveRecord::Base
           end
           EOF
@@ -175,7 +175,7 @@ module RailsBestPractices
       it 'should not check ignored files' do
         runner = Core::Runner.new(prepares: [Prepares::GemfilePrepare.new, Prepares::ConfigPrepare.new, Prepares::InitializerPrepare.new],
                                   reviews: ProtectMassAssignmentReview.new(ignored_files: /app\/models\/user\.rb/))
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
         end
         EOF

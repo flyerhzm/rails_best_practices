@@ -7,7 +7,7 @@ module RailsBestPractices
 
       context 'gemfile' do
         it 'should parse gems' do
-          content =<<-EOF
+          content = <<-EOF
 GEM
   remote: https://rubygems.org/
   specs:

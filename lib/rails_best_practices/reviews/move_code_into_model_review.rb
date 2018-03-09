@@ -15,7 +15,7 @@ module RailsBestPractices
       interesting_files VIEW_FILES
       url 'https://rails-bestpractices.com/posts/2010/07/24/move-code-into-model/'
 
-      def initialize(options={})
+      def initialize(options = {})
         super(options)
         @use_count = options['use_count'] || 2
       end

@@ -7,7 +7,7 @@ module RailsBestPractices
 
       context 'configs' do
         it 'should parse configs' do
-          content =<<-EOF
+          content = <<-EOF
           module RailsBestPracticesCom
             class Application < Rails::Application
               config.active_record.whitelist_attributes = true
