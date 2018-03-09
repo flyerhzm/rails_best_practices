@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 require 'code_analyzer'
 require 'require_all'
 require 'rails_best_practices/core'
