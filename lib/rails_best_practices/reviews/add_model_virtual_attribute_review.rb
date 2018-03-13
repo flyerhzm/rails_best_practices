@@ -1,4 +1,6 @@
 # encoding: utf-8
+require_rel 'review'
+
 module RailsBestPractices
   module Reviews
     # Make sure to add a model virual attribute to simplify model creation.
