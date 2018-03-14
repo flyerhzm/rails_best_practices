@@ -43,7 +43,6 @@ module RailsBestPractices
             end
           when :call
             check_variable_save(child_node)
-          else
           end
         end
         reset_variable_use_count

@@ -37,7 +37,6 @@ module RailsBestPractices
             attribute_assignment(child)
           when :call
             call_assignment(child)
-          else
           end
         end
         @assignments = nil

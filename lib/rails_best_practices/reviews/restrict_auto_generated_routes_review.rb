@@ -71,7 +71,6 @@ module RailsBestPractices
           if check_method_add_block?(node) && (mod = module_option(node))
             @namespaces << mod
           end
-        else
         end
       end
 

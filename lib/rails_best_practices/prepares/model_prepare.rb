@@ -97,7 +97,6 @@ module RailsBestPractices
           @model_attributes.add_attribute(current_class_name, attribute_name, attribute_type)
         when *ASSOCIATION_METHODS
           remember_association(node)
-        else
         end
       end
 
