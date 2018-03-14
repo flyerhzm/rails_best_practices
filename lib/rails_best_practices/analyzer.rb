@@ -89,7 +89,7 @@ module RailsBestPractices
         begin
           puts file if @options['debug']
           @runner.send(process, file, File.read(file))
-        rescue
+        rescue StandardError
           if @options['debug']
             warning = "#{file} looks like it's not a valid Ruby file.  Skipping..."
             plain_output(warning, 'red')
