@@ -219,7 +219,7 @@ module RailsBestPractices
       end
 
       it 'should not always add db index if two indexes for polymorphic association' do
-        content =<<-EOF
+        content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "taggings", force: true do |t|
             t.integer "tagger_id"
@@ -237,7 +237,7 @@ module RailsBestPractices
       end
 
       it 'should not always add db index if table does not exist' do
-        content =<<-EOF
+        content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "comments", force: true do |t|
             t.integer "post_id"
@@ -250,18 +250,18 @@ module RailsBestPractices
       end
 
       it 'should always add db index if association_name is different to foreign_key' do
-        content =<<-EOF
+        content = <<-EOF
         class Comment < ActiveRecord::Base
           belongs_to :commentor, class_name: "User"
         end
         EOF
         runner.prepare('app/models/comment.rb', content)
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
         end
         EOF
         runner.prepare('app/models/user.rb', content)
-        content =<<-EOF
+        content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "comments", force: true do |t|
             t.integer "commentor_id"

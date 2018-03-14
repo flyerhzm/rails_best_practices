@@ -6,7 +6,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(reviews: UseSayWithTimeInMigrationsReview.new) }
 
       it 'should use say with time in migrations' do
-        content =<<-EOF
+        content = <<-EOF
         def self.up
           User.find_each do |user|
             user.first_name, user.last_name = user.full_name.split(' ')
@@ -20,7 +20,7 @@ module RailsBestPractices
       end
 
       it 'should use say with time in migrations with create_table' do
-        content =<<-EOF
+        content = <<-EOF
         def self.up
           create_table :users do |t|
             t.string :login
@@ -39,7 +39,7 @@ module RailsBestPractices
       end
 
       it 'should not use say with time in migrations' do
-        content =<<-EOF
+        content = <<-EOF
         def self.up
           say_with_time("Initialize first_name and last_name for users") do
             User.find_each do |user|
@@ -55,7 +55,7 @@ module RailsBestPractices
       end
 
       it 'should not use say with time in migrations when not first code line' do
-        content =<<-EOF
+        content = <<-EOF
         def self.up
           User.find_each do |user|
             say_with_time 'Updating user with latest data' do
@@ -69,7 +69,7 @@ module RailsBestPractices
       end
 
       it 'should not use say with time when default migration message' do
-        content =<<-EOF
+        content = <<-EOF
         def self.up
           create_table :users do |t|
             t.string :login
@@ -83,7 +83,7 @@ module RailsBestPractices
       end
 
       it 'should not raise an error' do
-        content =<<-EOF
+        content = <<-EOF
         class AddAdmin < ActiveRecord::Migration
 
           class Person < ActiveRecord::Base
@@ -120,7 +120,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(reviews: UseSayWithTimeInMigrationsReview.new(ignored_files: /20101010080658_update_users/))
-        content =<<-EOF
+        content = <<-EOF
         def self.up
           User.find_each do |user|
             user.first_name, user.last_name = user.full_name.split(' ')

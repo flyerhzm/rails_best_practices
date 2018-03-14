@@ -6,7 +6,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(reviews: SimplifyRenderInControllersReview.new) }
 
       it 'should simplify render action view' do
-        content =<<-EOF
+        content = <<-EOF
         def edit
           render action: :edit
         end
@@ -17,7 +17,7 @@ module RailsBestPractices
       end
 
       it "should simplify render actions's template" do
-        content =<<-EOF
+        content = <<-EOF
         def edit
           render template: 'books/edit'
         end
@@ -28,7 +28,7 @@ module RailsBestPractices
       end
 
       it 'should simplify render an arbitrary file' do
-        content =<<-EOF
+        content = <<-EOF
         def edit
           render file: '/path/to/rails/app/views/books/edit'
         end
@@ -39,7 +39,7 @@ module RailsBestPractices
       end
 
       it 'should not simplify render action view' do
-        content =<<-EOF
+        content = <<-EOF
         render :edit
         EOF
         runner.review('app/controllers/posts_controller', content)
@@ -47,7 +47,7 @@ module RailsBestPractices
       end
 
       it "should not simplify render actions's template" do
-        content =<<-EOF
+        content = <<-EOF
         def edit
           render 'books/edit'
         end
@@ -57,7 +57,7 @@ module RailsBestPractices
       end
 
       it 'should not simplify render an arbitrary file' do
-        content =<<-EOF
+        content = <<-EOF
         def edit
           render '/path/to/rails/app/views/books/edit'
         end
@@ -68,7 +68,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(reviews: SimplifyRenderInControllersReview.new(ignored_files: /posts_controller/))
-        content =<<-EOF
+        content = <<-EOF
         def edit
           render action: :edit
         end

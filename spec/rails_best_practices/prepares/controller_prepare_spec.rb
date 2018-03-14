@@ -7,7 +7,7 @@ module RailsBestPractices
 
       context 'methods' do
         it 'should parse controller methods' do
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < ApplicationController
             def index; end
             def show; end
@@ -19,7 +19,7 @@ module RailsBestPractices
         end
 
         it 'should parse model methods with access control' do
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < ApplicationController
             def index; end
             def show; end
@@ -38,7 +38,7 @@ module RailsBestPractices
         end
 
         it 'should parse controller methods with module ::' do
-          content =<<-EOF
+          content = <<-EOF
           class Admin::Blog::PostsController < ApplicationController
             def index; end
             def show; end
@@ -50,7 +50,7 @@ module RailsBestPractices
         end
 
         it 'should parse controller methods with module' do
-          content =<<-EOF
+          content = <<-EOF
           module Admin
             module Blog
               class PostsController < ApplicationController
@@ -67,7 +67,7 @@ module RailsBestPractices
 
         context 'inherited_resources' do
           it 'extend inherited_resources' do
-            content =<<-EOF
+            content = <<-EOF
             class PostsController < InheritedResources::Base
             end
             EOF
@@ -77,7 +77,7 @@ module RailsBestPractices
           end
 
           it 'extend inherited_resources with actions' do
-            content =<<-EOF
+            content = <<-EOF
             class PostsController < InheritedResources::Base
               actions :index, :show
             end
@@ -88,7 +88,7 @@ module RailsBestPractices
           end
 
           it 'extend inherited_resources with all actions' do
-            content =<<-EOF
+            content = <<-EOF
             class PostsController < InheritedResources::Base
               actions :all, except: [:show]
             end
@@ -99,7 +99,7 @@ module RailsBestPractices
           end
 
           it 'extend inherited_resources with all actions with no arguments' do
-            content =<<-EOF
+            content = <<-EOF
             class PostsController < InheritedResources::Base
               actions :all
             end
@@ -110,7 +110,7 @@ module RailsBestPractices
           end
 
           it 'DSL inherit_resources' do
-            content =<<-EOF
+            content = <<-EOF
             class PostsController
               inherit_resources
             end
@@ -124,12 +124,12 @@ module RailsBestPractices
 
       context 'helpers' do
         it 'should add helper descendant' do
-          content =<<-EOF
+          content = <<-EOF
           module PostsHelper
           end
           EOF
           runner.prepare('app/helpers/posts_helper.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class PostsController
             include PostsHelper
           end

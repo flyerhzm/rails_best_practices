@@ -10,8 +10,8 @@ module RailsBestPractices::Core
     end
 
     it 'should get model associations' do
-      expect(model_associations.get_association('Project', 'project_manager')).to eq({'meta' => 'belongs_to', 'class_name' => 'ProjectManager'})
-      expect(model_associations.get_association('Project', 'people')).to eq({'meta' => 'has_many', 'class_name' => 'Person'})
+      expect(model_associations.get_association('Project', 'project_manager')).to eq({ 'meta' => 'belongs_to', 'class_name' => 'ProjectManager' })
+      expect(model_associations.get_association('Project', 'people')).to eq({ 'meta' => 'has_many', 'class_name' => 'Person' })
       expect(model_associations.get_association('Project', 'unknown')).to be_nil
     end
 

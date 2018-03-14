@@ -6,7 +6,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(prepares: Prepares::MailerPrepare.new, reviews: UseObserverReview.new) }
 
       before :each do
-        content =<<-EOF
+        content = <<-EOF
         class ProjectMailer < ActionMailer::Base
         end
         EOF
@@ -14,7 +14,7 @@ module RailsBestPractices
       end
 
       it 'should use observer' do
-        content =<<-EOF
+        content = <<-EOF
         class Project < ActiveRecord::Base
           after_create :send_create_notification
 
@@ -32,7 +32,7 @@ module RailsBestPractices
       end
 
       it 'should not use observer without callback' do
-        content =<<-EOF
+        content = <<-EOF
         class Project < ActiveRecord::Base
           private
           def send_create_notification
@@ -47,7 +47,7 @@ module RailsBestPractices
       end
 
       it 'should use observer with two after_create' do
-        content =<<-EOF
+        content = <<-EOF
         class Project < ActiveRecord::Base
           after_create :send_create_notification, :update_author
 
@@ -68,7 +68,7 @@ module RailsBestPractices
       end
 
       it 'should not raise when initiate an object in callback' do
-        content =<<-EOF
+        content = <<-EOF
         class Project < ActiveRecord::Base
           after_create ProjectMailer.new
         end

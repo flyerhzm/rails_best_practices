@@ -31,7 +31,7 @@ module RailsBestPractices
       add_callback :start_def do |node|
         if node.file =~ HELPER_FILES
           method_name = node.method_name.to_s
-          @methods.add_method(current_module_name, method_name, {'file' => node.file, 'line_number' => node.line_number}, current_access_control)
+          @methods.add_method(current_module_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
         end
       end
     end

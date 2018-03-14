@@ -5,12 +5,12 @@ module RailsBestPractices
     describe RemoveUnusedMethodsInControllersReview do
       let(:runner) { Core::Runner.new(
         prepares: [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
-        reviews: RemoveUnusedMethodsInControllersReview.new({'except_methods' => ['ExceptableController#*']})
+        reviews: RemoveUnusedMethodsInControllersReview.new({ 'except_methods' => ['ExceptableController#*'] })
       ) }
 
       context 'private/protected' do
         it 'should remove unused methods' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts do
               member do
@@ -21,7 +21,7 @@ module RailsBestPractices
           end
           EOF
           runner.prepare('config/routes.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < ActiveRecord::Base
             def show; end
             def extra_update; end
@@ -41,13 +41,13 @@ module RailsBestPractices
         end
 
         it 'should not remove unused methods for before_filter' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
           end
           EOF
           runner.prepare('config/routes.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < ActiveRecord::Base
             before_filter :load_post, :load_user
             def show; end
@@ -63,13 +63,13 @@ module RailsBestPractices
         end
 
         it 'should not remove unused methods for around_filter' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
           end
           EOF
           runner.prepare('config/routes.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < ActiveRecord::Base
             around_filter :set_timestamp
             protected
@@ -88,13 +88,13 @@ module RailsBestPractices
         end
 
         it 'should not remove unused methods for layout' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
           end
           EOF
           runner.prepare('config/routes.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < ActiveRecord::Base
             layout :choose_layout
             private
@@ -110,13 +110,13 @@ module RailsBestPractices
         end
 
         it 'should not remove inherited_resources methods' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
           end
           EOF
           runner.prepare('config/routes.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < InheritedResources::Base
             def show; end
             protected
@@ -134,13 +134,13 @@ module RailsBestPractices
 
       context 'public' do
         it 'should remove unused methods' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
           end
           EOF
           runner.prepare('config/routes.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < ApplicationController
             def show; end
             def list; end
@@ -154,7 +154,7 @@ module RailsBestPractices
         end
 
         it 'should not remove inline routes' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: :none do
               get :display, :list, on: :member
@@ -162,7 +162,7 @@ module RailsBestPractices
           end
           EOF
           runner.prepare('config/routes.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class PostsController < ApplicationController
             def display; end
             def list; end
@@ -175,13 +175,13 @@ module RailsBestPractices
         end
 
         it 'should not remove unused methods if all actions are used in route' do
-          content =<<-EOF
+          content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.connect 'internal/:action/*whatever', controller: "internal"
           end
           EOF
           runner.prepare('config/routes.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           class InternalController < ApplicationController
             def list; end
             def delete; end
@@ -195,7 +195,7 @@ module RailsBestPractices
         end
 
         it 'should not remove unused methods if they are except_methods' do
-          content =<<-EOF
+          content = <<-EOF
           class ExceptableController < ApplicationController
             def list; end
           end
@@ -209,19 +209,19 @@ module RailsBestPractices
 
       context 'assignment' do
         it 'should not remove unused methods if call in base class' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :user, only: :show do; end
           end
           EOF
           runner.prepare('config/routes.rb', content)
-          application_content =<<-EOF
+          application_content = <<-EOF
           class ApplicationController
             def current_user=(user); end
           end
           EOF
           runner.prepare('app/controllers/application_controller.rb', application_content)
-          users_content =<<-EOF
+          users_content = <<-EOF
           class UsersController < ApplicationController
             def show
               current_user = @user
@@ -340,7 +340,7 @@ module RailsBestPractices
 
       context 'cells' do
         it 'should remove unused methods' do
-          content =<<-EOF
+          content = <<-EOF
           class PostsCell < Cell::Rails
             def list; end
           end
@@ -353,7 +353,7 @@ module RailsBestPractices
         end
 
         it 'should not remove unused methods if render_cell' do
-          content =<<-EOF
+          content = <<-EOF
           class PostsCell < Cell::Rails
             def list; end
             def display; end
@@ -361,7 +361,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/cells/posts_cell.rb', content)
           runner.review('app/cells/posts_cell.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           <%= render_cell :posts, :list %>
           <%= render_cell(:posts, :display) %>
           EOF
@@ -371,7 +371,7 @@ module RailsBestPractices
         end
 
         it 'should not remove unused methods if render with state' do
-          content =<<-EOF
+          content = <<-EOF
           class PostsCell < Cell::Rails
             def list
               render state: :show
@@ -384,7 +384,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/cells/posts_cell.rb', content)
           runner.review('app/cells/posts_cell.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           <%= render_cell :posts, :list %>
           EOF
           runner.review('app/views/posts/index.html.erb', content)
@@ -394,14 +394,14 @@ module RailsBestPractices
       end
 
       it 'should not remove unused methods' do
-        route_content =<<-EOF
+        route_content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           namespace :admin do
             resources :users, only: :index
           end
         end
         EOF
-        app_controller_content =<<-EOF
+        app_controller_content = <<-EOF
         module Admin
           class AppController < ApplicationController
             def index
@@ -410,7 +410,7 @@ module RailsBestPractices
           end
         end
         EOF
-        users_controller_content =<<-EOF
+        users_controller_content = <<-EOF
         module Admin
           class UsersController < AppController
             private
@@ -433,7 +433,7 @@ module RailsBestPractices
       it 'should not check ignored files' do
         runner = Core::Runner.new(prepares: [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
                                   reviews: RemoveUnusedMethodsInControllersReview.new(ignored_files: /posts_controller/, except_methods: []))
-        content =<<-EOF
+        content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts do
               member do
@@ -444,7 +444,7 @@ module RailsBestPractices
           end
         EOF
         runner.prepare('config/routes.rb', content)
-        content =<<-EOF
+        content = <<-EOF
           class PostsController < ActiveRecord::Base
             def show; end
             def extra_update; end

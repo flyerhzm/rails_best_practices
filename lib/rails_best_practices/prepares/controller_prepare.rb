@@ -32,7 +32,7 @@ module RailsBestPractices
       add_callback :end_class do |node|
         if @inherited_resources && 'ApplicationController' != current_class_name
           @actions.each do |action|
-            @methods.add_method(current_class_name, action, {'file' => node.file, 'line_number' => node.line_number})
+            @methods.add_method(current_class_name, action, { 'file' => node.file, 'line_number' => node.line_number })
           end
         end
       end
@@ -82,7 +82,7 @@ module RailsBestPractices
       #     }
       add_callback :start_def do |node|
         method_name = node.method_name.to_s
-        @methods.add_method(current_class_name, method_name, {'file' => node.file, 'line_number' => node.line_number}, current_access_control)
+        @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
       end
 
       # ask Reviews::RemoveUnusedMoethodsInHelperReview to check the controllers who include helpers.

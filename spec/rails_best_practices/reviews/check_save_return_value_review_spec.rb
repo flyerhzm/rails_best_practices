@@ -7,7 +7,7 @@ module RailsBestPractices
 
       describe 'check_save_return_value' do
         it 'should warn you if you fail to check save return value' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             post = Posts.new do |p|
               p.title = "foo"
@@ -21,7 +21,7 @@ module RailsBestPractices
         end
 
         it 'should allow save return value assigned to var' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             post = Posts.new do |p|
               p.title = "foo"
@@ -34,7 +34,7 @@ module RailsBestPractices
         end
 
         it 'should allow save return value used in if' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             post = Posts.new do |p|
               p.title = "foo"
@@ -51,7 +51,7 @@ module RailsBestPractices
         end
 
         it 'should allow save return value used in elsif' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             post = Posts.new do |p|
               p.title = "foo"
@@ -70,7 +70,7 @@ module RailsBestPractices
         end
 
         it 'should allow save return value used in unless' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             unless @post.save
               raise "could not save"
@@ -82,7 +82,7 @@ module RailsBestPractices
         end
 
         it 'should allow save return value used in if_mod' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             post = Posts.new do |p|
               p.title = "foo"
@@ -95,7 +95,7 @@ module RailsBestPractices
         end
 
         it 'should allow save return value used in unless_mod' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             post = Posts.new do |p|
               p.title = "foo"
@@ -108,7 +108,7 @@ module RailsBestPractices
         end
 
         it 'should allow save return value used in unless with &&' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             unless some_method(1) && other_method(2) && @post.save
               raise "could not save"
@@ -120,7 +120,7 @@ module RailsBestPractices
         end
 
         it 'should allow save!' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             post = Posts.new do |p|
               p.title = "foo"
@@ -133,7 +133,7 @@ module RailsBestPractices
         end
 
         it 'should warn you if you fail to check update_attributes return value' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             @post.update_attributes params
           end
@@ -144,7 +144,7 @@ module RailsBestPractices
         end
 
         it 'should allow update_attributes if return value is checked' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             @post.update_attributes(params) or raise "failed to save"
           end
@@ -156,7 +156,7 @@ module RailsBestPractices
         it 'is not clever enough to allow update_attributes if value is returned from method' do
           # This review is not clever enough to do a full liveness analysis
           # of whether the returned value is used in all cases.
-          content =<<-EOF
+          content = <<-EOF
           class PostsController
             def update
               @post = Post.find params(:id)
@@ -178,12 +178,12 @@ module RailsBestPractices
         end
 
         it 'should warn you if you use create which is always unsafe' do
-          content =<<-EOF
+          content = <<-EOF
           class Post < ActiveRecord::Base
           end
           EOF
           runner.prepare('app/models/post.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             if post = Post.create(params)
               # post may or may not be saved here!
@@ -197,14 +197,14 @@ module RailsBestPractices
         end
 
         it 'should warn you if you use create with a block which is always unsafe' do
-          content =<<-EOF
+          content = <<-EOF
           module Blog
             class Post < ActiveRecord::Base
             end
           end
           EOF
           runner.prepare('app/models/blog/post.rb', content)
-          content =<<-EOF
+          content = <<-EOF
           module Blog
             class PostsHelper
               def my_method
@@ -225,7 +225,7 @@ module RailsBestPractices
         end
 
         it 'allows create called on non-model classes' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             pk12 = OpenSSL::PKCS12.create(
               "", # password
@@ -241,7 +241,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(reviews: CheckSaveReturnValueReview.new(ignored_files: /helpers/))
-        content =<<-EOF
+        content = <<-EOF
           def my_method
             post = Posts.new do |p|
               p.title = "foo"
