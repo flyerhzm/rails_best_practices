@@ -114,7 +114,7 @@ module RailsBestPractices
       let(:output_file) { 'rails_best_practices_output.json' }
 
       subject do
-        described_class.new('.', 
+        described_class.new('.',
           'format' => 'json',
           'output-file' => output_file
         )
