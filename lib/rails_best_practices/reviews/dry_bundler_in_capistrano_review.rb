@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 module RailsBestPractices
   module Reviews
     # Review config/deploy.rb file to make sure using the bundler's capistrano recipe.

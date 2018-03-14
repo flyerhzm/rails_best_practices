@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 module RailsBestPractices
   module Reviews
     # Review a controller to make sure to use scope access instead of manually checking current_user and redirect.

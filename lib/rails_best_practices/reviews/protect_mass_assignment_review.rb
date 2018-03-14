@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 module RailsBestPractices
   module Reviews
     # Review model files to make sure to use attr_accessible, attr_protected or strong_parameters to protect mass assignment.
