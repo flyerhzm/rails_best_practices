@@ -127,7 +127,7 @@ module RailsBestPractices
           unused_methods += if access_control
             methods.select { |method| method.access_control == access_control && !method.used }
           else
-            methods.select { |method| !method.used }
+            methods.reject { |method| method.used }
           end
         }.reject { |method| method.access_control == 'public' && @possible_methods[method.method_name] }
       end

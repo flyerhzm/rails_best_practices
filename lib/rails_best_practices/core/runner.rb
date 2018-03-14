@@ -67,7 +67,7 @@ module RailsBestPractices
 
         @lexical_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @lexicals)
         @plain_prepare_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @prepares.select { |checker| checker.is_a? Prepares::GemfilePrepare })
-        @default_prepare_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @prepares.select { |checker| !checker.is_a? Prepares::GemfilePrepare })
+        @default_prepare_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @prepares.reject { |checker| checker.is_a? Prepares::GemfilePrepare })
         @review_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @reviews)
       end
 

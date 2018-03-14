@@ -175,7 +175,7 @@ module RailsBestPractices
     # @param [Array] files
     # @param [Regexp] patterns, files match any pattern will be accepted
     def file_accept(files, patterns)
-      files.reject { |file| !patterns.any? { |pattern| file =~ pattern } }
+      files.select { |file| patterns.any? { |pattern| file =~ pattern } }
     end
 
     # output errors on terminal.

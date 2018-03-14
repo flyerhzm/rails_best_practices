@@ -180,7 +180,7 @@ module RailsBestPractices
         # check if the table's column is indexed.
         def not_indexed?(table, column)
           index_columns = @index_columns[table]
-          !index_columns || !index_columns.any? { |e| greater_than_or_equal(Array(e), Array(column)) }
+          !index_columns || index_columns.none? { |e| greater_than_or_equal(Array(e), Array(column)) }
         end
 
         # check if more_array is greater than less_array or equal to less_array.
