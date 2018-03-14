@@ -136,7 +136,7 @@ module RailsBestPractices
 
           if foreign_id_column
             index_node = node.arguments.all.last.hash_value('index')
-            if index_node.present? and 'false' != index_node.to_s
+            if index_node.present? && ('false' != index_node.to_s)
               @index_columns[table_name] ||= []
               @index_columns[table_name] << foreign_id_column
             end
