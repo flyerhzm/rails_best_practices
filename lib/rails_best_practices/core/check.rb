@@ -354,7 +354,7 @@ module RailsBestPractices
             end
 
             def internal_except_methods
-              raise NoMethodError.new 'no method internal_except_methods'
+              raise NoMethodError, 'no method internal_except_methods'
             end
           end
         end
