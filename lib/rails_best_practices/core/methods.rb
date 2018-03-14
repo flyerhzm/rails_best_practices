@@ -168,4 +168,3 @@ module RailsBestPractices
     end
   end
 end
-
