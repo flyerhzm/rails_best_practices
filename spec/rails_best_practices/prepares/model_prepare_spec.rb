@@ -7,7 +7,7 @@ module RailsBestPractices
 
       context 'models' do
         it 'class_name with modules ::' do
-          content =<<-EOF
+          content = <<-EOF
           class Blog::Post < ActiveRecord::Base
           end
           EOF
@@ -17,7 +17,7 @@ module RailsBestPractices
         end
 
         it 'class_name with modules' do
-          content =<<-EOF
+          content = <<-EOF
           module Blog
             class Post < ActiveRecord::Base
             end
@@ -31,7 +31,7 @@ module RailsBestPractices
 
       context 'associations' do
         it 'should parse model associations' do
-          content =<<-EOF
+          content = <<-EOF
           class Project < ActiveRecord::Base
             belongs_to              :portfolio
             has_one                 :project_manager
@@ -41,66 +41,66 @@ module RailsBestPractices
           EOF
           runner.prepare('app/models/project.rb', content)
           model_associations = Prepares.model_associations
-          expect(model_associations.get_association('Project', 'portfolio')).to eq({'meta' => 'belongs_to', 'class_name' => 'Portfolio'})
-          expect(model_associations.get_association('Project', 'project_manager')).to eq({'meta' => 'has_one', 'class_name' => 'ProjectManager'})
-          expect(model_associations.get_association('Project', 'milestones')).to eq({'meta' => 'has_many', 'class_name' => 'Milestone'})
-          expect(model_associations.get_association('Project', 'categories')).to eq({'meta' => 'has_and_belongs_to_many', 'class_name' => 'Category'})
+          expect(model_associations.get_association('Project', 'portfolio')).to eq({ 'meta' => 'belongs_to', 'class_name' => 'Portfolio' })
+          expect(model_associations.get_association('Project', 'project_manager')).to eq({ 'meta' => 'has_one', 'class_name' => 'ProjectManager' })
+          expect(model_associations.get_association('Project', 'milestones')).to eq({ 'meta' => 'has_many', 'class_name' => 'Milestone' })
+          expect(model_associations.get_association('Project', 'categories')).to eq({ 'meta' => 'has_and_belongs_to_many', 'class_name' => 'Category' })
         end
 
         context 'with class_name option' do
           it 'should parse belongs_to' do
-            content =<<-EOF
+            content = <<-EOF
             class Post < ActiveRecord::Base
               belongs_to :author, "class_name" => "Person"
             end
             EOF
             runner.prepare('app/models/post.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Post', 'author')).to eq({'meta' => 'belongs_to', 'class_name' => 'Person'})
+            expect(model_associations.get_association('Post', 'author')).to eq({ 'meta' => 'belongs_to', 'class_name' => 'Person' })
           end
 
           it 'should parse has_one' do
-            content =<<-EOF
+            content = <<-EOF
             class Project < ActiveRecord::Base
               has_one :project_manager, "class_name" => "Person"
             end
             EOF
             runner.prepare('app/models/post.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Project', 'project_manager')).to eq({'meta' => 'has_one', 'class_name' => 'Person'})
+            expect(model_associations.get_association('Project', 'project_manager')).to eq({ 'meta' => 'has_one', 'class_name' => 'Person' })
           end
 
           it 'should parse has_many' do
-            content =<<-EOF
+            content = <<-EOF
             class Project < ActiveRecord::Base
               has_many :people, "class_name" => "Person"
             end
             EOF
             runner.prepare('app/models/project.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Project', 'people')).to eq({'meta' => 'has_many', 'class_name' => 'Person'})
+            expect(model_associations.get_association('Project', 'people')).to eq({ 'meta' => 'has_many', 'class_name' => 'Person' })
           end
 
           it 'should parse has_and_belongs_to_many' do
-            content =<<-EOF
+            content = <<-EOF
             class Citizen < ActiveRecord::Base
               has_and_belongs_to_many :nations, "class_name" => "Country"
             end
             EOF
             runner.prepare('app/models/citizen.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Citizen', 'nations')).to eq({'meta' => 'has_and_belongs_to_many', 'class_name' => 'Country'})
+            expect(model_associations.get_association('Citizen', 'nations')).to eq({ 'meta' => 'has_and_belongs_to_many', 'class_name' => 'Country' })
           end
 
           context 'namespace' do
             it 'should parse with namespace' do
-              content =<<-EOF
+              content = <<-EOF
               class Community < ActiveRecord::Base
                 has_many :members
               end
               EOF
               runner.prepare('app/models/community.rb', content)
-              content =<<-EOF
+              content = <<-EOF
               class Community::Member < ActiveRecord::Base
                 belongs_to :community
               end
@@ -108,18 +108,18 @@ module RailsBestPractices
               runner.prepare('app/models/community/member.rb', content)
               runner.after_prepare
               model_associations = Prepares.model_associations
-              expect(model_associations.get_association('Community', 'members')).to eq({'meta' => 'has_many', 'class_name' => 'Community::Member'})
-              expect(model_associations.get_association('Community::Member', 'community')).to eq({'meta' => 'belongs_to', 'class_name' => 'Community'})
+              expect(model_associations.get_association('Community', 'members')).to eq({ 'meta' => 'has_many', 'class_name' => 'Community::Member' })
+              expect(model_associations.get_association('Community::Member', 'community')).to eq({ 'meta' => 'belongs_to', 'class_name' => 'Community' })
             end
 
             it 'should parse without namespace' do
-              content =<<-EOF
+              content = <<-EOF
               class Community::Member::Rating < ActiveRecord::Base
                 belongs_to :member
               end
               EOF
               runner.prepare('app/models/community/member/rating.rb', content)
-              content =<<-EOF
+              content = <<-EOF
               class Community::Member < ActiveRecord::Base
                 has_many :ratings
               end
@@ -127,15 +127,15 @@ module RailsBestPractices
               runner.prepare('app/models/community/member.rb', content)
               runner.after_prepare
               model_associations = Prepares.model_associations
-              expect(model_associations.get_association('Community::Member::Rating', 'member')).to eq({'meta' => 'belongs_to', 'class_name' => 'Community::Member'})
-              expect(model_associations.get_association('Community::Member', 'ratings')).to eq({'meta' => 'has_many', 'class_name' => 'Community::Member::Rating'})
+              expect(model_associations.get_association('Community::Member::Rating', 'member')).to eq({ 'meta' => 'belongs_to', 'class_name' => 'Community::Member' })
+              expect(model_associations.get_association('Community::Member', 'ratings')).to eq({ 'meta' => 'has_many', 'class_name' => 'Community::Member::Rating' })
             end
           end
         end
 
         context 'mongoid embeds' do
           it 'should parse embeds_many' do
-            content =<<-EOF
+            content = <<-EOF
             class Person
               include Mongoid::Document
               embeds_many :addresses
@@ -143,11 +143,11 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/person.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Person', 'addresses')).to eq({'meta' => 'embeds_many', 'class_name' => 'Address'})
+            expect(model_associations.get_association('Person', 'addresses')).to eq({ 'meta' => 'embeds_many', 'class_name' => 'Address' })
           end
 
           it 'should parse embeds_one' do
-            content =<<-EOF
+            content = <<-EOF
             class Lush
               include Mongoid::Document
               embeds_one :whiskey, class_name: "Drink", inverse_of: :alcoholic
@@ -155,11 +155,11 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/lush.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Lush', 'whiskey')).to eq({'meta' => 'embeds_one', 'class_name' => 'Drink'})
+            expect(model_associations.get_association('Lush', 'whiskey')).to eq({ 'meta' => 'embeds_one', 'class_name' => 'Drink' })
           end
 
           it 'should parse embedded_in' do
-            content =<<-EOF
+            content = <<-EOF
             class Drink
               include Mongoid::Document
               embedded_in :alcoholic, class_name: "Lush", inverse_of: :whiskey
@@ -167,13 +167,13 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/drink.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Drink', 'alcoholic')).to eq({'meta' => 'embedded_in', 'class_name' => 'Lush'})
+            expect(model_associations.get_association('Drink', 'alcoholic')).to eq({ 'meta' => 'embedded_in', 'class_name' => 'Lush' })
           end
         end
 
         context 'mongomapper many/one' do
           it 'should parse one' do
-            content =<<-EOF
+            content = <<-EOF
             class Employee
               include MongoMapper::Document
               one :desk
@@ -181,11 +181,11 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/employee.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Employee', 'desk')).to eq({'meta' => 'one', 'class_name' => 'Desk'})
+            expect(model_associations.get_association('Employee', 'desk')).to eq({ 'meta' => 'one', 'class_name' => 'Desk' })
           end
 
           it 'should parse many' do
-            content =<<-EOF
+            content = <<-EOF
             class Tree
               include MongoMapper::Document
               many :birds
@@ -193,14 +193,14 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/tree.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Tree', 'birds')).to eq({'meta' => 'many', 'class_name' => 'Bird'})
+            expect(model_associations.get_association('Tree', 'birds')).to eq({ 'meta' => 'many', 'class_name' => 'Bird' })
           end
         end
       end
 
       context 'methods' do
         it 'should parse model methods' do
-          content =<<-EOF
+          content = <<-EOF
           class Post < ActiveRecord::Base
             def save; end
             def find; end
@@ -212,7 +212,7 @@ module RailsBestPractices
         end
 
         it 'should parse model methods with access control' do
-          content =<<-EOF
+          content = <<-EOF
           class Post < ActiveRecord::Base
             def save; end
             def find; end
@@ -231,7 +231,7 @@ module RailsBestPractices
         end
 
         it 'should parse model methods with module ::' do
-          content =<<-EOF
+          content = <<-EOF
           class Admin::Blog::Post < ActiveRecord::Base
             def save; end
             def find; end
@@ -243,7 +243,7 @@ module RailsBestPractices
         end
 
         it 'should parse model methods with module' do
-          content =<<-EOF
+          content = <<-EOF
           module Admin
             module Blog
               class Post < ActiveRecord::Base
@@ -259,12 +259,12 @@ module RailsBestPractices
         end
 
         it 'should not add methods from module' do
-          content =<<-EOF
+          content = <<-EOF
             class Model < ActiveRecord::Base
             end
           EOF
           runner.prepare('app/models/model.rb', content)
-          content =<<-EOF
+          content = <<-EOF
             module Mixin
               def mixed_method
               end
@@ -278,7 +278,7 @@ module RailsBestPractices
 
       context 'scope' do
         it 'should treat named_scope as method' do
-          content =<<-EOF
+          content = <<-EOF
           class Post < ActiveRecord::Base
             named_scope :active, conditions: {active: true}
           end
@@ -289,7 +289,7 @@ module RailsBestPractices
         end
 
         it 'should treat scope as method' do
-          content =<<-EOF
+          content = <<-EOF
           class Post < ActiveRecord::Base
             scope :active, where(active: true)
           end
@@ -302,7 +302,7 @@ module RailsBestPractices
 
       context 'alias' do
         it 'should treat alias as method' do
-          content =<<-EOF
+          content = <<-EOF
           class Post < ActiveRecord::Base
             alias :new :old
           end
@@ -313,7 +313,7 @@ module RailsBestPractices
         end
 
         it 'should treat alias_method as method' do
-          content =<<-EOF
+          content = <<-EOF
           class Post < ActiveRecord::Base
             alias_method :new, :old
           end
@@ -324,7 +324,7 @@ module RailsBestPractices
         end
 
         it 'should treat alias_method_chain as method' do
-          content =<<-EOF
+          content = <<-EOF
           class Post < ActiveRecord::Base
             alias_method_chain :method, :feature
           end
@@ -337,7 +337,7 @@ module RailsBestPractices
 
       context 'attributes' do
         it 'should parse mongoid field' do
-          content =<<-EOF
+          content = <<-EOF
           class Post
             include Mongoid::Document
             field :title
@@ -357,7 +357,7 @@ module RailsBestPractices
         end
 
         it 'should parse mongomapper field' do
-          content =<<-EOF
+          content = <<-EOF
           class Post
             include MongoMapper::Document
             key :first_name,  String
@@ -381,7 +381,7 @@ module RailsBestPractices
 
       context 'no error' do
         it 'should raised for finder_sql option' do
-          content =<<-EOF
+          content = <<-EOF
           class EventSubscription < ActiveRecord::Base
             has_many :event_notification_template, finder_sql: ?
           end

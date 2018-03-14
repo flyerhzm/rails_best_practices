@@ -93,7 +93,7 @@ module RailsBestPractices
         check1.add_error 'law of demeter', 'app/models/user.rb', 10
         check2.add_error 'use query attribute', 'app/models/post.rb', 100
         subject.runner = runner
-        subject.instance_variable_set('@options', {'without-color' => false})
+        subject.instance_variable_set('@options', { 'without-color' => false })
 
         $origin_stdout = $stdout
         $stdout = StringIO.new

@@ -103,7 +103,7 @@ OptionParser.new do |opts|
 
   opts.on('-x', '--exclude PATTERNS', "Don't analyze files matching a pattern", '(comma-separated regexp list)') do |list|
     begin
-      options['exclude'] = list.split(',').map{|x| Regexp.new x}
+      options['exclude'] = list.split(',').map { |x| Regexp.new x }
     rescue RegexpError => e
       raise OptionParser::InvalidArgument, e.message
     end

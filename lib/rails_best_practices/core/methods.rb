@@ -14,7 +14,7 @@ module RailsBestPractices
       # @param [String] method name
       # @param [Hash] method meta, file and line, {"file" => "app/models/post.rb", "line_number" => 5}
       # @param [String] access control, public, protected or private
-      def add_method(class_name, method_name, meta={}, access_control='public')
+      def add_method(class_name, method_name, meta = {}, access_control = 'public')
         return if class_name == ''
         return if has_method?(class_name, method_name)
         methods(class_name) << Method.new(class_name, method_name, access_control, meta)
@@ -28,7 +28,7 @@ module RailsBestPractices
       # @param [String] class name
       # @param [String] access control
       # @return [Array] all methods of a class for such access control, if access control is nil, return all public/protected/private methods
-      def get_methods(class_name, access_control=nil)
+      def get_methods(class_name, access_control = nil)
         if access_control
           methods(class_name).select { |method| method.access_control == access_control }
         else
@@ -42,7 +42,7 @@ module RailsBestPractices
       # @param [String] method name
       # @param [String] access control
       # @return [Boolean] has a method or not
-      def has_method?(class_name, method_name, access_control=nil)
+      def has_method?(class_name, method_name, access_control = nil)
         if access_control
           !!methods(class_name).find { |method| method.method_name == method_name && method.access_control == access_control }
         else
@@ -109,7 +109,7 @@ module RailsBestPractices
       # @param [String] method name
       # @param [String] access control
       # @return [Method] Method object
-      def get_method(class_name, method_name, access_control=nil)
+      def get_method(class_name, method_name, access_control = nil)
         if access_control
           methods(class_name).find { |method| method.method_name == method_name && method.access_control == access_control }
         else
@@ -121,7 +121,7 @@ module RailsBestPractices
       #
       # @param [String] access control
       # @return [Array] array of Method
-      def get_all_unused_methods(access_control=nil)
+      def get_all_unused_methods(access_control = nil)
         @methods.inject([]) { |unused_methods, (class_name, methods)|
           unused_methods += if access_control
             methods.select { |method| method.access_control == access_control && !method.used }

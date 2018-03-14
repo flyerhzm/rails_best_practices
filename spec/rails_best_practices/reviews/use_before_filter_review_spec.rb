@@ -85,7 +85,7 @@ module RailsBestPractices
       end
 
       it 'should not use before_filter for protected/private methods' do
-        content =<<-EOF
+        content = <<-EOF
         class PostsController < ApplicationController
           protected
           def load_comments

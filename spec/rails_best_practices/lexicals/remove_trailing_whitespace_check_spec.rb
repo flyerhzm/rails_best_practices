@@ -6,7 +6,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(lexicals: RemoveTrailingWhitespaceCheck.new) }
 
       it 'should remove trailing whitespace' do
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
         end
@@ -18,7 +18,7 @@ module RailsBestPractices
       end
 
       it 'should remove whitespace with third line' do
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
         end
@@ -30,7 +30,7 @@ module RailsBestPractices
       end
 
       it 'should not remove trailing whitespace' do
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
         end
@@ -41,7 +41,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(lexicals: RemoveTrailingWhitespaceCheck.new(ignored_files: /user/))
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
         end

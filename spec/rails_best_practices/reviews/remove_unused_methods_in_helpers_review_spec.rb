@@ -9,7 +9,7 @@ module RailsBestPractices
       ) }
 
       it 'should remove unused methods' do
-        content =<<-EOF
+        content = <<-EOF
         module PostsHelper
           def unused; end
         end
@@ -22,14 +22,14 @@ module RailsBestPractices
       end
 
       it 'should not remove unused methods if called on views' do
-        content =<<-EOF
+        content = <<-EOF
         module PostsHelper
           def used?(post); end
         end
         EOF
         runner.prepare('app/helpers/posts_helper.rb', content)
         runner.review('app/helpers/posts_helper.rb', content)
-        content =<<-EOF
+        content = <<-EOF
         <% if used?(@post) %>
         <% end %>
         EOF
@@ -39,7 +39,7 @@ module RailsBestPractices
       end
 
       it 'should not remove unused methods if called on helpers' do
-        content =<<-EOF
+        content = <<-EOF
         module PostsHelper
           def used?(post)
             test?(post)
@@ -50,7 +50,7 @@ module RailsBestPractices
         EOF
         runner.prepare('app/helpers/posts_helper.rb', content)
         runner.review('app/helpers/posts_helper.rb', content)
-        content =<<-EOF
+        content = <<-EOF
         <% if used?(@post) %>
         <% end %>
         EOF
@@ -60,12 +60,12 @@ module RailsBestPractices
       end
 
       it 'should not remove unused methods if called on controllers' do
-        helper_content =<<-EOF
+        helper_content = <<-EOF
         module PostsHelper
           def used?(post); end
         end
         EOF
-        controller_content =<<-EOF
+        controller_content = <<-EOF
         class PostsController < InheritedResources::Base
           include PostsHelper
 
@@ -85,17 +85,17 @@ module RailsBestPractices
       end
 
       it 'should not remove unused methods if called in descendant controllers' do
-        application_helper_content =<<-EOF
+        application_helper_content = <<-EOF
         module ApplicationHelper
           def admin?; end
         end
         EOF
-        application_controller_content =<<-EOF
+        application_controller_content = <<-EOF
         class ApplicationController
           include ApplicationHelper
         end
         EOF
-        controller_content =<<-EOF
+        controller_content = <<-EOF
         class PostsController < ApplicationController
 
           def show
@@ -118,7 +118,7 @@ module RailsBestPractices
         runner = Core::Runner.new(prepares: [Prepares::ControllerPrepare.new, Prepares::HelperPrepare.new],
                                   reviews: RemoveUnusedMethodsInHelpersReview.new(ignored_files: /posts_helper/, except_methods: []))
 
-        content =<<-EOF
+        content = <<-EOF
         module PostsHelper
           def unused; end
         end

@@ -7,7 +7,7 @@ module RailsBestPractices
 
       context 'resources' do
         it 'should add resources route' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
           end
@@ -19,7 +19,7 @@ module RailsBestPractices
         end
 
         it 'should add multiple resources route' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, :users
           end
@@ -30,7 +30,7 @@ module RailsBestPractices
         end
 
         it 'should add resources route with explict controller' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, controller: :blog_posts
           end
@@ -42,7 +42,7 @@ module RailsBestPractices
         end
 
         it 'should add resources route with only option' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: [:index, :show, :new, :create]
           end
@@ -54,7 +54,7 @@ module RailsBestPractices
         end
 
         it 'should add resources route with except option' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, except: [:edit, :update, :destroy]
           end
@@ -66,7 +66,7 @@ module RailsBestPractices
         end
 
         it 'should not add resources routes with only: :none' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: :none
           end
@@ -77,7 +77,7 @@ module RailsBestPractices
         end
 
         it 'should not add resources routes with except: :all' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, except: :all
           end
@@ -88,7 +88,7 @@ module RailsBestPractices
         end
 
         it 'should add resources routes with members' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             namespace :admin do
               resources :posts, :only => [:edit, :update] do
@@ -110,7 +110,7 @@ module RailsBestPractices
         end
 
         it 'should add resources routes with members inline' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             namespace :admin do
               resources :posts, :only => [:edit, :update] do
@@ -130,7 +130,7 @@ module RailsBestPractices
         end
 
         it 'should add connect route' do
-          content =<<-EOF
+          content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.connect 'vote', controller: "votes", action: "create", method: :post
           end
@@ -141,7 +141,7 @@ module RailsBestPractices
         end
 
         it 'should add named route' do
-          content =<<-EOF
+          content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.login '/player/login', controller: 'sessions', action: 'new', conditions: { method: :get }
           end
@@ -154,7 +154,7 @@ module RailsBestPractices
 
       context 'resource' do
         it 'should add resource route' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resource :posts
           end
@@ -166,7 +166,7 @@ module RailsBestPractices
         end
 
         it 'should add multiple resource route' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resource :posts, :users
           end
@@ -177,7 +177,7 @@ module RailsBestPractices
         end
 
         it 'should add resource route with only option' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resource :posts, only: [:show, :new, :create]
           end
@@ -189,7 +189,7 @@ module RailsBestPractices
         end
 
         it 'should add resource route with except option' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resource :posts, except: [:edit, :update, :destroy]
           end
@@ -201,7 +201,7 @@ module RailsBestPractices
         end
 
         it 'should not add resource routes with only: :none' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resource :posts, only: :none
           end
@@ -212,7 +212,7 @@ module RailsBestPractices
         end
 
         it 'should not add resource routes with except: :all' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resource :posts, except: :all
           end
@@ -223,7 +223,7 @@ module RailsBestPractices
         end
 
         it 'should add resource routes with get/post/put/patch/delete routes' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: [:show] do
               get :list, on: :collection
@@ -246,7 +246,7 @@ module RailsBestPractices
         end
 
         it 'should add custom resources routes with {}' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: [:show] { get :inactive, on: :collection }
           end
@@ -258,7 +258,7 @@ module RailsBestPractices
         end
 
         it 'should add resources routes with get %w() routes' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: [:show] do
               collection do
@@ -274,7 +274,7 @@ module RailsBestPractices
         end
 
         it 'should add route with nested routes' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
               resources :comments
@@ -287,7 +287,7 @@ module RailsBestPractices
         end
 
         it 'should add route with namespace' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             namespace :admin do
               namespace :test do
@@ -302,7 +302,7 @@ module RailsBestPractices
         end
 
         it 'should add route with namespace, but without resources' do
-          content =<<-EOF
+          content = <<-EOF
           RailsBestPracticesCom::Appllication.routes.draw do
             namespace :something do
               get *%w(route_one route_two)
@@ -316,7 +316,7 @@ module RailsBestPractices
         end
 
         it 'should add route with scope' do
-          content =<<-EOF
+          content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               scope module: "admin" do
                 resources :posts, only: [:index]
@@ -346,7 +346,7 @@ module RailsBestPractices
       end
 
       it 'should add route for direct get/post' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           get 'posts/show'
           post '/posts' => 'posts#create'
@@ -362,7 +362,7 @@ module RailsBestPractices
       end
 
       it 'should add routes for another get/post' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw
           get "/login", to: 'sessions#new', as: :login
         end
@@ -374,7 +374,7 @@ module RailsBestPractices
       end
 
       it 'should add match route' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           match '/auth/:provider/callback' => 'authentications#create'
         end
@@ -385,7 +385,7 @@ module RailsBestPractices
       end
 
       it 'should add match route with all actions' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           match 'internal/:action/*whatever', controller: "internal"
         end
@@ -396,7 +396,7 @@ module RailsBestPractices
       end
 
       it 'should add root route' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           root to: 'home#index'
         end
@@ -407,7 +407,7 @@ module RailsBestPractices
       end
 
       it 'should add root shortcut route' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           root 'home#index'
         end
@@ -418,7 +418,7 @@ module RailsBestPractices
       end
 
       it 'should do nothing for default route' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           match ':controller(/:action(/:id(.:format)))'
         end
@@ -429,7 +429,7 @@ module RailsBestPractices
       end
 
       it 'should do nothing for redirect' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           match "/stories/:name" => redirect("/posts/%{name}")
           match "/stories" => redirect {|p, req| "/posts/\#{req.subdomain}" }
@@ -441,7 +441,7 @@ module RailsBestPractices
       end
 
       it 'should parse customize route in nested resources' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           resources :posts do
             resources :comments
@@ -455,7 +455,7 @@ module RailsBestPractices
       end
 
       it 'should parse custom route for resource with explicit to and different action name' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           resources :posts do
             get :halt, to: 'posts#stop'
@@ -468,7 +468,7 @@ module RailsBestPractices
       end
 
       it 'should parse custom route for resource with symbol action name' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           resources :posts do
             get :halt, to: :stop
@@ -481,7 +481,7 @@ module RailsBestPractices
       end
 
       it 'should not take former resources for direct get/post' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           resources :posts
           post "sprints/stop"
@@ -493,7 +493,7 @@ module RailsBestPractices
       end
 
       it 'should not parse wrong route' do
-        content =<<-EOF
+        content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           match ':controller/:action' => '#index', as: :auto_complete
         end
