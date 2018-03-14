@@ -64,7 +64,7 @@ module RailsBestPractices
           shallow = @shallow_nodes.include? node
           if %i[command_call command].include?(node[1].sexp_type) && %w[resources resource].include?(node[1].message.to_s)
             hash_node = node[1].arguments.grep_node(sexp_type: :bare_assoc_hash)
-            shallow = (hash_node && 'true' == hash_node.hash_value('shallow').to_s) unless shallow
+            shallow ||= (hash_node && 'true' == hash_node.hash_value('shallow').to_s)
             @counter += 1
             node.block_node.statements.each do |stmt_node|
               @shallow_nodes << stmt_node if shallow
