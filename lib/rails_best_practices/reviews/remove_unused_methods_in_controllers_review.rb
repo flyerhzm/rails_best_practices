@@ -94,7 +94,7 @@ module RailsBestPractices
           end
         end
         @controller_methods.get_all_unused_methods.each do |method|
-          if !excepted?(method)
+          unless excepted?(method)
             add_error "remove unused methods (#{method.class_name}##{method.method_name})", method.file, method.line_number
           end
         end

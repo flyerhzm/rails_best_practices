@@ -24,7 +24,7 @@ module RailsBestPractices
       # check def node and find if the corresponding views exist or not?
       add_callback :start_def do |node|
         name = node.method_name.to_s
-        if !rails3_canonical_mailer_views?(name)
+        unless rails3_canonical_mailer_views?(name)
           add_error('use multipart/alternative as content_type of email')
         end
       end
