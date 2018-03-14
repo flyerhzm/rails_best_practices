@@ -7,13 +7,13 @@ module RailsBestPractices::Core
     let(:routes) { Routes.new }
 
     it 'should add route' do
-      routes.add_route(['admin', 'test'], 'posts', 'new')
+      routes.add_route(%w[admin test], 'posts', 'new')
       expect(routes.map(&:to_s)).to eq(['Admin::Test::PostsController#new'])
     end
 
     context 'route' do
       it 'should add namesapces, controller name and action name' do
-        route = Route.new(['admin', 'test'], 'posts', 'new')
+        route = Route.new(%w[admin test], 'posts', 'new')
         expect(route.to_s).to eq('Admin::Test::PostsController#new')
       end
 

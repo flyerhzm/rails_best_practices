@@ -19,7 +19,7 @@ module RailsBestPractices
       interesting_files MIGRATION_FILES
       url 'https://rails-bestpractices.com/posts/2010/08/19/use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log/'
 
-      WITH_SAY_METHODS = %w(say say_with_time)
+      WITH_SAY_METHODS = %w[say say_with_time]
 
       # check a class method define node to see if there are method calls that need to be wrapped by say
       # or say_with_time.
@@ -29,7 +29,7 @@ module RailsBestPractices
       # then such method call should be wrapped by say or say_with_time
       add_callback :start_defs do |node|
         node.body.statements.each do |child_node|
-          next if child_node.grep_nodes_count(sexp_type: [:fcall, :command], message: WITH_SAY_METHODS) > 0
+          next if child_node.grep_nodes_count(sexp_type: %i[fcall command], message: WITH_SAY_METHODS) > 0
 
           receiver_node = if :method_add_block == child_node.sexp_type
                            child_node[1]

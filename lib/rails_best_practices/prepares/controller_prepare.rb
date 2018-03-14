@@ -11,7 +11,7 @@ module RailsBestPractices
       interesting_nodes :class, :var_ref, :vcall, :command, :def
       interesting_files CONTROLLER_FILES
 
-      DEFAULT_ACTIONS = %w(index show new create edit update destroy)
+      DEFAULT_ACTIONS = %w[index show new create edit update destroy]
 
       def initialize
         @controllers = Prepares.controllers
@@ -90,7 +90,7 @@ module RailsBestPractices
       add_callback :after_check do
         descendants = @helpers.map(&:descendants).flatten
         if descendants.present?
-          Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *descendants.map { |descendant| %r|#{descendant.underscore}| }
+          Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *descendants.map { |descendant| %r{#{descendant.underscore}} }
         end
       end
     end

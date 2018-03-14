@@ -62,7 +62,7 @@ module RailsBestPractices
         # if so, it is the needless deep nesting.
         def recursively_check(node)
           shallow = @shallow_nodes.include? node
-          if [:command_call, :command].include?(node[1].sexp_type) && ['resources', 'resource'].include?(node[1].message.to_s)
+          if %i[command_call command].include?(node[1].sexp_type) && %w[resources resource].include?(node[1].message.to_s)
             hash_node = node[1].arguments.grep_node(sexp_type: :bare_assoc_hash)
             shallow = (hash_node && 'true' == hash_node.hash_value('shallow').to_s) unless shallow
             @counter += 1
@@ -71,7 +71,7 @@ module RailsBestPractices
               recursively_check(stmt_node)
             end
             @counter -= 1
-          elsif [:command_call, :command].include?(node.sexp_type) && ['resources', 'resource'].include?(node.message.to_s)
+          elsif %i[command_call command].include?(node.sexp_type) && %w[resources resource].include?(node.message.to_s)
             add_error "needless deep nesting (nested_count > #{@nested_count})", @file, node.line_number if @counter >= @nested_count && !@shallow_nodes.include?(node)
           end
         end

@@ -40,7 +40,7 @@ module RailsBestPractices
       # if the message of command_call node is "create_table", then remember the table name.
       # if the message of command_call node is "add_index", then remember it as index columns.
       add_callback :start_command_call do |node|
-        if %w(integer string).include? node.message.to_s
+        if %w[integer string].include? node.message.to_s
           remember_foreign_key_columns(node)
         elsif 'index' == node.message.to_s
           remember_index_columns_inside_table(node)

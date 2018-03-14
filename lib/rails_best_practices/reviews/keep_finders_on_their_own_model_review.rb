@@ -20,7 +20,7 @@ module RailsBestPractices
       interesting_files MODEL_FILES
       url 'https://rails-bestpractices.com/posts/2010/07/23/keep-finders-on-their-own-model/'
 
-      FINDERS = %w(find all first last)
+      FINDERS = %w[find all first last]
 
       # check all the call nodes to see if there is a finder for other model.
       #

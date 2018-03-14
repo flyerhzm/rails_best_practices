@@ -113,7 +113,7 @@ module RailsBestPractices
         end
 
         # By default, tmp, vender, spec, test, features are ignored.
-        ['vendor', 'spec', 'test', 'features', 'tmp'].each do |dir|
+        %w[vendor spec test features tmp].each do |dir|
           files = file_ignore(files, File.join(@path, dir)) unless @options[dir]
         end
 
@@ -122,7 +122,7 @@ module RailsBestPractices
           files = file_ignore(files, pattern)
         end
 
-        %w(Capfile Gemfile Gemfile.lock).each do |file|
+        %w[Capfile Gemfile Gemfile.lock].each do |file|
           files.unshift File.join(@path, file)
         end
 
@@ -135,7 +135,7 @@ module RailsBestPractices
     # @param [Array] dirs what directories to expand
     # @return [Array] all files expanded
     def expand_dirs_to_files(*dirs)
-      extensions = ['rb', 'erb', 'rake', 'rhtml', 'haml', 'slim', 'builder', 'rxml', 'rabl']
+      extensions = %w[rb erb rake rhtml haml slim builder rxml rabl]
 
       dirs.flatten.map { |entry|
         next unless File.exist? entry
@@ -315,7 +315,7 @@ module RailsBestPractices
     # analyze source codes.
     def analyze_source_codes
       @bar = ProgressBar.create(title: 'Source Code', total: parse_files.size * 3) if display_bar?
-      ['lexical', 'prepare', 'review'].each { |process| send(:process, process) }
+      %w[lexical prepare review].each { |process| send(:process, process) }
       @bar.finish if display_bar?
     end
 

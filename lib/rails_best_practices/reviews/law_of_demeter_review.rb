@@ -19,7 +19,7 @@ module RailsBestPractices
       interesting_files ALL_FILES
       url 'https://rails-bestpractices.com/posts/2010/07/24/the-law-of-demeter/'
 
-      ASSOCIATION_METHODS = %w(belongs_to has_one)
+      ASSOCIATION_METHODS = %w[belongs_to has_one]
 
       # check the call node,
       #

@@ -32,10 +32,10 @@ module RailsBestPractices
 
       # find variable in the call or field node.
       def variable(node)
-        while [:call, :field, :method_add_arg, :method_add_block].include?(node.receiver.sexp_type)
+        while %i[call field method_add_arg method_add_block].include?(node.receiver.sexp_type)
           node = node.receiver
         end
-        return if [:fcall, :hash].include?(node.receiver.sexp_type)
+        return if %i[fcall hash].include?(node.receiver.sexp_type)
         node.receiver
       end
 

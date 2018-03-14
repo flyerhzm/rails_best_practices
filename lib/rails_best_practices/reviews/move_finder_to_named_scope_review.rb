@@ -18,7 +18,7 @@ module RailsBestPractices
       interesting_files CONTROLLER_FILES
       url 'https://rails-bestpractices.com/posts/2010/07/14/move-finder-to-named_scope/'
 
-      FINDERS = %w(find all first last)
+      FINDERS = %w[find all first last]
 
       # check method_add_ag node if its message is one of find, all, first or last,
       # and it has a hash argument,

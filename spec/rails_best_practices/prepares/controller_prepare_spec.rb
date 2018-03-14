@@ -17,7 +17,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/controllers/posts_controller.rb', content)
           methods = Prepares.controller_methods
-          expect(methods.get_methods('PostsController').map(&:method_name)).to eq(['index', 'show'])
+          expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index show])
         end
 
         it 'should parse model methods with access control' do
@@ -33,8 +33,8 @@ module RailsBestPractices
           EOF
           runner.prepare('app/controllers/posts_controller.rb', content)
           methods = Prepares.controller_methods
-          expect(methods.get_methods('PostsController').map(&:method_name)).to eq(['index', 'show', 'resources', 'resource'])
-          expect(methods.get_methods('PostsController', 'public').map(&:method_name)).to eq(['index', 'show'])
+          expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index show resources resource])
+          expect(methods.get_methods('PostsController', 'public').map(&:method_name)).to eq(%w[index show])
           expect(methods.get_methods('PostsController', 'protected').map(&:method_name)).to eq(['resources'])
           expect(methods.get_methods('PostsController', 'private').map(&:method_name)).to eq(['resource'])
         end
@@ -48,7 +48,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/controllers/admin/posts_controller.rb', content)
           methods = Prepares.controller_methods
-          expect(methods.get_methods('Admin::Blog::PostsController').map(&:method_name)).to eq(['index', 'show'])
+          expect(methods.get_methods('Admin::Blog::PostsController').map(&:method_name)).to eq(%w[index show])
         end
 
         it 'should parse controller methods with module' do
@@ -64,7 +64,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/controllers/admin/posts_controller.rb', content)
           methods = Prepares.controller_methods
-          expect(methods.get_methods('Admin::Blog::PostsController').map(&:method_name)).to eq(['index', 'show'])
+          expect(methods.get_methods('Admin::Blog::PostsController').map(&:method_name)).to eq(%w[index show])
         end
 
         context 'inherited_resources' do
@@ -75,7 +75,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/controllers/posts_controller.rb', content)
             methods = Prepares.controller_methods
-            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(['index', 'show', 'new', 'create', 'edit', 'update', 'destroy'])
+            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index show new create edit update destroy])
           end
 
           it 'extend inherited_resources with actions' do
@@ -86,7 +86,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/controllers/posts_controller.rb', content)
             methods = Prepares.controller_methods
-            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(['index', 'show'])
+            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index show])
           end
 
           it 'extend inherited_resources with all actions' do
@@ -97,7 +97,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/controllers/posts_controller.rb', content)
             methods = Prepares.controller_methods
-            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(['index', 'new', 'create', 'edit', 'update', 'destroy'])
+            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index new create edit update destroy])
           end
 
           it 'extend inherited_resources with all actions with no arguments' do
@@ -108,7 +108,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/controllers/posts_controller.rb', content)
             methods = Prepares.controller_methods
-            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(['index', 'show', 'new', 'create', 'edit', 'update', 'destroy'])
+            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index show new create edit update destroy])
           end
 
           it 'DSL inherit_resources' do
@@ -119,7 +119,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/controllers/posts_controller.rb', content)
             methods = Prepares.controller_methods
-            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(['index', 'show', 'new', 'create', 'edit', 'update', 'destroy'])
+            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index show new create edit update destroy])
           end
         end
       end

@@ -21,7 +21,7 @@ module RailsBestPractices
       interesting_nodes :class, :command, :method_add_arg, :assign
       interesting_files CONTROLLER_FILES, VIEW_FILES, HELPER_FILES
 
-      INHERITED_RESOURCES_METHODS = %w(resource collection begin_of_association_chain build_resource)
+      INHERITED_RESOURCES_METHODS = %w[resource collection begin_of_association_chain build_resource]
 
       def initialize(options = {})
         super
@@ -41,7 +41,7 @@ module RailsBestPractices
 
       # skip render and around_filter nodes for start_command callbacks.
       def skip_command_callback_nodes
-        %w(render_cell render around_filter)
+        %w[render_cell render around_filter]
       end
 
       # mark corresponding action as used for cells' render and render_call.
@@ -107,8 +107,8 @@ module RailsBestPractices
         end
 
         def internal_except_methods
-          %w(rescue_action default_url_options).map { |method_name| "*\##{method_name}" } +
-            %w(Devise::OmniauthCallbacksController).map { |controller_name| "#{controller_name}#*" }
+          %w[rescue_action default_url_options].map { |method_name| "*\##{method_name}" } +
+            %w[Devise::OmniauthCallbacksController].map { |controller_name| "#{controller_name}#*" }
         end
 
         def mark_publicize(method_name, class_name = current_class_name)

@@ -25,7 +25,7 @@ module RailsBestPractices
 
       # skip scope and validate nodes for start_command callbacks.
       def skip_command_callback_nodes
-        %w(named_scope scope validate validate_on_create validate_on_update)
+        %w[named_scope scope validate validate_on_create validate_on_update]
       end
 
       # mark validate methods as used.
@@ -93,7 +93,7 @@ module RailsBestPractices
         end
 
         def internal_except_methods
-          %w(
+          %w[
             initialize
             validate validate_each validate_on_create validate_on_update
             human_attribute_name assign_attributes attributes attribute
@@ -102,7 +102,7 @@ module RailsBestPractices
             after_update after_destroy after_find after_initialize
             method_missing
             table_name module_prefix
-          ).map { |method_name| "*\##{method_name}" }
+          ].map { |method_name| "*\##{method_name}" }
         end
     end
   end

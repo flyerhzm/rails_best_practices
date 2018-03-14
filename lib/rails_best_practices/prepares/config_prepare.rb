@@ -13,7 +13,7 @@ module RailsBestPractices
 
       # check assignments to config
       add_callback :start_assign do |node|
-        if node.left_value.grep_node(sexp_type: [:vcall, :var_ref], to_s: 'config').present?
+        if node.left_value.grep_node(sexp_type: %i[vcall var_ref], to_s: 'config').present?
           @configs[node.left_value.to_s] = node.right_value.to_s
         end
       end

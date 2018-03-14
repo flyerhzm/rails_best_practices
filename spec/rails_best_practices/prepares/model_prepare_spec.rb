@@ -210,7 +210,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/models/post.rb', content)
           methods = Prepares.model_methods
-          expect(methods.get_methods('Post').map(&:method_name)).to eq(['save', 'find'])
+          expect(methods.get_methods('Post').map(&:method_name)).to eq(%w[save find])
         end
 
         it 'should parse model methods with access control' do
@@ -226,8 +226,8 @@ module RailsBestPractices
           EOF
           runner.prepare('app/models/post.rb', content)
           methods = Prepares.model_methods
-          expect(methods.get_methods('Post').map(&:method_name)).to eq(['save', 'find', 'create_or_update', 'find_by_sql'])
-          expect(methods.get_methods('Post', 'public').map(&:method_name)).to eq(['save', 'find'])
+          expect(methods.get_methods('Post').map(&:method_name)).to eq(%w[save find create_or_update find_by_sql])
+          expect(methods.get_methods('Post', 'public').map(&:method_name)).to eq(%w[save find])
           expect(methods.get_methods('Post', 'protected').map(&:method_name)).to eq(['create_or_update'])
           expect(methods.get_methods('Post', 'private').map(&:method_name)).to eq(['find_by_sql'])
         end
@@ -241,7 +241,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/models/admin/blog/post.rb', content)
           methods = Prepares.model_methods
-          expect(methods.get_methods('Admin::Blog::Post').map(&:method_name)).to eq(['save', 'find'])
+          expect(methods.get_methods('Admin::Blog::Post').map(&:method_name)).to eq(%w[save find])
         end
 
         it 'should parse model methods with module' do
@@ -257,7 +257,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/models/admin/blog/post.rb', content)
           methods = Prepares.model_methods
-          expect(methods.get_methods('Admin::Blog::Post').map(&:method_name)).to eq(['save', 'find'])
+          expect(methods.get_methods('Admin::Blog::Post').map(&:method_name)).to eq(%w[save find])
         end
 
         it 'should not add methods from module' do
@@ -333,7 +333,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/models/post.rb', content)
           methods = Prepares.model_methods
-          expect(methods.get_methods('Post').map(&:method_name)).to eq(['method_with_feature', 'method'])
+          expect(methods.get_methods('Post').map(&:method_name)).to eq(%w[method_with_feature method])
         end
       end
 

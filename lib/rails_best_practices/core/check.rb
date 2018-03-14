@@ -273,7 +273,7 @@ module RailsBestPractices
               when 'try'
                 mark_used(node.arguments.all.first)
               when 'send'
-                if [:symbol_literal, :string_literal].include?(node.arguments.all.first.sexp_type)
+                if %i[symbol_literal string_literal].include?(node.arguments.all.first.sexp_type)
                   mark_used(node.arguments.all.first)
                 end
               else
@@ -391,14 +391,14 @@ module RailsBestPractices
 
             # remember the current access control for methods.
             add_callback :start_var_ref do |node|
-              if %w(public protected private).include? node.to_s
+              if %w[public protected private].include? node.to_s
                 @access_control = node.to_s
               end
             end
 
             # remember the current access control for methods.
             add_callback :start_vcall do |node|
-              if %w(public protected private).include? node.to_s
+              if %w[public protected private].include? node.to_s
                 @access_control = node.to_s
               end
             end

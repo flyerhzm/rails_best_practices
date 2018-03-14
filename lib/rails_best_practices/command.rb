@@ -85,7 +85,7 @@ OptionParser.new do |opts|
     options['silent'] = true
   end
 
-  ['vendor', 'spec', 'test', 'features'].each do |pattern|
+  %w[vendor spec test features].each do |pattern|
     opts.on("--#{pattern}", "include #{pattern} files") do
       options[pattern] = true
     end

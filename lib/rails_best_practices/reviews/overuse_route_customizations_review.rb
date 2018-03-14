@@ -20,7 +20,7 @@ module RailsBestPractices
       interesting_files ROUTE_FILES
       url 'https://rails-bestpractices.com/posts/2010/07/22/overuse-route-customizations/'
 
-      VERBS = %w(get post update delete)
+      VERBS = %w[get post update delete]
 
       def initialize(options = {})
         super(options)

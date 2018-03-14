@@ -23,7 +23,7 @@ module RailsBestPractices
 
       add_callback :start_binary do |node|
         # Consider anything used in an expression like "A or B" as used
-        if %w(&& || and or).include?(node[2].to_s)
+        if %w[&& || and or].include?(node[2].to_s)
           all_conditions = node.all_conditions
           # if our current binary is a subset of the @used_return_value_of
           # then don't overwrite it

@@ -19,7 +19,7 @@ module RailsBestPractices
       interesting_files ALL_FILES
       url 'https://rails-bestpractices.com/posts/2010/10/03/use-query-attribute/'
 
-      QUERY_METHODS = %w(nil? blank? present?)
+      QUERY_METHODS = %w[nil? blank? present?]
 
       # check if node to see whose conditional statement nodes contain nodes that can use query attribute instead.
       #
@@ -103,7 +103,7 @@ module RailsBestPractices
         def model_attribute?(variable_node, message)
           class_name = variable_node.to_s.sub(/^@/, '').classify
           attribute_type = model_attributes.get_attribute_type(class_name, message)
-          attribute_type && !['integer', 'float'].include?(attribute_type)
+          attribute_type && !%w[integer float].include?(attribute_type)
         end
 
         # check if the node is with node type :binary, node message :== and node argument is empty string.

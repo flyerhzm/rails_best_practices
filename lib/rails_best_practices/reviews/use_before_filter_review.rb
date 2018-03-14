@@ -31,8 +31,8 @@ module RailsBestPractices
         @first_sentences = {}
 
         node.body.statements.each do |statement_node|
-          var_ref_or_vcall_included = [:var_ref, :vcall].include?(statement_node.sexp_type)
-          private_or_protected_included = ['protected', 'private'].include?(statement_node.to_s)
+          var_ref_or_vcall_included = %i[var_ref vcall].include?(statement_node.sexp_type)
+          private_or_protected_included = %w[protected private].include?(statement_node.to_s)
           break if var_ref_or_vcall_included && private_or_protected_included
           remember_first_sentence(statement_node) if :def == statement_node.sexp_type
         end

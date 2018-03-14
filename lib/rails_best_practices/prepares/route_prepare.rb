@@ -7,8 +7,8 @@ module RailsBestPractices
       interesting_nodes :command, :command_call, :method_add_block, :do_block, :brace_block
       interesting_files ROUTE_FILES
 
-      RESOURCES_ACTIONS = %w(index show new create edit update destroy)
-      RESOURCE_ACTIONS = %w(show new create edit update destroy)
+      RESOURCES_ACTIONS = %w[index show new create edit update destroy]
+      RESOURCE_ACTIONS = %w[show new create edit update destroy]
 
       def initialize
         @routes = Prepares.routes
@@ -183,7 +183,7 @@ module RailsBestPractices
         @controller_names.pop
       end
 
-      [:resources, :resource].each do |route_name|
+      %i[resources resource].each do |route_name|
         class_eval <<-EOF
         def add_#{route_name}_routes(node)
           resource_names = node.arguments.all.select { |argument| :symbol_literal == argument.sexp_type }

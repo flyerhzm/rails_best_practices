@@ -17,7 +17,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/helpers/posts_helper.rb', content)
           methods = Prepares.helper_methods
-          expect(methods.get_methods('PostsHelper').map(&:method_name)).to eq(['used', 'unused'])
+          expect(methods.get_methods('PostsHelper').map(&:method_name)).to eq(%w[used unused])
         end
 
         it 'should parse helpers' do

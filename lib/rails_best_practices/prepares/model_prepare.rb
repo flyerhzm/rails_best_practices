@@ -10,7 +10,7 @@ module RailsBestPractices
       interesting_nodes :class, :def, :defs, :command, :alias
       interesting_files MODEL_FILES
 
-      ASSOCIATION_METHODS = %w(belongs_to has_one has_many has_and_belongs_to_many embeds_many embeds_one embedded_in many one)
+      ASSOCIATION_METHODS = %w[belongs_to has_one has_many has_and_belongs_to_many embeds_many embeds_one embedded_in many one]
 
       def initialize
         @models = Prepares.models
@@ -79,7 +79,7 @@ module RailsBestPractices
       #     }
       add_callback :start_command do |node|
         case node.message.to_s
-        when *%w(named_scope scope alias_method)
+        when *%w[named_scope scope alias_method]
           method_name = node.arguments.all.first.to_s
           @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
         when 'alias_method_chain'

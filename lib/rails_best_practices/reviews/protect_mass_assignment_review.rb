@@ -73,7 +73,7 @@ module RailsBestPractices
         end
 
         def check_rails_builtin(node)
-          if @whitelist_attributes || [node.to_s, node.message.to_s].any? { |str| %w(attr_accessible attr_protected).include? str }
+          if @whitelist_attributes || [node.to_s, node.message.to_s].any? { |str| %w[attr_accessible attr_protected].include? str }
             @mass_assignement = false
           end
         end

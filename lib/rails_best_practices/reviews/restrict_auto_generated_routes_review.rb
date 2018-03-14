@@ -20,9 +20,9 @@ module RailsBestPractices
 
       def resource_methods
         if Prepares.configs['config.api_only']
-          %w(show create update destroy)
+          %w[show create update destroy]
         else
-          %w(show new create edit update destroy)
+          %w[show new create edit update destroy]
         end
       end
 
