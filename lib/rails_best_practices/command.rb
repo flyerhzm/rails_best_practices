@@ -133,7 +133,7 @@ OptionParser.new do |opts|
   opts.parse!
 end
 
-if ARGV.size > 0 && !File.exists?(ARGV.first)
+if ARGV.size > 0 && !File.exist?(ARGV.first)
   puts "#{ARGV.first} doesn't exist"
   exit 1
 end

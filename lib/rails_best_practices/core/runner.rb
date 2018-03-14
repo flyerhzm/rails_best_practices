@@ -47,7 +47,7 @@ module RailsBestPractices
       # @return [String] the config path
       def self.config_path
         custom_config = @config_path || File.join(Runner.base_path, 'config/rails_best_practices.yml')
-        File.exists?(custom_config) ? custom_config : RailsBestPractices::Analyzer::DEFAULT_CONFIG
+        File.exist?(custom_config) ? custom_config : RailsBestPractices::Analyzer::DEFAULT_CONFIG
       end
 
       # initialize the runner.

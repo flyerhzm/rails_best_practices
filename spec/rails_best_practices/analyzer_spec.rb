@@ -133,7 +133,7 @@ module RailsBestPractices
       end
 
       after do
-        File.delete(output_file) if File.exists?(output_file)
+        File.delete(output_file) if File.exist?(output_file)
       end
 
       it 'saves output as json into output file' do
