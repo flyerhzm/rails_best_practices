@@ -90,7 +90,7 @@ module RailsBestPractices
       add_callback :after_check do
         descendants = @helpers.map(&:descendants).flatten
         if descendants.present?
-          Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *descendants.map { |descendant| %r{#{descendant.underscore}} }
+          Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *descendants.map { |descendant| /#{descendant.underscore}/ }
         end
       end
     end
