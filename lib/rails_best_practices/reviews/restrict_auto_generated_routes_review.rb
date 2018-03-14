@@ -122,7 +122,7 @@ module RailsBestPractices
 
         # get the class name with namespace.
         def namespaced_class_name(name)
-          class_name = "#{name.split("/").map(&:camelize).join("::")}Controller"
+          class_name = "#{name.split('/').map(&:camelize).join('::')}Controller"
           if @namespaces.empty?
             class_name
           else
@@ -138,7 +138,7 @@ module RailsBestPractices
             prepared_method_names = Prepares.controller_methods.get_methods(controller_name).map(&:method_name)
             only_methods = (_methods & prepared_method_names).map { |meth| ":#{meth}" }
             routes_message = if only_methods.size > 3
-                               "except: [#{(methods.map { |meth| ":" + meth } - only_methods).join(', ')}]"
+                               "except: [#{(methods.map { |meth| ':' + meth } - only_methods).join(', ')}]"
                              else
                                "only: [#{only_methods.join(', ')}]"
                              end

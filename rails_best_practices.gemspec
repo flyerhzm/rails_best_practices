@@ -38,7 +38,7 @@ Gem::Specification.new do |s|
   s.require_paths = %w[lib assets]
 
   s.post_install_message = <<-POST_INSTALL_MESSAGE
-#{"*" * 80}
+#{'*' * 80}
 
   rails_best_practices is a code metric tool to check the quality of rails codes.
 
@@ -54,6 +54,6 @@ Gem::Specification.new do |s|
 
       Richard Huang (flyerhzm@gmail.com)
 
-#{"*" * 80}
+#{'*' * 80}
   POST_INSTALL_MESSAGE
 end
