@@ -7,7 +7,7 @@ module RailsBestPractices
 
       describe 'not_rescue_exception' do
         it 'should not rescue exception in method rescue with named var' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             do_something
           rescue Exception => e
@@ -20,7 +20,7 @@ module RailsBestPractices
         end
 
         it 'should not rescue exception in method rescue without named var' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             do_something
           rescue Exception
@@ -33,7 +33,7 @@ module RailsBestPractices
         end
 
         it 'should not rescue exception in block rescue with named var' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             begin
               do_something
@@ -48,7 +48,7 @@ module RailsBestPractices
         end
 
         it 'should not rescue exception in block rescue without named var' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             begin
               do_something
@@ -63,7 +63,7 @@ module RailsBestPractices
         end
 
         it 'should allow rescue implicit StandardError in block rescue without named var' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             begin
               do_something
@@ -77,7 +77,7 @@ module RailsBestPractices
         end
 
         it 'should allow rescue explicit StandardError in block rescue without named var' do
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             begin
               do_something
@@ -92,7 +92,7 @@ module RailsBestPractices
 
         it 'should not check ignored files' do
           runner = Core::Runner.new(reviews: NotRescueExceptionReview.new(ignored_files: /posts_helper/))
-          content =<<-EOF
+          content = <<-EOF
           def my_method
             do_something
           rescue Exception => e

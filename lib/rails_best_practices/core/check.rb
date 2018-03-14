@@ -21,7 +21,7 @@ module RailsBestPractices
 
       SKIP_FILES = /db\/schema.rb/
 
-      def initialize(options={})
+      def initialize(options = {})
         options.each do |key, value|
           instance_variable_set("@#{key}", value)
         end
@@ -46,11 +46,11 @@ module RailsBestPractices
       end
 
       def is_ignored?(node_file)
-        regex_ignored_files.map{ |r| !!r.match(node_file) }.inject(:|)
+        regex_ignored_files.map { |r| !!r.match(node_file) }.inject(:|)
       end
 
       def regex_ignored_files
-        @regex_ignored_files ||= Array(@ignored_files).map{ |pattern| Regexp.new(pattern) }
+        @regex_ignored_files ||= Array(@ignored_files).map { |pattern| Regexp.new(pattern) }
       end
 
       # add error if source code violates rails best practice.
@@ -99,7 +99,7 @@ module RailsBestPractices
       end
 
       class <<self
-        def url(url=nil)
+        def url(url = nil)
           url ?  @url = url : @url
         end
 
@@ -294,7 +294,7 @@ module RailsBestPractices
                 call_method(method_name)
               end
 
-              def call_method(method_name, class_name=nil)
+              def call_method(method_name, class_name = nil)
                 name ||= respond_to?(:current_class_name) ? current_class_name : current_module_name
                 if methods.has_method?(name, method_name)
                   methods.get_method(name, method_name).mark_used

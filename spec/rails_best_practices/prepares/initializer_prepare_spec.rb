@@ -7,7 +7,7 @@ module RailsBestPractices
 
       context 'initializers' do
         it 'should set include_forbidden_attributes_protection config' do
-          content =<<-EOF
+          content = <<-EOF
           class AR
             ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)
           end
@@ -18,7 +18,7 @@ module RailsBestPractices
         end
 
         it 'should not set include_forbidden_attributes_protection config' do
-          content =<<-EOF
+          content = <<-EOF
           class AR
           end
           EOF

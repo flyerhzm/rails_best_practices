@@ -19,7 +19,7 @@ module RailsBestPractices
       def initialize(class_name, extend_class_name, modules)
         @modules = modules.dup
         base = @modules.map { |modu| "#{modu}::" }.join('')
-        @class_name =  base + class_name
+        @class_name = base + class_name
         if extend_class_name
           @extend_class_name = base + extend_class_name
         end

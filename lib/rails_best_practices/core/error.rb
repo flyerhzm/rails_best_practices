@@ -8,7 +8,7 @@ module RailsBestPractices
       attr_reader :type, :url
       attr_accessor :git_commit, :git_username, :hg_commit, :hg_username
 
-      def initialize(options={})
+      def initialize(options = {})
         super
         @type = options[:type]
         @url = options[:url]

@@ -16,7 +16,7 @@ module RailsBestPractices
 
       interesting_files HELPER_FILES, VIEW_FILES, CONTROLLER_FILES
 
-      def initialize(options={})
+      def initialize(options = {})
         super
         @helper_methods = Prepares.helper_methods
         self.class.interesting_files Prepares.helpers.map(&:descendants)

@@ -6,7 +6,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(lexicals: RemoveTabCheck.new) }
 
       it 'should remove tab' do
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
         end
@@ -18,7 +18,7 @@ module RailsBestPractices
       end
 
       it 'should remove tab with third line' do
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
   \t
@@ -30,7 +30,7 @@ module RailsBestPractices
       end
 
       it 'should not remove trailing whitespace' do
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
         end
@@ -40,7 +40,7 @@ module RailsBestPractices
       end
       it 'should not check ignored files' do
         runner = Core::Runner.new(lexicals: RemoveTabCheck.new(ignored_files: /user/))
-        content =<<-EOF
+        content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
 
