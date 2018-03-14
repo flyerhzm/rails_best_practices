@@ -35,8 +35,7 @@ module RailsBestPractices
         # check if rails's syntax mailer views are canonical.
         #
         # @param [String] name method name in action_mailer
-        def rails_canonical_mailer_views?(name)
-        end
+        def rails_canonical_mailer_views?(name); end
 
         # check if rails3's syntax mailer views are canonical.
         #
