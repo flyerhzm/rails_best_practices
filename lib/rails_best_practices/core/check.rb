@@ -360,7 +360,7 @@ module RailsBestPractices
           end
         end
 
-        def self.matches method, except_method
+        def self.matches(method, except_method)
           class_name, method_name = except_method.split('#')
 
           method_name = '.*' if method_name == '*'
