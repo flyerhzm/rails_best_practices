@@ -125,7 +125,7 @@ module RailsBestPractices
             end
 
             # end of the module.
-            add_callback :end_module do |node|
+            add_callback :end_module do |_node|
               classable_modules.pop
             end
 
@@ -137,7 +137,7 @@ module RailsBestPractices
             end
 
             # end of the class
-            add_callback :end_class do |node|
+            add_callback :end_class do |_node|
               klasses.pop
               # @klass = nil
             end
@@ -176,7 +176,7 @@ module RailsBestPractices
             end
 
             # end of module
-            add_callback :end_module do |node|
+            add_callback :end_module do |_node|
               moduleable_modules.pop
             end
           end
@@ -316,7 +316,7 @@ module RailsBestPractices
             interesting_files CONTROLLER_FILES
 
             # check if the controller is inherit from InheritedResources::Base.
-            add_callback :start_class do |node|
+            add_callback :start_class do |_node|
               if 'InheritedResources::Base' == current_extend_class_name
                 @inherited_resources = true
               end
@@ -404,12 +404,12 @@ module RailsBestPractices
             end
 
             # set access control to "public" by default.
-            add_callback :start_class do |node|
+            add_callback :start_class do |_node|
               @access_control = 'public'
             end
 
             # set access control to "public" by default.
-            add_callback :start_module do |node|
+            add_callback :start_module do |_node|
               @access_control = 'public'
             end
           end

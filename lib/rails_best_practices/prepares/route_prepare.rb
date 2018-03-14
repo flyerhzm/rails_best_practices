@@ -174,12 +174,12 @@ module RailsBestPractices
       end
 
       # remember current controller name, used for nested resources.
-      add_callback :start_do_block, :start_brace_block do |node|
+      add_callback :start_do_block, :start_brace_block do |_node|
         @controller_names << @controller_name.try(:last)
       end
 
       # remove current controller name, and use upper lever resource name.
-      add_callback :end_do_block, :end_brace_block do |node|
+      add_callback :end_do_block, :end_brace_block do |_node|
         @controller_names.pop
       end
 

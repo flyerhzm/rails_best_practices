@@ -17,7 +17,7 @@ module RailsBestPractices
       url 'https://rails-bestpractices.com/posts/2012/03/06/protect-mass-assignment/'
 
       # we treat it as mass assignment by default.
-      add_callback :start_class do |node|
+      add_callback :start_class do |_node|
         @mass_assignement = true
         check_activerecord_version
         check_whitelist_attributes_config

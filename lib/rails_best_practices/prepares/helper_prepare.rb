@@ -16,7 +16,7 @@ module RailsBestPractices
       end
 
       # check module node to remember the module name.
-      add_callback :start_module do |node|
+      add_callback :start_module do |_node|
         @helpers << Core::Mod.new(current_module_name, [])
       end
 

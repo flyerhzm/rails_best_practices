@@ -20,7 +20,7 @@ module RailsBestPractices
       end
 
       # remember the class name.
-      add_callback :start_class do |node|
+      add_callback :start_class do |_node|
         if 'ActionMailer::Base' != current_extend_class_name
           @models << @klass
         end
@@ -108,7 +108,7 @@ module RailsBestPractices
       # after prepare process, fix incorrect associations' class_name.
       add_callback :after_check do
         @model_associations.each do |model, model_associations|
-          model_associations.each do |association_name, association_meta|
+          model_associations.each do |_association_name, association_meta|
             unless @models.include?(association_meta['class_name'])
               if @models.include?("#{model}::#{association_meta['class_name']}")
                 association_meta['class_name'] = "#{model}::#{association_meta['class_name']}"

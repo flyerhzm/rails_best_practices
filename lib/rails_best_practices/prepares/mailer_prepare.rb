@@ -17,7 +17,7 @@ module RailsBestPractices
       #
       # if it is a subclass of ActionMailer::Base,
       # then remember its class name.
-      add_callback :start_class do |node|
+      add_callback :start_class do |_node|
         if 'ActionMailer::Base' == current_extend_class_name
           @mailers << @klass
         end

@@ -123,7 +123,7 @@ module RailsBestPractices
       # @param [String] access control
       # @return [Array] array of Method
       def get_all_unused_methods(access_control = nil)
-        @methods.inject([]) { |unused_methods, (class_name, methods)|
+        @methods.inject([]) { |unused_methods, (_class_name, methods)|
           unused_methods += if access_control
             methods.select { |method| method.access_control == access_control && !method.used }
           else

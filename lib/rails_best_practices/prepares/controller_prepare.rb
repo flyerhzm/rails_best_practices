@@ -22,7 +22,7 @@ module RailsBestPractices
 
       # check class node to remember the class name.
       # also check if the controller is inherit from InheritedResources::Base.
-      add_callback :start_class do |node|
+      add_callback :start_class do |_node|
         @controllers << @klass
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
@@ -39,14 +39,14 @@ module RailsBestPractices
       end
 
       # check if there is a DSL call inherit_resources.
-      add_callback :start_var_ref do |node|
+      add_callback :start_var_ref do |_node|
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
         end
       end
 
       # check if there is a DSL call inherit_resources.
-      add_callback :start_vcall do |node|
+      add_callback :start_vcall do |_node|
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
         end

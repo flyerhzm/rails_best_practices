@@ -31,7 +31,7 @@ module RailsBestPractices
       end
 
       # mark custom inherited_resources methods as used.
-      add_callback :end_class do |node|
+      add_callback :end_class do |_node|
         if @inherited_resources
           INHERITED_RESOURCES_METHODS.each do |method|
             call_method(method)
