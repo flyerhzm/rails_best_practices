@@ -132,7 +132,7 @@ OptionParser.new do |opts|
   opts.parse!
 end
 
-if ARGV.size > 0 && !File.exist?(ARGV.first)
+if !ARGV.empty? && !File.exist?(ARGV.first)
   puts "#{ARGV.first} doesn't exist"
   exit 1
 end
@@ -143,5 +143,5 @@ else
   analyzer = RailsBestPractices::Analyzer.new(ARGV.first, options)
   analyzer.analyze
   analyzer.output
-  exit analyzer.runner.errors.size > 0 ? 1 : 0
+  exit !analyzer.runner.errors.empty? ? 1 : 0
 end
