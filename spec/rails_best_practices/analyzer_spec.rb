@@ -95,7 +95,7 @@ module RailsBestPractices
         check1.add_error 'law of demeter', 'app/models/user.rb', 10
         check2.add_error 'use query attribute', 'app/models/post.rb', 100
         subject.runner = runner
-        subject.instance_variable_set('@options', { 'without-color' => false })
+        subject.instance_variable_set('@options', 'without-color' => false)
 
         $origin_stdout = $stdout
         $stdout = StringIO.new
@@ -114,10 +114,10 @@ module RailsBestPractices
       let(:output_file) { 'rails_best_practices_output.json' }
 
       subject do
-        described_class.new('.', {
+        described_class.new('.', 
           'format' => 'json',
           'output-file' => output_file
-        })
+        )
       end
 
       let(:check1) { Reviews::LawOfDemeterReview.new }

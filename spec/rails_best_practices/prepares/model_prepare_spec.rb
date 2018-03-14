@@ -43,10 +43,10 @@ module RailsBestPractices
           EOF
           runner.prepare('app/models/project.rb', content)
           model_associations = Prepares.model_associations
-          expect(model_associations.get_association('Project', 'portfolio')).to eq({ 'meta' => 'belongs_to', 'class_name' => 'Portfolio' })
-          expect(model_associations.get_association('Project', 'project_manager')).to eq({ 'meta' => 'has_one', 'class_name' => 'ProjectManager' })
-          expect(model_associations.get_association('Project', 'milestones')).to eq({ 'meta' => 'has_many', 'class_name' => 'Milestone' })
-          expect(model_associations.get_association('Project', 'categories')).to eq({ 'meta' => 'has_and_belongs_to_many', 'class_name' => 'Category' })
+          expect(model_associations.get_association('Project', 'portfolio')).to eq('meta' => 'belongs_to', 'class_name' => 'Portfolio')
+          expect(model_associations.get_association('Project', 'project_manager')).to eq('meta' => 'has_one', 'class_name' => 'ProjectManager')
+          expect(model_associations.get_association('Project', 'milestones')).to eq('meta' => 'has_many', 'class_name' => 'Milestone')
+          expect(model_associations.get_association('Project', 'categories')).to eq('meta' => 'has_and_belongs_to_many', 'class_name' => 'Category')
         end
 
         context 'with class_name option' do
@@ -58,7 +58,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/post.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Post', 'author')).to eq({ 'meta' => 'belongs_to', 'class_name' => 'Person' })
+            expect(model_associations.get_association('Post', 'author')).to eq('meta' => 'belongs_to', 'class_name' => 'Person')
           end
 
           it 'should parse has_one' do
@@ -69,7 +69,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/post.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Project', 'project_manager')).to eq({ 'meta' => 'has_one', 'class_name' => 'Person' })
+            expect(model_associations.get_association('Project', 'project_manager')).to eq('meta' => 'has_one', 'class_name' => 'Person')
           end
 
           it 'should parse has_many' do
@@ -80,7 +80,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/project.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Project', 'people')).to eq({ 'meta' => 'has_many', 'class_name' => 'Person' })
+            expect(model_associations.get_association('Project', 'people')).to eq('meta' => 'has_many', 'class_name' => 'Person')
           end
 
           it 'should parse has_and_belongs_to_many' do
@@ -91,7 +91,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/citizen.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Citizen', 'nations')).to eq({ 'meta' => 'has_and_belongs_to_many', 'class_name' => 'Country' })
+            expect(model_associations.get_association('Citizen', 'nations')).to eq('meta' => 'has_and_belongs_to_many', 'class_name' => 'Country')
           end
 
           context 'namespace' do
@@ -110,8 +110,8 @@ module RailsBestPractices
               runner.prepare('app/models/community/member.rb', content)
               runner.after_prepare
               model_associations = Prepares.model_associations
-              expect(model_associations.get_association('Community', 'members')).to eq({ 'meta' => 'has_many', 'class_name' => 'Community::Member' })
-              expect(model_associations.get_association('Community::Member', 'community')).to eq({ 'meta' => 'belongs_to', 'class_name' => 'Community' })
+              expect(model_associations.get_association('Community', 'members')).to eq('meta' => 'has_many', 'class_name' => 'Community::Member')
+              expect(model_associations.get_association('Community::Member', 'community')).to eq('meta' => 'belongs_to', 'class_name' => 'Community')
             end
 
             it 'should parse without namespace' do
@@ -129,8 +129,8 @@ module RailsBestPractices
               runner.prepare('app/models/community/member.rb', content)
               runner.after_prepare
               model_associations = Prepares.model_associations
-              expect(model_associations.get_association('Community::Member::Rating', 'member')).to eq({ 'meta' => 'belongs_to', 'class_name' => 'Community::Member' })
-              expect(model_associations.get_association('Community::Member', 'ratings')).to eq({ 'meta' => 'has_many', 'class_name' => 'Community::Member::Rating' })
+              expect(model_associations.get_association('Community::Member::Rating', 'member')).to eq('meta' => 'belongs_to', 'class_name' => 'Community::Member')
+              expect(model_associations.get_association('Community::Member', 'ratings')).to eq('meta' => 'has_many', 'class_name' => 'Community::Member::Rating')
             end
           end
         end
@@ -145,7 +145,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/person.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Person', 'addresses')).to eq({ 'meta' => 'embeds_many', 'class_name' => 'Address' })
+            expect(model_associations.get_association('Person', 'addresses')).to eq('meta' => 'embeds_many', 'class_name' => 'Address')
           end
 
           it 'should parse embeds_one' do
@@ -157,7 +157,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/lush.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Lush', 'whiskey')).to eq({ 'meta' => 'embeds_one', 'class_name' => 'Drink' })
+            expect(model_associations.get_association('Lush', 'whiskey')).to eq('meta' => 'embeds_one', 'class_name' => 'Drink')
           end
 
           it 'should parse embedded_in' do
@@ -169,7 +169,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/drink.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Drink', 'alcoholic')).to eq({ 'meta' => 'embedded_in', 'class_name' => 'Lush' })
+            expect(model_associations.get_association('Drink', 'alcoholic')).to eq('meta' => 'embedded_in', 'class_name' => 'Lush')
           end
         end
 
@@ -183,7 +183,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/employee.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Employee', 'desk')).to eq({ 'meta' => 'one', 'class_name' => 'Desk' })
+            expect(model_associations.get_association('Employee', 'desk')).to eq('meta' => 'one', 'class_name' => 'Desk')
           end
 
           it 'should parse many' do
@@ -195,7 +195,7 @@ module RailsBestPractices
             EOF
             runner.prepare('app/models/tree.rb', content)
             model_associations = Prepares.model_associations
-            expect(model_associations.get_association('Tree', 'birds')).to eq({ 'meta' => 'many', 'class_name' => 'Bird' })
+            expect(model_associations.get_association('Tree', 'birds')).to eq('meta' => 'many', 'class_name' => 'Bird')
           end
         end
       end

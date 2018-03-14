@@ -7,7 +7,7 @@ module RailsBestPractices
     describe RemoveUnusedMethodsInControllersReview do
       let(:runner) { Core::Runner.new(
         prepares: [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
-        reviews: RemoveUnusedMethodsInControllersReview.new({ 'except_methods' => ['ExceptableController#*'] })
+        reviews: RemoveUnusedMethodsInControllersReview.new('except_methods' => ['ExceptableController#*'])
       ) }
 
       context 'private/protected' do

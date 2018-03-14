@@ -7,7 +7,7 @@ module RailsBestPractices
     describe RemoveUnusedMethodsInModelsReview do
       let(:runner) { Core::Runner.new(
         prepares: Prepares::ModelPrepare.new,
-        reviews: RemoveUnusedMethodsInModelsReview.new({ 'except_methods' => ['*#set_cache'] })
+        reviews: RemoveUnusedMethodsInModelsReview.new('except_methods' => ['*#set_cache'])
       ) }
 
       context 'private' do

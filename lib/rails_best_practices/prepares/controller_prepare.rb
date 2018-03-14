@@ -34,7 +34,7 @@ module RailsBestPractices
       add_callback :end_class do |node|
         if @inherited_resources && 'ApplicationController' != current_class_name
           @actions.each do |action|
-            @methods.add_method(current_class_name, action, { 'file' => node.file, 'line_number' => node.line_number })
+            @methods.add_method(current_class_name, action, 'file' => node.file, 'line_number' => node.line_number)
           end
         end
       end
