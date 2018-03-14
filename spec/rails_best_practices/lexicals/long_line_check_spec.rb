@@ -3,7 +3,6 @@ require 'spec_helper'
 module RailsBestPractices
   module Lexicals
     describe LongLineCheck do
-
       it 'should find long lines' do
         runner = Core::Runner.new(lexicals: LongLineCheck.new)
         content =<<-EOF
