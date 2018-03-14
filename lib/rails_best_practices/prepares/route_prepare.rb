@@ -7,8 +7,8 @@ module RailsBestPractices
       interesting_nodes :command, :command_call, :method_add_block, :do_block, :brace_block
       interesting_files ROUTE_FILES
 
-      RESOURCES_ACTIONS = %w[index show new create edit update destroy]
-      RESOURCE_ACTIONS = %w[show new create edit update destroy]
+      RESOURCES_ACTIONS = %w[index show new create edit update destroy].freeze
+      RESOURCE_ACTIONS = %w[show new create edit update destroy].freeze
 
       def initialize
         @routes = Prepares.routes

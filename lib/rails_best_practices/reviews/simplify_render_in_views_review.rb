@@ -16,7 +16,7 @@ module RailsBestPractices
       interesting_files VIEW_FILES
       url 'https://rails-bestpractices.com/posts/2010/12/04/simplify-render-in-views/'
 
-      VALID_KEYS = %w[object collection locals]
+      VALID_KEYS = %w[object collection locals].freeze
 
       # check command node in view file,
       # if its message is render and the arguments contain a key partial,

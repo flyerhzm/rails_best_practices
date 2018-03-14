@@ -21,7 +21,7 @@ module RailsBestPractices
       interesting_nodes :class, :command, :method_add_arg, :assign
       interesting_files CONTROLLER_FILES, VIEW_FILES, HELPER_FILES
 
-      INHERITED_RESOURCES_METHODS = %w[resource collection begin_of_association_chain build_resource]
+      INHERITED_RESOURCES_METHODS = %w[resource collection begin_of_association_chain build_resource].freeze
 
       def initialize(options = {})
         super

@@ -8,7 +8,7 @@ module RailsBestPractices
       interesting_files SCHEMA_FILE
 
       # all attribute types
-      ATTRIBUTE_TYPES = %w[integer float boolean string text date time datetime binary]
+      ATTRIBUTE_TYPES = %w[integer float boolean string text date time datetime binary].freeze
 
       def initialize
         @model_attributes = Prepares.model_attributes

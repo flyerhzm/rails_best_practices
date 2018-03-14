@@ -19,7 +19,7 @@ module RailsBestPractices
       interesting_files ALL_FILES
       url 'https://rails-bestpractices.com/posts/2010/10/03/use-query-attribute/'
 
-      QUERY_METHODS = %w[nil? blank? present?]
+      QUERY_METHODS = %w[nil? blank? present?].freeze
 
       # check if node to see whose conditional statement nodes contain nodes that can use query attribute instead.
       #

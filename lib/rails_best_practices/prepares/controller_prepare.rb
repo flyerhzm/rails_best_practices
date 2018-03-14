@@ -11,7 +11,7 @@ module RailsBestPractices
       interesting_nodes :class, :var_ref, :vcall, :command, :def
       interesting_files CONTROLLER_FILES
 
-      DEFAULT_ACTIONS = %w[index show new create edit update destroy]
+      DEFAULT_ACTIONS = %w[index show new create edit update destroy].freeze
 
       def initialize
         @controllers = Prepares.controllers

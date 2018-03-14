@@ -10,7 +10,7 @@ module RailsBestPractices
       interesting_nodes :class, :def, :defs, :command, :alias
       interesting_files MODEL_FILES
 
-      ASSOCIATION_METHODS = %w[belongs_to has_one has_many has_and_belongs_to_many embeds_many embeds_one embedded_in many one]
+      ASSOCIATION_METHODS = %w[belongs_to has_one has_many has_and_belongs_to_many embeds_many embeds_one embedded_in many one].freeze
 
       def initialize
         @models = Prepares.models

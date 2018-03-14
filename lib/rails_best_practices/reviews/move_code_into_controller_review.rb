@@ -15,7 +15,7 @@ module RailsBestPractices
       interesting_files VIEW_FILES
       url 'https://rails-bestpractices.com/posts/2010/07/24/move-code-into-controller/'
 
-      FINDERS = %w[find all first last]
+      FINDERS = %w[find all first last].freeze
 
       # check method_add_arg nodes.
       #

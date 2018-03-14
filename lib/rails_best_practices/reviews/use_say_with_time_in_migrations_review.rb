@@ -19,7 +19,7 @@ module RailsBestPractices
       interesting_files MIGRATION_FILES
       url 'https://rails-bestpractices.com/posts/2010/08/19/use-say-and-say_with_time-in-migrations-to-make-a-useful-migration-log/'
 
-      WITH_SAY_METHODS = %w[say say_with_time]
+      WITH_SAY_METHODS = %w[say say_with_time].freeze
 
       # check a class method define node to see if there are method calls that need to be wrapped by say
       # or say_with_time.

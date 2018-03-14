@@ -19,7 +19,7 @@ module RailsBestPractices
     attr_reader :path
 
     DEFAULT_CONFIG = File.join(File.dirname(__FILE__), '..', '..', 'rails_best_practices.yml')
-    GITHUB_URL = 'https://github.com/'
+    GITHUB_URL = 'https://github.com/'.freeze
 
     # initialize
     #
