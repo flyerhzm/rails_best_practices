@@ -48,7 +48,7 @@ module RailsBestPractices
       add_callback :start_command, :start_method_add_arg do |node|
         case node.message.to_s
         when 'render_cell'
-          controller_name, action_name, _ = *node.arguments.all.map(&:to_s)
+          controller_name, action_name, = *node.arguments.all.map(&:to_s)
           call_method(action_name, "#{controller_name}_cell".classify)
         when 'render'
           first_argument = node.arguments.all.first
