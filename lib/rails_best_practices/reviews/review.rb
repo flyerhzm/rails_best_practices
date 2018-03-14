@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 module RailsBestPractices
   module Reviews
     # A Review class that takes charge of reviewing one rails best practice.

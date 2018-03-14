@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 module RailsBestPractices
   module Reviews
     # Review to make sure not to avoid the law of demeter.

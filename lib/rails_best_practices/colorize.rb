@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module RailsBestPractices
   class Colorize
     def self.red(message)

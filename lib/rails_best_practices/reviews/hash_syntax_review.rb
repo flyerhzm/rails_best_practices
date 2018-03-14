@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 module RailsBestPractices
   module Reviews
     # Check ruby 1.8 style hash and suggest to change hash syntax to 1.9.

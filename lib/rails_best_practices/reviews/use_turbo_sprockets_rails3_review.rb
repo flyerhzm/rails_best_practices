@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 module RailsBestPractices
   module Reviews
     # Prepare Gemfile and review Capfile file to make sure using turbo-sprocket-rails3

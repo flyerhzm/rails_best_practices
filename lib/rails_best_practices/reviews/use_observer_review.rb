@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 module RailsBestPractices
   module Reviews
     # Make sure to use observer (sorry we only check the mailer deliver now).

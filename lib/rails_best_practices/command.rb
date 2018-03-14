@@ -1,4 +1,6 @@
 # encoding: utf-8
+# frozen_string_literal: true
+
 require 'optparse'
 
 # Usage: rails_best_practices [options] path
