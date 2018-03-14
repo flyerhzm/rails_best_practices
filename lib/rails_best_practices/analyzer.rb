@@ -158,7 +158,7 @@ module RailsBestPractices
       mailers = files.find_all { |file| file =~ Core::Check::MAILER_FILES }
       helpers = files.find_all { |file| file =~ Core::Check::HELPER_FILES }
       others = files.find_all { |file| file !~ Core::Check::MAILER_FILES && file !~ Core::Check::MODEL_FILES && file !~ Core::Check::HELPER_FILES }
-      return models + mailers + helpers + others
+      models + mailers + helpers + others
     end
 
     # ignore specific files.

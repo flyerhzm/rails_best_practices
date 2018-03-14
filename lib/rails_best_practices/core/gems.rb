@@ -4,11 +4,11 @@ module RailsBestPractices
   module Core
     class Gems < Array
       def has_gem?(gem_name)
-        self.find { |gem| gem.name == gem_name }
+        find { |gem| gem.name == gem_name }
       end
 
       def gem_version(gem_name)
-        self.find { |gem| gem.name == gem_name }.try(:version)
+        find { |gem| gem.name == gem_name }.try(:version)
       end
     end
 

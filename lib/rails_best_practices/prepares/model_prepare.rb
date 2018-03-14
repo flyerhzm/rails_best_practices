@@ -79,13 +79,13 @@ module RailsBestPractices
       #     }
       add_callback :start_command do |node|
         case node.message.to_s
-        when *%w[named_scope scope alias_method]
+        when 'named_scope', 'scope', 'alias_method'
           method_name = node.arguments.all.first.to_s
           @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
         when 'alias_method_chain'
           method, feature = *node.arguments.all.map(&:to_s)
           @methods.add_method(current_class_name, "#{method}_with_#{feature}", { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
-          @methods.add_method(current_class_name, "#{method}", { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
+          @methods.add_method(current_class_name, method.to_s, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
         when 'field'
           arguments = node.arguments.all
           attribute_name = arguments.first.to_s
