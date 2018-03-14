@@ -388,7 +388,7 @@ module RailsBestPractices
             has_many :event_notification_template, finder_sql: ?
           end
           EOF
-          content.sub!('?', '\'SELECT event_notification_templates.* from event_notification_templates where event_type_id=#{event_type_id} and delivery_method_id=#{delivery_method_id}\'')
+          content = content.sub('?', '\'SELECT event_notification_templates.* from event_notification_templates where event_type_id=#{event_type_id} and delivery_method_id=#{delivery_method_id}\'')
           expect { runner.prepare('app/models/event_subscription.rb', content) }.not_to raise_error
         end
       end

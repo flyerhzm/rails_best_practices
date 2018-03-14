@@ -13,7 +13,7 @@ module RailsBestPractices
           has_many :projects
         end
         EOF
-        content.gsub!("\n", "  \n")
+        content = content.gsub("\n", "  \n")
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(1)
         expect(runner.errors[0].to_s).to eq('app/models/user.rb:1 - remove trailing whitespace')
@@ -25,7 +25,7 @@ module RailsBestPractices
           has_many :projects
         end
         EOF
-        content.gsub!("d\n", "d  \n")
+        content = content.gsub("d\n", "d  \n")
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(1)
         expect(runner.errors[0].to_s).to eq('app/models/user.rb:3 - remove trailing whitespace')
@@ -48,7 +48,7 @@ module RailsBestPractices
           has_many :projects
         end
         EOF
-        content.gsub!("\n", "  \n")
+        content = content.gsub("\n", "  \n")
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(0)
       end

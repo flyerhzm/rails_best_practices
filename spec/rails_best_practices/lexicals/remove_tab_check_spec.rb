@@ -13,7 +13,7 @@ module RailsBestPractices
           has_many :projects
         end
         EOF
-        content.gsub!("\n", "\t\n")
+        content = content.gsub("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(1)
         expect(runner.errors[0].to_s).to eq('app/models/user.rb:1 - remove tab, use spaces instead')
@@ -49,7 +49,7 @@ module RailsBestPractices
   \t
         end
         EOF
-        content.gsub!("\n", "\t\n")
+        content = content.gsub("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(0)
       end

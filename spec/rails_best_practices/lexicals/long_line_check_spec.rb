@@ -15,7 +15,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 end
 EOF
-        content.gsub!("\n", "\t\n")
+        content = content.gsub("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(1)
         expect(runner.errors[0].to_s).to eq('app/models/user.rb:3 - line is longer than 80 characters (81 characters)')
@@ -30,7 +30,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 end
 EOF
-        content.gsub!("\n", "\t\n")
+        content = content.gsub("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(1)
         expect(runner.errors[0].to_s).to eq('app/models/user.rb:3 - line is longer than 90 characters (91 characters)')
@@ -51,7 +51,7 @@ class User < ActiveRecord::Base
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 end
         EOF
-        content.gsub!("\n", "\t\n")
+        content = content.gsub("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(0)
       end
