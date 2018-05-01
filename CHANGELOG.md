@@ -1,5 +1,10 @@
 # Next Release
 
+## 1.19.2
+
+* Integrate with awesomecode.io
+* Update to require_all 2.x
+
 ## 1.19.1
 
 * Add table_name and module_prefix to model ignored methods
