@@ -89,13 +89,9 @@ To see the full list of command-line options, run:
 
 Homepage: <http://rails-bestpractices.com>
 
-Online Service: <http://railsbp.com>
-
 GitHub: <http://github.com/railsbp/rails_best_practices>
 
-RDoc: <http://rdoc.rails-bestpractices.com>
-
-Team Blog <http://rails-bestpractices.com/blog/posts>
+Team Blog <http://rails-bestpractices.com>
 
 Google Group: <https://groups.google.com/group/rails_best_practices>
 
