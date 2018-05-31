@@ -7,7 +7,7 @@ require 'rake'
 require 'rspec'
 require 'rspec/core/rake_task'
 
-$LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift File.expand_path('lib', __dir__)
 require 'rails_best_practices/version'
 
 RSpec::Core::RakeTask.new(:spec) do |spec|

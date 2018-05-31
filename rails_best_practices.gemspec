@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require File.expand_path('../lib/rails_best_practices/version', __FILE__)
+require File.expand_path('lib/rails_best_practices/version', __dir__)
 
 Gem::Specification.new do |s|
   s.name        = 'rails_best_practices'
