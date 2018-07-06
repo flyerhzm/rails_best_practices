@@ -89,6 +89,24 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
+        it 'should not remove unused methods for around_action (new syntax)' do
+          content = <<-EOF
+          class PostsController < ActiveRecord::Base
+            around_action :use_time_zone
+
+            protected
+
+            def use_time_zone(&block)
+              Time.use_zone(current_user.time_zone, &block)
+            end
+          end
+          EOF
+          runner.prepare('app/controllers/posts_controller.rb', content)
+          runner.review('app/controllers/posts_controller.rb', content)
+          runner.after_review
+          expect(runner.errors.size).to eq(0)
+        end
+
         it 'should not remove unused methods for layout' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do

@@ -56,7 +56,7 @@ module RailsBestPractices
             action_name = first_argument.hash_value('state').to_s
             call_method(action_name, current_class_name)
           end
-        when 'around_filter'
+        when 'around_filter', 'around_action'
           node.arguments.all.each { |argument| mark_used(argument) }
         when 'layout'
           first_argument = node.arguments.all.first
