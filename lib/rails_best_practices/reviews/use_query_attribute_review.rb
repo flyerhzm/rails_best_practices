@@ -40,12 +40,11 @@ module RailsBestPractices
           node.conditional_statement.all_conditions
         end
         all_conditions.each do |condition_node|
-          if query_attribute_node = query_attribute_node(condition_node)
-            receiver_node = query_attribute_node.receiver
-            add_error "use query attribute (#{receiver_node.receiver}.#{receiver_node.message}?)",
-                      node.file,
-                      query_attribute_node.line_number
-          end
+          next unless query_attribute_node = query_attribute_node(condition_node)
+          receiver_node = query_attribute_node.receiver
+          add_error "use query attribute (#{receiver_node.receiver}.#{receiver_node.message}?)",
+                    node.file,
+                    query_attribute_node.line_number
         end
       end
 

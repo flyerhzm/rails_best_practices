@@ -168,11 +168,10 @@ module RailsBestPractices
             foreign_id_keys = foreign_keys.select { |key| key.size == 1 && key.first =~ /_id/ }
             foreign_type_keys = foreign_keys.select { |key| key.size == 1 && key.first =~ /_type/ }
             foreign_id_keys.each do |id_key|
-              if type_key = foreign_type_keys.detect { |type_key| type_key.first == id_key.first.sub(/_id/, '') + '_type' }
-                foreign_keys.delete(id_key)
-                foreign_keys.delete(type_key)
-                foreign_keys << id_key + type_key
-              end
+              next unless type_key = foreign_type_keys.detect { |type_key| type_key.first == id_key.first.sub(/_id/, '') + '_type' }
+              foreign_keys.delete(id_key)
+              foreign_keys.delete(type_key)
+              foreign_keys << id_key + type_key
             end
           }
         end
