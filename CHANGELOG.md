@@ -1,5 +1,11 @@
 # Next Release
 
+## 1.19.3
+
+* Fix false positive remove unused method for around_action in
+  controller
+* Fix current_class_name in end_class callback
+
 ## 1.19.2
 
 * Integrate with awesomecode.io
