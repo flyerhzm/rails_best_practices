@@ -30,11 +30,15 @@ module RailsBestPractices
         @inherited_resources = false
       end
 
+      add_callback :start_class do |_node|
+        @current_controller_name = @klass.to_s
+      end
+
       # mark custom inherited_resources methods as used.
       add_callback :end_class do |_node|
         if @inherited_resources
           INHERITED_RESOURCES_METHODS.each do |method|
-            call_method(method)
+            call_method(method, @current_controller_name)
           end
         end
       end

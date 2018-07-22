@@ -139,7 +139,7 @@ module RailsBestPractices
             # end of the class
             add_callback :end_class do |_node|
               klasses.pop
-              # @klass = nil
+              @klass = nil
             end
           end
         end
@@ -296,12 +296,12 @@ module RailsBestPractices
               end
 
               def call_method(method_name, class_name = nil)
-                name ||= respond_to?(:current_class_name) ? current_class_name : current_module_name
-                if methods.has_method?(name, method_name)
-                  methods.get_method(name, method_name).mark_used
+                class_name ||= respond_to?(:current_class_name) ? current_class_name : current_module_name
+                if methods.has_method?(class_name, method_name)
+                  methods.get_method(class_name, method_name).mark_used
                 end
-                methods.mark_parent_class_method_used(name, method_name)
-                methods.mark_subclasses_method_used(name, method_name)
+                methods.mark_parent_class_method_used(class_name, method_name)
+                methods.mark_subclasses_method_used(class_name, method_name)
                 methods.possible_public_used(method_name)
               end
           end

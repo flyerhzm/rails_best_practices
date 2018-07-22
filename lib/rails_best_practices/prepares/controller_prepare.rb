@@ -24,6 +24,7 @@ module RailsBestPractices
       # also check if the controller is inherit from InheritedResources::Base.
       add_callback :start_class do |_node|
         @controllers << @klass
+        @current_controller_name = @klass.to_s
         if @inherited_resources
           @actions = DEFAULT_ACTIONS
         end
@@ -31,9 +32,9 @@ module RailsBestPractices
 
       # remember the action names at the end of class node if the controller is a InheritedResources.
       add_callback :end_class do |node|
-        if @inherited_resources && 'ApplicationController' != current_class_name
+        if @inherited_resources && 'ApplicationController' != @current_controller_name
           @actions.each do |action|
-            @methods.add_method(current_class_name, action, 'file' => node.file, 'line_number' => node.line_number)
+            @methods.add_method(@current_controller_name, action, 'file' => node.file, 'line_number' => node.line_number)
           end
         end
       end
