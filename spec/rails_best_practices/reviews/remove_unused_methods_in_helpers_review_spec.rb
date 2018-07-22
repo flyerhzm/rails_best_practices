@@ -5,12 +5,12 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe RemoveUnusedMethodsInHelpersReview do
-      let(:runner) { 
+      let(:runner) {
         Core::Runner.new(
           prepares: [Prepares::ControllerPrepare.new, Prepares::HelperPrepare.new],
           reviews: RemoveUnusedMethodsInHelpersReview.new(except_methods: [])
         )
-      }      
+      }
 
       it 'should remove unused methods' do
         content = <<-EOF

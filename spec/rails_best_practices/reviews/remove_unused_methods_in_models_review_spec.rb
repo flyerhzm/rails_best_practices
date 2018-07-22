@@ -5,12 +5,12 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe RemoveUnusedMethodsInModelsReview do
-      let(:runner) { 
+      let(:runner) {
         Core::Runner.new(
           prepares: Prepares::ModelPrepare.new,
           reviews: RemoveUnusedMethodsInModelsReview.new('except_methods' => ['*#set_cache'])
         )
-      }      
+      }
 
       context 'private' do
         it 'should remove unused methods' do

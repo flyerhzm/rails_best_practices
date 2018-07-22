@@ -22,7 +22,7 @@ module RailsBestPractices
                   bundler (~> 1.0)
                   railties (= 3.2.13)
                 mysql2 (0.3.12b6)
-            
+
             PLATFORMS
               ruby
           EOF

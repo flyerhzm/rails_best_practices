@@ -39,17 +39,17 @@ Gem::Specification.new do |s|
 
   s.post_install_message = <<~POST_INSTALL_MESSAGE
     #{'*' * 80}
-    
+
       rails_best_practices is a code metric tool to check the quality of rails codes.
-    
+
       I highly recommend you browse the Rails Best Practices website first.
-    
+
           http://rails-bestpractices.com
-    
+
       Enjoy!
-    
+
           Richard Huang (flyerhzm@gmail.com)
-    
+
     #{'*' * 80}
   POST_INSTALL_MESSAGE
 end
