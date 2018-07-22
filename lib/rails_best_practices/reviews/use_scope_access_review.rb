@@ -50,7 +50,7 @@ module RailsBestPractices
 
         # check a call node to see if it uses current_user, or current_user.id.
       def current_user?(node)
-        'current_user' == node.to_s || ('current_user' == node.receiver.to_s && 'id' == node.message.to_s)
+        node.to_s == 'current_user' || (node.receiver.to_s == 'current_user' && node.message.to_s == 'id')
       end
     end
   end

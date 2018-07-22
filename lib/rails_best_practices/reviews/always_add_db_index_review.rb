@@ -42,7 +42,7 @@ module RailsBestPractices
       add_callback :start_command_call do |node|
         if %w[integer string].include? node.message.to_s
           remember_foreign_key_columns(node)
-        elsif 'index' == node.message.to_s
+        elsif node.message.to_s == 'index'
           remember_index_columns_inside_table(node)
         end
       end
@@ -135,7 +135,7 @@ module RailsBestPractices
 
         if foreign_id_column
           index_node = node.arguments.all.last.hash_value('index')
-          if index_node.present? && ('false' != index_node.to_s)
+          if index_node.present? && (index_node.to_s != 'false')
             @index_columns[table_name] ||= []
             @index_columns[table_name] << foreign_id_column
           end

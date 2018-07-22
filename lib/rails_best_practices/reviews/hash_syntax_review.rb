@@ -30,10 +30,10 @@ module RailsBestPractices
 
         # check if hash key/value pairs are ruby 1.8 style.
       def hash_is_18?(node)
-        pair_nodes = :hash == node.sexp_type ? node[1][1] : node[1]
+        pair_nodes = node.sexp_type == :hash ? node[1][1] : node[1]
         return false if pair_nodes.blank?
 
-        pair_nodes.any? { |pair_node| :symbol_literal == pair_node[1].sexp_type }
+        pair_nodes.any? { |pair_node| pair_node[1].sexp_type == :symbol_literal }
       end
 
         # check if the hash keys are valid to be converted to ruby 1.9

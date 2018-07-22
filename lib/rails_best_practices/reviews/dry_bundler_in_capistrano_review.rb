@@ -20,7 +20,7 @@ module RailsBestPractices
 
       # check call node to see if it is with message "namespace" and argument "bundler".
       add_callback :start_command do |node|
-        if 'namespace' == node.message.to_s && 'bundler' == node.arguments.all[0].to_s
+        if node.message.to_s == 'namespace' && node.arguments.all[0].to_s == 'bundler'
           add_error 'dry bundler in capistrano'
         end
       end

@@ -21,7 +21,7 @@ module RailsBestPractices
 
       # remember the class name.
       add_callback :start_class do |_node|
-        if 'ActionMailer::Base' != current_extend_class_name
+        if current_extend_class_name != 'ActionMailer::Base'
           @models << @klass
         end
       end
@@ -40,7 +40,7 @@ module RailsBestPractices
       #     }
       add_callback :start_def do |node|
         if @klass &&
-           'ActionMailer::Base' != current_extend_class_name &&
+           current_extend_class_name != 'ActionMailer::Base' &&
            (classable_modules.empty? || klasses.any?)
           method_name = node.method_name.to_s
           @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
@@ -60,7 +60,7 @@ module RailsBestPractices
       #       }
       #     }
       add_callback :start_defs do |node|
-        if @klass && 'ActionMailer::Base' != current_extend_class_name
+        if @klass && current_extend_class_name != 'ActionMailer::Base'
           method_name = node.method_name.to_s
           @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
         end

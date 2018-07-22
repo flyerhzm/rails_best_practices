@@ -45,7 +45,7 @@ module RailsBestPractices
         # then it is the finder of other model.
       def other_finder?(node)
         FINDERS.include?(node[1].message.to_s) &&
-          :call == node[1].receiver.sexp_type &&
+          node[1].receiver.sexp_type == :call &&
           node.arguments.grep_nodes_count(sexp_type: :bare_assoc_hash) > 0
       end
     end

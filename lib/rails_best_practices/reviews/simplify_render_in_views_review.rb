@@ -22,9 +22,9 @@ module RailsBestPractices
       # if its message is render and the arguments contain a key partial,
       # then it should be replaced by simplified syntax.
       add_callback :start_command do |node|
-        if 'render' == node.message.to_s
+        if node.message.to_s == 'render'
           hash_node =  node.arguments.all.first
-          if hash_node && :bare_assoc_hash == hash_node.sexp_type &&
+          if hash_node && hash_node.sexp_type == :bare_assoc_hash &&
              include_partial?(hash_node) && valid_hash?(hash_node)
             add_error 'simplify render in views'
           end

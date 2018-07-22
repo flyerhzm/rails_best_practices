@@ -38,23 +38,23 @@ module RailsBestPractices
 
       # check if the generated routes have the corresponding actions in controller for rails routes.
       add_callback :start_command, :start_command_call do |node|
-        if 'resources' == node.message.to_s
+        if node.message.to_s == 'resources'
           if (mod = module_option(node))
             @namespaces << mod
           end
           check_resources(node)
           @resource_controllers << node.arguments.all.first.to_s
-        elsif 'resource' == node.message.to_s
+        elsif node.message.to_s == 'resource'
           check_resource(node)
           @resource_controllers << node.arguments.all.first.to_s
         end
       end
 
       add_callback :end_command do |node|
-        if 'resources' == node.message.to_s
+        if node.message.to_s == 'resources'
           @resource_controllers.pop
           @namespaces.pop if module_option(node)
-        elsif 'resource' == node.message.to_s
+        elsif node.message.to_s == 'resource'
           @resource_controllers.pop
         end
       end
@@ -90,7 +90,7 @@ module RailsBestPractices
       end
 
       def check_method_add_block?(node)
-        :command == node[1].sexp_type || (:command_call == node[1].sexp_type && 'map' != node.receiver.to_s)
+        node[1].sexp_type == :command || (node[1].sexp_type == :command_call && node.receiver.to_s != 'map')
       end
 
       private
@@ -173,7 +173,7 @@ module RailsBestPractices
       end
 
       def option_with_hash(node)
-        node.arguments.all.size > 1 && :bare_assoc_hash == node.arguments.all[1].sexp_type
+        node.arguments.all.size > 1 && node.arguments.all[1].sexp_type == :bare_assoc_hash
       end
 
       def hash_key_exist?(node, key)

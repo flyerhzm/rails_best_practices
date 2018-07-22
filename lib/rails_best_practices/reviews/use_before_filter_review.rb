@@ -34,7 +34,7 @@ module RailsBestPractices
           var_ref_or_vcall_included = %i[var_ref vcall].include?(statement_node.sexp_type)
           private_or_protected_included = %w[protected private].include?(statement_node.to_s)
           break if var_ref_or_vcall_included && private_or_protected_included
-          remember_first_sentence(statement_node) if :def == statement_node.sexp_type
+          remember_first_sentence(statement_node) if statement_node.sexp_type == :def
         end
         @first_sentences.each do |_first_sentence, def_nodes|
           next unless def_nodes.size > @customize_count

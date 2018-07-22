@@ -27,21 +27,21 @@ module RailsBestPractices
           first_argument = node.arguments.all.first
           second_argument = node.arguments.all[1]
           if @controller_names.last
-            if :bare_assoc_hash == first_argument.sexp_type
+            if first_argument.sexp_type == :bare_assoc_hash
               action_names = [first_argument.hash_values.first.to_s]
-            elsif :array == first_argument.sexp_type
+            elsif first_argument.sexp_type == :array
               action_names = first_argument.array_values.map(&:to_s)
-            elsif :bare_assoc_hash == second_argument.try(:sexp_type) && second_argument.hash_value('to').present?
-              if :string_literal == second_argument.hash_value('to').sexp_type
+            elsif second_argument.try(:sexp_type) == :bare_assoc_hash && second_argument.hash_value('to').present?
+              if second_argument.hash_value('to').sexp_type == :string_literal
                 controller_name, action_name = second_argument.hash_value('to').to_s.split('#')
                 action_names = [action_name]
               else
                 action_names = [second_argument.hash_value('to').to_s]
               end
-            elsif :symbol_literal == first_argument.sexp_type && second_argument.try(:sexp_type) && \
-                  :symbol_literal == second_argument.sexp_type
+            elsif first_argument.sexp_type == :symbol_literal && second_argument.try(:sexp_type) && \
+                  second_argument.sexp_type == :symbol_literal
               action_names = node.arguments.all.select \
-                { |arg| :symbol_literal == arg.sexp_type }.map(&:to_s)
+                { |arg| arg.sexp_type == :symbol_literal }.map(&:to_s)
             else
               action_names = [first_argument.to_s]
             end
@@ -49,18 +49,18 @@ module RailsBestPractices
               @routes.add_route(current_namespaces, current_controller_name, action_name)
             end
           else
-            if :bare_assoc_hash == first_argument.sexp_type
+            if first_argument.sexp_type == :bare_assoc_hash
               route_node = first_argument.hash_values.first
               # do not parse redirect block
-              if :method_add_arg != route_node.sexp_type
+              if route_node.sexp_type != :method_add_arg
                 controller_name, action_name = route_node.to_s.split('#')
                 @routes.add_route(current_namespaces, controller_name.underscore, action_name)
               end
-            elsif :array == first_argument.sexp_type
+            elsif first_argument.sexp_type == :array
               first_argument.array_values.map(&:to_s).each do |action_node|
                 @routes.add_route(current_namespaces, controller_name, action_node.to_s)
               end
-            elsif :bare_assoc_hash == second_argument.try(:sexp_type)
+            elsif second_argument.try(:sexp_type) == :bare_assoc_hash
               if second_argument.hash_value('to').present?
                 controller_name, action_name = second_argument.hash_value('to').to_s.split('#')
               else
@@ -78,12 +78,12 @@ module RailsBestPractices
           case options.sexp_type
           when :bare_assoc_hash
             if options.hash_value('controller').present?
-              return if :regexp_literal == options.hash_value('controller').sexp_type
+              return if options.hash_value('controller').sexp_type == :regexp_literal
               controller_name = options.hash_value('controller').to_s
               action_name = options.hash_value('action').present? ? options.hash_value('action').to_s : '*'
               @routes.add_route(current_namespaces, controller_name, action_name)
             else
-              route_node = options.hash_values.find { |value_node| :string_literal == value_node.sexp_type && value_node.to_s.include?('#') }
+              route_node = options.hash_values.find { |value_node| value_node.sexp_type == :string_literal && value_node.to_s.include?('#') }
               if route_node.present?
                 controller_name, action_name = route_node.to_s.split('#')
                 @routes.add_route(current_namespaces, controller_name.underscore, action_name)
@@ -100,7 +100,7 @@ module RailsBestPractices
           options = node.arguments.all.last
           case options.sexp_type
           when :bare_assoc_hash
-            route_node = options.hash_values.find { |value_node| :string_literal == value_node.sexp_type && value_node.to_s.include?('#') }
+            route_node = options.hash_values.find { |value_node| value_node.sexp_type == :string_literal && value_node.to_s.include?('#') }
             if route_node.present?
               controller_name, action_name = route_node.to_s.split('#')
               @routes.add_route(current_namespaces, controller_name.underscore, action_name)
@@ -151,7 +151,7 @@ module RailsBestPractices
           end
         when 'with_options'
           argument = node.arguments.all.last
-          if :bare_assoc_hash == argument.sexp_type && argument.hash_value('controller').present?
+          if argument.sexp_type == :bare_assoc_hash && argument.hash_value('controller').present?
             @controller_name = [:with_option, argument.hash_value('controller').to_s]
           end
         else

@@ -61,13 +61,13 @@ module RailsBestPractices
       end
 
       def check_whitelist_attributes_config
-        if 'true' == Prepares.configs['config.active_record.whitelist_attributes']
+        if Prepares.configs['config.active_record.whitelist_attributes'] == 'true'
           @whitelist_attributes = true
         end
       end
 
       def check_include_forbidden_attributes_protection_config
-        if 'true' == Prepares.configs['railsbp.include_forbidden_attributes_protection']
+        if Prepares.configs['railsbp.include_forbidden_attributes_protection'] == 'true'
           @mass_assignement = false
         end
       end
@@ -79,13 +79,13 @@ module RailsBestPractices
       end
 
       def check_strong_parameters(command_node)
-        if 'include' == command_node.message.to_s && 'ActiveModel::ForbiddenAttributesProtection' == command_node.arguments.all.first.to_s
+        if command_node.message.to_s == 'include' && command_node.arguments.all.first.to_s == 'ActiveModel::ForbiddenAttributesProtection'
           @mass_assignement = false
         end
       end
 
       def check_devise(command_node)
-        if 'devise' == command_node.message.to_s
+        if command_node.message.to_s == 'devise'
           @mass_assignement = false
         end
       end
@@ -97,7 +97,7 @@ module RailsBestPractices
       end
 
       def check_active_record(const_path_ref_node)
-        if 'ActiveRecord::Base' != const_path_ref_node.base_class.to_s
+        if const_path_ref_node.base_class.to_s != 'ActiveRecord::Base'
           @mass_assignement = false
         end
       end

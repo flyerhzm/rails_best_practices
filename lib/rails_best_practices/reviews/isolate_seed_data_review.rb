@@ -60,7 +60,7 @@ module RailsBestPractices
         # then remember the left value as new variable.
       def remember_new_variable(node)
         right_value = node.right_value
-        if :method_add_arg == right_value.sexp_type && 'new' == right_value.message.to_s
+        if right_value.sexp_type == :method_add_arg && right_value.message.to_s == 'new'
           @new_variables << node.left_value.to_s
         end
       end

@@ -22,11 +22,11 @@ module RailsBestPractices
       protected
 
       def no_parentheses_around_parameters?(def_node)
-        :parent != def_node[2][0]
+        def_node[2][0] != :parent
       end
 
       def has_parameters?(def_node)
-        :params == def_node[2][0] && !def_node[2][1..-1].compact.empty?
+        def_node[2][0] == :params && !def_node[2][1..-1].compact.empty?
       end
     end
   end

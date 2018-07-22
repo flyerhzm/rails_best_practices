@@ -55,7 +55,7 @@ module RailsBestPractices
         if node.message.to_s =~ /^after_|^before_/
           node.arguments.all.each do |argument|
             # ignore callback like after_create Comment.new
-            @callbacks << argument.to_s if :symbol_literal == argument.sexp_type
+            @callbacks << argument.to_s if argument.sexp_type == :symbol_literal
           end
         end
       end
@@ -72,8 +72,8 @@ module RailsBestPractices
         # then the call node is actionmailer deliver call.
       def deliver_mailer?(node)
         node.grep_nodes(sexp_type: :call) do |child_node|
-          if 'deliver' == child_node.message.to_s
-            if :method_add_arg == child_node.receiver.sexp_type &&
+          if child_node.message.to_s == 'deliver'
+            if child_node.receiver.sexp_type == :method_add_arg &&
                mailers.include?(child_node.receiver[1].receiver.to_s)
               return true
             end

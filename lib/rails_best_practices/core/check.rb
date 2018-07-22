@@ -240,7 +240,7 @@ module RailsBestPractices
               else
                 mark_used(node.message)
                 last_argument = node.arguments.all.last
-                if last_argument.present? && :bare_assoc_hash == last_argument.sexp_type
+                if last_argument.present? && last_argument.sexp_type == :bare_assoc_hash
                   last_argument.hash_values.each { |argument_value| mark_used(argument_value) }
                 end
               end
@@ -285,9 +285,9 @@ module RailsBestPractices
 
             def mark_used(method_node)
               return if method_node == :call
-              if :bare_assoc_hash == method_node.sexp_type
+              if method_node.sexp_type == :bare_assoc_hash
                 method_node.hash_values.each { |value_node| mark_used(value_node) }
-              elsif :array == method_node.sexp_type
+              elsif method_node.sexp_type == :array
                 method_node.array_values.each { |value_node| mark_used(value_node) }
               else
                 method_name = method_node.to_s
@@ -317,21 +317,21 @@ module RailsBestPractices
 
             # check if the controller is inherit from InheritedResources::Base.
             add_callback :start_class do |_node|
-              if 'InheritedResources::Base' == current_extend_class_name
+              if current_extend_class_name == 'InheritedResources::Base'
                 @inherited_resources = true
               end
             end
 
             # check if there is a DSL call inherit_resources.
             add_callback :start_var_ref do |node|
-              if 'inherit_resources' == node.to_s
+              if node.to_s == 'inherit_resources'
                 @inherited_resources = true
               end
             end
 
             # check if there is a DSL call inherit_resources.
             add_callback :start_vcall do |node|
-              if 'inherit_resources' == node.to_s
+              if node.to_s == 'inherit_resources'
                 @inherited_resources = true
               end
             end

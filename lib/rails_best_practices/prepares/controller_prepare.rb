@@ -32,7 +32,7 @@ module RailsBestPractices
 
       # remember the action names at the end of class node if the controller is a InheritedResources.
       add_callback :end_class do |node|
-        if @inherited_resources && 'ApplicationController' != @current_controller_name
+        if @inherited_resources && @current_controller_name != 'ApplicationController'
           @actions.each do |action|
             @methods.add_method(@current_controller_name, action, 'file' => node.file, 'line_number' => node.line_number)
           end
@@ -55,13 +55,13 @@ module RailsBestPractices
 
       # restrict actions for inherited_resources
       add_callback :start_command do |node|
-        if 'include' == node.message.to_s
+        if node.message.to_s == 'include'
           @helpers.add_module_descendant(node.arguments.all.first.to_s, current_class_name)
-        elsif @inherited_resources && 'actions' ==  node.message.to_s
-          if 'all' == node.arguments.all.first.to_s
+        elsif @inherited_resources && node.message.to_s == 'actions'
+          if node.arguments.all.first.to_s == 'all'
             @actions = DEFAULT_ACTIONS
             option_argument = node.arguments.all[1]
-            if option_argument && :bare_assoc_hash == option_argument.sexp_type && option_argument.hash_value('except')
+            if option_argument && option_argument.sexp_type == :bare_assoc_hash && option_argument.hash_value('except')
               @actions -= option_argument.hash_value('except').to_object
             end
           else

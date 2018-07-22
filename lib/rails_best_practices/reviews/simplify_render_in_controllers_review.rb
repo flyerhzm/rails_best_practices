@@ -21,7 +21,7 @@ module RailsBestPractices
       # if its message is render and the arguments contain a key action, template or file,
       # then it should be replaced by simplified syntax.
       add_callback :start_command do |node|
-        if 'render' == node.message.to_s
+        if node.message.to_s == 'render'
           keys = node.arguments.all.first.hash_keys
           if keys && keys.size == 1 &&
              (keys.include?('action') || keys.include?('template') || keys.include?('file'))

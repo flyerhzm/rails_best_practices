@@ -37,7 +37,7 @@ module RailsBestPractices
         node.recursive_children do |child_node|
           case child_node.sexp_type
           when :assign
-            if :"." == child_node.receiver[2]
+            if child_node.receiver[2] == :"."
               remember_variable_use_count(child_node)
             end
           when :call

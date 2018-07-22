@@ -17,7 +17,7 @@ module RailsBestPractices
 
       # check the body of module node, if it is nil, then it should be removed.
       add_callback :start_module do |module_node|
-        if 'ApplicationHelper' != module_node.module_name.to_s && empty_body?(module_node)
+        if module_node.module_name.to_s != 'ApplicationHelper' && empty_body?(module_node)
           add_error 'remove empty helpers'
         end
       end

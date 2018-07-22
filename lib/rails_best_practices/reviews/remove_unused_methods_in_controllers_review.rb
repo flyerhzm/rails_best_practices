@@ -71,7 +71,7 @@ module RailsBestPractices
           node.arguments.all.each { |argument| mark_publicize(argument.to_s) }
         when 'delegate'
           last_argument = node.arguments.all.last
-          if :bare_assoc_hash == last_argument.sexp_type && 'controller' == last_argument.hash_value('to').to_s
+          if last_argument.sexp_type == :bare_assoc_hash && last_argument.hash_value('to').to_s == 'controller'
             controller_name = current_module_name.sub('Helper', 'Controller')
             node.arguments.all[0..-2].each { |method| mark_publicize(method.to_s, controller_name) }
           end
@@ -82,7 +82,7 @@ module RailsBestPractices
 
       # mark assignment as used, like current_user = @user
       add_callback :start_assign do |node|
-        if :var_field == node.left_value.sexp_type
+        if node.left_value.sexp_type == :var_field
           call_method "#{node.left_value}=", current_class_name
         end
       end
@@ -90,7 +90,7 @@ module RailsBestPractices
       # get all unused methods at the end of review process.
       add_callback :after_check do
         @routes.each do |route|
-          if '*' == route.action_name
+          if route.action_name == '*'
             action_names = @controller_methods.get_methods(route.controller_name_with_namespaces).map(&:method_name)
             action_names.each { |action_name| call_method(action_name, route.controller_name_with_namespaces) }
           else

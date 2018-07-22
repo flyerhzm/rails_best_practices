@@ -44,8 +44,8 @@ module RailsBestPractices
         # and the size of array is greater than @array_count you defined,
         # then it is complext.
       def complex_select_options?(node)
-        'options_for_select' == node[1].message.to_s &&
-          :array == node.arguments.all.first.sexp_type &&
+        node[1].message.to_s == 'options_for_select' &&
+          node.arguments.all.first.sexp_type == :array &&
           node.arguments.all.first.array_size > @array_count
       end
     end

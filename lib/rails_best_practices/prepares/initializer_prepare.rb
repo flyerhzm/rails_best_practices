@@ -21,9 +21,9 @@ module RailsBestPractices
       # check if the node is
       #     ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)
       def include_forbidden_attributes_protection?(node)
-        'ActiveRecord::Base' == node.receiver.to_s &&
-          'send' == node.message.to_s &&
-          ['include', 'ActiveModel::ForbiddenAttributesProtection'] == node.arguments.all.map(&:to_s)
+        node.receiver.to_s == 'ActiveRecord::Base' &&
+          node.message.to_s == 'send' &&
+          node.arguments.all.map(&:to_s) == ['include', 'ActiveModel::ForbiddenAttributesProtection']
       end
     end
   end

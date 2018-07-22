@@ -82,7 +82,7 @@ module RailsBestPractices
         #
         # the node that may use query attribute.
       def possible_query_attribute?(node)
-        return false unless :call == node.receiver.sexp_type
+        return false unless node.receiver.sexp_type == :call
         variable_node = variable(node)
         message_node = node.grep_node(receiver: variable_node.to_s).message
 
@@ -107,7 +107,7 @@ module RailsBestPractices
 
         # check if the node is with node type :binary, node message :== and node argument is empty string.
       def compare_with_empty_string?(node)
-        :binary == node.sexp_type &&
+        node.sexp_type == :binary &&
           ['==', '!='].include?(node.message.to_s) &&
           s(:string_literal, s(:string_content)) == node.argument
       end
