@@ -40,7 +40,7 @@ module RailsBestPractices
       end
 
         # loads the class for a check by calling the given block
-      def load_check_class(check_name, &block)
+      def load_check_class(check_name)
         yield(check_name)
       rescue NameError
         # nothing to do, the check does not exist
