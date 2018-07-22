@@ -7,14 +7,14 @@ module RailsBestPractices
     describe LongLineCheck do
       it 'should find long lines' do
         runner = Core::Runner.new(lexicals: LongLineCheck.new)
-        content = <<-EOF
-class User < ActiveRecord::Base
-# 81 Chars
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# 80 Chars
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-end
-EOF
+        content = <<~EOF
+          class User < ActiveRecord::Base
+          # 81 Chars
+          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          # 80 Chars
+          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          end
+        EOF
         content = content.gsub("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(1)
@@ -22,14 +22,14 @@ EOF
       end
       it 'should find long lines with own max size' do
         runner = Core::Runner.new(lexicals: LongLineCheck.new('max_line_length' => 90))
-        content = <<-EOF
-class User < ActiveRecord::Base
-# 91 Chars
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-# 90 Chars
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-end
-EOF
+        content = <<~EOF
+          class User < ActiveRecord::Base
+          # 91 Chars
+          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          # 90 Chars
+          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          end
+        EOF
         content = content.gsub("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(1)
@@ -45,11 +45,11 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       end
       it 'should not check ignored files' do
         runner = Core::Runner.new(lexicals: LongLineCheck.new(max_line_length: 80, ignored_files: /user/))
-        content = <<-EOF
-class User < ActiveRecord::Base
-# 81 Chars
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-end
+        content = <<~EOF
+          class User < ActiveRecord::Base
+          # 81 Chars
+          xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          end
         EOF
         content = content.gsub("\n", "\t\n")
         runner.lexical('app/models/user.rb', content)

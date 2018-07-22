@@ -24,9 +24,9 @@ module RailsBestPractices
 
       protected
 
-        def empty_body?(module_node)
-          s(:bodystmt, s(:stmts_add, s(:stmts_new), s(:void_stmt)), nil, nil, nil) == module_node.body
-        end
+      def empty_body?(module_node)
+        s(:bodystmt, s(:stmts_add, s(:stmts_new), s(:void_stmt)), nil, nil, nil) == module_node.body
+      end
     end
   end
 end

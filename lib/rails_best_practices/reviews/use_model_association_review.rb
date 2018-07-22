@@ -45,22 +45,22 @@ module RailsBestPractices
 
         # check an attribute assignment node, if its message is xxx_id,
         # then remember the receiver of the attribute assignment in @assignments.
-        def attribute_assignment(node)
-          if node.left_value.message.to_s =~ /_id$/
-            receiver = node.left_value.receiver.to_s
-            @assignments[receiver] = true
-          end
+      def attribute_assignment(node)
+        if node.left_value.message.to_s =~ /_id$/
+          receiver = node.left_value.receiver.to_s
+          @assignments[receiver] = true
         end
+      end
 
         # check a call node with message "save" or "save!",
         # if the receiver of call node exists in @assignments,
         # then the attribute assignment should be replaced by using model association.
-        def call_assignment(node)
-          if ['save', 'save!'].include? node.message.to_s
-            receiver = node.receiver.to_s
-            add_error "use model association (for #{receiver})" if @assignments[receiver]
-          end
+      def call_assignment(node)
+        if ['save', 'save!'].include? node.message.to_s
+          receiver = node.receiver.to_s
+          add_error "use model association (for #{receiver})" if @assignments[receiver]
         end
+      end
     end
   end
 end

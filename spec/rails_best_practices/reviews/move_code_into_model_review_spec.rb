@@ -19,9 +19,9 @@ module RailsBestPractices
       end
 
       it 'should move code into model with haml' do
-        content = <<-EOF
-- if current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user))
-  = link_to 'Edit this post', edit_post_url(@post)
+        content = <<~EOF
+          - if current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user))
+            = link_to 'Edit this post', edit_post_url(@post)
         EOF
         runner.review('app/views/posts/show.html.haml', content)
         expect(runner.errors.size).to eq(1)
@@ -29,9 +29,9 @@ module RailsBestPractices
       end
 
       it 'should move code into model with slim' do
-        content = <<-EOF
-- if current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user))
-  = link_to 'Edit this post', edit_post_url(@post)
+        content = <<~EOF
+          - if current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user))
+            = link_to 'Edit this post', edit_post_url(@post)
         EOF
         runner.review('app/views/posts/show.html.slim', content)
         expect(runner.errors.size).to eq(1)

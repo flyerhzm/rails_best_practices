@@ -48,44 +48,44 @@ module RailsBestPractices
 
         # check an attribute assignment node, if there is a array reference node in the right value of assignment node,
         # then remember this attribute assignment.
-        def assign(node)
-          left_value = node.left_value
-          right_value = node.right_value
-          return unless :field == left_value.sexp_type && :call == right_value.sexp_type
-          aref_node = right_value.grep_node(sexp_type: :aref)
-          if aref_node
-            assignments(left_value.receiver.to_s) << { message: left_value.message.to_s, arguments: aref_node.to_s }
-          end
+      def assign(node)
+        left_value = node.left_value
+        right_value = node.right_value
+        return unless :field == left_value.sexp_type && :call == right_value.sexp_type
+        aref_node = right_value.grep_node(sexp_type: :aref)
+        if aref_node
+          assignments(left_value.receiver.to_s) << { message: left_value.message.to_s, arguments: aref_node.to_s }
         end
+      end
 
         # check a call node with message "save" or "save!",
         # if there exists an attribute assignment for the receiver of this call node,
         # and if the arguments of this attribute assignments has duplicated entries (different message and same arguments),
         # then this node needs to add a virtual attribute.
-        def call_assignment(node)
-          if ['save', 'save!'].include? node.message.to_s
-            receiver = node.receiver.to_s
-            add_error "add model virtual attribute (for #{receiver})" if params_dup?(assignments(receiver).collect { |h| h[:arguments] })
-          end
+      def call_assignment(node)
+        if ['save', 'save!'].include? node.message.to_s
+          receiver = node.receiver.to_s
+          add_error "add model virtual attribute (for #{receiver})" if params_dup?(assignments(receiver).collect { |h| h[:arguments] })
         end
+      end
 
         # if the nodes are duplicated.
-        def params_dup?(nodes)
-          return false if nodes.nil?
-          !dups(nodes).empty?
-        end
+      def params_dup?(nodes)
+        return false if nodes.nil?
+        !dups(nodes).empty?
+      end
 
         # get the assignments of receiver.
-        def assignments(receiver)
-          @assignments[receiver] ||= []
-        end
+      def assignments(receiver)
+        @assignments[receiver] ||= []
+      end
 
         # Get the duplicate entries from an Enumerable.
         #
         # @return [Enumerable] the duplicate entries.
-        def dups(nodes)
-          nodes.inject({}) { |h, v| h[v] = h[v].to_i + 1; h }.reject { |_k, v| v == 1 }.keys
-        end
+      def dups(nodes)
+        nodes.inject({}) { |h, v| h[v] = h[v].to_i + 1; h }.reject { |_k, v| v == 1 }.keys
+      end
     end
   end
 end

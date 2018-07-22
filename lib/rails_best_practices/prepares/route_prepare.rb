@@ -39,7 +39,7 @@ module RailsBestPractices
                 action_names = [second_argument.hash_value('to').to_s]
               end
             elsif :symbol_literal == first_argument.sexp_type && second_argument.try(:sexp_type) && \
-              :symbol_literal == second_argument.sexp_type
+                  :symbol_literal == second_argument.sexp_type
               action_names = node.arguments.all.select \
                 { |arg| :symbol_literal == arg.sexp_type }.map(&:to_s)
             else

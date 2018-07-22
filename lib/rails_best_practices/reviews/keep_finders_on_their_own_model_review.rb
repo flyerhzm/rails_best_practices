@@ -43,11 +43,11 @@ module RailsBestPractices
         # and the receiver of the node should be with message :call (this is the other model),
         # and any of its arguments is a hash,
         # then it is the finder of other model.
-        def other_finder?(node)
-          FINDERS.include?(node[1].message.to_s) &&
-            :call == node[1].receiver.sexp_type &&
-            node.arguments.grep_nodes_count(sexp_type: :bare_assoc_hash) > 0
-        end
+      def other_finder?(node)
+        FINDERS.include?(node[1].message.to_s) &&
+          :call == node[1].receiver.sexp_type &&
+          node.arguments.grep_nodes_count(sexp_type: :bare_assoc_hash) > 0
+      end
     end
   end
 end

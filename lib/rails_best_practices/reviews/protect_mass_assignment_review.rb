@@ -54,53 +54,53 @@ module RailsBestPractices
 
       private
 
-        def check_activerecord_version
-          if Prepares.gems.gem_version('activerecord').to_i > 3
-            @mass_assignement = false
-          end
+      def check_activerecord_version
+        if Prepares.gems.gem_version('activerecord').to_i > 3
+          @mass_assignement = false
         end
+      end
 
-        def check_whitelist_attributes_config
-          if 'true' == Prepares.configs['config.active_record.whitelist_attributes']
-            @whitelist_attributes = true
-          end
+      def check_whitelist_attributes_config
+        if 'true' == Prepares.configs['config.active_record.whitelist_attributes']
+          @whitelist_attributes = true
         end
+      end
 
-        def check_include_forbidden_attributes_protection_config
-          if 'true' == Prepares.configs['railsbp.include_forbidden_attributes_protection']
-            @mass_assignement = false
-          end
+      def check_include_forbidden_attributes_protection_config
+        if 'true' == Prepares.configs['railsbp.include_forbidden_attributes_protection']
+          @mass_assignement = false
         end
+      end
 
-        def check_rails_builtin(node)
-          if @whitelist_attributes || [node.to_s, node.message.to_s].any? { |str| %w[attr_accessible attr_protected].include? str }
-            @mass_assignement = false
-          end
+      def check_rails_builtin(node)
+        if @whitelist_attributes || [node.to_s, node.message.to_s].any? { |str| %w[attr_accessible attr_protected].include? str }
+          @mass_assignement = false
         end
+      end
 
-        def check_strong_parameters(command_node)
-          if 'include' == command_node.message.to_s && 'ActiveModel::ForbiddenAttributesProtection' == command_node.arguments.all.first.to_s
-            @mass_assignement = false
-          end
+      def check_strong_parameters(command_node)
+        if 'include' == command_node.message.to_s && 'ActiveModel::ForbiddenAttributesProtection' == command_node.arguments.all.first.to_s
+          @mass_assignement = false
         end
+      end
 
-        def check_devise(command_node)
-          if 'devise' == command_node.message.to_s
-            @mass_assignement = false
-          end
+      def check_devise(command_node)
+        if 'devise' == command_node.message.to_s
+          @mass_assignement = false
         end
+      end
 
-        def check_authlogic(node)
-          if [node.to_s, node.message.to_s].include? 'acts_as_authentic'
-            @mass_assignement = false
-          end
+      def check_authlogic(node)
+        if [node.to_s, node.message.to_s].include? 'acts_as_authentic'
+          @mass_assignement = false
         end
+      end
 
-        def check_active_record(const_path_ref_node)
-          if 'ActiveRecord::Base' != const_path_ref_node.base_class.to_s
-            @mass_assignement = false
-          end
+      def check_active_record(const_path_ref_node)
+        if 'ActiveRecord::Base' != const_path_ref_node.base_class.to_s
+          @mass_assignement = false
         end
+      end
     end
   end
 end

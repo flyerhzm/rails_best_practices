@@ -106,19 +106,19 @@ module RailsBestPractices
 
       protected
 
-        def methods
-          @controller_methods
-        end
+      def methods
+        @controller_methods
+      end
 
-        def internal_except_methods
-          %w[rescue_action default_url_options].map { |method_name| "*\##{method_name}" } +
-            %w[Devise::OmniauthCallbacksController].map { |controller_name| "#{controller_name}#*" }
-        end
+      def internal_except_methods
+        %w[rescue_action default_url_options].map { |method_name| "*\##{method_name}" } +
+          %w[Devise::OmniauthCallbacksController].map { |controller_name| "#{controller_name}#*" }
+      end
 
-        def mark_publicize(method_name, class_name = current_class_name)
-          @controller_methods.mark_publicize(class_name, method_name)
-          @controller_methods.mark_parent_class_methods_publicize(class_name, method_name)
-        end
+      def mark_publicize(method_name, class_name = current_class_name)
+        @controller_methods.mark_publicize(class_name, method_name)
+        @controller_methods.mark_parent_class_methods_publicize(class_name, method_name)
+      end
     end
   end
 end

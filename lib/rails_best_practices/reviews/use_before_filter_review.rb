@@ -47,15 +47,15 @@ module RailsBestPractices
       private
 
         # check method define node, and remember the first sentence.
-        def remember_first_sentence(node)
-          first_sentence = node.body.statements.first
-          return unless first_sentence
-          first_sentence = first_sentence.remove_line_and_column
-          unless first_sentence == s(:nil)
-            @first_sentences[first_sentence] ||= []
-            @first_sentences[first_sentence] << node
-          end
+      def remember_first_sentence(node)
+        first_sentence = node.body.statements.first
+        return unless first_sentence
+        first_sentence = first_sentence.remove_line_and_column
+        unless first_sentence == s(:nil)
+          @first_sentences[first_sentence] ||= []
+          @first_sentences[first_sentence] << node
         end
+      end
     end
   end
 end

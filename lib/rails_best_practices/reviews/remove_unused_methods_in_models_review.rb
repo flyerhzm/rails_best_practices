@@ -88,22 +88,22 @@ module RailsBestPractices
 
       protected
 
-        def methods
-          @model_methods
-        end
+      def methods
+        @model_methods
+      end
 
-        def internal_except_methods
-          %w[
-            initialize
-            validate validate_each validate_on_create validate_on_update
-            human_attribute_name assign_attributes attributes attribute
-            to_xml to_json as_json to_param
-            before_save before_create before_update before_destroy after_save after_create
-            after_update after_destroy after_find after_initialize
-            method_missing
-            table_name module_prefix
-          ].map { |method_name| "*\##{method_name}" }
-        end
+      def internal_except_methods
+        %w[
+          initialize
+          validate validate_each validate_on_create validate_on_update
+          human_attribute_name assign_attributes attributes attribute
+          to_xml to_json as_json to_param
+          before_save before_create before_update before_destroy after_save after_create
+          after_update after_destroy after_find after_initialize
+          method_missing
+          table_name module_prefix
+        ].map { |method_name| "*\##{method_name}" }
+      end
     end
   end
 end

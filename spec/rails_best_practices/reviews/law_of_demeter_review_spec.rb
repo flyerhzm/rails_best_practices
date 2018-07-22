@@ -40,10 +40,10 @@ module RailsBestPractices
         end
 
         it 'should law of demeter with haml' do
-          content = <<-EOF
-= @invoice.user.name
-= @invoice.user.address
-= @invoice.user.cellphone
+          content = <<~EOF
+            = @invoice.user.name
+            = @invoice.user.address
+            = @invoice.user.cellphone
           EOF
           runner.review('app/views/invoices/show.html.haml', content)
           expect(runner.errors.size).to eq(3)
@@ -51,10 +51,10 @@ module RailsBestPractices
         end
 
         it 'should law of demeter with slim' do
-          content = <<-EOF
-= @invoice.user.name
-= @invoice.user.address
-= @invoice.user.cellphone
+          content = <<~EOF
+            = @invoice.user.name
+            = @invoice.user.address
+            = @invoice.user.cellphone
           EOF
           runner.review('app/views/invoices/show.html.slim', content)
           expect(runner.errors.size).to eq(3)

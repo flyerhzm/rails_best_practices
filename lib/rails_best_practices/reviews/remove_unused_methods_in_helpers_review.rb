@@ -34,13 +34,13 @@ module RailsBestPractices
 
       protected
 
-        def methods
-          @helper_methods
-        end
+      def methods
+        @helper_methods
+      end
 
-        def internal_except_methods
-          ['*#url_for']
-        end
+      def internal_except_methods
+        ['*#url_for']
+      end
     end
   end
 end

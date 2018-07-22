@@ -52,15 +52,15 @@ module RailsBestPractices
         # check the call node to see if it is with message "save" or "save!",
         # and the count attribute assignment on the receiver of the call node is greater than @assign_count defined,
         # then it is a complex creation, should be replaced with factory method.
-        def check_variable_save(node)
-          if ['save', 'save!'].include? node.message.to_s
-            variable = node.receiver.to_s
-            if variable_use_count[variable].to_i > @assigns_count
-              hint = "#{variable} attribute_assignment_count > #{@assigns_count}"
-              add_error "replace complex creation with factory method (#{hint})"
-            end
+      def check_variable_save(node)
+        if ['save', 'save!'].include? node.message.to_s
+          variable = node.receiver.to_s
+          if variable_use_count[variable].to_i > @assigns_count
+            hint = "#{variable} attribute_assignment_count > #{@assigns_count}"
+            add_error "replace complex creation with factory method (#{hint})"
           end
         end
+      end
     end
   end
 end

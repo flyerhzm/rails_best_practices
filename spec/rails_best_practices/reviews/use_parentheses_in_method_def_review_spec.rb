@@ -41,7 +41,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(reviews: UseParenthesesInMethodDefReview.new(ignored_files: /posts_controller/))
-                content = <<-EOF
+        content = <<-EOF
         class PostsController < ApplicationController
           def edit foo, bar
           end

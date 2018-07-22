@@ -35,11 +35,11 @@ module RailsBestPractices
         # and the message of call method_add_arg is one of find, all, first or last,
         # and any of its arguments is a hash,
         # then it is a finder.
-        def finder?(node)
-          FINDERS.include?(node[1].message.to_s) &&
-            :call == node[1].sexp_type &&
-            node.arguments.grep_nodes_count(sexp_type: :bare_assoc_hash) > 0
-        end
+      def finder?(node)
+        FINDERS.include?(node[1].message.to_s) &&
+          :call == node[1].sexp_type &&
+          node.arguments.grep_nodes_count(sexp_type: :bare_assoc_hash) > 0
+      end
     end
   end
 end

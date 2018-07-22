@@ -5,10 +5,12 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe RemoveUnusedMethodsInModelsReview do
-      let(:runner) { Core::Runner.new(
-        prepares: Prepares::ModelPrepare.new,
-        reviews: RemoveUnusedMethodsInModelsReview.new('except_methods' => ['*#set_cache'])
-      ) }
+      let(:runner) { 
+        Core::Runner.new(
+          prepares: Prepares::ModelPrepare.new,
+          reviews: RemoveUnusedMethodsInModelsReview.new('except_methods' => ['*#set_cache'])
+        )
+      }      
 
       context 'private' do
         it 'should remove unused methods' do
@@ -473,7 +475,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-         it 'should not remove unused method with symbol alias' do
+        it 'should not remove unused method with symbol alias' do
           content = <<-EOF
           class Post < ActiveRecord::Base
             def old; end
@@ -710,25 +712,25 @@ module RailsBestPractices
         runner = Core::Runner.new(prepares: Prepares::ModelPrepare.new,
                                   reviews: RemoveUnusedMethodsInModelsReview.new(except_methods: [], ignored_files: /post/))
 
-          content = <<-EOF
+        content = <<-EOF
           class Post < ActiveRecord::Base
             def find; end
             private
             def find_by_sql; end
           end
-          EOF
-          runner.prepare('app/models/post.rb', content)
-          runner.review('app/models/post.rb', content)
-          content = <<-EOF
+        EOF
+        runner.prepare('app/models/post.rb', content)
+        runner.review('app/models/post.rb', content)
+        content = <<-EOF
           class PostsController < ApplicationController
             def get
               Post.new.find
             end
           end
-          EOF
-          runner.review('app/controllers/posts_controller.rb', content)
-          runner.after_review
-          expect(runner.errors.size).to eq(0)
+        EOF
+        runner.review('app/controllers/posts_controller.rb', content)
+        runner.after_review
+        expect(runner.errors.size).to eq(0)
       end
     end
   end

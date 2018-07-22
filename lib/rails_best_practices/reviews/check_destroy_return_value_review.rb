@@ -28,7 +28,7 @@ module RailsBestPractices
           # if our current binary is a subset of the @used_return_value_of
           # then don't overwrite it
           already_included = @used_return_value_of &&
-            (all_conditions - @used_return_value_of).empty?
+                             (all_conditions - @used_return_value_of).empty?
 
           @used_return_value_of = node.all_conditions unless already_included
         end

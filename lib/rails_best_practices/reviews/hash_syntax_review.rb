@@ -24,23 +24,23 @@ module RailsBestPractices
       protected
 
         # check if hash node is empty.
-        def empty_hash?(node)
-          s(:hash, nil) == node || s(:bare_assoc_hash, nil) == node
-        end
+      def empty_hash?(node)
+        s(:hash, nil) == node || s(:bare_assoc_hash, nil) == node
+      end
 
         # check if hash key/value pairs are ruby 1.8 style.
-        def hash_is_18?(node)
-          pair_nodes = :hash == node.sexp_type ? node[1][1] : node[1]
-          return false if pair_nodes.blank?
+      def hash_is_18?(node)
+        pair_nodes = :hash == node.sexp_type ? node[1][1] : node[1]
+        return false if pair_nodes.blank?
 
-          pair_nodes.any? { |pair_node| :symbol_literal == pair_node[1].sexp_type }
-        end
+        pair_nodes.any? { |pair_node| :symbol_literal == pair_node[1].sexp_type }
+      end
 
         # check if the hash keys are valid to be converted to ruby 1.9
         # syntax.
-        def valid_keys?(node)
-          node.hash_keys.all? { |key| key =~ VALID_SYMBOL_KEY }
-        end
+      def valid_keys?(node)
+        node.hash_keys.all? { |key| key =~ VALID_SYMBOL_KEY }
+      end
     end
   end
 end

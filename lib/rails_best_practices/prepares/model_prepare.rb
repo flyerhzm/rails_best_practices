@@ -40,8 +40,8 @@ module RailsBestPractices
       #     }
       add_callback :start_def do |node|
         if @klass &&
-            'ActionMailer::Base' != current_extend_class_name &&
-            (classable_modules.empty? || klasses.any?)
+           'ActionMailer::Base' != current_extend_class_name &&
+           (classable_modules.empty? || klasses.any?)
           method_name = node.method_name.to_s
           @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
         end
@@ -123,16 +123,16 @@ module RailsBestPractices
       private
 
         # remember associations, with class to association names.
-        def remember_association(node)
-          association_meta = node.message.to_s
-          association_name = node.arguments.all.first.to_s
-          arguments_node = node.arguments.all.last
-          if arguments_node.hash_value('class_name').present?
-            association_class = arguments_node.hash_value('class_name').to_s
-          end
-          association_class ||= association_name.classify
-          @model_associations.add_association(current_class_name, association_name, association_meta, association_class)
+      def remember_association(node)
+        association_meta = node.message.to_s
+        association_name = node.arguments.all.first.to_s
+        arguments_node = node.arguments.all.last
+        if arguments_node.hash_value('class_name').present?
+          association_class = arguments_node.hash_value('class_name').to_s
         end
+        association_class ||= association_name.classify
+        @model_associations.add_association(current_class_name, association_name, association_meta, association_class)
+      end
     end
   end
 end

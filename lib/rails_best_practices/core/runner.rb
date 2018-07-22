@@ -123,52 +123,52 @@ module RailsBestPractices
         #
         # @param [String] filename is the filename of the erb, haml or slim code.
         # @param [String] content is the source code of erb, haml or slim file.
-        def parse_html_template(filename, content)
-          if filename =~ /.*\.erb$|.*\.rhtml$/
-            content = Erubis::OnlyRuby.new(content).src
-          elsif filename =~ /.*\.haml$/
-            begin
-              require 'haml'
-              content = Haml::Engine.new(content).precompiled
-              # remove \xxx characters
-              content.gsub!(/\\\d{3}/, '')
-            rescue LoadError
-              raise "In order to parse #{filename}, please install the haml gem"
-            rescue Haml::Error, SyntaxError
-              # do nothing, just ignore the wrong haml files.
-            end
-          elsif filename =~ /.*\.slim$/
-            begin
-              require 'slim'
-              content = Slim::Engine.new.call(content)
-            rescue LoadError
-              raise "In order to parse #{filename}, please install the slim gem"
-            rescue SyntaxError
-              # do nothing, just ignore the wrong slim files
-            end
+      def parse_html_template(filename, content)
+        if filename =~ /.*\.erb$|.*\.rhtml$/
+          content = Erubis::OnlyRuby.new(content).src
+        elsif filename =~ /.*\.haml$/
+          begin
+            require 'haml'
+            content = Haml::Engine.new(content).precompiled
+            # remove \xxx characters
+            content.gsub!(/\\\d{3}/, '')
+          rescue LoadError
+            raise "In order to parse #{filename}, please install the haml gem"
+          rescue Haml::Error, SyntaxError
+            # do nothing, just ignore the wrong haml files.
           end
-          content
+        elsif filename =~ /.*\.slim$/
+          begin
+            require 'slim'
+            content = Slim::Engine.new.call(content)
+          rescue LoadError
+            raise "In order to parse #{filename}, please install the slim gem"
+          rescue SyntaxError
+            # do nothing, just ignore the wrong slim files
+          end
         end
+        content
+      end
 
         # load all prepares.
-        def load_prepares
-          Prepares.constants.map { |prepare| Prepares.const_get(prepare).new }
-        end
+      def load_prepares
+        Prepares.constants.map { |prepare| Prepares.const_get(prepare).new }
+      end
 
         # load all plugin reviews.
-        def load_plugin_reviews
-            plugins = File.join(Runner.base_path, 'lib', 'rails_best_practices', 'plugins', 'reviews')
-            if File.directory?(plugins)
-              Dir[File.expand_path(File.join(plugins, '*.rb'))].each do |review|
-                require review
-              end
-              if RailsBestPractices.constants.map(&:to_sym).include? :Plugins
-                RailsBestPractices::Plugins::Reviews.constants.each do |review|
-                  @reviews << RailsBestPractices::Plugins::Reviews.const_get(review).new
-                end
-              end
+      def load_plugin_reviews
+        plugins = File.join(Runner.base_path, 'lib', 'rails_best_practices', 'plugins', 'reviews')
+        if File.directory?(plugins)
+          Dir[File.expand_path(File.join(plugins, '*.rb'))].each do |review|
+            require review
+          end
+          if RailsBestPractices.constants.map(&:to_sym).include? :Plugins
+            RailsBestPractices::Plugins::Reviews.constants.each do |review|
+              @reviews << RailsBestPractices::Plugins::Reviews.const_get(review).new
             end
+          end
         end
+      end
     end
   end
 end

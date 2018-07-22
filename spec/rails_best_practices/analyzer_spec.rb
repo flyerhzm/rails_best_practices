@@ -106,7 +106,8 @@ module RailsBestPractices
           "\e[31mapp/models/user.rb:10 - law of demeter\e[0m",
           "\e[31mapp/models/post.rb:100 - use query attribute\e[0m",
           "\e[32m\nPlease go to https://rails-bestpractices.com to see more useful Rails Best Practices.\e[0m",
-          "\e[31m\nFound 2 warnings.\e[0m"].join("\n") + "\n")
+          "\e[31m\nFound 2 warnings.\e[0m"
+        ].join("\n") + "\n")
       end
     end
 
@@ -115,9 +116,8 @@ module RailsBestPractices
 
       subject do
         described_class.new('.',
-          'format' => 'json',
-          'output-file' => output_file
-        )
+                            'format' => 'json',
+                            'output-file' => output_file)
       end
 
       let(:check1) { Reviews::LawOfDemeterReview.new }

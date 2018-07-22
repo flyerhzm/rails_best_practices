@@ -283,27 +283,27 @@ module RailsBestPractices
 
             private
 
-              def mark_used(method_node)
-                return if method_node == :call
-                if :bare_assoc_hash == method_node.sexp_type
-                  method_node.hash_values.each { |value_node| mark_used(value_node) }
-                elsif :array == method_node.sexp_type
-                  method_node.array_values.each { |value_node| mark_used(value_node) }
-                else
-                  method_name = method_node.to_s
-                end
-                call_method(method_name)
+            def mark_used(method_node)
+              return if method_node == :call
+              if :bare_assoc_hash == method_node.sexp_type
+                method_node.hash_values.each { |value_node| mark_used(value_node) }
+              elsif :array == method_node.sexp_type
+                method_node.array_values.each { |value_node| mark_used(value_node) }
+              else
+                method_name = method_node.to_s
               end
+              call_method(method_name)
+            end
 
-              def call_method(method_name, class_name = nil)
-                class_name ||= respond_to?(:current_class_name) ? current_class_name : current_module_name
-                if methods.has_method?(class_name, method_name)
-                  methods.get_method(class_name, method_name).mark_used
-                end
-                methods.mark_parent_class_method_used(class_name, method_name)
-                methods.mark_subclasses_method_used(class_name, method_name)
-                methods.possible_public_used(method_name)
+            def call_method(method_name, class_name = nil)
+              class_name ||= respond_to?(:current_class_name) ? current_class_name : current_module_name
+              if methods.has_method?(class_name, method_name)
+                methods.get_method(class_name, method_name).mark_used
               end
+              methods.mark_parent_class_method_used(class_name, method_name)
+              methods.mark_subclasses_method_used(class_name, method_name)
+              methods.possible_public_used(method_name)
+            end
           end
         end
       end
@@ -350,7 +350,7 @@ module RailsBestPractices
             # check if the method is in the except methods list.
             def excepted?(method)
               is_ignored?(method.file) ||
-              except_methods.any? { |except_method| Exceptable.matches method, except_method }
+                except_methods.any? { |except_method| Exceptable.matches method, except_method }
             end
 
             def internal_except_methods

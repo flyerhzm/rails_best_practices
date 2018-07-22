@@ -34,27 +34,27 @@ module RailsBestPractices
         # check if rails's syntax mailer views are canonical.
         #
         # @param [String] name method name in action_mailer
-        def rails_canonical_mailer_views?(name); end
+      def rails_canonical_mailer_views?(name); end
 
         # check if rails3's syntax mailer views are canonical.
         #
         # @param [String] name method name in action_mailer
-        def rails3_canonical_mailer_views?(name)
-          return true if mailer_files(name).empty?
-          return true if mailer_files(name).none? { |filename| filename.index 'html' }
-          mailer_files(name).any? { |filename| filename.index 'html' } &&
-            mailer_files(name).any? { |filename| filename.index 'text' }
-        end
+      def rails3_canonical_mailer_views?(name)
+        return true if mailer_files(name).empty?
+        return true if mailer_files(name).none? { |filename| filename.index 'html' }
+        mailer_files(name).any? { |filename| filename.index 'html' } &&
+          mailer_files(name).any? { |filename| filename.index 'text' }
+      end
 
         # all mail view files for a method name.
-        def mailer_files(name)
-          Dir.entries(mailer_directory) { |filename| filename.index name.to_s }
-        end
+      def mailer_files(name)
+        Dir.entries(mailer_directory) { |filename| filename.index name.to_s }
+      end
 
         # the view directory of mailer.
-        def mailer_directory
-          File.join(Core::Runner.base_path, "app/views/#{@klazz_name.to_s.underscore}")
-        end
+      def mailer_directory
+        File.join(Core::Runner.base_path, "app/views/#{@klazz_name.to_s.underscore}")
+      end
     end
   end
 end

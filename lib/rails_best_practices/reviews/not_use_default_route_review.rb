@@ -25,7 +25,7 @@ module RailsBestPractices
       # check all command nodes
       add_callback :start_command do |node|
         if 'match' == node.message.to_s &&
-          ':controller(/:action(/:id(.:format)))' == node.arguments.all.first.to_s
+           ':controller(/:action(/:id(.:format)))' == node.arguments.all.first.to_s
           add_error 'not use default route'
         end
       end

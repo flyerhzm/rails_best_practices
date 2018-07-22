@@ -37,19 +37,19 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
   s.require_paths = %w[lib assets]
 
-  s.post_install_message = <<-POST_INSTALL_MESSAGE
-#{'*' * 80}
-
-  rails_best_practices is a code metric tool to check the quality of rails codes.
-
-  I highly recommend you browse the Rails Best Practices website first.
-
-      http://rails-bestpractices.com
-
-  Enjoy!
-
-      Richard Huang (flyerhzm@gmail.com)
-
-#{'*' * 80}
+  s.post_install_message = <<~POST_INSTALL_MESSAGE
+    #{'*' * 80}
+    
+      rails_best_practices is a code metric tool to check the quality of rails codes.
+    
+      I highly recommend you browse the Rails Best Practices website first.
+    
+          http://rails-bestpractices.com
+    
+      Enjoy!
+    
+          Richard Huang (flyerhzm@gmail.com)
+    
+    #{'*' * 80}
   POST_INSTALL_MESSAGE
 end

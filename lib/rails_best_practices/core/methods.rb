@@ -125,9 +125,9 @@ module RailsBestPractices
       def get_all_unused_methods(access_control = nil)
         @methods.inject([]) { |unused_methods, (_class_name, methods)|
           unused_methods += if access_control
-            methods.select { |method| method.access_control == access_control && !method.used }
-          else
-            methods.reject { |method| method.used }
+                              methods.select { |method| method.access_control == access_control && !method.used }
+                            else
+                              methods.reject { |method| method.used }
           end
         }.reject { |method| method.access_control == 'public' && @possible_methods[method.method_name] }
       end
@@ -138,9 +138,9 @@ module RailsBestPractices
         #
         # @param [String] class name
         # @return [Array] array of methods
-        def methods(class_name)
-          @methods[class_name] ||= []
-        end
+      def methods(class_name)
+        @methods[class_name] ||= []
+      end
     end
 
     # Method info includes class name, method name, access control, file, line_number, used.

@@ -9,7 +9,8 @@ module RailsBestPractices::Core
         filename: 'app/models/user.rb',
         line_number: '100',
         message: 'not good',
-        type: 'BogusReview').to_s).to eq('app/models/user.rb:100 - not good')
+        type: 'BogusReview'
+      ).to_s).to eq('app/models/user.rb:100 - not good')
     end
 
     it 'should return short filename' do
@@ -18,7 +19,8 @@ module RailsBestPractices::Core
         filename: '../rails-bestpractices.com/app/models/user.rb',
         line_number: '100',
         message: 'not good',
-        type: 'BogusReview').short_filename).to eq('app/models/user.rb')
+        type: 'BogusReview'
+      ).short_filename).to eq('app/models/user.rb')
     end
 
     it 'should return first line number' do
@@ -26,7 +28,8 @@ module RailsBestPractices::Core
         filename: 'app/models/user.rb',
         line_number: '50,70,100',
         message: 'not good',
-        type: 'BogusReview').first_line_number).to eq('50')
+        type: 'BogusReview'
+      ).first_line_number).to eq('50')
     end
   end
 end

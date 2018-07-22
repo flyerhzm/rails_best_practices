@@ -25,7 +25,7 @@ module RailsBestPractices
         if 'render' == node.message.to_s
           hash_node =  node.arguments.all.first
           if hash_node && :bare_assoc_hash == hash_node.sexp_type &&
-              include_partial?(hash_node) && valid_hash?(hash_node)
+             include_partial?(hash_node) && valid_hash?(hash_node)
             add_error 'simplify render in views'
           end
         end
@@ -33,15 +33,15 @@ module RailsBestPractices
 
       protected
 
-        def include_partial?(hash_node)
-          hash_node.hash_keys.include?('partial') && !hash_node.hash_value('partial').to_s.include?('/')
-        end
+      def include_partial?(hash_node)
+        hash_node.hash_keys.include?('partial') && !hash_node.hash_value('partial').to_s.include?('/')
+      end
 
-        def valid_hash?(hash_node)
-          keys = hash_node.hash_keys
-          keys.delete('partial')
-          (keys - VALID_KEYS).empty?
-        end
+      def valid_hash?(hash_node)
+        keys = hash_node.hash_keys
+        keys.delete('partial')
+        (keys - VALID_KEYS).empty?
+      end
     end
   end
 end

@@ -17,8 +17,8 @@ module RailsBestPractices
       end
 
       it 'should replace instance variable with local varialbe in haml file' do
-        content = <<-EOF
-= @post.title
+        content = <<~EOF
+          = @post.title
         EOF
         runner.review('app/views/posts/_post.html.haml', content)
         expect(runner.errors.size).to eq(1)
@@ -26,8 +26,8 @@ module RailsBestPractices
       end
 
       it 'should replace instance variable with local varialbe in slim file' do
-        content = <<-EOF
-= @post.title
+        content = <<~EOF
+          = @post.title
         EOF
         runner.review('app/views/posts/_post.html.slim', content)
         expect(runner.errors.size).to eq(1)

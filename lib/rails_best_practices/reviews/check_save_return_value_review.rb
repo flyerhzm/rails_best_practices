@@ -33,7 +33,7 @@ module RailsBestPractices
           # if our current binary is a subset of the @used_return_value_of
           # then don't overwrite it
           already_included = @used_return_value_of &&
-            (all_conditions - @used_return_value_of).empty?
+                             (all_conditions - @used_return_value_of).empty?
 
           @used_return_value_of = node.all_conditions unless already_included
         end
@@ -58,8 +58,8 @@ module RailsBestPractices
           elsif message == 'create'
             # We're only interested in 'create' calls on model classes:
             possible_receiver_classes = [node.receiver.to_s] + classable_modules.map do |mod|
-                "#{mod}::#{node.receiver}"
-              end
+                                                                 "#{mod}::#{node.receiver}"
+                                                               end
             unless (possible_receiver_classes & model_classnames).empty?
               add_error "use 'create!' instead of 'create' as the latter may not always save"
             end

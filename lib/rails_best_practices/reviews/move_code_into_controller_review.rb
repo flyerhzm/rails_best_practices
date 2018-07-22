@@ -38,9 +38,9 @@ module RailsBestPractices
       private
 
         # check if the node is a finder call node.
-        def finder?(node)
-          node.receiver.const? && FINDERS.include?(node.message.to_s)
-        end
+      def finder?(node)
+        node.receiver.const? && FINDERS.include?(node.message.to_s)
+      end
     end
   end
 end

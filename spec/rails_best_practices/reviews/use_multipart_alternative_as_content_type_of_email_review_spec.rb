@@ -14,20 +14,20 @@ module RailsBestPractices
       end
 
       before do
-      content = <<-EOF
-GEM
-  remote: https://rubygems.org
-  specs:
-    rails (3.2.13)
-      actionmailer (= 3.2.13)
-      actionpack (= 3.2.13)
-      activerecord (= 3.2.13)
-      activeresource (= 3.2.13)
-      activesupport (= 3.2.13)
-      bundler (~> 1.0)
-      railties (= 3.2.13)
-      EOF
-      runner.prepare('Gemfile.lock', content)
+        content = <<~EOF
+          GEM
+            remote: https://rubygems.org
+            specs:
+              rails (3.2.13)
+                actionmailer (= 3.2.13)
+                actionpack (= 3.2.13)
+                activerecord (= 3.2.13)
+                activeresource (= 3.2.13)
+                activesupport (= 3.2.13)
+                bundler (~> 1.0)
+                railties (= 3.2.13)
+        EOF
+        runner.prepare('Gemfile.lock', content)
       end
 
       context 'project_mailer' do

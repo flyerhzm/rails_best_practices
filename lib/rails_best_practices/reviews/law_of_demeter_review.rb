@@ -40,28 +40,28 @@ module RailsBestPractices
         # if the receiver of receiver of the call node matchs any in model names,
         # and the message of receiver of the call node matchs any in association names,
         # then it needs delegate.
-        def need_delegate?(node)
-          return unless variable(node)
-          class_name = variable(node).to_s.sub('@', '').classify
-          association_name = node.receiver.message.to_s
-          association = model_associations.get_association(class_name, association_name)
-          attribute_name = node.message.to_s
-          association && ASSOCIATION_METHODS.include?(association['meta']) &&
-            is_association_attribute?(association['class_name'], association_name, attribute_name)
-        end
+      def need_delegate?(node)
+        return unless variable(node)
+        class_name = variable(node).to_s.sub('@', '').classify
+        association_name = node.receiver.message.to_s
+        association = model_associations.get_association(class_name, association_name)
+        attribute_name = node.message.to_s
+        association && ASSOCIATION_METHODS.include?(association['meta']) &&
+          is_association_attribute?(association['class_name'], association_name, attribute_name)
+      end
 
-        def is_association_attribute?(association_class, association_name, attribute_name)
-          if association_name =~ /able$/
-            models.each do |class_name|
-              if model_associations.is_association?(class_name, association_name.sub(/able$/, '')) ||
-                model_associations.is_association?(class_name, association_name.sub(/able$/, 's'))
-                return true if model_attributes.is_attribute?(class_name, attribute_name)
-              end
+      def is_association_attribute?(association_class, association_name, attribute_name)
+        if association_name =~ /able$/
+          models.each do |class_name|
+            if model_associations.is_association?(class_name, association_name.sub(/able$/, '')) ||
+               model_associations.is_association?(class_name, association_name.sub(/able$/, 's'))
+              return true if model_attributes.is_attribute?(class_name, attribute_name)
             end
-          else
-            model_attributes.is_attribute?(association_class, attribute_name)
           end
+        else
+          model_attributes.is_attribute?(association_class, attribute_name)
         end
+      end
     end
   end
 end

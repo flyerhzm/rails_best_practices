@@ -105,10 +105,11 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.map(&:to_s)).to eq([
-            'Admin::PostsController#edit',
-            'Admin::PostsController#update',
-            'Admin::PostsController#link_to_post',
-            'Admin::PostsController#extra_update'])
+                                             'Admin::PostsController#edit',
+                                             'Admin::PostsController#update',
+                                             'Admin::PostsController#link_to_post',
+                                             'Admin::PostsController#extra_update'
+                                           ])
         end
 
         it 'should add resources routes with members inline' do
@@ -124,11 +125,12 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.map(&:to_s)).to eq([
-            'Admin::PostsController#edit',
-            'Admin::PostsController#update',
-            'Admin::PostsController#link_to_post',
-            'Admin::PostsController#extra_update',
-            'Admin::PostsController#retrieve'])
+                                             'Admin::PostsController#edit',
+                                             'Admin::PostsController#update',
+                                             'Admin::PostsController#link_to_post',
+                                             'Admin::PostsController#extra_update',
+                                             'Admin::PostsController#retrieve'
+                                           ])
         end
 
         it 'should add connect route' do
@@ -338,12 +340,12 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.map(&:to_s)).to eq([
-                                          'Admin::PostsController#index',
-                                          'Admin::DiscussionsController#index',
-                                          'CommentsController#index',
-                                          'UsersController#show',
-                                          'UsersController#preview'
-                                        ])
+                                             'Admin::PostsController#index',
+                                             'Admin::DiscussionsController#index',
+                                             'CommentsController#index',
+                                             'UsersController#show',
+                                             'UsersController#preview'
+                                           ])
         end
       end
 

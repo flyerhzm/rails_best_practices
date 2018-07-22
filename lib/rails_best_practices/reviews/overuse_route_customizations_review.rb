@@ -46,9 +46,9 @@ module RailsBestPractices
         # if its receiver is with message "resources",
         # then calculate the count of call nodes, whose message is get, post, update or delete,
         # it is just the count of member and collection custom routes.
-        def member_and_collection_count_for_rails3(node)
-          'resources' == node[1].message.to_s ? node.grep_nodes_count(sexp_type: :command, message: VERBS) : 0
-        end
+      def member_and_collection_count_for_rails3(node)
+        'resources' == node[1].message.to_s ? node.grep_nodes_count(sexp_type: :command, message: VERBS) : 0
+      end
     end
   end
 end

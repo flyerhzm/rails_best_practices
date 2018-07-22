@@ -51,40 +51,40 @@ module RailsBestPractices
 
         # check a command node, if it is a callback definition, such as after_create, before_create,
         # then save the callback methods in @callbacks
-        def remember_callback(node)
-          if node.message.to_s =~ /^after_|^before_/
-            node.arguments.all.each do |argument|
-              # ignore callback like after_create Comment.new
-              @callbacks << argument.to_s if :symbol_literal == argument.sexp_type
-            end
+      def remember_callback(node)
+        if node.message.to_s =~ /^after_|^before_/
+          node.arguments.all.each do |argument|
+            # ignore callback like after_create Comment.new
+            @callbacks << argument.to_s if :symbol_literal == argument.sexp_type
           end
         end
+      end
 
         # check a defn node to see if the method name exists in the @callbacks.
-        def callback_method?(node)
-          @callbacks.find { |callback| callback == node.method_name.to_s }
-        end
+      def callback_method?(node)
+        @callbacks.find { |callback| callback == node.method_name.to_s }
+      end
 
         # check a def node to see if it contains a actionmailer deliver call.
         #
         # if the message of call node is deliver,
         # and the receiver of the call node is with receiver node who exists in @callbacks,
         # then the call node is actionmailer deliver call.
-        def deliver_mailer?(node)
-          node.grep_nodes(sexp_type: :call) do |child_node|
-            if 'deliver' == child_node.message.to_s
-              if :method_add_arg == child_node.receiver.sexp_type &&
-                mailers.include?(child_node.receiver[1].receiver.to_s)
-                return true
-              end
+      def deliver_mailer?(node)
+        node.grep_nodes(sexp_type: :call) do |child_node|
+          if 'deliver' == child_node.message.to_s
+            if :method_add_arg == child_node.receiver.sexp_type &&
+               mailers.include?(child_node.receiver[1].receiver.to_s)
+              return true
             end
           end
-          false
         end
+        false
+      end
 
-        def mailers
-          @mailers ||= Prepares.mailers
-        end
+      def mailers
+        @mailers ||= Prepares.mailers
+      end
     end
   end
 end

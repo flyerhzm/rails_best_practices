@@ -5,8 +5,10 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe ProtectMassAssignmentReview do
-      let(:runner) { Core::Runner.new(prepares: [Prepares::GemfilePrepare.new, Prepares::ConfigPrepare.new, Prepares::InitializerPrepare.new],
-                                      reviews: ProtectMassAssignmentReview.new) }
+      let(:runner) { 
+        Core::Runner.new(prepares: [Prepares::GemfilePrepare.new, Prepares::ConfigPrepare.new, Prepares::InitializerPrepare.new],
+                         reviews: ProtectMassAssignmentReview.new)
+      }      
 
       it 'should protect mass assignment' do
         content = <<-EOF
