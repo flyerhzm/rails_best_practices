@@ -156,15 +156,15 @@ module RailsBestPractices
 
         # remove the non foreign keys with only _type column.
       def remove_only_type_foreign_keys
-        @foreign_keys.each { |_table, foreign_keys|
+        @foreign_keys.each do |_table, foreign_keys|
           foreign_keys.delete_if { |key| key =~ /_type$/ }
-        }
+        end
       end
 
         # combine polymorphic foreign keys, e.g.
         #     [tagger_id], [tagger_type] => [tagger_id, tagger_type]
       def combine_polymorphic_foreign_keys
-        @index_columns.each { |_table, foreign_keys|
+        @index_columns.each do |_table, foreign_keys|
           foreign_id_keys = foreign_keys.select { |key| key.size == 1 && key.first =~ /_id/ }
           foreign_type_keys = foreign_keys.select { |key| key.size == 1 && key.first =~ /_type/ }
           foreign_id_keys.each do |id_key|
@@ -173,7 +173,7 @@ module RailsBestPractices
             foreign_keys.delete(type_key)
             foreign_keys << id_key + type_key
           end
-        }
+        end
       end
 
         # check if the table's column is indexed.

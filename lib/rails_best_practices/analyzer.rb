@@ -137,14 +137,14 @@ module RailsBestPractices
     def expand_dirs_to_files(*dirs)
       extensions = %w[rb erb rake rhtml haml slim builder rxml rabl]
 
-      dirs.flatten.map { |entry|
+      dirs.flatten.map do |entry|
         next unless File.exist? entry
         if File.directory? entry
           Dir[File.join(entry, '**', "*.{#{extensions.join(',')}}")]
         else
           entry
         end
-      }.flatten
+      end.flatten
     end
 
     # sort files, models first, mailers, helpers, and then sort other files by characters.

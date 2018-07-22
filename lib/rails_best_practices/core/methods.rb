@@ -123,13 +123,13 @@ module RailsBestPractices
       # @param [String] access control
       # @return [Array] array of Method
       def get_all_unused_methods(access_control = nil)
-        @methods.inject([]) { |unused_methods, (_class_name, methods)|
+        @methods.inject([]) do |unused_methods, (_class_name, methods)|
           unused_methods += if access_control
                               methods.select { |method| method.access_control == access_control && !method.used }
                             else
                               methods.reject { |method| method.used }
           end
-        }.reject { |method| method.access_control == 'public' && @possible_methods[method.method_name] }
+        end.reject { |method| method.access_control == 'public' && @possible_methods[method.method_name] }
       end
 
       private
