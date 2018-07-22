@@ -26,10 +26,9 @@ module RailsBestPractices
 
         # load all checks from the configuration
       def load_checks_from_config(&block)
-        checks_from_config.inject([]) do |active_checks, check|
+        checks_from_config.each_with_object([]) do |check, active_checks|
           check_instance = instantiate_check(block, *check)
           active_checks << check_instance unless check_instance.nil?
-          active_checks
         end
       end
 
