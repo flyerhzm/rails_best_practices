@@ -39,7 +39,7 @@ module RailsBestPractices
       end
 
       # delegate each to @associations.
-      def each()
+      def each
         @associations.each { |model, model_associations| yield model, model_associations }
       end
 
