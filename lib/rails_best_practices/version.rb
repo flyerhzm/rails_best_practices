@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module RailsBestPractices
-  VERSION = '1.19.3'.freeze
+  VERSION = '1.19.3'
 end
