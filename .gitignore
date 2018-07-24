@@ -1,6 +1,5 @@
 .DS_STORE
 .*.swp
-Gemfile.lock
 pkg/**
 *.gem
 .bundle
