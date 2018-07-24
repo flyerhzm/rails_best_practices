@@ -34,7 +34,6 @@ GEM
     erubis (2.7.0)
     ffi (1.9.10)
     formatador (0.2.5)
-    growl (1.0.3)
     guard (2.13.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, <= 4.0)
@@ -108,14 +107,12 @@ DEPENDENCIES
   awesome_print
   bundler
   coveralls
-  growl
   guard
   guard-rspec
   haml
   pry
   rails_best_practices!
   rake (< 11.0)
-  rb-fsevent
   rspec (~> 2.14.0)
   slim
 
