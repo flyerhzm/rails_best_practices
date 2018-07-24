@@ -226,7 +226,7 @@ module RailsBestPractices
       template = @options['template'] ? File.read(File.expand_path(@options['template'])) : File.read(File.join(File.dirname(__FILE__), '..', '..', 'assets', 'result.html.erb'))
 
       if @options['with-github']
-        last_commit_id = @options['last-commit-id'] ? @options['last-commit-id'] : `cd #{@runner.class.base_path} && git rev-parse HEAD`.chomp
+        last_commit_id = @options['last-commit-id'] || `cd #{@runner.class.base_path} && git rev-parse HEAD`.chomp
         unless @options['github-name'].start_with?('https')
           @options['github-name'] = GITHUB_URL + @options['github-name']
         end
