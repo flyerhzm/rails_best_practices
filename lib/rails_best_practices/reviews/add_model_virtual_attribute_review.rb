@@ -84,7 +84,7 @@ module RailsBestPractices
         #
         # @return [Enumerable] the duplicate entries.
       def dups(nodes)
-        nodes.each_with_object({}) { |v, h| h[v] = h[v].to_i + 1;  }.reject { |_k, v| v == 1 }.keys
+        nodes.each_with_object({}) { |v, h| h[v] = h[v].to_i + 1; }.reject { |_k, v| v == 1 }.keys
       end
     end
   end
