@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/rails_best_practices.svg)](http://badge.fury.io/rb/rails_best_practices)
 [![Build Status](https://secure.travis-ci.org/flyerhzm/rails_best_practices.svg)](http://travis-ci.org/flyerhzm/rails_best_practices)
 [![Coverage Status](https://coveralls.io/repos/railsbp/rails_best_practices/badge.svg?branch=master)](https://coveralls.io/r/railsbp/rails_best_practices)
-[![AwesomeCode Status for flyerhzm/rails_best_practices](https://awesomecode.io/projects/d02ecd70-e068-4ad4-b61a-7003ac24b49a/status)](https://awesomecode.io/projects/8)
+[![AwesomeCode Status for flyerhzm/rails_best_practices](https://awesomecode.io/projects/d02ecd70-e068-4ad4-b61a-7003ac24b49a/status)](https://awesomecode.io/repos/flyerhzm/rails_best_practices)
 
 [![Coderwall Endorse](http://api.coderwall.com/flyerhzm/endorsecount.png)](http://coderwall.com/flyerhzm)
 [![Click here to lend your support to: rails best practices and make a donation at www.pledgie.com !](https://pledgie.com/campaigns/12057.png?skin_name=chrome)](https://pledgie.com/campaigns/12057)
