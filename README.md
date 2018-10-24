@@ -182,6 +182,9 @@ Now you can customize this configuration file. The default configuration is as f
     UseScopeAccessCheck: { }
     UseTurboSprocketsRails3Check: { }
 
+Now, at the root directory of a Rails app, run:
+
+    rails_best_practices . -c config/rails_best_practices.yml
 
 You can remove or comment a review to disable it, and you can change the options.
 
