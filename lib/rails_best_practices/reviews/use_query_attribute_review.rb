@@ -41,6 +41,7 @@ module RailsBestPractices
         end
         all_conditions.each do |condition_node|
           next unless query_attribute_node = query_attribute_node(condition_node)
+
           receiver_node = query_attribute_node.receiver
           add_error "use query attribute (#{receiver_node.receiver}.#{receiver_node.message}?)",
                     node.file,
@@ -83,6 +84,7 @@ module RailsBestPractices
         # the node that may use query attribute.
       def possible_query_attribute?(node)
         return false unless node.receiver.sexp_type == :call
+
         variable_node = variable(node)
         message_node = node.grep_node(receiver: variable_node.to_s).message
 
@@ -93,6 +95,7 @@ module RailsBestPractices
         # check if the receiver is one of the models.
       def is_model?(variable_node)
         return false if variable_node.const?
+
         class_name = variable_node.to_s.sub(/^@/, '').classify
         models.include?(class_name)
       end

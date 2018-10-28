@@ -34,10 +34,12 @@ module RailsBestPractices
           var_ref_or_vcall_included = %i[var_ref vcall].include?(statement_node.sexp_type)
           private_or_protected_included = %w[protected private].include?(statement_node.to_s)
           break if var_ref_or_vcall_included && private_or_protected_included
+
           remember_first_sentence(statement_node) if statement_node.sexp_type == :def
         end
         @first_sentences.each do |_first_sentence, def_nodes|
           next unless def_nodes.size > @customize_count
+
           add_error "use before_filter for #{def_nodes.map { |node| node.method_name.to_s }.join(',')}",
                     node.file,
                     def_nodes.map(&:line_number).join(',')
@@ -50,6 +52,7 @@ module RailsBestPractices
       def remember_first_sentence(node)
         first_sentence = node.body.statements.first
         return unless first_sentence
+
         first_sentence = first_sentence.remove_line_and_column
         unless first_sentence == s(:nil)
           @first_sentences[first_sentence] ||= []

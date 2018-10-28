@@ -52,6 +52,7 @@ module RailsBestPractices
         left_value = node.left_value
         right_value = node.right_value
         return unless left_value.sexp_type == :field && right_value.sexp_type == :call
+
         aref_node = right_value.grep_node(sexp_type: :aref)
         if aref_node
           assignments(left_value.receiver.to_s) << { message: left_value.message.to_s, arguments: aref_node.to_s }
@@ -72,6 +73,7 @@ module RailsBestPractices
         # if the nodes are duplicated.
       def params_dup?(nodes)
         return false if nodes.nil?
+
         !dups(nodes).empty?
       end
 
