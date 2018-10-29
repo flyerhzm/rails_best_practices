@@ -139,6 +139,7 @@ module RailsBestPractices
 
       dirs.flatten.map do |entry|
         next unless File.exist? entry
+
         if File.directory? entry
           Dir[File.join(entry, '**', "*.{#{extensions.join(',')}}")]
         else

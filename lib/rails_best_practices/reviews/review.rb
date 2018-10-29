@@ -36,6 +36,7 @@ module RailsBestPractices
           node = node.receiver
         end
         return if %i[fcall hash].include?(node.receiver.sexp_type)
+
         node.receiver
       end
 

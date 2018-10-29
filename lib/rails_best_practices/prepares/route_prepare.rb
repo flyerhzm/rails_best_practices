@@ -79,6 +79,7 @@ module RailsBestPractices
           when :bare_assoc_hash
             if options.hash_value('controller').present?
               return if options.hash_value('controller').sexp_type == :regexp_literal
+
               controller_name = options.hash_value('controller').to_s
               action_name = options.hash_value('action').present? ? options.hash_value('action').to_s : '*'
               @routes.add_route(current_namespaces, controller_name, action_name)
