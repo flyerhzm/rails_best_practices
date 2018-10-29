@@ -1,5 +1,9 @@
 # Next Release
 
+## 1.19.4
+
+* Add cli class
+
 ## 1.19.3
 
 * Fix false positive remove unused method for around_action in
