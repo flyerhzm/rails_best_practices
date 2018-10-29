@@ -285,6 +285,7 @@ module RailsBestPractices
 
             def mark_used(method_node)
               return if method_node == :call
+
               if method_node.sexp_type == :bare_assoc_hash
                 method_node.hash_values.each { |value_node| mark_used(value_node) }
               elsif method_node.sexp_type == :array

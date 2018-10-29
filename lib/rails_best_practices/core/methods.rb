@@ -18,6 +18,7 @@ module RailsBestPractices
       def add_method(class_name, method_name, meta = {}, access_control = 'public')
         return if class_name == ''
         return if has_method?(class_name, method_name)
+
         methods(class_name) << Method.new(class_name, method_name, access_control, meta)
         if access_control == 'public'
           @possible_methods[method_name] = false

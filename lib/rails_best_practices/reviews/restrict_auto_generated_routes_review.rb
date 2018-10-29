@@ -133,6 +133,7 @@ module RailsBestPractices
       def _check(node, methods)
         controller_name = controller_name(node)
         return unless Prepares.controllers.include? controller_name
+
         _methods = _methods(node, methods)
         unless _methods.all? { |meth| Prepares.controller_methods.has_method?(controller_name, meth) }
           prepared_method_names = Prepares.controller_methods.get_methods(controller_name).map(&:method_name)

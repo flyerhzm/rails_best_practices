@@ -42,6 +42,7 @@ module RailsBestPractices
         # then it needs delegate.
       def need_delegate?(node)
         return unless variable(node)
+
         class_name = variable(node).to_s.sub('@', '').classify
         association_name = node.receiver.message.to_s
         association = model_associations.get_association(class_name, association_name)
