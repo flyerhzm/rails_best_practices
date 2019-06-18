@@ -11,7 +11,7 @@ module RailsBestPractices
     # Review process:
     #   only check the command and command_calls nodes and at the end of review process,
     #   if the receiver of command node is "create_table", then remember the table names
-    #   if the receiver of command_call node is "integer" or "string" and suffix with _id, then remember it as foreign key
+    #   if the receiver of command_call node is "integer" or "string" or "bigint" and suffix with _id, then remember it as foreign key
     #   if the receiver of command_call node is "string", the name of it is _type suffixed and there is an integer or string column _id suffixed, then remember it as polymorphic foreign key
     #   if the receiver of command_call node is remembered as foreign key and it have argument non-false "index", then remember the index columns
     #   if the receiver of command node is "add_index", then remember the index columns
@@ -40,7 +40,7 @@ module RailsBestPractices
       # if the message of command_call node is "create_table", then remember the table name.
       # if the message of command_call node is "add_index", then remember it as index columns.
       add_callback :start_command_call do |node|
-        if %w[integer string].include? node.message.to_s
+        if %w[integer string bigint].include? node.message.to_s
           remember_foreign_key_columns(node)
         elsif node.message.to_s == 'index'
           remember_index_columns_inside_table(node)
