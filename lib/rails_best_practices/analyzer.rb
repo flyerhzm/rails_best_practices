@@ -238,6 +238,7 @@ module RailsBestPractices
           errors: errors,
           error_types: error_types,
           textmate: @options['with-textmate'],
+          vscode: @options['with-vscode'],
           sublime: @options['with-sublime'],
           mvim: @options['with-mvim'],
           github: @options['with-github'],
