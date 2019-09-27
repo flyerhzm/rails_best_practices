@@ -122,7 +122,7 @@
               <% elsif @mvim %>
                 <a href='mvim://open/?url=file://<%= File.expand_path(error.filename) %>&amp;line=<%= error.line_number %>'><%= error.short_filename %></a>
               <% elsif @vscode %>
-                <a href='vscode://file/<%= File.expand_path(error.filename) %>&amp;:<%= error.line_number %>'><%= error.short_filename %></a>
+                <a href='vscode://file/<%= File.expand_path(error.filename) %>:<%= error.line_number %>'><%= error.short_filename %></a>
               <% else %>
                 <%= error.short_filename %>
               <% end %>
