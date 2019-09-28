@@ -64,6 +64,7 @@ To see the full list of command-line options, run:
         -f, --format FORMAT              output format
             --without-color              only output plain text without color
             --with-textmate              open file by textmate in html format
+            --with-vscode                open file by vscode in html format
             --with-sublime               open file by sublime in html format (requires https://github.com/asuth/subl-handler)
             --with-mvim                  open file by mvim in html format
             --with-github GITHUB_NAME    open file on github in html format. GITHUB_NAME is like railsbp/rails-bestpractices OR full URL to GitHub:FI repo
