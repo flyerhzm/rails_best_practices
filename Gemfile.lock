@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_best_practices (1.19.4)
+    rails_best_practices (1.19.5)
       activesupport
       code_analyzer (>= 0.4.8)
       erubis
@@ -13,16 +13,17 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (5.2.1)
+    activesupport (6.0.0)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+      zeitwerk (~> 2.1, >= 2.1.8)
     awesome_print (1.6.1)
     code_analyzer (0.4.8)
       sexp_processor
     coderay (1.1.1)
-    concurrent-ruby (1.0.5)
+    concurrent-ruby (1.1.5)
     coveralls (0.8.11)
       json (~> 1.8)
       simplecov (~> 0.11.0)
@@ -48,7 +49,7 @@ GEM
       rspec (>= 2.14, < 4.0)
     haml (4.0.7)
       tilt
-    i18n (1.1.1)
+    i18n (1.6.0)
       concurrent-ruby (~> 1.0)
     json (1.8.6)
     listen (3.0.6)
@@ -99,6 +100,7 @@ GEM
     tins (1.6.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    zeitwerk (2.1.10)
 
 PLATFORMS
   ruby
@@ -117,4 +119,4 @@ DEPENDENCIES
   slim
 
 BUNDLED WITH
-   1.16.0
+   1.17.2
