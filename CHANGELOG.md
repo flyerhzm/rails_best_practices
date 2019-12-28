@@ -1,5 +1,10 @@
 # Next Release
 
+## 1.19.5
+
+* Add the link format for vscode
+* Use code_analyzer 0.5.1
+
 ## 1.19.4
 
 * Add cli class
