@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency('activesupport')
   # TODO: add a dependency for Rails >= 3 ?
-  s.add_dependency('code_analyzer', '>= 0.4.8')
+  s.add_dependency('code_analyzer', '>= 0.5.1')
   s.add_dependency('erubis')
   s.add_dependency('i18n')
   s.add_dependency('json')

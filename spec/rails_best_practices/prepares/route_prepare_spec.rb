@@ -252,7 +252,9 @@ module RailsBestPractices
         it 'should add custom resources routes with {}' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
-            resources :posts, only: [:show] { get :inactive, on: :collection }
+            resources :posts, only: [:show] do
+              get :inactive, on: :collection
+            end
           end
           EOF
           runner.prepare('config/routes.rb', content)
