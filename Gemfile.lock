@@ -66,7 +66,6 @@ GEM
     pry (0.12.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
-    rake (10.5.0)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
@@ -113,7 +112,6 @@ DEPENDENCIES
   haml
   pry
   rails_best_practices!
-  rake (< 11.0)
   rspec (~> 2.14.0)
   slim
 

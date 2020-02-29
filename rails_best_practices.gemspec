@@ -28,7 +28,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('awesome_print')
   s.add_development_dependency('bundler')
   s.add_development_dependency('haml')
-  s.add_development_dependency('rake', '< 11.0')
   s.add_development_dependency('rspec')
   s.add_development_dependency('slim')
 
