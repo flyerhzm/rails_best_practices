@@ -146,7 +146,7 @@ module RailsBestPractices
       def remove_table_not_exist_foreign_keys
         @foreign_keys.each do |table, foreign_keys|
           foreign_keys.delete_if do |key|
-            if key =~ /_id$/
+            if key.is_a?(String) && key =~ /_id$/
               class_name = Prepares.model_associations.get_association_class_name(table, key[0..-4])
               class_name ? !@table_nodes[class_name.gsub('::', '').tableize] : !@table_nodes[key[0..-4].pluralize]
             end
@@ -157,7 +157,7 @@ module RailsBestPractices
         # remove the non foreign keys with only _type column.
       def remove_only_type_foreign_keys
         @foreign_keys.each do |_table, foreign_keys|
-          foreign_keys.delete_if { |key| key =~ /_type$/ }
+          foreign_keys.delete_if { |key| key.is_a?(String) && key =~ /_type$/ }
         end
       end
 

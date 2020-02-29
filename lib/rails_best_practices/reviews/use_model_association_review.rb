@@ -46,7 +46,7 @@ module RailsBestPractices
         # check an attribute assignment node, if its message is xxx_id,
         # then remember the receiver of the attribute assignment in @assignments.
       def attribute_assignment(node)
-        if node.left_value.message.to_s =~ /_id$/
+        if node.left_value.message.is_a?(Sexp) && node.left_value.message.to_s =~ /_id$/
           receiver = node.left_value.receiver.to_s
           @assignments[receiver] = true
         end
