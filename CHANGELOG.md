@@ -1,29 +1,14 @@
 # Next Release
 
-## 1.19.5
+## 1.20.0 (2020-02-29)
 
+* Support ruby 2.7
 * Add the link format for vscode
-* Use code_analyzer 0.5.1
-
-## 1.19.4
-
 * Add cli class
-
-## 1.19.3
-
+* Add table_name and module_prefix to model ignored methods
 * Fix false positive remove unused method for around_action in
   controller
 * Fix current_class_name in end_class callback
-
-## 1.19.2
-
-* Integrate with awesomecode.io
-* Update to require_all 2.x
-
-## 1.19.1
-
-* Add table_name and module_prefix to model ignored methods
-* Forcing requrie_all version
 
 ## 1.19.0 (2017-07-26)
 
