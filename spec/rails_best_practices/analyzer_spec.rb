@@ -5,7 +5,7 @@ require 'tmpdir'
 
 module RailsBestPractices
   describe Analyzer do
-    subject { Analyzer.new('.') }
+    subject { described_class.new('.') }
 
     describe '::new' do
       it 'should expand a relative path to an absolute' do
@@ -147,7 +147,7 @@ module RailsBestPractices
           Dir.mkdir(File.join(random_dir, 'vendor'))
           Dir.mkdir(File.join(random_dir, 'vendor', 'my_project'))
           File.open(File.join(random_dir, 'vendor', 'my_project', 'my_file.rb'), 'w') { |file| file << 'woot' }
-          analyzer = Analyzer.new(File.join(random_dir, 'vendor', 'my_project'))
+          analyzer = described_class.new(File.join(random_dir, 'vendor', 'my_project'))
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'vendor', 'my_project', 'my_file.rb')
         }
       end
@@ -157,7 +157,7 @@ module RailsBestPractices
           Dir.mkdir(File.join(random_dir, 'spec'))
           Dir.mkdir(File.join(random_dir, 'spec', 'my_project'))
           File.open(File.join(random_dir, 'spec', 'my_project', 'my_file.rb'), 'w') { |file| file << 'woot' }
-          analyzer = Analyzer.new(File.join(random_dir, 'spec', 'my_project'))
+          analyzer = described_class.new(File.join(random_dir, 'spec', 'my_project'))
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'spec', 'my_project', 'my_file.rb')
         }
       end
@@ -167,7 +167,7 @@ module RailsBestPractices
           Dir.mkdir(File.join(random_dir, 'test'))
           Dir.mkdir(File.join(random_dir, 'test', 'my_project'))
           File.open(File.join(random_dir, 'test', 'my_project', 'my_file.rb'), 'w') { |file| file << 'woot' }
-          analyzer = Analyzer.new(File.join(random_dir, 'test', 'my_project'))
+          analyzer = described_class.new(File.join(random_dir, 'test', 'my_project'))
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'test', 'my_project', 'my_file.rb')
         }
       end
@@ -177,7 +177,7 @@ module RailsBestPractices
           Dir.mkdir(File.join(random_dir, 'test'))
           Dir.mkdir(File.join(random_dir, 'test', 'my_project'))
           File.open(File.join(random_dir, 'test', 'my_project', 'my_file.rb'), 'w') { |file| file << 'woot' }
-          analyzer = Analyzer.new(File.join(random_dir, 'test', 'my_project'))
+          analyzer = described_class.new(File.join(random_dir, 'test', 'my_project'))
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'test', 'my_project', 'my_file.rb')
         }
       end
@@ -187,7 +187,7 @@ module RailsBestPractices
           Dir.mkdir(File.join(random_dir, 'tmp'))
           Dir.mkdir(File.join(random_dir, 'tmp', 'my_project'))
           File.open(File.join(random_dir, 'tmp', 'my_project', 'my_file.rb'), 'w') { |file| file << 'woot' }
-          analyzer = Analyzer.new(File.join(random_dir, 'tmp', 'my_project'))
+          analyzer = described_class.new(File.join(random_dir, 'tmp', 'my_project'))
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'tmp', 'my_project', 'my_file.rb')
         }
       end

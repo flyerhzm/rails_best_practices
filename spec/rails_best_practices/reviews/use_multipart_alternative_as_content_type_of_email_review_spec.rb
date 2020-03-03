@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseMultipartAlternativeAsContentTypeOfEmailReview do
-      let(:runner) { Core::Runner.new(prepares: Prepares::GemfilePrepare.new, reviews: UseMultipartAlternativeAsContentTypeOfEmailReview.new) }
+      let(:runner) { Core::Runner.new(prepares: Prepares::GemfilePrepare.new, reviews: described_class.new) }
 
       before(:each) { allow(Core::Runner).to receive(:base_path).and_return('.') }
 
@@ -112,7 +112,7 @@ module RailsBestPractices
         end
 
         it 'should not check ignored files' do
-          runner = Core::Runner.new(reviews: UseMultipartAlternativeAsContentTypeOfEmailReview.new(ignored_files: /project_mailer/))
+          runner = Core::Runner.new(reviews: described_class.new(ignored_files: /project_mailer/))
           mock_email_files(['send_email.html.haml'])
           runner.review('app/mailers/project_mailer.rb', content)
           expect(runner.errors.size).to eq(0)

@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe DefaultScopeIsEvilReview do
-      let(:runner) { Core::Runner.new(reviews: DefaultScopeIsEvilReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should detect default_scope with -> syntax' do
         content = <<-EOF
@@ -40,7 +40,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: DefaultScopeIsEvilReview.new(ignored_files: /user/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /user/))
         content = <<-EOF
         class User < ActiveRecord::Base
           default_scope -> { order('created_at desc') }

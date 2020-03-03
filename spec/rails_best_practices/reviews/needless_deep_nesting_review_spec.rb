@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe NeedlessDeepNestingReview do
-      let(:runner) { Core::Runner.new(reviews: NeedlessDeepNestingReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should needless deep nesting' do
         content = <<-EOF
@@ -89,7 +89,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: NeedlessDeepNestingReview.new(ignored_files: /config\/routes/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /config\/routes/))
         content = <<-EOF
           map.resources :posts do |post|
             post.resources :comments do |comment|

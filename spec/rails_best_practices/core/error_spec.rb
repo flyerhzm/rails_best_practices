@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices::Core
   describe Error do
     it 'should return error with filename, line number and message' do
-      expect(Error.new(
+      expect(described_class.new(
         filename: 'app/models/user.rb',
         line_number: '100',
         message: 'not good',
@@ -15,7 +15,7 @@ module RailsBestPractices::Core
 
     it 'should return short filename' do
       Runner.base_path = '../rails-bestpractices.com'
-      expect(Error.new(
+      expect(described_class.new(
         filename: '../rails-bestpractices.com/app/models/user.rb',
         line_number: '100',
         message: 'not good',
@@ -24,7 +24,7 @@ module RailsBestPractices::Core
     end
 
     it 'should return first line number' do
-      expect(Error.new(
+      expect(described_class.new(
         filename: 'app/models/user.rb',
         line_number: '50,70,100',
         message: 'not good',

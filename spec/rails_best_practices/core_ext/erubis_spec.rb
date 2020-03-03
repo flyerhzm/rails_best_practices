@@ -13,7 +13,7 @@ describe Erubis::OnlyRuby do
       Not logged in
     <% end %>
     EOF
-    Erubis::OnlyRuby.new(content).src
+    described_class.new(content).src
   }
 
   it { should_not include('h1') }

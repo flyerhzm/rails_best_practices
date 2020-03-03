@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) {
         Core::Runner.new(
           prepares: Prepares::ModelPrepare.new,
-          reviews: RemoveUnusedMethodsInModelsReview.new('except_methods' => ['*#set_cache'])
+          reviews: described_class.new('except_methods' => ['*#set_cache'])
         )
       }
 
@@ -710,7 +710,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(prepares: Prepares::ModelPrepare.new,
-                                  reviews: RemoveUnusedMethodsInModelsReview.new(except_methods: [], ignored_files: /post/))
+                                  reviews: described_class.new(except_methods: [], ignored_files: /post/))
 
         content = <<-EOF
           class Post < ActiveRecord::Base

@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe NotUseDefaultRouteReview do
-      let(:runner) { Core::Runner.new(reviews: NotUseDefaultRouteReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should not use default route' do
         content = <<-EOF
@@ -31,7 +31,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: NotUseDefaultRouteReview.new(ignored_files: /config\/routes\.rb/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /config\/routes\.rb/))
         content = <<-EOF
         RailsBestpracticesCom::Application.routes.draw do |map|
           resources :posts

@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) {
         Core::Runner.new(
           prepares: [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
-          reviews: RemoveUnusedMethodsInControllersReview.new('except_methods' => ['ExceptableController#*'])
+          reviews: described_class.new('except_methods' => ['ExceptableController#*'])
         )
       }
 
@@ -454,7 +454,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(prepares: [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
-                                  reviews: RemoveUnusedMethodsInControllersReview.new(ignored_files: /posts_controller/, except_methods: []))
+                                  reviews: described_class.new(ignored_files: /posts_controller/, except_methods: []))
         content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts do

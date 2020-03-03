@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) {
         Core::Runner.new(
           prepares: [Prepares::ControllerPrepare.new, Prepares::HelperPrepare.new],
-          reviews: RemoveUnusedMethodsInHelpersReview.new(except_methods: [])
+          reviews: described_class.new(except_methods: [])
         )
       }
 
@@ -120,7 +120,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(prepares: [Prepares::ControllerPrepare.new, Prepares::HelperPrepare.new],
-                                  reviews: RemoveUnusedMethodsInHelpersReview.new(ignored_files: /posts_helper/, except_methods: []))
+                                  reviews: described_class.new(ignored_files: /posts_helper/, except_methods: []))
 
         content = <<-EOF
         module PostsHelper

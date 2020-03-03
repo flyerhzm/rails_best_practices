@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe KeepFindersOnTheirOwnModelReview do
-      let(:runner) { Core::Runner.new(reviews: KeepFindersOnTheirOwnModelReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should keep finders on thier own model' do
         content = <<-EOF
@@ -98,7 +98,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: KeepFindersOnTheirOwnModelReview.new(ignored_files: /app\/models\/post\.rb/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /app\/models\/post\.rb/))
         content = <<-EOF
         class Post < ActiveRecord::Base
           has_many :comments

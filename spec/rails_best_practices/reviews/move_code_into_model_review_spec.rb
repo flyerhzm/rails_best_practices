@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe MoveCodeIntoModelReview do
-      let(:runner) { Core::Runner.new(reviews: MoveCodeIntoModelReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should move code into model' do
         content = <<-EOF
@@ -89,7 +89,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: MoveCodeIntoModelReview.new(ignored_files: /app\/views\/post/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /app\/views\/post/))
         content = <<-EOF
         <% if current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user)) %>
           <%= link_to 'Edit this post', edit_post_url(@post) %>

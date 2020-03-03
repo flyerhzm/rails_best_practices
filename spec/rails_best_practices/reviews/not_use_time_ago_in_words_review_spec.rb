@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe NotUseTimeAgoInWordsReview do
-      let(:runner) { Core::Runner.new(reviews: NotUseTimeAgoInWordsReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       describe 'time_ago_in_words' do
         it 'should not use in views' do
@@ -52,7 +52,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: NotUseTimeAgoInWordsReview.new(ignored_files: /posts_helper/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /posts_helper/))
         content = <<-EOF
           def timeago
             content_tag(:p, time_ago_in_words(post.created_at))
