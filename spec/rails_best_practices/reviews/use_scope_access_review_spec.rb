@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseScopeAccessReview do
-      let(:runner) { Core::Runner.new(reviews: UseScopeAccessReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       context 'if' do
         it 'should use scope access' do
@@ -207,7 +207,7 @@ module RailsBestPractices
         end
 
         it 'should not check ignored files' do
-          runner = Core::Runner.new(reviews: UseScopeAccessReview.new(ignored_files: /posts_controller/))
+          runner = Core::Runner.new(reviews: described_class.new(ignored_files: /posts_controller/))
           content = <<-EOF
           class PostsController < ApplicationController
             def edit

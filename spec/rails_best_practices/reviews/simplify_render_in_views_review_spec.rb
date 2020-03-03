@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe SimplifyRenderInViewsReview do
-      let(:runner) { Core::Runner.new(reviews: SimplifyRenderInViewsReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should simplify render simple partial' do
         content = <<-EOF
@@ -93,7 +93,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: SimplifyRenderInViewsReview.new(ignored_files: /views\/posts\/index/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /views\/posts\/index/))
         content = <<-EOF
         <%= render partial: 'sidebar' %>
         EOF

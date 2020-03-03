@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseBeforeFilterReview do
-      let(:runner) { Core::Runner.new(reviews: UseBeforeFilterReview.new(customize_count: 2)) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new(customize_count: 2)) }
 
       it 'should use before_filter' do
         content = <<-EOF
@@ -106,7 +106,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: UseBeforeFilterReview.new(customize_count: 2, ignored_files: /posts_controller/))
+        runner = Core::Runner.new(reviews: described_class.new(customize_count: 2, ignored_files: /posts_controller/))
         content = <<-EOF
         class PostsController < ApplicationController
           def show

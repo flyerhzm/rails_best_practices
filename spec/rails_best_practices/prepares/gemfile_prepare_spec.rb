@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Prepares
     describe GemfilePrepare do
-      let(:runner) { Core::Runner.new(prepares: GemfilePrepare.new) }
+      let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
       context 'gemfile' do
         it 'should parse gems' do

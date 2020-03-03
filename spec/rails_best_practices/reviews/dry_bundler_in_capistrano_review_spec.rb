@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe DryBundlerInCapistranoReview do
-      let(:runner) { Core::Runner.new(reviews: DryBundlerInCapistranoReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should dry bundler in capistrno' do
         content = <<-EOF
@@ -38,7 +38,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: DryBundlerInCapistranoReview.new(ignored_files: /deploy\.rb/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /deploy\.rb/))
         content = <<-EOF
         namespace :bundler do
           task :create_symlink, roles: :app do

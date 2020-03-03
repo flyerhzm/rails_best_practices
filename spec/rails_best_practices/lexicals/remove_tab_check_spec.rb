@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Lexicals
     describe RemoveTabCheck do
-      let(:runner) { Core::Runner.new(lexicals: RemoveTabCheck.new) }
+      let(:runner) { Core::Runner.new(lexicals: described_class.new) }
 
       it 'should remove tab' do
         content = <<-EOF
@@ -41,7 +41,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
       it 'should not check ignored files' do
-        runner = Core::Runner.new(lexicals: RemoveTabCheck.new(ignored_files: /user/))
+        runner = Core::Runner.new(lexicals: described_class.new(ignored_files: /user/))
         content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects

@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe ReplaceInstanceVariableWithLocalVariableReview do
-      let(:runner) { Core::Runner.new(reviews: ReplaceInstanceVariableWithLocalVariableReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should replace instance variable with local varialbe' do
         content = <<-EOF
@@ -43,7 +43,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: ReplaceInstanceVariableWithLocalVariableReview.new(ignored_files: /views\/posts/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /views\/posts/))
         content = <<-EOF
         <%= @post.title %>
         EOF

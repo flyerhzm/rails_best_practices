@@ -4,7 +4,7 @@ require 'spec_helper'
 
 module RailsBestPractices::Core
   describe ChecksLoader do
-    let(:checks_loader) { ChecksLoader.new(RailsBestPractices::Analyzer::DEFAULT_CONFIG) }
+    let(:checks_loader) { described_class.new(RailsBestPractices::Analyzer::DEFAULT_CONFIG) }
 
     describe 'load_lexicals' do
       it 'should load lexical checks from the default configuration' do

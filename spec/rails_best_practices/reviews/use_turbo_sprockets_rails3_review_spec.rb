@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseTurboSprocketsRails3Review do
-      let(:runner) { Core::Runner.new(prepares: Prepares::GemfilePrepare.new, reviews: UseTurboSprocketsRails3Review.new) }
+      let(:runner) { Core::Runner.new(prepares: Prepares::GemfilePrepare.new, reviews: described_class.new) }
 
       it 'should use turbo-sprockets-rails3' do
         content = <<~EOF
@@ -95,7 +95,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(prepares: Prepares::GemfilePrepare.new,
-                                  reviews: UseTurboSprocketsRails3Review.new(ignored_files: /Capfile/))
+                                  reviews: described_class.new(ignored_files: /Capfile/))
         content = <<~EOF
           GEM
             remote: https://rubygems.org

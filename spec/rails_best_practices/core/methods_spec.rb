@@ -4,7 +4,7 @@ require 'spec_helper'
 
 module RailsBestPractices::Core
   describe Methods do
-    let(:methods) { Methods.new }
+    let(:methods) { described_class.new }
 
     before :each do
       methods.add_method('Post', 'create')

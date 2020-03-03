@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Prepares
     describe ConfigPrepare do
-      let(:runner) { Core::Runner.new(prepares: ConfigPrepare.new) }
+      let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
       context 'configs' do
         it 'should parse configs' do

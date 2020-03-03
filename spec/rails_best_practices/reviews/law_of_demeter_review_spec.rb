@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe LawOfDemeterReview do
-      let(:runner) { Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: LawOfDemeterReview.new) }
+      let(:runner) { Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: described_class.new) }
 
       describe 'belongs_to' do
         before(:each) do
@@ -165,7 +165,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new],
-                                  reviews: LawOfDemeterReview.new(ignored_files: /app\/views\/invoices/))
+                                  reviews: described_class.new(ignored_files: /app\/views\/invoices/))
         content = <<-EOF
           <%= @invoice.user.name %>
           <%= @invoice.user.address %>

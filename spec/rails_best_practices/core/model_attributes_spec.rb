@@ -4,7 +4,7 @@ require 'spec_helper'
 
 module RailsBestPractices::Core
   describe ModelAttributes do
-    let(:model_attributes) { ModelAttributes.new }
+    let(:model_attributes) { described_class.new }
 
     before :each do
       model_attributes.add_attribute('Post', 'title', :string)

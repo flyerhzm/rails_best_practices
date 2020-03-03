@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe MoveModelLogicIntoModelReview do
-      let(:runner) { Core::Runner.new(reviews: MoveModelLogicIntoModelReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should move model logic into model' do
         content = <<-EOF
@@ -62,7 +62,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: MoveModelLogicIntoModelReview.new(ignored_files: /app\/controllers\/posts/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /app\/controllers\/posts/))
         content = <<-EOF
         class PostsController < ApplicationController
           def publish

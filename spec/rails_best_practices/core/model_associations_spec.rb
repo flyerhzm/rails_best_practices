@@ -4,7 +4,7 @@ require 'spec_helper'
 
 module RailsBestPractices::Core
   describe ModelAssociations do
-    let(:model_associations) { ModelAssociations.new }
+    let(:model_associations) { described_class.new }
 
     before :each do
       model_associations.add_association('Project', 'project_manager', 'belongs_to')

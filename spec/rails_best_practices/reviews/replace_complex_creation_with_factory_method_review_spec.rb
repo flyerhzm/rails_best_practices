@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe ReplaceComplexCreationWithFactoryMethodReview do
-      let(:runner) { Core::Runner.new(reviews: ReplaceComplexCreationWithFactoryMethodReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should replace complex creation with factory method' do
         content = <<-EOF
@@ -65,13 +65,13 @@ module RailsBestPractices
           end
         end
         EOF
-        runner = Core::Runner.new(reviews: ReplaceComplexCreationWithFactoryMethodReview.new('attribute_assignment_count' => 5))
+        runner = Core::Runner.new(reviews: described_class.new('attribute_assignment_count' => 5))
         runner.review('app/controllers/invoices_controller.rb', content)
         expect(runner.errors.size).to eq(0)
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: ReplaceComplexCreationWithFactoryMethodReview.new(ignored_files: /invoices_controller/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /invoices_controller/))
         content = <<-EOF
         class InvoiceController < ApplicationController
           def create

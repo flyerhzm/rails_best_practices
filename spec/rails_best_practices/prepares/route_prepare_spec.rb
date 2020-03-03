@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Prepares
     describe RoutePrepare do
-      let(:runner) { Core::Runner.new(prepares: RoutePrepare.new) }
+      let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
       context 'resources' do
         it 'should add resources route' do

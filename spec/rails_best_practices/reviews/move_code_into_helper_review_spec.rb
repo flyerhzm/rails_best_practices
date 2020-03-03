@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe MoveCodeIntoHelperReview do
-      let(:runner) { Core::Runner.new(reviews: MoveCodeIntoHelperReview.new('array_count' => 2)) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new('array_count' => 2)) }
 
       it 'should move code into helper' do
         content = <<-EOF
