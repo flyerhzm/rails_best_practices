@@ -6,7 +6,7 @@ module RailsBestPractices::Core
   describe Methods do
     let(:methods) { Methods.new }
 
-    before :each do
+    before do
       methods.add_method('Post', 'create')
       methods.add_method('Post', 'destroy')
       methods.add_method('Post', 'save_or_update', {}, 'protected')
