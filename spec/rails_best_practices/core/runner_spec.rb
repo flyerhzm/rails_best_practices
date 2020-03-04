@@ -14,12 +14,12 @@ module RailsBestPractices::Core
 
       context 'given a path that ends with a slash' do
         before { described_class.base_path = 'spec/fixtures/' }
-        it_should_behave_like 'load_plugin_reviews'
+        it_behaves_like 'load_plugin_reviews'
       end
 
       context 'given a path that does not end with a slash' do
         before { described_class.base_path = 'spec/fixtures' }
-        it_should_behave_like 'load_plugin_reviews'
+        it_behaves_like 'load_plugin_reviews'
       end
     end
   end
