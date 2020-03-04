@@ -4,7 +4,7 @@ require 'spec_helper'
 
 module RailsBestPractices::Core
   describe Routes do
-    let(:routes) { Routes.new }
+    let(:routes) { described_class.new }
 
     it 'should add route' do
       routes.add_route(%w[admin test], 'posts', 'new')

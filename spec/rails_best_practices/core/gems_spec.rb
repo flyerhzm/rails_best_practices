@@ -6,7 +6,7 @@ module RailsBestPractices::Core
   describe Gems do
     it { should be_a_kind_of Array }
 
-    let(:gems) { Gems.new }
+    let(:gems) { described_class.new }
     before do
       gems << Gem.new('rails', '4.0.0')
       gems << Gem.new('mysql2', '0.2.0')

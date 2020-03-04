@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe RemoveEmptyHelpersReview do
-      let(:runner) { Core::Runner.new(reviews: RemoveEmptyHelpersReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should remove empty helpers' do
         content = <<-EOF
@@ -39,7 +39,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: RemoveEmptyHelpersReview.new(ignored_files: /posts_helper/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /posts_helper/))
         content = <<-EOF
         module PostsHelper
         end

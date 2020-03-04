@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe CheckSaveReturnValueReview do
-      let(:runner) { Core::Runner.new(reviews: CheckSaveReturnValueReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       describe 'check_save_return_value' do
         it 'should warn you if you fail to check save return value' do
@@ -242,7 +242,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: CheckSaveReturnValueReview.new(ignored_files: /helpers/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /helpers/))
         content = <<-EOF
           def my_method
             post = Posts.new do |p|

@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe CheckDestroyReturnValueReview do
-      let(:runner) { Core::Runner.new(reviews: CheckDestroyReturnValueReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       describe 'check_destroy_return_value' do
         it 'should warn you if you fail to check the destroy return value' do
@@ -136,7 +136,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: CheckDestroyReturnValueReview.new(ignored_files: /helpers/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /helpers/))
         content = <<-EOF
           def my_method
             post = Posts.create do |p|

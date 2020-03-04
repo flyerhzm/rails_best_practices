@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe NotRescueExceptionReview do
-      let(:runner) { Core::Runner.new(reviews: NotRescueExceptionReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       describe 'not_rescue_exception' do
         it 'should not rescue exception in method rescue with named var' do
@@ -93,7 +93,7 @@ module RailsBestPractices
         end
 
         it 'should not check ignored files' do
-          runner = Core::Runner.new(reviews: NotRescueExceptionReview.new(ignored_files: /posts_helper/))
+          runner = Core::Runner.new(reviews: described_class.new(ignored_files: /posts_helper/))
           content = <<-EOF
           def my_method
             do_something

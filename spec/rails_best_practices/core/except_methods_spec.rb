@@ -10,7 +10,7 @@ module RailsBestPractices::Core
       let(:except_method) { '*#*' }
 
       it 'matches' do
-        expect(Check::Exceptable.matches(method, except_method)).to eql true
+        expect(described_class.matches(method, except_method)).to eql true
       end
     end
 
@@ -18,7 +18,7 @@ module RailsBestPractices::Core
       let(:except_method) { '*#approve' }
 
       it 'matches' do
-        expect(Check::Exceptable.matches(method, except_method)).to eql true
+        expect(described_class.matches(method, except_method)).to eql true
       end
     end
 
@@ -26,7 +26,7 @@ module RailsBestPractices::Core
       let(:except_method) { '*#disapprove' }
 
       it 'matches' do
-        expect(Check::Exceptable.matches(method, except_method)).to eql false
+        expect(described_class.matches(method, except_method)).to eql false
       end
     end
 
@@ -34,7 +34,7 @@ module RailsBestPractices::Core
       let(:except_method) { 'BlogPost#*' }
 
       it 'matches' do
-        expect(Check::Exceptable.matches(method, except_method)).to eql true
+        expect(described_class.matches(method, except_method)).to eql true
       end
     end
 
@@ -42,7 +42,7 @@ module RailsBestPractices::Core
       let(:except_method) { 'User#*' }
 
       it 'matches' do
-        expect(Check::Exceptable.matches(method, except_method)).to eql false
+        expect(described_class.matches(method, except_method)).to eql false
       end
     end
 
@@ -50,7 +50,7 @@ module RailsBestPractices::Core
       let(:except_method) { 'BlogPost#approve' }
 
       it 'matches' do
-        expect(Check::Exceptable.matches(method, except_method)).to eql true
+        expect(described_class.matches(method, except_method)).to eql true
       end
     end
 
@@ -58,7 +58,7 @@ module RailsBestPractices::Core
       let(:except_method) { 'User#disapprove' }
 
       it 'matches' do
-        expect(Check::Exceptable.matches(method, except_method)).to eql false
+        expect(described_class.matches(method, except_method)).to eql false
       end
     end
   end

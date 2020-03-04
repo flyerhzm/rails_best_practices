@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe HashSyntaxReview do
-      let(:runner) { Core::Runner.new(reviews: HashSyntaxReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should find 1.8 Hash with symbol' do
         content = <<-EOF
@@ -65,7 +65,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: HashSyntaxReview.new(ignored_files: /user/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /user/))
         content = <<-EOF
         class User < ActiveRecord::Base
           CONST = { :foo => :bar }

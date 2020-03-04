@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseSayWithTimeInMigrationsReview do
-      let(:runner) { Core::Runner.new(reviews: UseSayWithTimeInMigrationsReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should use say with time in migrations' do
         content = <<-EOF
@@ -121,7 +121,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: UseSayWithTimeInMigrationsReview.new(ignored_files: /20101010080658_update_users/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /20101010080658_update_users/))
         content = <<-EOF
         def self.up
           User.find_each do |user|

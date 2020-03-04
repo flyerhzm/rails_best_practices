@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe IsolateSeedDataReview do
-      let(:runner) { Core::Runner.new(reviews: IsolateSeedDataReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       context 'create' do
         it 'should isolate seed data' do
@@ -101,7 +101,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: IsolateSeedDataReview.new(ignored_files: /create_roles/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /create_roles/))
         content = <<-EOF
           class CreateRoles < ActiveRecord::Migration
             def self.up

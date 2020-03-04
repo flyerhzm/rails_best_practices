@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseQueryAttributeReview do
-      let(:runner) { Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: UseQueryAttributeReview.new) }
+      let(:runner) { Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: described_class.new) }
 
       before :each do
         content = <<-EOF
@@ -227,7 +227,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new],
-                                  reviews: UseQueryAttributeReview.new(ignored_files: /users\/show/))
+                                  reviews: described_class.new(ignored_files: /users\/show/))
         content = <<-EOF
         <% if @user.login.blank? %>
           <%= link_to 'login', new_session_path %>

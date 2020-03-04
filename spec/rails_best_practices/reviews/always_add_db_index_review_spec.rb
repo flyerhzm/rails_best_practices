@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe AlwaysAddDbIndexReview do
-      let(:runner) { Core::Runner.new(reviews: AlwaysAddDbIndexReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should always add db index' do
         content = <<-EOF
@@ -279,7 +279,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: AlwaysAddDbIndexReview.new(ignored_files: /db\/schema/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /db\/schema/))
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "comments", force: true do |t|

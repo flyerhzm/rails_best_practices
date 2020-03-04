@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Prepares
     describe InitializerPrepare do
-      let(:runner) { Core::Runner.new(prepares: InitializerPrepare.new) }
+      let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
       context 'initializers' do
         it 'should set include_forbidden_attributes_protection config' do

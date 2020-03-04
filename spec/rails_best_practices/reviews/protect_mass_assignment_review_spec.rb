@@ -7,7 +7,7 @@ module RailsBestPractices
     describe ProtectMassAssignmentReview do
       let(:runner) {
         Core::Runner.new(prepares: [Prepares::GemfilePrepare.new, Prepares::ConfigPrepare.new, Prepares::InitializerPrepare.new],
-                         reviews: ProtectMassAssignmentReview.new)
+                         reviews: described_class.new)
       }
 
       it 'should protect mass assignment' do
@@ -178,7 +178,7 @@ module RailsBestPractices
 
       it 'should not check ignored files' do
         runner = Core::Runner.new(prepares: [Prepares::GemfilePrepare.new, Prepares::ConfigPrepare.new, Prepares::InitializerPrepare.new],
-                                  reviews: ProtectMassAssignmentReview.new(ignored_files: /app\/models\/user\.rb/))
+                                  reviews: described_class.new(ignored_files: /app\/models\/user\.rb/))
         content = <<-EOF
         class User < ActiveRecord::Base
         end

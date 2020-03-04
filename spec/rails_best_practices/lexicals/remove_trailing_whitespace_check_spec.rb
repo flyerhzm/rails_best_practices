@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Lexicals
     describe RemoveTrailingWhitespaceCheck do
-      let(:runner) { Core::Runner.new(lexicals: RemoveTrailingWhitespaceCheck.new) }
+      let(:runner) { Core::Runner.new(lexicals: described_class.new) }
 
       it 'should remove trailing whitespace' do
         content = <<-EOF
@@ -42,7 +42,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(lexicals: RemoveTrailingWhitespaceCheck.new(ignored_files: /user/))
+        runner = Core::Runner.new(lexicals: described_class.new(ignored_files: /user/))
         content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects

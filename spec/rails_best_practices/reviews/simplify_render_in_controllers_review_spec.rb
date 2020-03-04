@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe SimplifyRenderInControllersReview do
-      let(:runner) { Core::Runner.new(reviews: SimplifyRenderInControllersReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should simplify render action view' do
         content = <<-EOF
@@ -69,7 +69,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: SimplifyRenderInControllersReview.new(ignored_files: /posts_controller/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /posts_controller/))
         content = <<-EOF
         def edit
           render action: :edit

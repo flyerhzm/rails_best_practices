@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseObserverReview do
-      let(:runner) { Core::Runner.new(prepares: Prepares::MailerPrepare.new, reviews: UseObserverReview.new) }
+      let(:runner) { Core::Runner.new(prepares: Prepares::MailerPrepare.new, reviews: described_class.new) }
 
       before :each do
         content = <<-EOF

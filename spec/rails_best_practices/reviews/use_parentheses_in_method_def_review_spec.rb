@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe UseParenthesesInMethodDefReview do
-      let(:runner) { Core::Runner.new(reviews: UseParenthesesInMethodDefReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should find missing parentheses' do
         content = <<-EOF
@@ -40,7 +40,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: UseParenthesesInMethodDefReview.new(ignored_files: /posts_controller/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /posts_controller/))
         content = <<-EOF
         class PostsController < ApplicationController
           def edit foo, bar

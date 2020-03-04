@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Prepares
     describe ModelPrepare do
-      let(:runner) { Core::Runner.new(prepares: ModelPrepare.new) }
+      let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
       context 'models' do
         it 'class_name with modules ::' do

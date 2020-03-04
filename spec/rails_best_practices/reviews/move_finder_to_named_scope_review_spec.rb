@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe MoveFinderToNamedScopeReview do
-      let(:runner) { Core::Runner.new(reviews: MoveFinderToNamedScopeReview.new) }
+      let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       it 'should move finder to named_scope' do
         content = <<-EOF
@@ -76,7 +76,7 @@ module RailsBestPractices
       end
 
       it 'should not check ignored files' do
-        runner = Core::Runner.new(reviews: MoveFinderToNamedScopeReview.new(ignored_files: /app\/controllers\/posts/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /app\/controllers\/posts/))
         content = <<-EOF
         class PostsController < ActionController::Base
           def index
