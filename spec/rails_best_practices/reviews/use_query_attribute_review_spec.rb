@@ -7,7 +7,7 @@ module RailsBestPractices
     describe UseQueryAttributeReview do
       let(:runner) { Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: described_class.new) }
 
-      before :each do
+      before do
         content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects

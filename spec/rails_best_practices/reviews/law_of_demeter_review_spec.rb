@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: described_class.new) }
 
       describe 'belongs_to' do
-        before(:each) do
+        before do
           content = <<-EOF
           class Invoice < ActiveRecord::Base
             belongs_to :user
@@ -73,7 +73,7 @@ module RailsBestPractices
       end
 
       describe 'has_one' do
-        before(:each) do
+        before do
           content = <<-EOF
           class Invoice < ActiveRecord::Base
             has_one :price
@@ -104,7 +104,7 @@ module RailsBestPractices
       end
 
       context 'polymorphic association' do
-        before :each do
+        before do
           content = <<-EOF
           class Comment < ActiveRecord::Base
             belongs_to :commentable, polymorphic: true

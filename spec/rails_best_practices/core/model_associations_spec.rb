@@ -6,7 +6,7 @@ module RailsBestPractices::Core
   describe ModelAssociations do
     let(:model_associations) { described_class.new }
 
-    before :each do
+    before do
       model_associations.add_association('Project', 'project_manager', 'belongs_to')
       model_associations.add_association('Project', 'people', 'has_many', 'Person')
     end
