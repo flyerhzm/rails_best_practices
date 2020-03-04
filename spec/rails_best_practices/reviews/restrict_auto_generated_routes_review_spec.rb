@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(prepares: Prepares::ControllerPrepare.new, reviews: described_class.new) }
 
       describe 'resources' do
-        before :each do
+        before do
           content = <<-EOF
           class PostsController < ApplicationController
             def show; end
@@ -120,7 +120,7 @@ module RailsBestPractices
         end
 
         describe 'nested routes' do
-          before :each do
+          before do
             content = <<-EOF
             class CommentsController < ApplicationController
               def index; end
@@ -175,7 +175,7 @@ module RailsBestPractices
       end
 
       describe 'resource' do
-        before :each do
+        before do
           content = <<-EOF
           class AccountsController < ApplicationController
             def show; end

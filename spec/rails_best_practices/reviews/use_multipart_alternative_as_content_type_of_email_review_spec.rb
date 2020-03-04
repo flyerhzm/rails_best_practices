@@ -7,7 +7,7 @@ module RailsBestPractices
     describe UseMultipartAlternativeAsContentTypeOfEmailReview do
       let(:runner) { Core::Runner.new(prepares: Prepares::GemfilePrepare.new, reviews: described_class.new) }
 
-      before(:each) { allow(Core::Runner).to receive(:base_path).and_return('.') }
+      before { allow(Core::Runner).to receive(:base_path).and_return('.') }
 
       def mock_email_files(entry_files)
         allow(Dir).to receive(:entries).with('./app/views/project_mailer').and_return(entry_files)

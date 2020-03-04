@@ -6,7 +6,7 @@ module RailsBestPractices::Core
   describe ModelAttributes do
     let(:model_attributes) { described_class.new }
 
-    before :each do
+    before do
       model_attributes.add_attribute('Post', 'title', :string)
       model_attributes.add_attribute('Post', 'user_id', :integer)
     end

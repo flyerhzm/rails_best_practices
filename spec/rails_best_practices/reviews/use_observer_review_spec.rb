@@ -7,7 +7,7 @@ module RailsBestPractices
     describe UseObserverReview do
       let(:runner) { Core::Runner.new(prepares: Prepares::MailerPrepare.new, reviews: described_class.new) }
 
-      before :each do
+      before do
         content = <<-EOF
         class ProjectMailer < ActionMailer::Base
         end
