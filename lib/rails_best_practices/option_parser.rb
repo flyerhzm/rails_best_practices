@@ -123,7 +123,7 @@ module RailsBestPractices
           begin
             options['only'] = list.split(',').map { |x| Regexp.new x }
           rescue RegexpError => e
-            raise OptionParser::InvalidArgument e.message
+            raise OptionParser::InvalidArgument, e.message
           end
         end
 
