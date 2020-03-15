@@ -7,7 +7,7 @@ module RailsBestPractices::Core
     it { should be_a_kind_of Array }
 
     context 'Klass' do
-      context '#class_name' do
+      describe '#class_name' do
         it 'gets class name without module' do
           klass = Klass.new('BlogPost', 'Post', [])
           expect(klass.class_name).to eq('BlogPost')
@@ -19,7 +19,7 @@ module RailsBestPractices::Core
         end
       end
 
-      context '#extend_class_name' do
+      describe '#extend_class_name' do
         it 'gets extend class name without module' do
           klass = Klass.new('BlogPost', 'Post', [])
           expect(klass.extend_class_name).to eq('Post')
