@@ -7,7 +7,7 @@ module RailsBestPractices
     describe SimplifyRenderInControllersReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
-      it 'should simplify render action view' do
+      it 'simplifies render action view' do
         content = <<-EOF
         def edit
           render action: :edit
@@ -18,7 +18,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:2 - simplify render in controllers')
       end
 
-      it "should simplify render actions's template" do
+      it "simplifies render actions's template" do
         content = <<-EOF
         def edit
           render template: 'books/edit'
@@ -29,7 +29,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:2 - simplify render in controllers')
       end
 
-      it 'should simplify render an arbitrary file' do
+      it 'simplifies render an arbitrary file' do
         content = <<-EOF
         def edit
           render file: '/path/to/rails/app/views/books/edit'
@@ -40,7 +40,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:2 - simplify render in controllers')
       end
 
-      it 'should not simplify render action view' do
+      it 'does not simplify render action view' do
         content = <<-EOF
         render :edit
         EOF
@@ -48,7 +48,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it "should not simplify render actions's template" do
+      it "does not simplify render actions's template" do
         content = <<-EOF
         def edit
           render 'books/edit'
@@ -58,7 +58,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not simplify render an arbitrary file' do
+      it 'does not simplify render an arbitrary file' do
         content = <<-EOF
         def edit
           render '/path/to/rails/app/views/books/edit'
@@ -68,7 +68,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /posts_controller/))
         content = <<-EOF
         def edit

@@ -28,7 +28,7 @@ module RailsBestPractices
           runner.prepare('db/schema.rb', content)
         end
 
-        it 'should law of demeter with erb' do
+        it 'laws of demeter with erb' do
           content = <<-EOF
           <%= @invoice.user.name %>
           <%= @invoice.user.address %>
@@ -39,7 +39,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('app/views/invoices/show.html.erb:1 - law of demeter')
         end
 
-        it 'should law of demeter with haml' do
+        it 'laws of demeter with haml' do
           content = <<~EOF
             = @invoice.user.name
             = @invoice.user.address
@@ -50,7 +50,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('app/views/invoices/show.html.haml:1 - law of demeter')
         end
 
-        it 'should law of demeter with slim' do
+        it 'laws of demeter with slim' do
           content = <<~EOF
             = @invoice.user.name
             = @invoice.user.address
@@ -61,7 +61,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('app/views/invoices/show.html.slim:1 - law of demeter')
         end
 
-        it 'should no law of demeter' do
+        it 'noes law of demeter' do
           content = <<-EOF
           <%= @invoice.user_name %>
           <%= @invoice.user_address %>
@@ -92,7 +92,7 @@ module RailsBestPractices
           runner.prepare('db/schema.rb', content)
         end
 
-        it 'should law of demeter' do
+        it 'laws of demeter' do
           content = <<-EOF
           <%= @invoice.price.currency %>
           <%= @invoice.price.number %>
@@ -129,7 +129,7 @@ module RailsBestPractices
           runner.prepare('db/schema.rb', content)
         end
 
-        it 'should law of demeter' do
+        it 'laws of demeter' do
           content = <<-EOF
           <%= @comment.commentable.title %>
           EOF
@@ -139,7 +139,7 @@ module RailsBestPractices
         end
       end
 
-      it 'should no law of demeter with method call' do
+      it 'noes law of demeter with method call' do
         content = <<-EOF
         class Question < ActiveRecord::Base
           has_many :answers, dependent: :destroy
@@ -163,7 +163,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new],
                                   reviews: described_class.new(ignored_files: /app\/views\/invoices/))
         content = <<-EOF

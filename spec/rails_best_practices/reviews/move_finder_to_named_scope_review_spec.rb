@@ -7,7 +7,7 @@ module RailsBestPractices
     describe MoveFinderToNamedScopeReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
-      it 'should move finder to named_scope' do
+      it 'moves finder to named_scope' do
         content = <<-EOF
         class PostsController < ActionController::Base
           def index
@@ -27,7 +27,7 @@ module RailsBestPractices
         expect(runner.errors[1].to_s).to eq('app/controllers/posts_controller.rb:7 - move finder to named_scope')
       end
 
-      it 'should not move simple finder' do
+      it 'does not move simple finder' do
         content = <<-EOF
         class PostsController < ActionController::Base
           def index
@@ -44,7 +44,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not move namd_scope' do
+      it 'does not move namd_scope' do
         content = <<-EOF
         class PostsController < ActionController::Base
           def index
@@ -57,7 +57,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not review model file' do
+      it 'does not review model file' do
         content = <<-EOF
         class Post < ActiveRecord::Base
           def published
@@ -75,7 +75,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /app\/controllers\/posts/))
         content = <<-EOF
         class PostsController < ActionController::Base

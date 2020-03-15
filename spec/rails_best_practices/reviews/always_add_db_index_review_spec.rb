@@ -7,7 +7,7 @@ module RailsBestPractices
     describe AlwaysAddDbIndexReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
-      it 'should always add db index' do
+      it 'alwayses add db index' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "comments", force: true do |t|
@@ -28,7 +28,7 @@ module RailsBestPractices
         expect(runner.errors[1].to_s).to eq('db/schema.rb:2 - always add db index (comments => [user_id])')
       end
 
-      it 'should always add db index with polymorphic foreign key' do
+      it 'alwayses add db index with polymorphic foreign key' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "versions", force: true do |t|
@@ -44,7 +44,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])')
       end
 
-      it 'should always add db index with polymorphic foreign key and _type is defined before _id' do
+      it 'alwayses add db index with polymorphic foreign key and _type is defined before _id' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "versions", force: true do |t|
@@ -60,7 +60,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])')
       end
 
-      it 'should always add db index with single index, but without polymorphic foreign key' do
+      it 'alwayses add db index with single index, but without polymorphic foreign key' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "taggings", force: true do |t|
@@ -80,7 +80,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('db/schema.rb:2 - always add db index (taggings => [taggable_id, taggable_type])')
       end
 
-      it 'should always add db index with polymorphic foreign key, but without single index' do
+      it 'alwayses add db index with polymorphic foreign key, but without single index' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "taggings", force: true do |t|
@@ -100,7 +100,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('db/schema.rb:2 - always add db index (taggings => [tag_id])')
       end
 
-      it 'should always add db index only _id without non related _type column' do
+      it 'alwayses add db index only _id without non related _type column' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "websites", force: true do |t|
@@ -119,7 +119,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('db/schema.rb:2 - always add db index (websites => [user_id])')
       end
 
-      it 'should not always add db index with column has no id' do
+      it 'does not always add db index with column has no id' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "comments", force: true do |t|
@@ -133,7 +133,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not always add db index with add_index' do
+      it 'does not always add db index with add_index' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "comments", force: true do |t|
@@ -155,7 +155,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not always add db index with t.index' do
+      it 'does not always add db index with t.index' do
         # e.g. schema_plus creates indices like this https://github.com/lomba/schema_plus
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
@@ -173,7 +173,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not always add db index with only _type column' do
+      it 'does not always add db index with only _type column' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "versions", force: true do |t|
@@ -186,7 +186,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not always add db index with multi-column index' do
+      it 'does not always add db index with multi-column index' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "versions", force: true do |t|
@@ -203,7 +203,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not always add db index if there is an index contains more columns' do
+      it 'does not always add db index if there is an index contains more columns' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "taggings", force: true do |t|
@@ -220,7 +220,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not always add db index if two indexes for polymorphic association' do
+      it 'does not always add db index if two indexes for polymorphic association' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "taggings", force: true do |t|
@@ -238,7 +238,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not always add db index if table does not exist' do
+      it 'does not always add db index if table does not exist' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "comments", force: true do |t|
@@ -251,7 +251,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should always add db index if association_name is different to foreign_key' do
+      it 'alwayses add db index if association_name is different to foreign_key' do
         content = <<-EOF
         class Comment < ActiveRecord::Base
           belongs_to :commentor, class_name: "User"
@@ -278,7 +278,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('db/schema.rb:2 - always add db index (comments => [commentor_id])')
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /db\/schema/))
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
@@ -298,7 +298,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should detect index option in column creation' do
+      it 'detects index option in column creation' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "comments", force: true do |t|

@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
       context 'configs' do
-        it 'should parse configs' do
+        it 'parses configs' do
           content = <<-EOF
           module RailsBestPracticesCom
             class Application < Rails::Application

@@ -7,7 +7,7 @@ module RailsBestPractices
     describe AddModelVirtualAttributeReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
-      it 'should add model virtual attribute' do
+      it 'adds model virtual attribute' do
         content = <<-EOF
         class UsersController < ApplicationController
           def create
@@ -23,7 +23,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/controllers/users_controller.rb:2 - add model virtual attribute (for @user)')
       end
 
-      it 'should add model virtual attribute with local assignment' do
+      it 'adds model virtual attribute with local assignment' do
         content = <<-EOF
         class UsersController < ApplicationController
           def create
@@ -39,7 +39,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/controllers/users_controller.rb:2 - add model virtual attribute (for user)')
       end
 
-      it 'should not add model virtual attribute with differen param' do
+      it 'does not add model virtual attribute with differen param' do
         content = <<-EOF
         class UsersController < ApplicationController
           def create
@@ -54,7 +54,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not add model virtual attribute with read' do
+      it 'does not add model virtual attribute with read' do
         content = <<-EOF
         class UsersController < ApplicationController
           def show
@@ -70,7 +70,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should add model virtual attribute with two dimension params' do
+      it 'adds model virtual attribute with two dimension params' do
         content = <<-EOF
         class UsersController < ApplicationController
           def create
@@ -86,7 +86,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/controllers/users_controller.rb:2 - add model virtual attribute (for @user)')
       end
 
-      it 'should no add model virtual attribute with two dimension params' do
+      it 'noes add model virtual attribute with two dimension params' do
         content = <<-EOF
         class UsersController < ApplicationController
           def create
@@ -101,7 +101,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /user/))
         content = <<-EOF
         class UsersController < ApplicationController

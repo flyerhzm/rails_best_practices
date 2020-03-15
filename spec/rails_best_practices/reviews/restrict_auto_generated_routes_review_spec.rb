@@ -22,7 +22,7 @@ module RailsBestPractices
           runner.prepare('app/controllers/posts_controller.rb', content)
         end
 
-        it 'should restrict auto-generated routes' do
+        it 'restricts auto-generated routes' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
@@ -33,7 +33,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])')
         end
 
-        it 'should not restrict auto-generated routes with only' do
+        it 'does not restrict auto-generated routes with only' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: %w(show new create edit update destroy)
@@ -43,7 +43,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not restrict auto-generated routes with except' do
+        it 'does not restrict auto-generated routes with except' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, except: :index
@@ -54,7 +54,7 @@ module RailsBestPractices
         end
 
         describe 'specify a controller' do
-          it 'should restrict auto-generated routes' do
+          it 'restricts auto-generated routes' do
             content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :articles, controller: "posts"
@@ -81,7 +81,7 @@ module RailsBestPractices
             runner.prepare('app/controllers/admin/comments_controller.rb', content)
           end
 
-          it 'should restrict auto-generated routes' do
+          it 'restricts auto-generated routes' do
             content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               namespace :admin do
@@ -94,7 +94,7 @@ module RailsBestPractices
             expect(runner.errors[0].to_s).to eq('config/routes.rb:3 - restrict auto-generated routes admin/comments (except: [:index])')
           end
 
-          it 'should restrict auto-generated routes with scope :module' do
+          it 'restricts auto-generated routes with scope :module' do
             content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               scope module: :admin do
@@ -107,7 +107,7 @@ module RailsBestPractices
             expect(runner.errors[0].to_s).to eq('config/routes.rb:3 - restrict auto-generated routes admin/comments (except: [:index])')
           end
 
-          it 'should restrict auto-generated routes with resources :module' do
+          it 'restricts auto-generated routes with resources :module' do
             content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :comments, module: :admin
@@ -135,7 +135,7 @@ module RailsBestPractices
             runner.prepare('app/controllers/comments_controller.rb', content)
           end
 
-          it 'should restrict auto-generated routes' do
+          it 'restricts auto-generated routes' do
             content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :posts do
@@ -148,7 +148,7 @@ module RailsBestPractices
             expect(runner.errors[0].to_s).to eq('config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])')
           end
 
-          it 'should not restrict auto-generated routes with only' do
+          it 'does not restrict auto-generated routes with only' do
             content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :posts, only: %w(show new create edit update destroy) do
@@ -160,7 +160,7 @@ module RailsBestPractices
             expect(runner.errors.size).to eq(0)
           end
 
-          it 'should not restrict auto-generated routes with except' do
+          it 'does not restrict auto-generated routes with except' do
             content = <<-EOF
             RailsBestPracticesCom::Application.routes.draw do
               resources :posts, except: :index do
@@ -188,7 +188,7 @@ module RailsBestPractices
           runner.prepare('app/controllers/accounts_controller.rb', content)
         end
 
-        it 'should restrict auto-generated routes' do
+        it 'restricts auto-generated routes' do
           content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.resource :account
@@ -199,7 +199,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('config/routes.rb:2 - restrict auto-generated routes account (except: [:destroy])')
         end
 
-        it 'should not restrict auto-generated routes with only' do
+        it 'does not restrict auto-generated routes with only' do
           content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.resource :account, only: %w(show new create edit update)
@@ -209,7 +209,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not restrict auto-generated routes with except' do
+        it 'does not restrict auto-generated routes with except' do
           content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.resource :account, except: :destroy
@@ -219,7 +219,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not check ignored files' do
+        it 'does not check ignored files' do
           runner = Core::Runner.new(prepares: Prepares::ControllerPrepare.new,
                                     reviews: described_class.new(ignored_files: /config\/routes\.rb/))
 
@@ -256,7 +256,7 @@ module RailsBestPractices
           runner.prepare('app/controllers/posts_controller.rb', content)
         end
 
-        it 'should restrict auto-generated routes' do
+        it 'restricts auto-generated routes' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
@@ -267,7 +267,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('config/routes.rb:2 - restrict auto-generated routes posts (except: [:index])')
         end
 
-        it 'should not restrict auto-generated routes with only' do
+        it 'does not restrict auto-generated routes with only' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: %w(show create update destroy)

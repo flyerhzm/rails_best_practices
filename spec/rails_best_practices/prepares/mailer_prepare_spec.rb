@@ -7,7 +7,7 @@ module RailsBestPractices
     describe MailerPrepare do
       let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
-      it 'should parse mailer names' do
+      it 'parses mailer names' do
         content = <<-EOF
         class ProjectMailer < ActionMailer::Base
         end

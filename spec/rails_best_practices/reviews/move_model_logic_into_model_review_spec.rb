@@ -7,7 +7,7 @@ module RailsBestPractices
     describe MoveModelLogicIntoModelReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
-      it 'should move model logic into model' do
+      it 'moves model logic into model' do
         content = <<-EOF
         class PostsController < ApplicationController
           def publish
@@ -29,7 +29,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:2 - move model logic into model (@post use_count > 4)')
       end
 
-      it 'should not move model logic into model with simple model calling' do
+      it 'does not move model logic into model with simple model calling' do
         content = <<-EOF
         class PostsController < ApplicationController
           def publish
@@ -45,7 +45,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not move model logic into model with self calling' do
+      it 'does not move model logic into model with self calling' do
         content = <<-EOF
         class PostsController < ApplicationController
           def publish
@@ -61,7 +61,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /app\/controllers\/posts/))
         content = <<-EOF
         class PostsController < ApplicationController

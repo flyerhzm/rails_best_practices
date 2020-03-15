@@ -7,7 +7,7 @@ module RailsBestPractices
     describe OveruseRouteCustomizationsReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
-      it 'should overuse route customizations' do
+      it 'overuses route customizations' do
         content = <<-EOF
         RailsBestpracticesCom::Application.routes.draw do
           resources :posts do
@@ -28,7 +28,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('config/routes.rb:2 - overuse route customizations (customize_count > 3)')
       end
 
-      it 'should overuse route customizations another way' do
+      it 'overuses route customizations another way' do
         content = <<-EOF
         RailsBestpracticesCom::Application.routes.draw do
           resources :posts do
@@ -44,7 +44,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('config/routes.rb:2 - overuse route customizations (customize_count > 3)')
       end
 
-      it 'should not overuse route customizations without customization' do
+      it 'does not overuse route customizations without customization' do
         content = <<-EOF
         RailsBestpracticesCom::Application.routes.draw do
           resources :posts
@@ -54,7 +54,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not overuse route customizations when customize route is only one' do
+      it 'does not overuse route customizations when customize route is only one' do
         content = <<-EOF
         RailsBestpracticesCom::Application.routes.draw do
           resources :posts do
@@ -68,7 +68,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /config\/routes\.rb/))
         content = <<-EOF
           ActionController::Routing::Routes.draw do |map|

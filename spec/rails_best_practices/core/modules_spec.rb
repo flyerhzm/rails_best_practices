@@ -11,7 +11,7 @@ module RailsBestPractices::Core
         @mod = Mod.new('PostsHelper', [])
       end
       subject { described_class.new.tap { |modules| modules << @mod } }
-      it 'should add descendant to the corresponding module' do
+      it 'adds descendant to the corresponding module' do
         expect(@mod).to receive(:add_descendant).with('PostsController')
         subject.add_module_descendant('PostsHelper', 'PostsController')
       end

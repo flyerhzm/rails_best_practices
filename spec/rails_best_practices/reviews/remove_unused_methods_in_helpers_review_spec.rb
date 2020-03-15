@@ -12,7 +12,7 @@ module RailsBestPractices
         )
       }
 
-      it 'should remove unused methods' do
+      it 'removes unused methods' do
         content = <<-EOF
         module PostsHelper
           def unused; end
@@ -25,7 +25,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/helpers/posts_helper.rb:2 - remove unused methods (PostsHelper#unused)')
       end
 
-      it 'should not remove unused methods if called on views' do
+      it 'does not remove unused methods if called on views' do
         content = <<-EOF
         module PostsHelper
           def used?(post); end
@@ -42,7 +42,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not remove unused methods if called on helpers' do
+      it 'does not remove unused methods if called on helpers' do
         content = <<-EOF
         module PostsHelper
           def used?(post)
@@ -63,7 +63,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not remove unused methods if called on controllers' do
+      it 'does not remove unused methods if called on controllers' do
         helper_content = <<-EOF
         module PostsHelper
           def used?(post); end
@@ -88,7 +88,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not remove unused methods if called in descendant controllers' do
+      it 'does not remove unused methods if called in descendant controllers' do
         application_helper_content = <<-EOF
         module ApplicationHelper
           def admin?; end
@@ -118,7 +118,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(prepares: [Prepares::ControllerPrepare.new, Prepares::HelperPrepare.new],
                                   reviews: described_class.new(ignored_files: /posts_helper/, except_methods: []))
 

@@ -7,7 +7,7 @@ module RailsBestPractices
     describe UseParenthesesInMethodDefReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
-      it 'should find missing parentheses' do
+      it 'finds missing parentheses' do
         content = <<-EOF
         class PostsController < ApplicationController
           def edit foo, bar
@@ -18,7 +18,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(1)
         expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:2 - use parentheses around parameters in method definitions')
       end
-      it 'should find parentheses with no error' do
+      it 'finds parentheses with no error' do
         content = <<-EOF
         class PostsController < ApplicationController
           def edit(foo, bar)
@@ -28,7 +28,7 @@ module RailsBestPractices
         runner.review('app/controllers/posts_controller.rb', content)
         expect(runner.errors.size).to eq(0)
       end
-      it 'should not throw an error without parameters' do
+      it 'does not throw an error without parameters' do
         content = <<-EOF
         class PostsController < ApplicationController
           def edit
@@ -39,7 +39,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /posts_controller/))
         content = <<-EOF
         class PostsController < ApplicationController

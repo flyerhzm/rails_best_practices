@@ -7,7 +7,7 @@ module RailsBestPractices
     describe DryBundlerInCapistranoReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
-      it 'should dry bundler in capistrno' do
+      it 'dries bundler in capistrno' do
         content = <<-EOF
         namespace :bundler do
           task :create_symlink, roles: :app do
@@ -29,7 +29,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('config/deploy.rb:1 - dry bundler in capistrano')
       end
 
-      it 'should not dry bundler in capistrano' do
+      it 'does not dry bundler in capistrano' do
         content = <<-EOF
           require 'bundler/capistrano'
         EOF
@@ -37,7 +37,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /deploy\.rb/))
         content = <<-EOF
         namespace :bundler do

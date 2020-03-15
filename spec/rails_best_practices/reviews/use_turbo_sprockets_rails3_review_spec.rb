@@ -7,7 +7,7 @@ module RailsBestPractices
     describe UseTurboSprocketsRails3Review do
       let(:runner) { Core::Runner.new(prepares: Prepares::GemfilePrepare.new, reviews: described_class.new) }
 
-      it 'should use turbo-sprockets-rails3' do
+      it 'uses turbo-sprockets-rails3' do
         content = <<~EOF
           GEM
             remote: https://rubygems.org
@@ -32,7 +32,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('Capfile:2 - speed up assets precompile with turbo-sprockets-rails3')
       end
 
-      it 'should not use turbo-sprockets-rails3 with turbo-sprockets-rails3 gem' do
+      it 'does not use turbo-sprockets-rails3 with turbo-sprockets-rails3 gem' do
         content = <<~EOF
           GEM
             remote: https://rubygems.org
@@ -59,7 +59,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not use turbo-sprockets-rails3 without deploy/assets' do
+      it 'does not use turbo-sprockets-rails3 without deploy/assets' do
         content = <<-EOF
         load 'deploy' if respond_to?(:namespace)
         #load 'deploy/assets'
@@ -69,7 +69,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not use turbo-sprockets-rails3 with rails4 gem' do
+      it 'does not use turbo-sprockets-rails3 with rails4 gem' do
         content = <<~EOF
           GEM
             remote: https://rubygems.org
@@ -93,7 +93,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(prepares: Prepares::GemfilePrepare.new,
                                   reviews: described_class.new(ignored_files: /Capfile/))
         content = <<~EOF

@@ -15,7 +15,7 @@ module RailsBestPractices
         runner.prepare('app/models/project_mailer.rb', content)
       end
 
-      it 'should use observer' do
+      it 'uses observer' do
         content = <<-EOF
         class Project < ActiveRecord::Base
           after_create :send_create_notification
@@ -33,7 +33,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/models/project.rb:5 - use observer')
       end
 
-      it 'should not use observer without callback' do
+      it 'does not use observer without callback' do
         content = <<-EOF
         class Project < ActiveRecord::Base
           private
@@ -48,7 +48,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should use observer with two after_create' do
+      it 'uses observer with two after_create' do
         content = <<-EOF
         class Project < ActiveRecord::Base
           after_create :send_create_notification, :update_author
@@ -69,7 +69,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/models/project.rb:5 - use observer')
       end
 
-      it 'should not raise when initiate an object in callback' do
+      it 'does not raise when initiate an object in callback' do
         content = <<-EOF
         class Project < ActiveRecord::Base
           after_create ProjectMailer.new

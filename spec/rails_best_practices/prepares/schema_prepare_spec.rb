@@ -7,7 +7,7 @@ module RailsBestPractices
     describe SchemaPrepare do
       let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
-      it 'should parse model attributes' do
+      it 'parses model attributes' do
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20110319172136) do
           create_table "posts", force: true do |t|

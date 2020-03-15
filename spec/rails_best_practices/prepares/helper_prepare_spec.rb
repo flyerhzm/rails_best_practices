@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
       context 'methods' do
-        it 'should parse helper methods' do
+        it 'parses helper methods' do
           content = <<-EOF
           module PostsHelper
             def used; end
@@ -20,7 +20,7 @@ module RailsBestPractices
           expect(methods.get_methods('PostsHelper').map(&:method_name)).to eq(%w[used unused])
         end
 
-        it 'should parse helpers' do
+        it 'parses helpers' do
           content = <<-EOF
           module PostsHelper
           end

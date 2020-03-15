@@ -5,7 +5,7 @@ require 'spec_helper'
 module RailsBestPractices
   module Lexicals
     describe LongLineCheck do
-      it 'should find long lines' do
+      it 'finds long lines' do
         runner = Core::Runner.new(lexicals: described_class.new)
         content = <<~EOF
           class User < ActiveRecord::Base
@@ -20,7 +20,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(1)
         expect(runner.errors[0].to_s).to eq('app/models/user.rb:3 - line is longer than 80 characters (81 characters)')
       end
-      it 'should find long lines with own max size' do
+      it 'finds long lines with own max size' do
         runner = Core::Runner.new(lexicals: described_class.new('max_line_length' => 90))
         content = <<~EOF
           class User < ActiveRecord::Base
@@ -35,7 +35,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(1)
         expect(runner.errors[0].to_s).to eq('app/models/user.rb:3 - line is longer than 90 characters (91 characters)')
       end
-      it 'should not check non .rb files' do
+      it 'does not check non .rb files' do
         runner = Core::Runner.new(lexicals: described_class.new)
         content = "
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -43,7 +43,7 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
         runner.lexical('app/views/users/index.html.erb', content)
         expect(runner.errors.size).to eq(0)
       end
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(lexicals: described_class.new(max_line_length: 80, ignored_files: /user/))
         content = <<~EOF
           class User < ActiveRecord::Base

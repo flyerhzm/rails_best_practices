@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       context 'create' do
-        it 'should isolate seed data' do
+        it 'isolates seed data' do
           content = <<-EOF
           class CreateRoles < ActiveRecord::Migration
             def self.up
@@ -33,7 +33,7 @@ module RailsBestPractices
       end
 
       context 'new and save' do
-        it 'should isolate seed data for local variable' do
+        it 'isolates seed data for local variable' do
           content = <<-EOF
           class CreateRoles < ActiveRecord::Migration
             def self.up
@@ -57,7 +57,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('db/migrate/20090818130258_create_roles.rb:9 - isolate seed data')
         end
 
-        it 'should isolate seed data for instance variable' do
+        it 'isolates seed data for instance variable' do
           content = <<-EOF
           class CreateRoles < ActiveRecord::Migration
             def self.up
@@ -82,7 +82,7 @@ module RailsBestPractices
         end
       end
 
-      it 'should not isolate seed data without data insert' do
+      it 'does not isolate seed data without data insert' do
         content = <<-EOF
         class CreateRoles < ActiveRecord::Migration
           def self.up
@@ -100,7 +100,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /create_roles/))
         content = <<-EOF
           class CreateRoles < ActiveRecord::Migration

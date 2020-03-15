@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
       context 'gemfile' do
-        it 'should parse gems' do
+        it 'parses gems' do
           content = <<~EOF
             GEM
               remote: https://rubygems.org/

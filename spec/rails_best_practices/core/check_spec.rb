@@ -7,7 +7,7 @@ module RailsBestPractices::Core
     let(:check) { described_class.new }
 
     context 'debug' do
-      it 'should be debug mode' do
+      it 'is debug mode' do
         described_class.debug
         expect(described_class).to be_debug
         described_class.class_eval { @debug = false }

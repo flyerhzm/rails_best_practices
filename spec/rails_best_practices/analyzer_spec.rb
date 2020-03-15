@@ -8,20 +8,20 @@ module RailsBestPractices
     subject { described_class.new('.') }
 
     describe '::new' do
-      it 'should expand a relative path to an absolute' do
+      it 'expands a relative path to an absolute' do
         expect(subject.path).to eq File.expand_path('.')
       end
     end
 
     describe 'expand_dirs_to_files' do
-      it 'should expand all files in spec directory' do
+      it 'expands all files in spec directory' do
         dir = File.dirname(__FILE__)
         expect(subject.expand_dirs_to_files(dir)).to be_include(dir + '/analyzer_spec.rb')
       end
     end
 
     describe 'file_sort' do
-      it 'should get models first, mailers, helpers and then others' do
+      it 'gets models first, mailers, helpers and then others' do
         files = ['app/controllers/users_controller.rb', 'app/mailers/user_mailer.rb', 'app/helpers/users_helper.rb', 'app/models/user.rb', 'app/views/users/index.html.haml', 'app/views/users/show.html.slim', 'lib/user.rb']
         expect(subject.file_sort(files)).to eq(['app/models/user.rb', 'app/mailers/user_mailer.rb', 'app/helpers/users_helper.rb', 'app/controllers/users_controller.rb', 'app/views/users/index.html.haml', 'app/views/users/show.html.slim', 'lib/user.rb'])
       end
@@ -33,11 +33,11 @@ module RailsBestPractices
         @filtered = ['app/controllers/users_controller.rb', 'app/mailers/user_mailer.rb', 'app/models/user.rb', 'app/views/users/index.html.haml', 'app/views/users/show.html.slim']
       end
 
-      it 'should ignore lib' do
+      it 'ignores lib' do
         expect(subject.file_ignore(@all, 'lib/')).to eq(@filtered)
       end
 
-      it 'should ignore regexp patterns' do
+      it 'ignores regexp patterns' do
         expect(subject.file_ignore(@all, /lib/)).to eq(@filtered)
       end
     end
@@ -88,7 +88,7 @@ module RailsBestPractices
     end
 
     describe 'output_terminal_errors' do
-      it 'should output errors in terminal' do
+      it 'outputs errors in terminal' do
         check1 = Reviews::LawOfDemeterReview.new
         check2 = Reviews::UseQueryAttributeReview.new
         runner = Core::Runner.new(reviews: [check1, check2])
@@ -142,7 +142,7 @@ module RailsBestPractices
     end
 
     describe 'parse_files' do
-      it 'should not filter out all files when the path contains "vendor"' do
+      it 'does not filter out all files when the path contains "vendor"' do
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'vendor'))
           Dir.mkdir(File.join(random_dir, 'vendor', 'my_project'))
@@ -152,7 +152,7 @@ module RailsBestPractices
         }
       end
 
-      it 'should not filter out all files when the path contains "spec"' do
+      it 'does not filter out all files when the path contains "spec"' do
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'spec'))
           Dir.mkdir(File.join(random_dir, 'spec', 'my_project'))
@@ -162,7 +162,7 @@ module RailsBestPractices
         }
       end
 
-      it 'should not filter out all files when the path contains "test"' do
+      it 'does not filter out all files when the path contains "test"' do
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'test'))
           Dir.mkdir(File.join(random_dir, 'test', 'my_project'))
@@ -172,7 +172,7 @@ module RailsBestPractices
         }
       end
 
-      it 'should not filter out all files when the path contains "features"' do
+      it 'does not filter out all files when the path contains "features"' do
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'test'))
           Dir.mkdir(File.join(random_dir, 'test', 'my_project'))
@@ -182,7 +182,7 @@ module RailsBestPractices
         }
       end
 
-      it 'should not filter out all files when the path contains "tmp"' do
+      it 'does not filter out all files when the path contains "tmp"' do
         Dir.mktmpdir { |random_dir|
           Dir.mkdir(File.join(random_dir, 'tmp'))
           Dir.mkdir(File.join(random_dir, 'tmp', 'my_project'))

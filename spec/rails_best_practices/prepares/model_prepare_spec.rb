@@ -32,7 +32,7 @@ module RailsBestPractices
       end
 
       context 'associations' do
-        it 'should parse model associations' do
+        it 'parses model associations' do
           content = <<-EOF
           class Project < ActiveRecord::Base
             belongs_to              :portfolio
@@ -50,7 +50,7 @@ module RailsBestPractices
         end
 
         context 'with class_name option' do
-          it 'should parse belongs_to' do
+          it 'parses belongs_to' do
             content = <<-EOF
             class Post < ActiveRecord::Base
               belongs_to :author, "class_name" => "Person"
@@ -61,7 +61,7 @@ module RailsBestPractices
             expect(model_associations.get_association('Post', 'author')).to eq('meta' => 'belongs_to', 'class_name' => 'Person')
           end
 
-          it 'should parse has_one' do
+          it 'parses has_one' do
             content = <<-EOF
             class Project < ActiveRecord::Base
               has_one :project_manager, "class_name" => "Person"
@@ -72,7 +72,7 @@ module RailsBestPractices
             expect(model_associations.get_association('Project', 'project_manager')).to eq('meta' => 'has_one', 'class_name' => 'Person')
           end
 
-          it 'should parse has_many' do
+          it 'parses has_many' do
             content = <<-EOF
             class Project < ActiveRecord::Base
               has_many :people, "class_name" => "Person"
@@ -83,7 +83,7 @@ module RailsBestPractices
             expect(model_associations.get_association('Project', 'people')).to eq('meta' => 'has_many', 'class_name' => 'Person')
           end
 
-          it 'should parse has_and_belongs_to_many' do
+          it 'parses has_and_belongs_to_many' do
             content = <<-EOF
             class Citizen < ActiveRecord::Base
               has_and_belongs_to_many :nations, "class_name" => "Country"
@@ -95,7 +95,7 @@ module RailsBestPractices
           end
 
           context 'namespace' do
-            it 'should parse with namespace' do
+            it 'parses with namespace' do
               content = <<-EOF
               class Community < ActiveRecord::Base
                 has_many :members
@@ -114,7 +114,7 @@ module RailsBestPractices
               expect(model_associations.get_association('Community::Member', 'community')).to eq('meta' => 'belongs_to', 'class_name' => 'Community')
             end
 
-            it 'should parse without namespace' do
+            it 'parses without namespace' do
               content = <<-EOF
               class Community::Member::Rating < ActiveRecord::Base
                 belongs_to :member
@@ -136,7 +136,7 @@ module RailsBestPractices
         end
 
         context 'mongoid embeds' do
-          it 'should parse embeds_many' do
+          it 'parses embeds_many' do
             content = <<-EOF
             class Person
               include Mongoid::Document
@@ -148,7 +148,7 @@ module RailsBestPractices
             expect(model_associations.get_association('Person', 'addresses')).to eq('meta' => 'embeds_many', 'class_name' => 'Address')
           end
 
-          it 'should parse embeds_one' do
+          it 'parses embeds_one' do
             content = <<-EOF
             class Lush
               include Mongoid::Document
@@ -160,7 +160,7 @@ module RailsBestPractices
             expect(model_associations.get_association('Lush', 'whiskey')).to eq('meta' => 'embeds_one', 'class_name' => 'Drink')
           end
 
-          it 'should parse embedded_in' do
+          it 'parses embedded_in' do
             content = <<-EOF
             class Drink
               include Mongoid::Document
@@ -174,7 +174,7 @@ module RailsBestPractices
         end
 
         context 'mongomapper many/one' do
-          it 'should parse one' do
+          it 'parses one' do
             content = <<-EOF
             class Employee
               include MongoMapper::Document
@@ -186,7 +186,7 @@ module RailsBestPractices
             expect(model_associations.get_association('Employee', 'desk')).to eq('meta' => 'one', 'class_name' => 'Desk')
           end
 
-          it 'should parse many' do
+          it 'parses many' do
             content = <<-EOF
             class Tree
               include MongoMapper::Document
@@ -201,7 +201,7 @@ module RailsBestPractices
       end
 
       context 'methods' do
-        it 'should parse model methods' do
+        it 'parses model methods' do
           content = <<-EOF
           class Post < ActiveRecord::Base
             def save; end
@@ -213,7 +213,7 @@ module RailsBestPractices
           expect(methods.get_methods('Post').map(&:method_name)).to eq(%w[save find])
         end
 
-        it 'should parse model methods with access control' do
+        it 'parses model methods with access control' do
           content = <<-EOF
           class Post < ActiveRecord::Base
             def save; end
@@ -232,7 +232,7 @@ module RailsBestPractices
           expect(methods.get_methods('Post', 'private').map(&:method_name)).to eq(['find_by_sql'])
         end
 
-        it 'should parse model methods with module ::' do
+        it 'parses model methods with module ::' do
           content = <<-EOF
           class Admin::Blog::Post < ActiveRecord::Base
             def save; end
@@ -244,7 +244,7 @@ module RailsBestPractices
           expect(methods.get_methods('Admin::Blog::Post').map(&:method_name)).to eq(%w[save find])
         end
 
-        it 'should parse model methods with module' do
+        it 'parses model methods with module' do
           content = <<-EOF
           module Admin
             module Blog
@@ -260,7 +260,7 @@ module RailsBestPractices
           expect(methods.get_methods('Admin::Blog::Post').map(&:method_name)).to eq(%w[save find])
         end
 
-        it 'should not add methods from module' do
+        it 'does not add methods from module' do
           content = <<-EOF
             class Model < ActiveRecord::Base
             end
@@ -279,7 +279,7 @@ module RailsBestPractices
       end
 
       context 'scope' do
-        it 'should treat named_scope as method' do
+        it 'treats named_scope as method' do
           content = <<-EOF
           class Post < ActiveRecord::Base
             named_scope :active, conditions: {active: true}
@@ -290,7 +290,7 @@ module RailsBestPractices
           expect(methods.get_methods('Post').map(&:method_name)).to eq(['active'])
         end
 
-        it 'should treat scope as method' do
+        it 'treats scope as method' do
           content = <<-EOF
           class Post < ActiveRecord::Base
             scope :active, where(active: true)
@@ -303,7 +303,7 @@ module RailsBestPractices
       end
 
       context 'alias' do
-        it 'should treat alias as method' do
+        it 'treats alias as method' do
           content = <<-EOF
           class Post < ActiveRecord::Base
             alias :new :old
@@ -314,7 +314,7 @@ module RailsBestPractices
           expect(methods.get_methods('Post').map(&:method_name)).to eq(['new'])
         end
 
-        it 'should treat alias_method as method' do
+        it 'treats alias_method as method' do
           content = <<-EOF
           class Post < ActiveRecord::Base
             alias_method :new, :old
@@ -325,7 +325,7 @@ module RailsBestPractices
           expect(methods.get_methods('Post').map(&:method_name)).to eq(['new'])
         end
 
-        it 'should treat alias_method_chain as method' do
+        it 'treats alias_method_chain as method' do
           content = <<-EOF
           class Post < ActiveRecord::Base
             alias_method_chain :method, :feature
@@ -338,7 +338,7 @@ module RailsBestPractices
       end
 
       context 'attributes' do
-        it 'should parse mongoid field' do
+        it 'parses mongoid field' do
           content = <<-EOF
           class Post
             include Mongoid::Document
@@ -358,7 +358,7 @@ module RailsBestPractices
           expect(model_attributes.get_attribute_type('Post', 'active')).to eq('Boolean')
         end
 
-        it 'should parse mongomapper field' do
+        it 'parses mongomapper field' do
           content = <<-EOF
           class Post
             include MongoMapper::Document
@@ -382,7 +382,7 @@ module RailsBestPractices
       end
 
       context 'no error' do
-        it 'should raised for finder_sql option' do
+        it 'raiseds for finder_sql option' do
           content = <<-EOF
           class EventSubscription < ActiveRecord::Base
             has_many :event_notification_template, finder_sql: ?

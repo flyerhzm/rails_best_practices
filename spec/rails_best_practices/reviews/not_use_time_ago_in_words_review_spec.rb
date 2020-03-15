@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
       describe 'time_ago_in_words' do
-        it 'should not use in views' do
+        it 'does not use in views' do
           content = <<-EOF
           <%= time_ago_in_words(post.created_at) %>
           EOF
@@ -17,7 +17,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('app/views/posts/show.html.erb:1 - not use time_ago_in_words')
         end
 
-        it 'should not use in helpers' do
+        it 'does not use in helpers' do
           content = <<-EOF
           def timeago
             content_tag(:p, time_ago_in_words(post.created_at))
@@ -30,7 +30,7 @@ module RailsBestPractices
       end
 
       describe 'distance_of_time_in_words_to_now' do
-        it 'should not use in views' do
+        it 'does not use in views' do
           content = <<-EOF
           <%= distance_of_time_in_words_to_now(post.created_at) %>
           EOF
@@ -39,7 +39,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('app/views/posts/show.html.erb:1 - not use time_ago_in_words')
         end
 
-        it 'should not use in helpers' do
+        it 'does not use in helpers' do
           content = <<-EOF
           def timeago
             content_tag(:p, distance_of_time_in_words_to_now(post.created_at))
@@ -51,7 +51,7 @@ module RailsBestPractices
         end
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /posts_helper/))
         content = <<-EOF
           def timeago

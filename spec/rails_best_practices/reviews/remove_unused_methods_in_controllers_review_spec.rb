@@ -13,7 +13,7 @@ module RailsBestPractices
       }
 
       context 'private/protected' do
-        it 'should remove unused methods' do
+        it 'removes unused methods' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts do
@@ -44,7 +44,7 @@ module RailsBestPractices
           expect(runner.errors[1].to_s).to eq('app/controllers/posts_controller.rb:8 - remove unused methods (PostsController#load_user)')
         end
 
-        it 'should not remove unused methods for before_filter' do
+        it 'does not remove unused methods for before_filter' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
@@ -66,7 +66,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not remove unused methods for around_filter' do
+        it 'does not remove unused methods for around_filter' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
@@ -91,7 +91,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not remove unused methods for around_action (new syntax)' do
+        it 'does not remove unused methods for around_action (new syntax)' do
           content = <<-EOF
           class PostsController < ActiveRecord::Base
             around_action :use_time_zone
@@ -109,7 +109,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not remove unused methods for layout' do
+        it 'does not remove unused methods for layout' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
@@ -131,7 +131,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not remove inherited_resources methods' do
+        it 'does not remove inherited_resources methods' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
@@ -155,7 +155,7 @@ module RailsBestPractices
       end
 
       context 'public' do
-        it 'should remove unused methods' do
+        it 'removes unused methods' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts
@@ -175,7 +175,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:3 - remove unused methods (PostsController#list)')
         end
 
-        it 'should not remove inline routes' do
+        it 'does not remove inline routes' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts, only: :none do
@@ -196,7 +196,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not remove unused methods if all actions are used in route' do
+        it 'does not remove unused methods if all actions are used in route' do
           content = <<-EOF
           ActionController::Routing::Routes.draw do |map|
             map.connect 'internal/:action/*whatever', controller: "internal"
@@ -216,7 +216,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not remove unused methods if they are except_methods' do
+        it 'does not remove unused methods if they are except_methods' do
           content = <<-EOF
           class ExceptableController < ApplicationController
             def list; end
@@ -230,7 +230,7 @@ module RailsBestPractices
       end
 
       context 'assignment' do
-        it 'should not remove unused methods if call in base class' do
+        it 'does not remove unused methods if call in base class' do
           content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :user, only: :show do; end
@@ -259,7 +259,7 @@ module RailsBestPractices
       end
 
       context 'helper_method' do
-        it 'should remove unused methods if helper method is not called' do
+        it 'removes unused methods if helper method is not called' do
           content = <<-EOF
           class PostsController < ApplicationController
             helper_method :helper_post
@@ -274,7 +274,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:4 - remove unused methods (PostsController#helper_post)')
         end
 
-        it 'should not remove unused methods if call helper method in views' do
+        it 'does not remove unused methods if call helper method in views' do
           content = <<-EOF
           class PostsController < ApplicationController
             helper_method :helper_post
@@ -292,7 +292,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not remove unused methods if call helper method in helpers' do
+        it 'does not remove unused methods if call helper method in helpers' do
           content = <<-EOF
           class PostsController < ApplicationController
             helper_method :helper_post
@@ -316,7 +316,7 @@ module RailsBestPractices
       end
 
       context 'delegate to: :controller' do
-        it 'should remove unused methods if delegate method is not called' do
+        it 'removes unused methods if delegate method is not called' do
           content = <<-EOF
           class PostsController < ApplicationController
             protected
@@ -336,7 +336,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:3 - remove unused methods (PostsController#helper_post)')
         end
 
-        it 'should remove unused methods if delegate method is called' do
+        it 'removes unused methods if delegate method is called' do
           content = <<-EOF
           class PostsController < ApplicationController
             protected
@@ -361,7 +361,7 @@ module RailsBestPractices
       end
 
       context 'cells' do
-        it 'should remove unused methods' do
+        it 'removes unused methods' do
           content = <<-EOF
           class PostsCell < Cell::Rails
             def list; end
@@ -374,7 +374,7 @@ module RailsBestPractices
           expect(runner.errors[0].to_s).to eq('app/cells/posts_cell.rb:2 - remove unused methods (PostsCell#list)')
         end
 
-        it 'should not remove unused methods if render_cell' do
+        it 'does not remove unused methods if render_cell' do
           content = <<-EOF
           class PostsCell < Cell::Rails
             def list; end
@@ -392,7 +392,7 @@ module RailsBestPractices
           expect(runner.errors.size).to eq(0)
         end
 
-        it 'should not remove unused methods if render with state' do
+        it 'does not remove unused methods if render with state' do
           content = <<-EOF
           class PostsCell < Cell::Rails
             def list
@@ -415,7 +415,7 @@ module RailsBestPractices
         end
       end
 
-      it 'should not remove unused methods' do
+      it 'does not remove unused methods' do
         route_content = <<-EOF
         RailsBestPracticesCom::Application.routes.draw do
           namespace :admin do
@@ -452,7 +452,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(prepares: [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
                                   reviews: described_class.new(ignored_files: /posts_controller/, except_methods: []))
         content = <<-EOF

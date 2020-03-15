@@ -11,13 +11,13 @@ module RailsBestPractices::Core
       model_attributes.add_attribute('Post', 'user_id', :integer)
     end
 
-    it 'should get model attributes' do
+    it 'gets model attributes' do
       expect(model_attributes.get_attribute_type('Post', 'title')).to eq(:string)
       expect(model_attributes.get_attribute_type('Post', 'user_id')).to eq(:integer)
       expect(model_attributes.get_attribute_type('Post', 'unknonw')).to be_nil
     end
 
-    it 'should check is model attributes' do
+    it 'checks is model attributes' do
       expect(model_attributes.is_attribute?('Post', 'title')).to be true
       expect(model_attributes.is_attribute?('Post', 'user_id')).to be true
       expect(model_attributes.is_attribute?('Post', 'unknonw')).to be false

@@ -14,7 +14,7 @@ module RailsBestPractices::Core
       methods.add_method('Comment', 'create')
     end
 
-    it 'should get_methods' do
+    it 'get_methodses' do
       expect(methods.get_methods('Post').map(&:method_name)).to eq(%w[create destroy save_or_update find_by_sql])
       expect(methods.get_methods('Post', 'public').map(&:method_name)).to eq(%w[create destroy])
       expect(methods.get_methods('Post', 'protected').map(&:method_name)).to eq(['save_or_update'])
@@ -22,7 +22,7 @@ module RailsBestPractices::Core
       expect(methods.get_methods('Comment').map(&:method_name)).to eq(['create'])
     end
 
-    it 'should has_method?' do
+    it 'has_method?s' do
       expect(methods).to be_has_method('Post', 'create', 'public')
       expect(methods).to be_has_method('Post', 'destroy', 'public')
       expect(methods).not_to be_has_method('Post', 'save_or_update', 'public')
@@ -32,12 +32,12 @@ module RailsBestPractices::Core
       expect(methods).not_to be_has_method('Comment', 'destroy')
     end
 
-    it 'should get_method' do
+    it 'get_methods' do
       expect(methods.get_method('Post', 'create', 'public')).not_to be_nil
       expect(methods.get_method('Post', 'create', 'protected')).to be_nil
     end
 
-    it 'should get_all_unused_methods' do
+    it 'get_all_unused_methodses' do
       methods.get_method('Comment', 'create').mark_used
       expect(methods.get_all_unused_methods('public').map(&:method_name)).to eq(%w[create destroy])
       expect(methods.get_all_unused_methods('protected').map(&:method_name)).to eq(['save_or_update'])

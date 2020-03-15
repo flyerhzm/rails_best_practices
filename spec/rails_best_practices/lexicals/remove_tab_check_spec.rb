@@ -7,7 +7,7 @@ module RailsBestPractices
     describe RemoveTabCheck do
       let(:runner) { Core::Runner.new(lexicals: described_class.new) }
 
-      it 'should remove tab' do
+      it 'removes tab' do
         content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
@@ -19,7 +19,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/models/user.rb:1 - remove tab, use spaces instead')
       end
 
-      it 'should remove tab with third line' do
+      it 'removes tab with third line' do
         content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
@@ -31,7 +31,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/models/user.rb:3 - remove tab, use spaces instead')
       end
 
-      it 'should not remove trailing whitespace' do
+      it 'does not remove trailing whitespace' do
         content = <<-EOF
         class User < ActiveRecord::Base
           has_many :projects
@@ -40,7 +40,7 @@ module RailsBestPractices
         runner.lexical('app/models/user.rb', content)
         expect(runner.errors.size).to eq(0)
       end
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(lexicals: described_class.new(ignored_files: /user/))
         content = <<-EOF
         class User < ActiveRecord::Base

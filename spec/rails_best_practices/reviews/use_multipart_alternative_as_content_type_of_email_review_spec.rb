@@ -46,20 +46,20 @@ module RailsBestPractices
         }
 
         context 'erb' do
-          it 'should use mulipart/alternative as content_type of email' do
+          it 'uses mulipart/alternative as content_type of email' do
             mock_email_files(['send_email.html.erb'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(1)
             expect(runner.errors[0].to_s).to eq('app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email')
           end
 
-          it 'should not use multiple/alternative as content_type of email when only plain text' do
+          it 'does not use multiple/alternative as content_type of email when only plain text' do
             mock_email_files(['send_email.text.erb'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
           end
 
-          it 'should not use multipart/alternative as content_type of email' do
+          it 'does not use multipart/alternative as content_type of email' do
             mock_email_files(['send_email.text.erb', 'send_email.html.erb'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
@@ -67,32 +67,32 @@ module RailsBestPractices
         end
 
         context 'haml' do
-          it 'should use mulipart/alternative as content_type of email' do
+          it 'uses mulipart/alternative as content_type of email' do
             mock_email_files(['send_email.html.haml'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(1)
             expect(runner.errors[0].to_s).to eq('app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email')
           end
 
-          it 'should not use multiple/alternative as content_type of email when only plain text' do
+          it 'does not use multiple/alternative as content_type of email when only plain text' do
             mock_email_files(['send_email.text.haml'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
           end
 
-          it 'should not use multipart/alternative as content_type of email' do
+          it 'does not use multipart/alternative as content_type of email' do
             mock_email_files(['send_email.html.haml', 'send_email.text.haml'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
           end
 
-          it 'should not use multipart/alternative as content_type of email with text locale' do
+          it 'does not use multipart/alternative as content_type of email with text locale' do
             mock_email_files(['send_email.html.haml', 'send_email.de.text.haml'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
           end
 
-          it 'should not use multipart/alternative as content_type of email with html locale' do
+          it 'does not use multipart/alternative as content_type of email with html locale' do
             mock_email_files(['send_email.de.html.haml', 'send_email.text.haml'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
@@ -100,7 +100,7 @@ module RailsBestPractices
         end
 
         context 'haml/erb mix' do
-          it 'should not suggest using multipart/alternative when mixing html.haml and text.erb' do
+          it 'does not suggest using multipart/alternative when mixing html.haml and text.erb' do
             mock_email_files(['send_email.html.haml', 'send_email.text.erb'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
@@ -111,7 +111,7 @@ module RailsBestPractices
           end
         end
 
-        it 'should not check ignored files' do
+        it 'does not check ignored files' do
           runner = Core::Runner.new(reviews: described_class.new(ignored_files: /project_mailer/))
           mock_email_files(['send_email.html.haml'])
           runner.review('app/mailers/project_mailer.rb', content)

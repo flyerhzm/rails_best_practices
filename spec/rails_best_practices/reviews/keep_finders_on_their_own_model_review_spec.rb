@@ -7,7 +7,7 @@ module RailsBestPractices
     describe KeepFindersOnTheirOwnModelReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
-      it 'should keep finders on thier own model' do
+      it 'keeps finders on thier own model' do
         content = <<-EOF
         class Post < ActiveRecord::Base
           has_many :comments
@@ -23,7 +23,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/models/post.rb:5 - keep finders on their own model')
       end
 
-      it 'should keep finders on thier own model with all method' do
+      it 'keeps finders on thier own model with all method' do
         content = <<-EOF
         class Post < ActiveRecord::Base
           has_many :comments
@@ -39,7 +39,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/models/post.rb:5 - keep finders on their own model')
       end
 
-      it 'should not keep finders on thier own model with self finder' do
+      it 'does not keep finders on thier own model with self finder' do
         content = <<-EOF
         class Post < ActiveRecord::Base
           has_many :comments
@@ -54,7 +54,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not keep finders on thier own model with own finder' do
+      it 'does not keep finders on thier own model with own finder' do
         content = <<-EOF
         class Post < ActiveRecord::Base
           has_many :comments
@@ -69,7 +69,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not keep finders on their own model without finder' do
+      it 'does not keep finders on their own model without finder' do
         content = <<-EOF
         class Post < ActiveRecord::Base
           has_many :comments
@@ -83,7 +83,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not keep finders on their own model with ruby Array#find' do
+      it 'does not keep finders on their own model with ruby Array#find' do
         content = <<-EOF
         class Post < ActiveRecord::Base
           has_many :comments
@@ -97,7 +97,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /app\/models\/post\.rb/))
         content = <<-EOF
         class Post < ActiveRecord::Base

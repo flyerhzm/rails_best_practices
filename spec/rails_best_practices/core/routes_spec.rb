@@ -6,23 +6,23 @@ module RailsBestPractices::Core
   describe Routes do
     let(:routes) { described_class.new }
 
-    it 'should add route' do
+    it 'adds route' do
       routes.add_route(%w[admin test], 'posts', 'new')
       expect(routes.map(&:to_s)).to eq(['Admin::Test::PostsController#new'])
     end
 
     context 'route' do
-      it 'should add namesapces, controller name and action name' do
+      it 'adds namesapces, controller name and action name' do
         route = Route.new(%w[admin test], 'posts', 'new')
         expect(route.to_s).to eq('Admin::Test::PostsController#new')
       end
 
-      it 'should add controller name with namespace' do
+      it 'adds controller name with namespace' do
         route = Route.new(['admin'], 'test/posts', 'new')
         expect(route.to_s).to eq('Admin::Test::PostsController#new')
       end
 
-      it 'should add routes without controller' do
+      it 'adds routes without controller' do
         route = Route.new(['posts'], nil, 'new')
         expect(route.to_s).to eq('PostsController#new')
       end

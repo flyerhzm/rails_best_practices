@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(prepares: described_class.new) }
 
       context 'initializers' do
-        it 'should set include_forbidden_attributes_protection config' do
+        it 'sets include_forbidden_attributes_protection config' do
           content = <<-EOF
           class AR
             ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)
@@ -19,7 +19,7 @@ module RailsBestPractices
           expect(configs['railsbp.include_forbidden_attributes_protection']).to eq('true')
         end
 
-        it 'should not set include_forbidden_attributes_protection config' do
+        it 'does not set include_forbidden_attributes_protection config' do
           content = <<-EOF
           class AR
           end

@@ -7,7 +7,7 @@ module RailsBestPractices
     describe ReplaceComplexCreationWithFactoryMethodReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new) }
 
-      it 'should replace complex creation with factory method' do
+      it 'replaces complex creation with factory method' do
         content = <<-EOF
         class InvoiceController < ApplicationController
           def create
@@ -31,7 +31,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/controllers/invoices_controller.rb:2 - replace complex creation with factory method (@invoice attribute_assignment_count > 2)')
       end
 
-      it 'should not replace complex creation with factory method with simple creation' do
+      it 'does not replace complex creation with factory method with simple creation' do
         content = <<-EOF
         class InvoiceController < ApplicationController
           def create
@@ -46,7 +46,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not replace complex creation with factory method when attrasgn_count is 5' do
+      it 'does not replace complex creation with factory method when attrasgn_count is 5' do
         content = <<-EOF
         class InvoiceController < ApplicationController
           def create
@@ -70,7 +70,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(ignored_files: /invoices_controller/))
         content = <<-EOF
         class InvoiceController < ApplicationController

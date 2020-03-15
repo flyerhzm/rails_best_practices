@@ -7,7 +7,7 @@ module RailsBestPractices
     describe UseBeforeFilterReview do
       let(:runner) { Core::Runner.new(reviews: described_class.new(customize_count: 2)) }
 
-      it 'should use before_filter' do
+      it 'uses before_filter' do
         content = <<-EOF
         class PostsController < ApplicationController
           def show
@@ -34,7 +34,7 @@ module RailsBestPractices
         expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:2,6,10,15 - use before_filter for show,edit,update,destroy')
       end
 
-      it 'should not use before_filter when equal to customize count' do
+      it 'does not use before_filter when equal to customize count' do
         content = <<-EOF
         class PostsController < ApplicationController
           def show
@@ -50,7 +50,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not use before_filter' do
+      it 'does not use before_filter' do
         content = <<-EOF
         class PostsController < ApplicationController
           before_filter :find_post, only: [:show, :edit, :update, :destroy]
@@ -73,7 +73,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not use before_filter by nil' do
+      it 'does not use before_filter by nil' do
         content = <<-EOF
         class PostsController < ApplicationController
           def show; end
@@ -86,7 +86,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not use before_filter for protected/private methods' do
+      it 'does not use before_filter for protected/private methods' do
         content = <<-EOF
         class PostsController < ApplicationController
           protected
@@ -105,7 +105,7 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
-      it 'should not check ignored files' do
+      it 'does not check ignored files' do
         runner = Core::Runner.new(reviews: described_class.new(customize_count: 2, ignored_files: /posts_controller/))
         content = <<-EOF
         class PostsController < ApplicationController

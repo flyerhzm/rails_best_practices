@@ -8,7 +8,7 @@ module RailsBestPractices
       let(:runner) { Core::Runner.new(prepares: [described_class.new, HelperPrepare.new]) }
 
       context 'methods' do
-        it 'should parse controller methods' do
+        it 'parses controller methods' do
           content = <<-EOF
           class PostsController < ApplicationController
             def index; end
@@ -20,7 +20,7 @@ module RailsBestPractices
           expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index show])
         end
 
-        it 'should parse model methods with access control' do
+        it 'parses model methods with access control' do
           content = <<-EOF
           class PostsController < ApplicationController
             def index; end
@@ -39,7 +39,7 @@ module RailsBestPractices
           expect(methods.get_methods('PostsController', 'private').map(&:method_name)).to eq(['resource'])
         end
 
-        it 'should parse controller methods with module ::' do
+        it 'parses controller methods with module ::' do
           content = <<-EOF
           class Admin::Blog::PostsController < ApplicationController
             def index; end
@@ -51,7 +51,7 @@ module RailsBestPractices
           expect(methods.get_methods('Admin::Blog::PostsController').map(&:method_name)).to eq(%w[index show])
         end
 
-        it 'should parse controller methods with module' do
+        it 'parses controller methods with module' do
           content = <<-EOF
           module Admin
             module Blog
@@ -125,7 +125,7 @@ module RailsBestPractices
       end
 
       context 'helpers' do
-        it 'should add helper descendant' do
+        it 'adds helper descendant' do
           content = <<-EOF
           module PostsHelper
           end
