@@ -42,7 +42,7 @@ module RailsBestPractices
       def return_value_is_used?(node)
         return false unless @used_return_value_of
 
-        node == @used_return_value_of or @used_return_value_of.include?(node)
+        (node == @used_return_value_of) || @used_return_value_of.include?(node)
       end
 
       def model_classnames
