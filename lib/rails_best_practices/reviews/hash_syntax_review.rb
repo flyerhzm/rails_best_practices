@@ -12,7 +12,7 @@ module RailsBestPractices
       interesting_nodes :hash, :bare_assoc_hash
       interesting_files ALL_FILES
 
-      VALID_SYMBOL_KEY = /\A[@$_A-Za-z]([_\w]*[!_=?\w])?\z/
+      VALID_SYMBOL_KEY = /\A[@$_A-Za-z]([_\w]*[!_=?\w])?\z/.freeze
 
       # check hash node to see if it is ruby 1.8 style.
       add_callback :start_hash, :start_bare_assoc_hash do |node|

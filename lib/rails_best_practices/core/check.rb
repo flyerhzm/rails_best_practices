@@ -4,23 +4,23 @@ module RailsBestPractices
   module Core
     # A Check class that takes charge of checking the sexp.
     class Check < CodeAnalyzer::Checker
-      ALL_FILES = /.*/
-      CONTROLLER_FILES = /app\/(controllers|cells)\/.*\.rb$/
-      MIGRATION_FILES = /db\/migrate\/.*\.rb$/
-      MODEL_FILES = /app\/models\/.*\.rb$/
-      MAILER_FILES = /app\/models\/.*mailer\.rb$|app\/mailers\/.*\.rb/
-      VIEW_FILES = /app\/(views|cells)\/.*\.(erb|haml|slim|builder|rxml)$/
-      PARTIAL_VIEW_FILES = /app\/(views|cells)\/.*\/_.*\.(erb|haml|slim|builder|rxml)$/
-      ROUTE_FILES = /config\/routes.*\.rb/
-      SCHEMA_FILE = /db\/schema\.rb/
-      HELPER_FILES = /app\/helpers\/.*\.rb$/
-      DEPLOY_FILES = /config\/deploy.*\.rb/
-      CONFIG_FILES = /config\/(application|environment|environments\/.*)\.rb/
-      INITIALIZER_FILES = /config\/initializers\/.*\.rb/
-      CAPFILE = /Capfile/
-      GEMFILE_LOCK = /Gemfile\.lock/
+      ALL_FILES = /.*/.freeze
+      CONTROLLER_FILES = /app\/(controllers|cells)\/.*\.rb$/.freeze
+      MIGRATION_FILES = /db\/migrate\/.*\.rb$/.freeze
+      MODEL_FILES = /app\/models\/.*\.rb$/.freeze
+      MAILER_FILES = /app\/models\/.*mailer\.rb$|app\/mailers\/.*\.rb/.freeze
+      VIEW_FILES = /app\/(views|cells)\/.*\.(erb|haml|slim|builder|rxml)$/.freeze
+      PARTIAL_VIEW_FILES = /app\/(views|cells)\/.*\/_.*\.(erb|haml|slim|builder|rxml)$/.freeze
+      ROUTE_FILES = /config\/routes.*\.rb/.freeze
+      SCHEMA_FILE = /db\/schema\.rb/.freeze
+      HELPER_FILES = /app\/helpers\/.*\.rb$/.freeze
+      DEPLOY_FILES = /config\/deploy.*\.rb/.freeze
+      CONFIG_FILES = /config\/(application|environment|environments\/.*)\.rb/.freeze
+      INITIALIZER_FILES = /config\/initializers\/.*\.rb/.freeze
+      CAPFILE = /Capfile/.freeze
+      GEMFILE_LOCK = /Gemfile\.lock/.freeze
 
-      SKIP_FILES = /db\/schema.rb/
+      SKIP_FILES = /db\/schema.rb/.freeze
 
       def initialize(options = {})
         options.each do |key, value|
