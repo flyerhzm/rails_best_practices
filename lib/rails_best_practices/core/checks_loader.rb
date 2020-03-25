@@ -35,7 +35,7 @@ module RailsBestPractices
         # instantiates a check
       def instantiate_check(block, check_name, options)
         check_class = load_check_class(check_name, &block)
-        check_class.new(options || {}) unless check_class.nil?
+        check_class&.new(options || {})
       end
 
         # loads the class for a check by calling the given block

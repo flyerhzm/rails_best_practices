@@ -58,10 +58,10 @@ module RailsBestPractices
       # @param [String] method name
       def mark_parent_class_method_used(class_name, method_name)
         klass = Prepares.klasses.find { |klass| klass.to_s == class_name }
-        if klass && klass.extend_class_name
+        if klass&.extend_class_name
           mark_parent_class_method_used(klass.extend_class_name, method_name)
           method = get_method(klass.extend_class_name, method_name)
-          method.mark_used if method
+          method&.mark_used
         end
       end
 
@@ -73,7 +73,7 @@ module RailsBestPractices
         Prepares.klasses.select { |klass| klass.extend_class_name == class_name }.each do |klass|
           mark_subclasses_method_used(klass.to_s, method_name)
           method = get_method(klass.to_s, method_name)
-          method.mark_used if method
+          method&.mark_used
         end
       end
 
@@ -83,7 +83,7 @@ module RailsBestPractices
       # @param [String] method name
       def mark_publicize(class_name, method_name)
         method = get_method(class_name, method_name)
-        method.publicize if method
+        method&.publicize
       end
 
       # Mark parent classs' method as public.
@@ -92,7 +92,7 @@ module RailsBestPractices
       # @param [String] method name
       def mark_parent_class_methods_publicize(class_name, method_name)
         klass = Prepares.klasses.find { |klass| klass.to_s == class_name }
-        if klass && klass.extend_class_name
+        if klass&.extend_class_name
           mark_parent_class_methods_publicize(klass.extend_class_name, method_name)
           mark_publicize(class_name, method_name)
         end

@@ -178,7 +178,7 @@ module RailsBestPractices
       end
 
       def hash_key_exist?(node, key)
-        node.hash_keys && node.hash_keys.include?(key)
+        node.hash_keys&.include?(key)
       end
 
       def friendly_route_name(node)
