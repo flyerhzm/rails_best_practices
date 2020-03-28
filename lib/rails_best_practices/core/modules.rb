@@ -10,7 +10,7 @@ module RailsBestPractices
       # @param [String] descendant name
       def add_module_descendant(module_name, descendant)
         mod = find { |mod| mod.to_s == module_name }
-        mod.add_descendant(descendant) if mod
+        mod&.add_descendant(descendant)
       end
     end
 
