@@ -118,19 +118,19 @@ module RailsBestPractices
         foreign_key_column = node.arguments.all.first.to_s
         @foreign_keys[table_name] ||= []
         if foreign_key_column =~ /(.*?)_id$/
-          if @foreign_keys[table_name].delete("#{$1}_type")
-            @foreign_keys[table_name] << ["#{$1}_id", "#{$1}_type"]
+          if @foreign_keys[table_name].delete("#{Regexp.last_match(1)}_type")
+            @foreign_keys[table_name] << ["#{Regexp.last_match(1)}_id", "#{Regexp.last_match(1)}_type"]
           else
             @foreign_keys[table_name] << foreign_key_column
           end
           foreign_id_column = foreign_key_column
         elsif foreign_key_column =~ /(.*?)_type$/
-          if @foreign_keys[table_name].delete("#{$1}_id")
-            @foreign_keys[table_name] << ["#{$1}_id", "#{$1}_type"]
+          if @foreign_keys[table_name].delete("#{Regexp.last_match(1)}_id")
+            @foreign_keys[table_name] << ["#{Regexp.last_match(1)}_id", "#{Regexp.last_match(1)}_type"]
           else
             @foreign_keys[table_name] << foreign_key_column
           end
-          foreign_id_column = "#{$1}_id"
+          foreign_id_column = "#{Regexp.last_match(1)}_id"
         end
 
         if foreign_id_column
