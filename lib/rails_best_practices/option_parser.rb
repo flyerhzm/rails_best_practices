@@ -111,7 +111,12 @@ module RailsBestPractices
           exit
         end
 
-        opts.on('-x', '--exclude PATTERNS', "Don't analyze files matching a pattern", '(comma-separated regexp list)') do |list|
+        opts.on(
+          '-x',
+          '--exclude PATTERNS',
+          "Don't analyze files matching a pattern",
+          '(comma-separated regexp list)'
+        ) do |list|
           begin
             options['exclude'] = list.split(',').map { |x| Regexp.new x }
           rescue RegexpError => e
@@ -119,7 +124,12 @@ module RailsBestPractices
           end
         end
 
-        opts.on('-o', '--only PATTERNS', 'Analyze files only matching a pattern', '(comma-separated regexp list)') do |list|
+        opts.on(
+          '-o',
+          '--only PATTERNS',
+          'Analyze files only matching a pattern',
+          '(comma-separated regexp list)'
+        ) do |list|
           begin
             options['only'] = list.split(',').map { |x| Regexp.new x }
           rescue RegexpError => e
@@ -133,7 +143,8 @@ module RailsBestPractices
 
         opts.on(
           '-c',
-          '--config CONFIG_PATH', 'configuration file location (defaults to config/rails_best_practices.yml)'
+          '--config CONFIG_PATH',
+          'configuration file location (defaults to config/rails_best_practices.yml)'
         ) do |config_path|
           options['config'] = config_path
         end

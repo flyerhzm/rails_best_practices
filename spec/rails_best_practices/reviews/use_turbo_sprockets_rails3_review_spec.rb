@@ -94,8 +94,10 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(prepares: Prepares::GemfilePrepare.new,
-                                  reviews: described_class.new(ignored_files: /Capfile/))
+        runner =
+          Core::Runner.new(
+            prepares: Prepares::GemfilePrepare.new, reviews: described_class.new(ignored_files: /Capfile/)
+          )
         content = <<~EOF
           GEM
             remote: https://rubygems.org

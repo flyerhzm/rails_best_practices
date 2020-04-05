@@ -19,7 +19,9 @@ module RailsBestPractices
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:5 - check 'save' return value or use 'save!'")
+          expect(runner.errors[0].to_s).to eq(
+            "app/helpers/posts_helper.rb:5 - check 'save' return value or use 'save!'"
+          )
         end
 
         it 'allows save return value assigned to var' do
@@ -142,7 +144,9 @@ module RailsBestPractices
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:2 - check 'update_attributes' return value or use 'update_attributes!'")
+          expect(runner.errors[0].to_s).to eq(
+            "app/helpers/posts_helper.rb:2 - check 'update_attributes' return value or use 'update_attributes!'"
+          )
         end
 
         it 'allows update_attributes if return value is checked' do
@@ -176,7 +180,9 @@ module RailsBestPractices
           EOF
           runner.review('app/controllers/posts_controller.rb', content)
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/controllers/posts_controller.rb:12 - check 'update_attributes' return value or use 'update_attributes!'")
+          expect(runner.errors[0].to_s).to eq(
+            "app/controllers/posts_controller.rb:12 - check 'update_attributes' return value or use 'update_attributes!'"
+          )
         end
 
         it 'warns you if you use create which is always unsafe' do
@@ -195,7 +201,9 @@ module RailsBestPractices
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:2 - use 'create!' instead of 'create' as the latter may not always save")
+          expect(runner.errors[0].to_s).to eq(
+            "app/helpers/posts_helper.rb:2 - use 'create!' instead of 'create' as the latter may not always save"
+          )
         end
 
         it 'warns you if you use create with a block which is always unsafe' do
@@ -223,7 +231,9 @@ module RailsBestPractices
           EOF
           runner.review('app/helpers/blog/posts_helper.rb', content)
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/helpers/blog/posts_helper.rb:4 - use 'create!' instead of 'create' as the latter may not always save")
+          expect(runner.errors[0].to_s).to eq(
+            "app/helpers/blog/posts_helper.rb:4 - use 'create!' instead of 'create' as the latter may not always save"
+          )
         end
 
         it 'allows create called on non-model classes' do

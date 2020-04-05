@@ -76,7 +76,9 @@ module RailsBestPractices
           table_node = @table_nodes[table]
           foreign_key.each do |column|
             if not_indexed?(table, column)
-              add_error "always add db index (#{table} => [#{Array(column).join(', ')}])", table_node.file, table_node.line_number
+              add_error "always add db index (#{table} => [#{Array(column).join(', ')}])",
+                        table_node.file,
+                        table_node.line_number
             end
           end
         end
@@ -84,9 +86,9 @@ module RailsBestPractices
 
       private
 
-        # remember the node as index columns, when used outside a table
-        # block, i.e.
-        #   add_index :table_name, :column_name
+      # remember the node as index columns, when used outside a table
+      # block, i.e.
+      #   add_index :table_name, :column_name
       def remember_index_columns_outside_table(node)
         table_name = node.arguments.all.first.to_s
         index_column = node.arguments.all[1].to_object
@@ -95,9 +97,9 @@ module RailsBestPractices
         @index_columns[table_name] << index_column
       end
 
-        # remember the node as index columns, when used inside a table
-        # block, i.e.
-        #    t.index [:column_name, ...]
+      # remember the node as index columns, when used inside a table
+      # block, i.e.
+      #    t.index [:column_name, ...]
       def remember_index_columns_inside_table(node)
         table_name = @table_name
         index_column = node.arguments.all.first.to_object
@@ -106,13 +108,13 @@ module RailsBestPractices
         @index_columns[table_name] << index_column
       end
 
-        # remember table nodes
+      # remember table nodes
       def remember_table_nodes(node)
         @table_name = node.arguments.all.first.to_s
         @table_nodes[@table_name] = node
       end
 
-        # remember foreign key columns
+      # remember foreign key columns
       def remember_foreign_key_columns(node)
         table_name = @table_name
         foreign_key_column = node.arguments.all.first.to_s
@@ -142,7 +144,7 @@ module RailsBestPractices
         end
       end
 
-        # remove the non foreign keys without corresponding tables.
+      # remove the non foreign keys without corresponding tables.
       def remove_table_not_exist_foreign_keys
         @foreign_keys.each do |table, foreign_keys|
           foreign_keys.delete_if do |key|
@@ -154,21 +156,22 @@ module RailsBestPractices
         end
       end
 
-        # remove the non foreign keys with only _type column.
+      # remove the non foreign keys with only _type column.
       def remove_only_type_foreign_keys
         @foreign_keys.each do |_table, foreign_keys|
           foreign_keys.delete_if { |key| key.is_a?(String) && key =~ /_type$/ }
         end
       end
 
-        # combine polymorphic foreign keys, e.g.
-        #     [tagger_id], [tagger_type] => [tagger_id, tagger_type]
+      # combine polymorphic foreign keys, e.g.
+      #     [tagger_id], [tagger_type] => [tagger_id, tagger_type]
       def combine_polymorphic_foreign_keys
         @index_columns.each do |_table, foreign_keys|
           foreign_id_keys = foreign_keys.select { |key| key.size == 1 && key.first =~ /_id/ }
           foreign_type_keys = foreign_keys.select { |key| key.size == 1 && key.first =~ /_type/ }
           foreign_id_keys.each do |id_key|
-            next unless type_key = foreign_type_keys.detect { |type_key| type_key.first == id_key.first.sub(/_id/, '') + '_type' }
+            next unless type_key =
+              foreign_type_keys.detect { |type_key| type_key.first == id_key.first.sub(/_id/, '') + '_type' }
 
             foreign_keys.delete(id_key)
             foreign_keys.delete(type_key)
@@ -177,13 +180,13 @@ module RailsBestPractices
         end
       end
 
-        # check if the table's column is indexed.
+      # check if the table's column is indexed.
       def not_indexed?(table, column)
         index_columns = @index_columns[table]
         !index_columns || index_columns.none? { |e| greater_than_or_equal(Array(e), Array(column)) }
       end
 
-        # check if more_array is greater than less_array or equal to less_array.
+      # check if more_array is greater than less_array or equal to less_array.
       def greater_than_or_equal(more_array, less_array)
         more_size = more_array.size
         less_size = less_array.size

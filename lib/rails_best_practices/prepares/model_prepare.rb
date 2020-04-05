@@ -3,6 +3,7 @@
 module RailsBestPractices
   module Prepares
     # Remember models and model associations.
+
     class ModelPrepare < Core::Check
       include Core::Check::Classable
       include Core::Check::Accessable
@@ -10,7 +11,17 @@ module RailsBestPractices
       interesting_nodes :class, :def, :defs, :command, :alias
       interesting_files MODEL_FILES
 
-      ASSOCIATION_METHODS = %w[belongs_to has_one has_many has_and_belongs_to_many embeds_many embeds_one embedded_in many one].freeze
+      ASSOCIATION_METHODS = %w[
+        belongs_to
+        has_one
+        has_many
+        has_and_belongs_to_many
+        embeds_many
+        embeds_one
+        embedded_in
+        many
+        one
+      ].freeze
 
       def initialize
         @models = Prepares.models
@@ -39,11 +50,14 @@ module RailsBestPractices
       #       }
       #     }
       add_callback :start_def do |node|
-        if @klass &&
-           current_extend_class_name != 'ActionMailer::Base' &&
-           (classable_modules.empty? || klasses.any?)
+        if @klass && current_extend_class_name != 'ActionMailer::Base' && (classable_modules.empty? || klasses.any?)
           method_name = node.method_name.to_s
-          @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
+          @methods.add_method(
+            current_class_name,
+            method_name,
+            { 'file' => node.file, 'line_number' => node.line_number },
+            current_access_control
+          )
         end
       end
 
@@ -62,7 +76,12 @@ module RailsBestPractices
       add_callback :start_defs do |node|
         if @klass && current_extend_class_name != 'ActionMailer::Base'
           method_name = node.method_name.to_s
-          @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
+          @methods.add_method(
+            current_class_name,
+            method_name,
+            { 'file' => node.file, 'line_number' => node.line_number },
+            current_access_control
+          )
         end
       end
 
@@ -81,15 +100,31 @@ module RailsBestPractices
         case node.message.to_s
         when 'named_scope', 'scope', 'alias_method'
           method_name = node.arguments.all.first.to_s
-          @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
+          @methods.add_method(
+            current_class_name,
+            method_name,
+            { 'file' => node.file, 'line_number' => node.line_number },
+            current_access_control
+          )
         when 'alias_method_chain'
           method, feature = *node.arguments.all.map(&:to_s)
-          @methods.add_method(current_class_name, "#{method}_with_#{feature}", { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
-          @methods.add_method(current_class_name, method.to_s, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
+          @methods.add_method(
+            current_class_name,
+            "#{method}_with_#{feature}",
+            { 'file' => node.file, 'line_number' => node.line_number },
+            current_access_control
+          )
+          @methods.add_method(
+            current_class_name,
+            method.to_s,
+            { 'file' => node.file, 'line_number' => node.line_number },
+            current_access_control
+          )
         when 'field'
           arguments = node.arguments.all
           attribute_name = arguments.first.to_s
-          attribute_type = arguments.last.hash_value('type').present? ? arguments.last.hash_value('type').to_s : 'String'
+          attribute_type =
+            arguments.last.hash_value('type').present? ? arguments.last.hash_value('type').to_s : 'String'
           @model_attributes.add_attribute(current_class_name, attribute_name, attribute_type)
         when 'key'
           attribute_name, attribute_type = node.arguments.all.map(&:to_s)
@@ -102,7 +137,12 @@ module RailsBestPractices
       # check alias node to remembr the alias methods.
       add_callback :start_alias do |node|
         method_name = node.new_method.to_s
-        @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
+        @methods.add_method(
+          current_class_name,
+          method_name,
+          { 'file' => node.file, 'line_number' => node.line_number },
+          current_access_control
+        )
       end
 
       # after prepare process, fix incorrect associations' class_name.
@@ -122,7 +162,7 @@ module RailsBestPractices
 
       private
 
-        # remember associations, with class to association names.
+      # remember associations, with class to association names.
       def remember_association(node)
         association_meta = node.message.to_s
         association_name = node.arguments.all.first.to_s

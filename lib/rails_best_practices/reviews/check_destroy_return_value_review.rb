@@ -10,7 +10,17 @@ module RailsBestPractices
     #   Check all "save" calls to check the return value is used by a node we have visited.
     class CheckDestroyReturnValueReview < Review
       include Classable
-      interesting_nodes :call, :command_call, :method_add_arg, :if, :ifop, :elsif, :unless, :if_mod, :unless_mod, :assign, :binary
+      interesting_nodes :call,
+                        :command_call,
+                        :method_add_arg,
+                        :if,
+                        :ifop,
+                        :elsif,
+                        :unless,
+                        :if_mod,
+                        :unless_mod,
+                        :assign,
+                        :binary
       interesting_files ALL_FILES
 
       add_callback :start_if, :start_ifop, :start_elsif, :start_unless, :start_if_mod, :start_unless_mod do |node|
@@ -22,13 +32,12 @@ module RailsBestPractices
       end
 
       add_callback :start_binary do |node|
-        # Consider anything used in an expression like "A or B" as used
-        if %w[&& || and or].include?(node[2].to_s)
+        if # Consider anything used in an expression like "A or B" as used
+           %w[&& || and or].include?(node[2].to_s)
           all_conditions = node.all_conditions
           # if our current binary is a subset of the @used_return_value_of
           # then don't overwrite it
-          already_included = @used_return_value_of &&
-                             (all_conditions - @used_return_value_of).empty?
+          already_included = @used_return_value_of && (all_conditions - @used_return_value_of).empty?
 
           @used_return_value_of = node.all_conditions unless already_included
         end

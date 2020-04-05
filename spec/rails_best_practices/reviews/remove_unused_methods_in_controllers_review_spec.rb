@@ -5,12 +5,12 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe RemoveUnusedMethodsInControllersReview do
-      let(:runner) {
+      let(:runner) do
         Core::Runner.new(
           prepares: [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
           reviews: described_class.new('except_methods' => ['ExceptableController#*'])
         )
-      }
+      end
 
       context 'private/protected' do
         it 'removes unused methods' do
@@ -40,8 +40,12 @@ module RailsBestPractices
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
           expect(runner.errors.size).to eq(2)
-          expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:6 - remove unused methods (PostsController#load_post)')
-          expect(runner.errors[1].to_s).to eq('app/controllers/posts_controller.rb:8 - remove unused methods (PostsController#load_user)')
+          expect(runner.errors[0].to_s).to eq(
+            'app/controllers/posts_controller.rb:6 - remove unused methods (PostsController#load_post)'
+          )
+          expect(runner.errors[1].to_s).to eq(
+            'app/controllers/posts_controller.rb:8 - remove unused methods (PostsController#load_user)'
+          )
         end
 
         it 'does not remove unused methods for before_filter' do
@@ -172,7 +176,9 @@ module RailsBestPractices
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:3 - remove unused methods (PostsController#list)')
+          expect(runner.errors[0].to_s).to eq(
+            'app/controllers/posts_controller.rb:3 - remove unused methods (PostsController#list)'
+          )
         end
 
         it 'does not remove inline routes' do
@@ -271,7 +277,9 @@ module RailsBestPractices
           runner.review('app/controllers/posts_controller.rb', content)
           runner.after_review
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:4 - remove unused methods (PostsController#helper_post)')
+          expect(runner.errors[0].to_s).to eq(
+            'app/controllers/posts_controller.rb:4 - remove unused methods (PostsController#helper_post)'
+          )
         end
 
         it 'does not remove unused methods if call helper method in views' do
@@ -333,7 +341,9 @@ module RailsBestPractices
           runner.review('app/helpers/posts_helper.rb', content)
           runner.after_review
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:3 - remove unused methods (PostsController#helper_post)')
+          expect(runner.errors[0].to_s).to eq(
+            'app/controllers/posts_controller.rb:3 - remove unused methods (PostsController#helper_post)'
+          )
         end
 
         it 'removes unused methods if delegate method is called' do
@@ -453,8 +463,11 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(prepares: [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
-                                  reviews: described_class.new(ignored_files: /posts_controller/, except_methods: []))
+        runner =
+          Core::Runner.new(
+            prepares: [Prepares::ControllerPrepare.new, Prepares::RoutePrepare.new],
+            reviews: described_class.new(ignored_files: /posts_controller/, except_methods: [])
+          )
         content = <<-EOF
           RailsBestPracticesCom::Application.routes.draw do
             resources :posts do

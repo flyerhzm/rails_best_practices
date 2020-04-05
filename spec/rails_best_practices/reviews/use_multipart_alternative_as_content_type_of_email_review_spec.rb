@@ -31,7 +31,7 @@ module RailsBestPractices
       end
 
       context 'project_mailer' do
-        let(:content) {
+        let(:content) do
           <<-EOF
           class ProjectMailer < ActionMailer::Base
             def send_email(email)
@@ -43,14 +43,16 @@ module RailsBestPractices
             end
           end
           EOF
-        }
+        end
 
         context 'erb' do
           it 'uses mulipart/alternative as content_type of email' do
             mock_email_files(['send_email.html.erb'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(1)
-            expect(runner.errors[0].to_s).to eq('app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email')
+            expect(runner.errors[0].to_s).to eq(
+              'app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email'
+            )
           end
 
           it 'does not use multiple/alternative as content_type of email when only plain text' do
@@ -71,7 +73,9 @@ module RailsBestPractices
             mock_email_files(['send_email.html.haml'])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(1)
-            expect(runner.errors[0].to_s).to eq('app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email')
+            expect(runner.errors[0].to_s).to eq(
+              'app/mailers/project_mailer.rb:2 - use multipart/alternative as content_type of email'
+            )
           end
 
           it 'does not use multiple/alternative as content_type of email when only plain text' do

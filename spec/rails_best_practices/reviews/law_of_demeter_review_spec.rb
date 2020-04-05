@@ -5,7 +5,11 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe LawOfDemeterReview do
-      let(:runner) { Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: described_class.new) }
+      let(:runner) do
+        Core::Runner.new(
+          prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: described_class.new
+        )
+      end
 
       describe 'belongs_to' do
         before do
@@ -164,8 +168,11 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new],
-                                  reviews: described_class.new(ignored_files: /app\/views\/invoices/))
+        runner =
+          Core::Runner.new(
+            prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new],
+            reviews: described_class.new(ignored_files: /app\/views\/invoices/)
+          )
         content = <<-EOF
           <%= @invoice.user.name %>
           <%= @invoice.user.address %>

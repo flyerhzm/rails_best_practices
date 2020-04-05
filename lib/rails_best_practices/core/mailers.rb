@@ -3,7 +3,6 @@
 module RailsBestPractices
   module Core
     # Mailer classes.
-    class Mailers < Klasses
-    end
+    class Mailers < Klasses; end
   end
 end

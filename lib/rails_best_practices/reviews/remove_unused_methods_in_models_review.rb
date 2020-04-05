@@ -81,7 +81,9 @@ module RailsBestPractices
       add_callback :after_check do
         @model_methods.get_all_unused_methods.each do |method|
           if !excepted?(method) && method.method_name !~ /=$/
-            add_error "remove unused methods (#{method.class_name}##{method.method_name})", method.file, method.line_number
+            add_error "remove unused methods (#{method.class_name}##{method.method_name})",
+                      method.file,
+                      method.line_number
           end
         end
       end
@@ -95,13 +97,31 @@ module RailsBestPractices
       def internal_except_methods
         %w[
           initialize
-          validate validate_each validate_on_create validate_on_update
-          human_attribute_name assign_attributes attributes attribute
-          to_xml to_json as_json to_param
-          before_save before_create before_update before_destroy after_save after_create
-          after_update after_destroy after_find after_initialize
+          validate
+          validate_each
+          validate_on_create
+          validate_on_update
+          human_attribute_name
+          assign_attributes
+          attributes
+          attribute
+          to_xml
+          to_json
+          as_json
+          to_param
+          before_save
+          before_create
+          before_update
+          before_destroy
+          after_save
+          after_create
+          after_update
+          after_destroy
+          after_find
+          after_initialize
           method_missing
-          table_name module_prefix
+          table_name
+          module_prefix
         ].map { |method_name| "*\##{method_name}" }
       end
     end

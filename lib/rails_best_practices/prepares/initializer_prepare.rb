@@ -3,6 +3,7 @@
 module RailsBestPractices
   module Prepares
     # Check all initializers
+
     class InitializerPrepare < Core::Check
       interesting_nodes :method_add_arg, :class
       interesting_files INITIALIZER_FILES
@@ -21,8 +22,7 @@ module RailsBestPractices
       # check if the node is
       #     ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)
       def include_forbidden_attributes_protection?(node)
-        node.receiver.to_s == 'ActiveRecord::Base' &&
-          node.message.to_s == 'send' &&
+        node.receiver.to_s == 'ActiveRecord::Base' && node.message.to_s == 'send' &&
           node.arguments.all.map(&:to_s) == ['include', 'ActiveModel::ForbiddenAttributesProtection']
       end
     end

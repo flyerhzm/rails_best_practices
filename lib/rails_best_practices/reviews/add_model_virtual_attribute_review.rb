@@ -46,8 +46,8 @@ module RailsBestPractices
 
       private
 
-        # check an attribute assignment node, if there is a array reference node in the right value of assignment node,
-        # then remember this attribute assignment.
+      # check an attribute assignment node, if there is a array reference node in the right value of assignment node,
+      # then remember this attribute assignment.
       def assign(node)
         left_value = node.left_value
         right_value = node.right_value
@@ -59,34 +59,36 @@ module RailsBestPractices
         end
       end
 
-        # check a call node with message "save" or "save!",
-        # if there exists an attribute assignment for the receiver of this call node,
-        # and if the arguments of this attribute assignments has duplicated entries (different message and same arguments),
-        # then this node needs to add a virtual attribute.
+      # check a call node with message "save" or "save!",
+      # if there exists an attribute assignment for the receiver of this call node,
+      # and if the arguments of this attribute assignments has duplicated entries (different message and same arguments),
+      # then this node needs to add a virtual attribute.
       def call_assignment(node)
         if ['save', 'save!'].include? node.message.to_s
           receiver = node.receiver.to_s
-          add_error "add model virtual attribute (for #{receiver})" if params_dup?(assignments(receiver).collect { |h| h[:arguments] })
+          add_error "add model virtual attribute (for #{receiver})" if params_dup?(
+            assignments(receiver).collect { |h| h[:arguments] }
+          )
         end
       end
 
-        # if the nodes are duplicated.
+      # if the nodes are duplicated.
       def params_dup?(nodes)
         return false if nodes.nil?
 
         !dups(nodes).empty?
       end
 
-        # get the assignments of receiver.
+      # get the assignments of receiver.
       def assignments(receiver)
         @assignments[receiver] ||= []
       end
 
-        # Get the duplicate entries from an Enumerable.
-        #
-        # @return [Enumerable] the duplicate entries.
+      # Get the duplicate entries from an Enumerable.
+      #
+      # @return [Enumerable] the duplicate entries.
       def dups(nodes)
-        nodes.each_with_object({}) { |v, h| h[v] = h[v].to_i + 1; }.reject { |_k, v| v == 1 }.keys
+        nodes.each_with_object({}) { |v, h| h[v] = h[v].to_i + 1 }.reject { |_k, v| v == 1 }.keys
       end
     end
   end

@@ -2,7 +2,6 @@
 
 module RailsBestPractices
   module Core
-    class Configs < Hash
-    end
+    class Configs < Hash; end
   end
 end

@@ -43,8 +43,8 @@ module RailsBestPractices
 
       private
 
-        # check an attribute assignment node, if its message is xxx_id,
-        # then remember the receiver of the attribute assignment in @assignments.
+      # check an attribute assignment node, if its message is xxx_id,
+      # then remember the receiver of the attribute assignment in @assignments.
       def attribute_assignment(node)
         if node.left_value.message.is_a?(Sexp) && node.left_value.message.to_s =~ /_id$/
           receiver = node.left_value.receiver.to_s
@@ -52,9 +52,9 @@ module RailsBestPractices
         end
       end
 
-        # check a call node with message "save" or "save!",
-        # if the receiver of call node exists in @assignments,
-        # then the attribute assignment should be replaced by using model association.
+      # check a call node with message "save" or "save!",
+      # if the receiver of call node exists in @assignments,
+      # then the attribute assignment should be replaced by using model association.
       def call_assignment(node)
         if ['save', 'save!'].include? node.message.to_s
           receiver = node.receiver.to_s

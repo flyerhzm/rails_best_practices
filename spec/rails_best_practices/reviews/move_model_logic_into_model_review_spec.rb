@@ -26,7 +26,9 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/posts_controller.rb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('app/controllers/posts_controller.rb:2 - move model logic into model (@post use_count > 4)')
+        expect(runner.errors[0].to_s).to eq(
+          'app/controllers/posts_controller.rb:2 - move model logic into model (@post use_count > 4)'
+        )
       end
 
       it 'does not move model logic into model with simple model calling' do

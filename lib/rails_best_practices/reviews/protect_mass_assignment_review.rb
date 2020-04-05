@@ -11,6 +11,7 @@ module RailsBestPractices
     # Review process:
     #   check nodes to see if there is a command with message attr_accessible or attr_protected,
     #   or include ActiveModel::ForbiddenAttributesProtection.
+
     class ProtectMassAssignmentReview < Review
       interesting_files MODEL_FILES
       interesting_nodes :class, :command, :var_ref, :vcall, :fcall
@@ -73,13 +74,15 @@ module RailsBestPractices
       end
 
       def check_rails_builtin(node)
-        if @whitelist_attributes || [node.to_s, node.message.to_s].any? { |str| %w[attr_accessible attr_protected].include? str }
+        if @whitelist_attributes ||
+             [node.to_s, node.message.to_s].any? { |str| %w[attr_accessible attr_protected].include? str }
           @mass_assignement = false
         end
       end
 
       def check_strong_parameters(command_node)
-        if command_node.message.to_s == 'include' && command_node.arguments.all.first.to_s == 'ActiveModel::ForbiddenAttributesProtection'
+        if command_node.message.to_s == 'include' &&
+             command_node.arguments.all.first.to_s == 'ActiveModel::ForbiddenAttributesProtection'
           @mass_assignement = false
         end
       end

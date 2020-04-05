@@ -4,7 +4,7 @@ require_rel 'prepares'
 
 module RailsBestPractices
   module Prepares
-    class <<self
+    class << self
       def klasses
         models + mailers + controllers
       end

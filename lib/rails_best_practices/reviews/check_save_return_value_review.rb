@@ -14,7 +14,17 @@ module RailsBestPractices
     #   Check all "save" calls to check the return value is used by a node we have visited.
     class CheckSaveReturnValueReview < Review
       include Classable
-      interesting_nodes :call, :command_call, :method_add_arg, :if, :ifop, :elsif, :unless, :if_mod, :unless_mod, :assign, :binary
+      interesting_nodes :call,
+                        :command_call,
+                        :method_add_arg,
+                        :if,
+                        :ifop,
+                        :elsif,
+                        :unless,
+                        :if_mod,
+                        :unless_mod,
+                        :assign,
+                        :binary
       interesting_files ALL_FILES
       url 'https://rails-bestpractices.com/posts/2012/11/02/check-the-return-value-of-save-otherwise-use-save/'
 
@@ -27,13 +37,12 @@ module RailsBestPractices
       end
 
       add_callback :start_binary do |node|
-        # Consider anything used in an expression like "A or B" as used
-        if %w[&& || and or].include?(node[2].to_s)
+        if # Consider anything used in an expression like "A or B" as used
+           %w[&& || and or].include?(node[2].to_s)
           all_conditions = node.all_conditions
           # if our current binary is a subset of the @used_return_value_of
           # then don't overwrite it
-          already_included = @used_return_value_of &&
-                             (all_conditions - @used_return_value_of).empty?
+          already_included = @used_return_value_of && (all_conditions - @used_return_value_of).empty?
 
           @used_return_value_of = node.all_conditions unless already_included
         end
@@ -58,9 +67,11 @@ module RailsBestPractices
             end
           elsif message == 'create'
             # We're only interested in 'create' calls on model classes:
-            possible_receiver_classes = [node.receiver.to_s] + classable_modules.map do |mod|
-                                                                 "#{mod}::#{node.receiver}"
-                                                               end
+            possible_receiver_classes =
+              [node.receiver.to_s] +
+                classable_modules.map do |mod|
+                  "#{mod}::#{node.receiver}"
+                end
             unless (possible_receiver_classes & model_classnames).empty?
               add_error "use 'create!' instead of 'create' as the latter may not always save"
             end

@@ -18,11 +18,11 @@ module RailsBestPractices::Core
     end
 
     context 'Mod' do
-      subject {
+      subject do
         Mod.new('UsersHelper', ['Admin']).tap do |mod|
           mod.add_descendant('Admin::UsersController')
         end
-      }
+      end
       it { expect(subject.to_s).to eq('Admin::UsersHelper') }
       it { expect(subject.descendants).to eq(['Admin::UsersController']) }
     end

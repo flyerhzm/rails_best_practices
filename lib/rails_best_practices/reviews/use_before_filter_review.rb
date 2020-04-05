@@ -12,6 +12,7 @@ module RailsBestPractices
     # Review process:
     #   check all first code line_number in method definitions (actions),
     #   if they are duplicated, then they should be moved to before_filter.
+
     class UseBeforeFilterReview < Review
       interesting_nodes :class
       interesting_files CONTROLLER_FILES
@@ -48,7 +49,7 @@ module RailsBestPractices
 
       private
 
-        # check method define node, and remember the first sentence.
+      # check method define node, and remember the first sentence.
       def remember_first_sentence(node)
         first_sentence = node.body.statements.first
         return unless first_sentence

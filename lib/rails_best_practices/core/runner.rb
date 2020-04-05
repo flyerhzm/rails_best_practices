@@ -66,8 +66,14 @@ module RailsBestPractices
         load_plugin_reviews if reviews.empty?
 
         @lexical_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @lexicals)
-        @plain_prepare_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: @prepares.select { |checker| checker.is_a? Prepares::GemfilePrepare })
-        @default_prepare_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @prepares.reject { |checker| checker.is_a? Prepares::GemfilePrepare })
+        @plain_prepare_checker ||=
+          CodeAnalyzer::CheckingVisitor::Plain.new(
+            checkers: @prepares.select { |checker| checker.is_a? Prepares::GemfilePrepare }
+          )
+        @default_prepare_checker ||=
+          CodeAnalyzer::CheckingVisitor::Default.new(
+            checkers: @prepares.reject { |checker| checker.is_a? Prepares::GemfilePrepare }
+          )
         @review_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @reviews)
       end
 
@@ -119,10 +125,10 @@ module RailsBestPractices
 
       private
 
-        # parse html template code, erb, haml and slim.
-        #
-        # @param [String] filename is the filename of the erb, haml or slim code.
-        # @param [String] content is the source code of erb, haml or slim file.
+      # parse html template code, erb, haml and slim.
+      #
+      # @param [String] filename is the filename of the erb, haml or slim code.
+      # @param [String] content is the source code of erb, haml or slim file.
       def parse_html_template(filename, content)
         if filename =~ /.*\.erb$|.*\.rhtml$/
           content = Erubis::OnlyRuby.new(content).src
@@ -150,12 +156,12 @@ module RailsBestPractices
         content
       end
 
-        # load all prepares.
+      # load all prepares.
       def load_prepares
         Prepares.constants.map { |prepare| Prepares.const_get(prepare).new }
       end
 
-        # load all plugin reviews.
+      # load all plugin reviews.
       def load_plugin_reviews
         plugins = File.join(Runner.base_path, 'lib', 'rails_best_practices', 'plugins', 'reviews')
         if File.directory?(plugins)

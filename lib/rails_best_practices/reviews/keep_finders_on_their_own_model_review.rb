@@ -37,15 +37,14 @@ module RailsBestPractices
 
       private
 
-        # check if the call node is the finder of other model.
-        #
-        # the message of the node should be one of find, all, first or last,
-        # and the receiver of the node should be with message :call (this is the other model),
-        # and any of its arguments is a hash,
-        # then it is the finder of other model.
+      # check if the call node is the finder of other model.
+      #
+      # the message of the node should be one of find, all, first or last,
+      # and the receiver of the node should be with message :call (this is the other model),
+      # and any of its arguments is a hash,
+      # then it is the finder of other model.
       def other_finder?(node)
-        FINDERS.include?(node[1].message.to_s) &&
-          node[1].receiver.sexp_type == :call &&
+        FINDERS.include?(node[1].message.to_s) && node[1].receiver.sexp_type == :call &&
           node.arguments.grep_nodes_count(sexp_type: :bare_assoc_hash) > 0
       end
     end

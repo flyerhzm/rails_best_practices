@@ -34,11 +34,12 @@ module RailsBestPractices
       #
       # then the call node can use query attribute instead.
       add_callback :start_if, :start_unless, :start_elsif, :start_ifop, :start_if_mod, :start_unless_mod do |node|
-        all_conditions = if node.conditional_statement == node.conditional_statement.all_conditions
-                           [node.conditional_statement]
-                         else
-                           node.conditional_statement.all_conditions
-        end
+        all_conditions =
+          if node.conditional_statement == node.conditional_statement.all_conditions
+            [node.conditional_statement]
+          else
+            node.conditional_statement.all_conditions
+          end
         all_conditions.each do |condition_node|
           next unless query_attribute_node = query_attribute_node(condition_node)
 
@@ -51,13 +52,13 @@ module RailsBestPractices
 
       private
 
-        # recursively check conditional statement nodes to see if there is a call node that may be
-        # possible query attribute.
+      # recursively check conditional statement nodes to see if there is a call node that may be
+      # possible query attribute.
       def query_attribute_node(conditional_statement_node)
         case conditional_statement_node.sexp_type
         when :and, :or
-          node = query_attribute_node(conditional_statement_node[1]) ||
-                 query_attribute_node(conditional_statement_node[2])
+          node =
+            query_attribute_node(conditional_statement_node[1]) || query_attribute_node(conditional_statement_node[2])
           node.file = conditional_statement_code.file
           return node
         when :not
@@ -71,17 +72,17 @@ module RailsBestPractices
         nil
       end
 
-        # check if the node may use query attribute instead.
-        #
-        # if the node contains two method calls, e.g. @user.login.nil?
-        #
-        # for the first call, the receiver should be one of the class names and
-        # the message should be one of the attribute name.
-        #
-        # for the second call, the message should be one of nil?, blank? or present? or
-        # it is compared with an empty string.
-        #
-        # the node that may use query attribute.
+      # check if the node may use query attribute instead.
+      #
+      # if the node contains two method calls, e.g. @user.login.nil?
+      #
+      # for the first call, the receiver should be one of the class names and
+      # the message should be one of the attribute name.
+      #
+      # for the second call, the message should be one of nil?, blank? or present? or
+      # it is compared with an empty string.
+      #
+      # the node that may use query attribute.
       def possible_query_attribute?(node)
         return false unless node.receiver.sexp_type == :call
 
@@ -92,7 +93,7 @@ module RailsBestPractices
           (QUERY_METHODS.include?(node.message.to_s) || compare_with_empty_string?(node))
       end
 
-        # check if the receiver is one of the models.
+      # check if the receiver is one of the models.
       def is_model?(variable_node)
         return false if variable_node.const?
 
@@ -100,18 +101,17 @@ module RailsBestPractices
         models.include?(class_name)
       end
 
-        # check if the receiver and message is one of the model's attribute.
-        # the receiver should match one of the class model name, and the message should match one of attribute name.
+      # check if the receiver and message is one of the model's attribute.
+      # the receiver should match one of the class model name, and the message should match one of attribute name.
       def model_attribute?(variable_node, message)
         class_name = variable_node.to_s.sub(/^@/, '').classify
         attribute_type = model_attributes.get_attribute_type(class_name, message)
         attribute_type && !%w[integer float].include?(attribute_type)
       end
 
-        # check if the node is with node type :binary, node message :== and node argument is empty string.
+      # check if the node is with node type :binary, node message :== and node argument is empty string.
       def compare_with_empty_string?(node)
-        node.sexp_type == :binary &&
-          ['==', '!='].include?(node.message.to_s) &&
+        node.sexp_type == :binary && ['==', '!='].include?(node.message.to_s) &&
           s(:string_literal, s(:string_content)) == node.argument
       end
     end

@@ -104,30 +104,31 @@ module RailsBestPractices
     #
     # @return [Array] all files for parsing
     def parse_files
-      @parse_files ||= begin
-        files = expand_dirs_to_files(@path)
-        files = file_sort(files)
+      @parse_files ||=
+        begin
+          files = expand_dirs_to_files(@path)
+          files = file_sort(files)
 
-        if @options['only'].present?
-          files = file_accept(files, @options['only'])
+          if @options['only'].present?
+            files = file_accept(files, @options['only'])
+          end
+
+          # By default, tmp, vender, spec, test, features are ignored.
+          %w[vendor spec test features tmp].each do |dir|
+            files = file_ignore(files, File.join(@path, dir)) unless @options[dir]
+          end
+
+          # Exclude files based on exclude regexes if the option is set.
+          @options['exclude'].each do |pattern|
+            files = file_ignore(files, pattern)
+          end
+
+          %w[Capfile Gemfile Gemfile.lock].each do |file|
+            files.unshift File.join(@path, file)
+          end
+
+          files.compact
         end
-
-        # By default, tmp, vender, spec, test, features are ignored.
-        %w[vendor spec test features tmp].each do |dir|
-          files = file_ignore(files, File.join(@path, dir)) unless @options[dir]
-        end
-
-        # Exclude files based on exclude regexes if the option is set.
-        @options['exclude'].each do |pattern|
-          files = file_ignore(files, pattern)
-        end
-
-        %w[Capfile Gemfile Gemfile.lock].each do |file|
-          files.unshift File.join(@path, file)
-        end
-
-        files.compact
-      end
     end
 
     # expand all files with extenstion rb, erb, haml, slim, builder and rxml under the dirs
@@ -158,7 +159,10 @@ module RailsBestPractices
       models = files.find_all { |file| file =~ Core::Check::MODEL_FILES }
       mailers = files.find_all { |file| file =~ Core::Check::MAILER_FILES }
       helpers = files.find_all { |file| file =~ Core::Check::HELPER_FILES }
-      others = files.find_all { |file| file !~ Core::Check::MAILER_FILES && file !~ Core::Check::MODEL_FILES && file !~ Core::Check::HELPER_FILES }
+      others =
+        files.find_all do |file|
+          file !~ Core::Check::MAILER_FILES && file !~ Core::Check::MODEL_FILES && file !~ Core::Check::HELPER_FILES
+        end
       models + mailers + helpers + others
     end
 
@@ -194,7 +198,8 @@ module RailsBestPractices
     def load_hg_info
       hg_progressbar = ProgressBar.create(title: 'Hg Info', total: errors.size) if display_bar?
       errors.each do |error|
-        hg_info = `cd #{@runner.class.base_path} && hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, '')} | sed -n /:#{error.line_number.split(',').first}:/p`
+        hg_info =
+          `cd #{@runner.class.base_path} && hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, '')} | sed -n /:#{error.line_number.split(',').first}:/p`
         unless hg_info == ''
           hg_commit_username = hg_info.split(':')[0].strip
           error.hg_username = hg_commit_username.split(/\ /)[0..-2].join(' ')
@@ -210,7 +215,8 @@ module RailsBestPractices
       git_progressbar = ProgressBar.create(title: 'Git Info', total: errors.size) if display_bar?
       start = @runner.class.base_path =~ /\/$/ ? @runner.class.base_path.size : @runner.class.base_path.size + 1
       errors.each do |error|
-        git_info = `cd #{@runner.class.base_path} && git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}`
+        git_info =
+          `cd #{@runner.class.base_path} && git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}`
         unless git_info == ''
           git_commit, git_username = git_info.split(/\d{4}-\d{2}-\d{2}/).first.split('(')
           error.git_commit = git_commit.split(' ').first.strip
@@ -224,7 +230,10 @@ module RailsBestPractices
     # output errors with html format.
     def output_html_errors
       require 'erubis'
-      template = @options['template'] ? File.read(File.expand_path(@options['template'])) : File.read(File.join(File.dirname(__FILE__), '..', '..', 'assets', 'result.html.erb'))
+      template =
+        @options['template'] ?
+          File.read(File.expand_path(@options['template'])) :
+          File.read(File.join(File.dirname(__FILE__), '..', '..', 'assets', 'result.html.erb'))
 
       if @options['with-github']
         last_commit_id = @options['last-commit-id'] || `cd #{@runner.class.base_path} && git rev-parse HEAD`.chomp
@@ -235,27 +244,28 @@ module RailsBestPractices
       File.open(@options['output-file'], 'w+') do |file|
         eruby = Erubis::Eruby.new(template)
         file.puts eruby.evaluate(
-          errors: errors,
-          error_types: error_types,
-          textmate: @options['with-textmate'],
-          vscode: @options['with-vscode'],
-          sublime: @options['with-sublime'],
-          mvim: @options['with-mvim'],
-          github: @options['with-github'],
-          github_name: @options['github-name'],
-          last_commit_id: last_commit_id,
-          git: @options['with-git'],
-          hg: @options['with-hg']
-        )
+                    errors: errors,
+                    error_types: error_types,
+                    textmate: @options['with-textmate'],
+                    vscode: @options['with-vscode'],
+                    sublime: @options['with-sublime'],
+                    mvim: @options['with-mvim'],
+                    github: @options['with-github'],
+                    github_name: @options['github-name'],
+                    last_commit_id: last_commit_id,
+                    git: @options['with-git'],
+                    hg: @options['with-hg']
+                  )
       end
     end
 
     def output_xml_errors
       require 'rexml/document'
 
-      document = REXML::Document.new.tap do |d|
-        d << REXML::XMLDecl.new
-      end
+      document =
+        REXML::Document.new.tap do |d|
+          d << REXML::XMLDecl.new
+        end
 
       checkstyle = REXML::Element.new('checkstyle', document)
 
@@ -289,13 +299,10 @@ module RailsBestPractices
 
     # output errors with json format.
     def output_json_errors
-      errors_as_hashes = errors.map do |err|
-        {
-          filename:    err.filename,
-          line_number: err.line_number,
-          message:     err.message
-        }
-      end
+      errors_as_hashes =
+        errors.map do |err|
+          { filename: err.filename, line_number: err.line_number, message: err.message }
+        end
 
       File.open(@options['output-file'], 'w+') do |file|
         file.write JSON.dump(errors_as_hashes)

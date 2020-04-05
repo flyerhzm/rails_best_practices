@@ -15,7 +15,9 @@ module RailsBestPractices
         EOF
         runner.review('app/views/posts/show.html.erb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)')
+        expect(runner.errors[0].to_s).to eq(
+          'app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)'
+        )
       end
 
       it 'moves code into model with haml' do
@@ -25,7 +27,9 @@ module RailsBestPractices
         EOF
         runner.review('app/views/posts/show.html.haml', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('app/views/posts/show.html.haml:1 - move code into model (@post use_count > 2)')
+        expect(runner.errors[0].to_s).to eq(
+          'app/views/posts/show.html.haml:1 - move code into model (@post use_count > 2)'
+        )
       end
 
       it 'moves code into model with slim' do
@@ -35,7 +39,9 @@ module RailsBestPractices
         EOF
         runner.review('app/views/posts/show.html.slim', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('app/views/posts/show.html.slim:1 - move code into model (@post use_count > 2)')
+        expect(runner.errors[0].to_s).to eq(
+          'app/views/posts/show.html.slim:1 - move code into model (@post use_count > 2)'
+        )
       end
 
       it 'moves code into model with if in one line' do
@@ -44,7 +50,9 @@ module RailsBestPractices
         EOF
         runner.review('app/views/posts/show.html.erb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)')
+        expect(runner.errors[0].to_s).to eq(
+          'app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)'
+        )
       end
 
       it "moves code into model with '? :'" do
@@ -53,7 +61,9 @@ module RailsBestPractices
         EOF
         runner.review('app/views/posts/show.html.erb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)')
+        expect(runner.errors[0].to_s).to eq(
+          'app/views/posts/show.html.erb:1 - move code into model (@post use_count > 2)'
+        )
       end
 
       it 'moves code into model only review for current if conditional statement' do

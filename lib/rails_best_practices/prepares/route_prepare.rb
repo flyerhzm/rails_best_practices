@@ -38,10 +38,9 @@ module RailsBestPractices
               else
                 action_names = [second_argument.hash_value('to').to_s]
               end
-            elsif first_argument.sexp_type == :symbol_literal && second_argument.try(:sexp_type) && \
+            elsif first_argument.sexp_type == :symbol_literal && second_argument.try(:sexp_type) &&
                   second_argument.sexp_type == :symbol_literal
-              action_names = node.arguments.all.select \
-                { |arg| arg.sexp_type == :symbol_literal }.map(&:to_s)
+              action_names = node.arguments.all.select { |arg| arg.sexp_type == :symbol_literal }.map(&:to_s)
             else
               action_names = [first_argument.to_s]
             end
@@ -84,7 +83,10 @@ module RailsBestPractices
               action_name = options.hash_value('action').present? ? options.hash_value('action').to_s : '*'
               @routes.add_route(current_namespaces, controller_name, action_name)
             else
-              route_node = options.hash_values.find { |value_node| value_node.sexp_type == :string_literal && value_node.to_s.include?('#') }
+              route_node =
+                options.hash_values.find do |value_node|
+                  value_node.sexp_type == :string_literal && value_node.to_s.include?('#')
+                end
               if route_node.present?
                 controller_name, action_name = route_node.to_s.split('#')
                 @routes.add_route(current_namespaces, controller_name.underscore, action_name)
@@ -101,7 +103,10 @@ module RailsBestPractices
           options = node.arguments.all.last
           case options.sexp_type
           when :bare_assoc_hash
-            route_node = options.hash_values.find { |value_node| value_node.sexp_type == :string_literal && value_node.to_s.include?('#') }
+            route_node =
+              options.hash_values.find do |value_node|
+                value_node.sexp_type == :string_literal && value_node.to_s.include?('#')
+              end
             if route_node.present?
               controller_name, action_name = route_node.to_s.split('#')
               @routes.add_route(current_namespaces, controller_name.underscore, action_name)

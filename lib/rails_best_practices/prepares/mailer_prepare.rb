@@ -3,6 +3,7 @@
 module RailsBestPractices
   module Prepares
     # Remember the mailer names.
+
     class MailerPrepare < Core::Check
       include Core::Check::Classable
 
