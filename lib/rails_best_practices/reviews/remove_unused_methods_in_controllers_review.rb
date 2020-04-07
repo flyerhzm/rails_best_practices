@@ -11,6 +11,7 @@ module RailsBestPractices
     #   if they are not defined in routes,
     #   and they are not called in controllers,
     #   then they are the unused methods in controllers.
+
     class RemoveUnusedMethodsInControllersReview < Review
       include Classable
       include Moduleable
@@ -99,7 +100,9 @@ module RailsBestPractices
         end
         @controller_methods.get_all_unused_methods.each do |method|
           unless excepted?(method)
-            add_error "remove unused methods (#{method.class_name}##{method.method_name})", method.file, method.line_number
+            add_error "remove unused methods (#{method.class_name}##{method.method_name})",
+                      method.file,
+                      method.line_number
           end
         end
       end

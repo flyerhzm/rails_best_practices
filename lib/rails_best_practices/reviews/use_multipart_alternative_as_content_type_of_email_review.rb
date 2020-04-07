@@ -11,6 +11,7 @@ module RailsBestPractices
     # Review process:
     #   check class node to remember the class name,
     #   and check the method definition nodes to see if the corresponding mailer views exist or not.
+
     class UseMultipartAlternativeAsContentTypeOfEmailReview < Review
       interesting_nodes :class, :def
       interesting_files MAILER_FILES
@@ -31,14 +32,14 @@ module RailsBestPractices
 
       private
 
-        # check if rails's syntax mailer views are canonical.
-        #
-        # @param [String] name method name in action_mailer
+      # check if rails's syntax mailer views are canonical.
+      #
+      # @param [String] name method name in action_mailer
       def rails_canonical_mailer_views?(name); end
 
-        # check if rails3's syntax mailer views are canonical.
-        #
-        # @param [String] name method name in action_mailer
+      # check if rails3's syntax mailer views are canonical.
+      #
+      # @param [String] name method name in action_mailer
       def rails3_canonical_mailer_views?(name)
         return true if mailer_files(name).empty?
         return true if mailer_files(name).none? { |filename| filename.index 'html' }
@@ -47,12 +48,12 @@ module RailsBestPractices
           mailer_files(name).any? { |filename| filename.index 'text' }
       end
 
-        # all mail view files for a method name.
+      # all mail view files for a method name.
       def mailer_files(name)
         Dir.entries(mailer_directory) { |filename| filename.index name.to_s }
       end
 
-        # the view directory of mailer.
+      # the view directory of mailer.
       def mailer_directory
         File.join(Core::Runner.base_path, "app/views/#{@klazz_name.to_s.underscore}")
       end

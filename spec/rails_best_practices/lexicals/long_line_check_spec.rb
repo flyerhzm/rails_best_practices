@@ -37,9 +37,10 @@ module RailsBestPractices
       end
       it 'does not check non .rb files' do
         runner = Core::Runner.new(lexicals: described_class.new)
-        content = "
+        content =
+          '
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-"
+'
         runner.lexical('app/views/users/index.html.erb', content)
         expect(runner.errors.size).to eq(0)
       end

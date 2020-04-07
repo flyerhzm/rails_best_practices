@@ -17,7 +17,17 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(7)
-          expect(routes.map(&:to_s)).to eq(['PostsController#index', 'PostsController#show', 'PostsController#new', 'PostsController#create', 'PostsController#edit', 'PostsController#update', 'PostsController#destroy'])
+          expect(routes.map(&:to_s)).to eq(
+            [
+              'PostsController#index',
+              'PostsController#show',
+              'PostsController#new',
+              'PostsController#create',
+              'PostsController#edit',
+              'PostsController#update',
+              'PostsController#destroy'
+            ]
+          )
         end
 
         it 'adds multiple resources route' do
@@ -40,7 +50,17 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(7)
-          expect(routes.map(&:to_s)).to eq(['BlogPostsController#index', 'BlogPostsController#show', 'BlogPostsController#new', 'BlogPostsController#create', 'BlogPostsController#edit', 'BlogPostsController#update', 'BlogPostsController#destroy'])
+          expect(routes.map(&:to_s)).to eq(
+            [
+              'BlogPostsController#index',
+              'BlogPostsController#show',
+              'BlogPostsController#new',
+              'BlogPostsController#create',
+              'BlogPostsController#edit',
+              'BlogPostsController#update',
+              'BlogPostsController#destroy'
+            ]
+          )
         end
 
         it 'adds resources route with only option' do
@@ -52,7 +72,9 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(4)
-          expect(routes.map(&:to_s)).to eq(['PostsController#index', 'PostsController#show', 'PostsController#new', 'PostsController#create'])
+          expect(routes.map(&:to_s)).to eq(
+            ['PostsController#index', 'PostsController#show', 'PostsController#new', 'PostsController#create']
+          )
         end
 
         it 'adds resources route with except option' do
@@ -64,7 +86,9 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(4)
-          expect(routes.map(&:to_s)).to eq(['PostsController#index', 'PostsController#show', 'PostsController#new', 'PostsController#create'])
+          expect(routes.map(&:to_s)).to eq(
+            ['PostsController#index', 'PostsController#show', 'PostsController#new', 'PostsController#create']
+          )
         end
 
         it 'does not add resources routes with only: :none' do
@@ -104,12 +128,14 @@ module RailsBestPractices
           EOF
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
-          expect(routes.map(&:to_s)).to eq([
-                                             'Admin::PostsController#edit',
-                                             'Admin::PostsController#update',
-                                             'Admin::PostsController#link_to_post',
-                                             'Admin::PostsController#extra_update'
-                                           ])
+          expect(routes.map(&:to_s)).to eq(
+            [
+              'Admin::PostsController#edit',
+              'Admin::PostsController#update',
+              'Admin::PostsController#link_to_post',
+              'Admin::PostsController#extra_update'
+            ]
+          )
         end
 
         it 'adds resources routes with members inline' do
@@ -124,13 +150,15 @@ module RailsBestPractices
           EOF
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
-          expect(routes.map(&:to_s)).to eq([
-                                             'Admin::PostsController#edit',
-                                             'Admin::PostsController#update',
-                                             'Admin::PostsController#link_to_post',
-                                             'Admin::PostsController#extra_update',
-                                             'Admin::PostsController#retrieve'
-                                           ])
+          expect(routes.map(&:to_s)).to eq(
+            [
+              'Admin::PostsController#edit',
+              'Admin::PostsController#update',
+              'Admin::PostsController#link_to_post',
+              'Admin::PostsController#extra_update',
+              'Admin::PostsController#retrieve'
+            ]
+          )
         end
 
         it 'adds connect route' do
@@ -166,7 +194,16 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(6)
-          expect(routes.map(&:to_s)).to eq(['PostsController#show', 'PostsController#new', 'PostsController#create', 'PostsController#edit', 'PostsController#update', 'PostsController#destroy'])
+          expect(routes.map(&:to_s)).to eq(
+            [
+              'PostsController#show',
+              'PostsController#new',
+              'PostsController#create',
+              'PostsController#edit',
+              'PostsController#update',
+              'PostsController#destroy'
+            ]
+          )
         end
 
         it 'adds multiple resource route' do
@@ -246,7 +283,17 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(7)
-          expect(routes.map(&:to_s)).to eq(['PostsController#show', 'PostsController#list', 'PostsController#search', 'PostsController#available', 'PostsController#create', 'PostsController#update', 'PostsController#update'])
+          expect(routes.map(&:to_s)).to eq(
+            [
+              'PostsController#show',
+              'PostsController#list',
+              'PostsController#search',
+              'PostsController#available',
+              'PostsController#create',
+              'PostsController#update',
+              'PostsController#update'
+            ]
+          )
         end
 
         it 'adds custom resources routes with {}' do
@@ -276,7 +323,9 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(3)
-          expect(routes.map(&:to_s)).to eq(['PostsController#show', 'PostsController#latest', 'PostsController#popular'])
+          expect(routes.map(&:to_s)).to eq(
+            ['PostsController#show', 'PostsController#latest', 'PostsController#popular']
+          )
         end
 
         it 'adds route with nested routes' do
@@ -318,7 +367,9 @@ module RailsBestPractices
           EOF
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
-          expect(routes.map(&:to_s)).to eq(['SomethingController#route_one', 'SomethingController#route_two', 'SomethingController#custom_action'])
+          expect(routes.map(&:to_s)).to eq(
+            ['SomethingController#route_one', 'SomethingController#route_two', 'SomethingController#custom_action']
+          )
         end
 
         it 'adds route with scope' do
@@ -341,13 +392,15 @@ module RailsBestPractices
           EOF
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
-          expect(routes.map(&:to_s)).to eq([
-                                             'Admin::PostsController#index',
-                                             'Admin::DiscussionsController#index',
-                                             'CommentsController#index',
-                                             'UsersController#show',
-                                             'UsersController#preview'
-                                           ])
+          expect(routes.map(&:to_s)).to eq(
+            [
+              'Admin::PostsController#index',
+              'Admin::DiscussionsController#index',
+              'CommentsController#index',
+              'UsersController#show',
+              'UsersController#preview'
+            ]
+          )
         end
       end
 
@@ -364,7 +417,15 @@ module RailsBestPractices
         runner.prepare('config/routes.rb', content)
         routes = Prepares.routes
         expect(routes.size).to eq(5)
-        expect(routes.map(&:to_s)).to eq(['PostsController#show', 'PostsController#create', 'PostsController#update', 'PostsController#destroy', 'HighVoltage::PagesController#show'])
+        expect(routes.map(&:to_s)).to eq(
+          [
+            'PostsController#show',
+            'PostsController#create',
+            'PostsController#update',
+            'PostsController#destroy',
+            'HighVoltage::PagesController#show'
+          ]
+        )
       end
 
       it 'adds routes for another get/post' do

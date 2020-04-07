@@ -5,12 +5,11 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe RemoveUnusedMethodsInModelsReview do
-      let(:runner) {
+      let(:runner) do
         Core::Runner.new(
-          prepares: Prepares::ModelPrepare.new,
-          reviews: described_class.new('except_methods' => ['*#set_cache'])
+          prepares: Prepares::ModelPrepare.new, reviews: described_class.new('except_methods' => ['*#set_cache'])
         )
-      }
+      end
 
       context 'private' do
         it 'removes unused methods' do
@@ -709,8 +708,11 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(prepares: Prepares::ModelPrepare.new,
-                                  reviews: described_class.new(except_methods: [], ignored_files: /post/))
+        runner =
+          Core::Runner.new(
+            prepares: Prepares::ModelPrepare.new,
+            reviews: described_class.new(except_methods: [], ignored_files: /post/)
+          )
 
         content = <<-EOF
           class Post < ActiveRecord::Base

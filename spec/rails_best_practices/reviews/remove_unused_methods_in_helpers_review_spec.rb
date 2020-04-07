@@ -5,12 +5,12 @@ require 'spec_helper'
 module RailsBestPractices
   module Reviews
     describe RemoveUnusedMethodsInHelpersReview do
-      let(:runner) {
+      let(:runner) do
         Core::Runner.new(
           prepares: [Prepares::ControllerPrepare.new, Prepares::HelperPrepare.new],
           reviews: described_class.new(except_methods: [])
         )
-      }
+      end
 
       it 'removes unused methods' do
         content = <<-EOF
@@ -22,7 +22,9 @@ module RailsBestPractices
         runner.review('app/helpers/posts_helper.rb', content)
         runner.after_review
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('app/helpers/posts_helper.rb:2 - remove unused methods (PostsHelper#unused)')
+        expect(runner.errors[0].to_s).to eq(
+          'app/helpers/posts_helper.rb:2 - remove unused methods (PostsHelper#unused)'
+        )
       end
 
       it 'does not remove unused methods if called on views' do
@@ -119,8 +121,11 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(prepares: [Prepares::ControllerPrepare.new, Prepares::HelperPrepare.new],
-                                  reviews: described_class.new(ignored_files: /posts_helper/, except_methods: []))
+        runner =
+          Core::Runner.new(
+            prepares: [Prepares::ControllerPrepare.new, Prepares::HelperPrepare.new],
+            reviews: described_class.new(ignored_files: /posts_helper/, except_methods: [])
+          )
 
         content = <<-EOF
         module PostsHelper

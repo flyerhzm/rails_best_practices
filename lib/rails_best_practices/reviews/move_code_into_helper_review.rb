@@ -38,14 +38,13 @@ module RailsBestPractices
 
       private
 
-        # check if the arguments of options_for_select are complex.
-        #
-        # if the first argument is an array,
-        # and the size of array is greater than @array_count you defined,
-        # then it is complext.
+      # check if the arguments of options_for_select are complex.
+      #
+      # if the first argument is an array,
+      # and the size of array is greater than @array_count you defined,
+      # then it is complext.
       def complex_select_options?(node)
-        node[1].message.to_s == 'options_for_select' &&
-          node.arguments.all.first.sexp_type == :array &&
+        node[1].message.to_s == 'options_for_select' && node.arguments.all.first.sexp_type == :array &&
           node.arguments.all.first.array_size > @array_count
       end
     end

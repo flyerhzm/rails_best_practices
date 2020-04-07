@@ -35,11 +35,11 @@ module RailsBestPractices
 
       private
 
-        # check if the call node can use delegate to avoid violating law of demeter.
-        #
-        # if the receiver of receiver of the call node matchs any in model names,
-        # and the message of receiver of the call node matchs any in association names,
-        # then it needs delegate.
+      # check if the call node can use delegate to avoid violating law of demeter.
+      #
+      # if the receiver of receiver of the call node matchs any in model names,
+      # and the message of receiver of the call node matchs any in association names,
+      # then it needs delegate.
       def need_delegate?(node)
         return unless variable(node)
 
@@ -55,7 +55,7 @@ module RailsBestPractices
         if association_name =~ /able$/
           models.each do |class_name|
             if model_associations.is_association?(class_name, association_name.sub(/able$/, '')) ||
-               model_associations.is_association?(class_name, association_name.sub(/able$/, 's'))
+                 model_associations.is_association?(class_name, association_name.sub(/able$/, 's'))
               return true if model_attributes.is_attribute?(class_name, attribute_name)
             end
           end

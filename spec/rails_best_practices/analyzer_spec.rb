@@ -22,15 +22,46 @@ module RailsBestPractices
 
     describe 'file_sort' do
       it 'gets models first, mailers, helpers and then others' do
-        files = ['app/controllers/users_controller.rb', 'app/mailers/user_mailer.rb', 'app/helpers/users_helper.rb', 'app/models/user.rb', 'app/views/users/index.html.haml', 'app/views/users/show.html.slim', 'lib/user.rb']
-        expect(subject.file_sort(files)).to eq(['app/models/user.rb', 'app/mailers/user_mailer.rb', 'app/helpers/users_helper.rb', 'app/controllers/users_controller.rb', 'app/views/users/index.html.haml', 'app/views/users/show.html.slim', 'lib/user.rb'])
+        files = [
+          'app/controllers/users_controller.rb',
+          'app/mailers/user_mailer.rb',
+          'app/helpers/users_helper.rb',
+          'app/models/user.rb',
+          'app/views/users/index.html.haml',
+          'app/views/users/show.html.slim',
+          'lib/user.rb'
+        ]
+        expect(subject.file_sort(files)).to eq(
+          [
+            'app/models/user.rb',
+            'app/mailers/user_mailer.rb',
+            'app/helpers/users_helper.rb',
+            'app/controllers/users_controller.rb',
+            'app/views/users/index.html.haml',
+            'app/views/users/show.html.slim',
+            'lib/user.rb'
+          ]
+        )
       end
     end
 
     describe 'file_ignore' do
       before do
-        @all = ['app/controllers/users_controller.rb', 'app/mailers/user_mailer.rb', 'app/models/user.rb', 'app/views/users/index.html.haml', 'app/views/users/show.html.slim', 'lib/user.rb']
-        @filtered = ['app/controllers/users_controller.rb', 'app/mailers/user_mailer.rb', 'app/models/user.rb', 'app/views/users/index.html.haml', 'app/views/users/show.html.slim']
+        @all = [
+          'app/controllers/users_controller.rb',
+          'app/mailers/user_mailer.rb',
+          'app/models/user.rb',
+          'app/views/users/index.html.haml',
+          'app/views/users/show.html.slim',
+          'lib/user.rb'
+        ]
+        @filtered = [
+          'app/controllers/users_controller.rb',
+          'app/mailers/user_mailer.rb',
+          'app/models/user.rb',
+          'app/views/users/index.html.haml',
+          'app/views/users/show.html.slim'
+        ]
       end
 
       it 'ignores lib' do
@@ -102,12 +133,14 @@ module RailsBestPractices
         subject.output_terminal_errors
         result = $stdout.string
         $stdout = $origin_stdout
-        expect(result).to eq([
-          "\e[31mapp/models/user.rb:10 - law of demeter\e[0m",
-          "\e[31mapp/models/post.rb:100 - use query attribute\e[0m",
-          "\e[32m\nPlease go to https://rails-bestpractices.com to see more useful Rails Best Practices.\e[0m",
-          "\e[31m\nFound 2 warnings.\e[0m"
-        ].join("\n") + "\n")
+        expect(result).to eq(
+          [
+            "\e[31mapp/models/user.rb:10 - law of demeter\e[0m",
+            "\e[31mapp/models/post.rb:100 - use query attribute\e[0m",
+            "\e[32m\nPlease go to https://rails-bestpractices.com to see more useful Rails Best Practices.\e[0m",
+            "\e[31m\nFound 2 warnings.\e[0m"
+          ].join("\n") + "\n"
+        )
       end
     end
 
@@ -115,9 +148,7 @@ module RailsBestPractices
       let(:output_file) { 'rails_best_practices_output.json' }
 
       subject do
-        described_class.new('.',
-                            'format' => 'json',
-                            'output-file' => output_file)
+        described_class.new('.', 'format' => 'json', 'output-file' => output_file)
       end
 
       let(:check1) { Reviews::LawOfDemeterReview.new }
@@ -137,59 +168,61 @@ module RailsBestPractices
       end
 
       it 'saves output as json into output file' do
-        expect(result).to eq '[{"filename":"app/models/user.rb","line_number":"10","message":"law of demeter"},{"filename":"app/models/post.rb","line_number":"100","message":"use query attribute"}]'
+        expect(
+          result
+        ).to eq '[{"filename":"app/models/user.rb","line_number":"10","message":"law of demeter"},{"filename":"app/models/post.rb","line_number":"100","message":"use query attribute"}]'
       end
     end
 
     describe 'parse_files' do
       it 'does not filter out all files when the path contains "vendor"' do
-        Dir.mktmpdir { |random_dir|
+        Dir.mktmpdir do |random_dir|
           Dir.mkdir(File.join(random_dir, 'vendor'))
           Dir.mkdir(File.join(random_dir, 'vendor', 'my_project'))
           File.open(File.join(random_dir, 'vendor', 'my_project', 'my_file.rb'), 'w') { |file| file << 'woot' }
           analyzer = described_class.new(File.join(random_dir, 'vendor', 'my_project'))
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'vendor', 'my_project', 'my_file.rb')
-        }
+        end
       end
 
       it 'does not filter out all files when the path contains "spec"' do
-        Dir.mktmpdir { |random_dir|
+        Dir.mktmpdir do |random_dir|
           Dir.mkdir(File.join(random_dir, 'spec'))
           Dir.mkdir(File.join(random_dir, 'spec', 'my_project'))
           File.open(File.join(random_dir, 'spec', 'my_project', 'my_file.rb'), 'w') { |file| file << 'woot' }
           analyzer = described_class.new(File.join(random_dir, 'spec', 'my_project'))
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'spec', 'my_project', 'my_file.rb')
-        }
+        end
       end
 
       it 'does not filter out all files when the path contains "test"' do
-        Dir.mktmpdir { |random_dir|
+        Dir.mktmpdir do |random_dir|
           Dir.mkdir(File.join(random_dir, 'test'))
           Dir.mkdir(File.join(random_dir, 'test', 'my_project'))
           File.open(File.join(random_dir, 'test', 'my_project', 'my_file.rb'), 'w') { |file| file << 'woot' }
           analyzer = described_class.new(File.join(random_dir, 'test', 'my_project'))
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'test', 'my_project', 'my_file.rb')
-        }
+        end
       end
 
       it 'does not filter out all files when the path contains "features"' do
-        Dir.mktmpdir { |random_dir|
+        Dir.mktmpdir do |random_dir|
           Dir.mkdir(File.join(random_dir, 'test'))
           Dir.mkdir(File.join(random_dir, 'test', 'my_project'))
           File.open(File.join(random_dir, 'test', 'my_project', 'my_file.rb'), 'w') { |file| file << 'woot' }
           analyzer = described_class.new(File.join(random_dir, 'test', 'my_project'))
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'test', 'my_project', 'my_file.rb')
-        }
+        end
       end
 
       it 'does not filter out all files when the path contains "tmp"' do
-        Dir.mktmpdir { |random_dir|
+        Dir.mktmpdir do |random_dir|
           Dir.mkdir(File.join(random_dir, 'tmp'))
           Dir.mkdir(File.join(random_dir, 'tmp', 'my_project'))
           File.open(File.join(random_dir, 'tmp', 'my_project', 'my_file.rb'), 'w') { |file| file << 'woot' }
           analyzer = described_class.new(File.join(random_dir, 'tmp', 'my_project'))
           expect(analyzer.parse_files).to be_include File.join(random_dir, 'tmp', 'my_project', 'my_file.rb')
-        }
+        end
       end
     end
   end

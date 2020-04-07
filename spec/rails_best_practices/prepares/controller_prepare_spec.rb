@@ -75,7 +75,9 @@ module RailsBestPractices
             EOF
             runner.prepare('app/controllers/posts_controller.rb', content)
             methods = Prepares.controller_methods
-            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index show new create edit update destroy])
+            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(
+              %w[index show new create edit update destroy]
+            )
           end
 
           it 'extend inherited_resources with actions' do
@@ -97,7 +99,9 @@ module RailsBestPractices
             EOF
             runner.prepare('app/controllers/posts_controller.rb', content)
             methods = Prepares.controller_methods
-            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index new create edit update destroy])
+            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(
+              %w[index new create edit update destroy]
+            )
           end
 
           it 'extend inherited_resources with all actions with no arguments' do
@@ -108,7 +112,9 @@ module RailsBestPractices
             EOF
             runner.prepare('app/controllers/posts_controller.rb', content)
             methods = Prepares.controller_methods
-            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index show new create edit update destroy])
+            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(
+              %w[index show new create edit update destroy]
+            )
           end
 
           it 'DSL inherit_resources' do
@@ -119,7 +125,9 @@ module RailsBestPractices
             EOF
             runner.prepare('app/controllers/posts_controller.rb', content)
             methods = Prepares.controller_methods
-            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(%w[index show new create edit update destroy])
+            expect(methods.get_methods('PostsController').map(&:method_name)).to eq(
+              %w[index show new create edit update destroy]
+            )
           end
         end
       end

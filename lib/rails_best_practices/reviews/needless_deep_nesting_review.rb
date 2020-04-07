@@ -51,17 +51,18 @@ module RailsBestPractices
 
       private
 
-        # check nested route.
-        #
-        # if the receiver of the method_add_block is with message "resources" or "resource",
-        # then increment the @counter, recursively check the block body, and decrement the @counter.
-        #
-        # if the node type is command_call or command,
-        # and its message is resources or resource,
-        # then check if @counter is greater than or equal to @nested_count,
-        # if so, it is the needless deep nesting.
+      # check nested route.
+      #
+      # if the receiver of the method_add_block is with message "resources" or "resource",
+      # then increment the @counter, recursively check the block body, and decrement the @counter.
+      #
+      # if the node type is command_call or command,
+      # and its message is resources or resource,
+      # then check if @counter is greater than or equal to @nested_count,
+      # if so, it is the needless deep nesting.
       def recursively_check(node)
         shallow = @shallow_nodes.include? node
+
         if %i[command_call command].include?(node[1].sexp_type) && %w[resources resource].include?(node[1].message.to_s)
           hash_node = node[1].arguments.grep_node(sexp_type: :bare_assoc_hash)
           shallow ||= (hash_node && hash_node.hash_value('shallow').to_s == 'true')
@@ -72,7 +73,8 @@ module RailsBestPractices
           end
           @counter -= 1
         elsif %i[command_call command].include?(node.sexp_type) && %w[resources resource].include?(node.message.to_s)
-          add_error "needless deep nesting (nested_count > #{@nested_count})", @file, node.line_number if @counter >= @nested_count && !@shallow_nodes.include?(node)
+          add_error "needless deep nesting (nested_count > #{@nested_count})", @file, node.line_number if @counter >=
+            @nested_count && !@shallow_nodes.include?(node)
         end
       end
     end

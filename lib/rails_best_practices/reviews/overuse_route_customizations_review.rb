@@ -41,11 +41,11 @@ module RailsBestPractices
 
       private
 
-        # check method_add_block node to calculate the count of member and collection custom routes.
-        #
-        # if its receiver is with message "resources",
-        # then calculate the count of call nodes, whose message is get, post, update or delete,
-        # it is just the count of member and collection custom routes.
+      # check method_add_block node to calculate the count of member and collection custom routes.
+      #
+      # if its receiver is with message "resources",
+      # then calculate the count of call nodes, whose message is get, post, update or delete,
+      # it is just the count of member and collection custom routes.
       def member_and_collection_count_for_rails3(node)
         node[1].message.to_s == 'resources' ? node.grep_nodes_count(sexp_type: :command, message: VERBS) : 0
       end

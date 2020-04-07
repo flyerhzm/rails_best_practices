@@ -3,6 +3,7 @@
 module RailsBestPractices
   module Prepares
     # Remember controllers and controller methods
+
     class ControllerPrepare < Core::Check
       include Core::Check::Classable
       include Core::Check::InheritedResourcesable
@@ -32,7 +33,11 @@ module RailsBestPractices
       add_callback :end_class do |node|
         if @inherited_resources && @current_controller_name != 'ApplicationController'
           @actions.each do |action|
-            @methods.add_method(@current_controller_name, action, 'file' => node.file, 'line_number' => node.line_number)
+            @methods.add_method(
+              @current_controller_name,
+              action,
+              'file' => node.file, 'line_number' => node.line_number
+            )
           end
         end
       end
@@ -78,14 +83,21 @@ module RailsBestPractices
       #     }
       add_callback :start_def do |node|
         method_name = node.method_name.to_s
-        @methods.add_method(current_class_name, method_name, { 'file' => node.file, 'line_number' => node.line_number }, current_access_control)
+        @methods.add_method(
+          current_class_name,
+          method_name,
+          { 'file' => node.file, 'line_number' => node.line_number },
+          current_access_control
+        )
       end
 
       # ask Reviews::RemoveUnusedMoethodsInHelperReview to check the controllers who include helpers.
       add_callback :after_check do
         descendants = @helpers.map(&:descendants).flatten
         if descendants.present?
-          Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *descendants.map { |descendant| /#{descendant.underscore}/ }
+          Reviews::RemoveUnusedMethodsInHelpersReview.interesting_files *descendants.map { |descendant|
+                                                                          /#{descendant.underscore}/
+                                                                        }
         end
       end
     end

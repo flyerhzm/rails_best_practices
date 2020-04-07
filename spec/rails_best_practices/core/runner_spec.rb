@@ -8,7 +8,9 @@ module RailsBestPractices::Core
       shared_examples_for 'load_plugin_reviews' do
         it 'loads plugins in lib/rails_best_practices/plugins/reviews' do
           runner = described_class.new
-          expect(runner.instance_variable_get('@reviews').map(&:class)).to include(RailsBestPractices::Plugins::Reviews::NotUseRailsRootReview)
+          expect(runner.instance_variable_get('@reviews').map(&:class)).to include(
+            RailsBestPractices::Plugins::Reviews::NotUseRailsRootReview
+          )
         end
       end
 

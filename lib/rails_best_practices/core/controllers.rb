@@ -5,7 +5,6 @@ require_rel 'klasses'
 module RailsBestPractices
   module Core
     # Controller classes.
-    class Controllers < Klasses
-    end
+    class Controllers < Klasses; end
   end
 end

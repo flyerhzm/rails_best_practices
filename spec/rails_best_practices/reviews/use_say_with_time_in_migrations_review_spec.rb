@@ -18,7 +18,9 @@ module RailsBestPractices
         EOF
         runner.review('db/migrate/20101010080658_update_users.rb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('db/migrate/20101010080658_update_users.rb:2 - use say with time in migrations')
+        expect(runner.errors[0].to_s).to eq(
+          'db/migrate/20101010080658_update_users.rb:2 - use say with time in migrations'
+        )
       end
 
       it 'uses say with time in migrations with create_table' do
@@ -37,7 +39,9 @@ module RailsBestPractices
         EOF
         runner.review('db/migrate/20101010080658_update_users.rb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('db/migrate/20101010080658_update_users.rb:7 - use say with time in migrations')
+        expect(runner.errors[0].to_s).to eq(
+          'db/migrate/20101010080658_update_users.rb:7 - use say with time in migrations'
+        )
       end
 
       it 'does not use say with time in migrations' do

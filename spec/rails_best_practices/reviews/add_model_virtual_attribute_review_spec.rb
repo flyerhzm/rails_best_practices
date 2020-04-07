@@ -20,7 +20,9 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/users_controller.rb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('app/controllers/users_controller.rb:2 - add model virtual attribute (for @user)')
+        expect(runner.errors[0].to_s).to eq(
+          'app/controllers/users_controller.rb:2 - add model virtual attribute (for @user)'
+        )
       end
 
       it 'adds model virtual attribute with local assignment' do
@@ -36,7 +38,9 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/users_controller.rb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('app/controllers/users_controller.rb:2 - add model virtual attribute (for user)')
+        expect(runner.errors[0].to_s).to eq(
+          'app/controllers/users_controller.rb:2 - add model virtual attribute (for user)'
+        )
       end
 
       it 'does not add model virtual attribute with differen param' do
@@ -83,7 +87,9 @@ module RailsBestPractices
         EOF
         runner.review('app/controllers/users_controller.rb', content)
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('app/controllers/users_controller.rb:2 - add model virtual attribute (for @user)')
+        expect(runner.errors[0].to_s).to eq(
+          'app/controllers/users_controller.rb:2 - add model virtual attribute (for @user)'
+        )
       end
 
       it 'noes add model virtual attribute with two dimension params' do

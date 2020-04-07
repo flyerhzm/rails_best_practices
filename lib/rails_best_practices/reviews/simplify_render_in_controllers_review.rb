@@ -23,8 +23,7 @@ module RailsBestPractices
       add_callback :start_command do |node|
         if node.message.to_s == 'render'
           keys = node.arguments.all.first.hash_keys
-          if keys && keys.size == 1 &&
-             (keys.include?('action') || keys.include?('template') || keys.include?('file'))
+          if keys && keys.size == 1 && (keys.include?('action') || keys.include?('template') || keys.include?('file'))
             add_error 'simplify render in controllers'
           end
         end

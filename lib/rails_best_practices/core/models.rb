@@ -3,7 +3,6 @@
 module RailsBestPractices
   module Core
     # Model classes.
-    class Models < Klasses
-    end
+    class Models < Klasses; end
   end
 end

@@ -46,7 +46,9 @@ module RailsBestPractices
       # @return [Boolean] has a method or not
       def has_method?(class_name, method_name, access_control = nil)
         if access_control
-          !!methods(class_name).find { |method| method.method_name == method_name && method.access_control == access_control }
+          !!methods(class_name).find do |method|
+            method.method_name == method_name && method.access_control == access_control
+          end
         else
           !!methods(class_name).find { |method| method.method_name == method_name }
         end
@@ -113,7 +115,9 @@ module RailsBestPractices
       # @return [Method] Method object
       def get_method(class_name, method_name, access_control = nil)
         if access_control
-          methods(class_name).find { |method| method.method_name == method_name && method.access_control == access_control }
+          methods(class_name).find do |method|
+            method.method_name == method_name && method.access_control == access_control
+          end
         else
           methods(class_name).find { |method| method.method_name == method_name }
         end
@@ -125,20 +129,21 @@ module RailsBestPractices
       # @return [Array] array of Method
       def get_all_unused_methods(access_control = nil)
         @methods.inject([]) do |unused_methods, (_class_name, methods)|
-          unused_methods += if access_control
-                              methods.select { |method| method.access_control == access_control && !method.used }
-                            else
-                              methods.reject(&:used)
-          end
+          unused_methods +=
+            if access_control
+              methods.select { |method| method.access_control == access_control && !method.used }
+            else
+              methods.reject(&:used)
+            end
         end.reject { |method| method.access_control == 'public' && @possible_methods[method.method_name] }
       end
 
       private
 
-        # Methods of a class.
-        #
-        # @param [String] class name
-        # @return [Array] array of methods
+      # Methods of a class.
+      #
+      # @param [String] class name
+      # @return [Array] array of methods
       def methods(class_name)
         @methods[class_name] ||= []
       end

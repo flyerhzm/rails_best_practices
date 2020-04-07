@@ -29,15 +29,14 @@ module RailsBestPractices
 
       private
 
-        # check if the method_add_arg node is a finder.
-        #
-        # if the receiver of method_add_arg node is a constant,
-        # and the message of call method_add_arg is one of find, all, first or last,
-        # and any of its arguments is a hash,
-        # then it is a finder.
+      # check if the method_add_arg node is a finder.
+      #
+      # if the receiver of method_add_arg node is a constant,
+      # and the message of call method_add_arg is one of find, all, first or last,
+      # and any of its arguments is a hash,
+      # then it is a finder.
       def finder?(node)
-        FINDERS.include?(node[1].message.to_s) &&
-          node[1].sexp_type == :call &&
+        FINDERS.include?(node[1].message.to_s) && node[1].sexp_type == :call &&
           node.arguments.grep_nodes_count(sexp_type: :bare_assoc_hash) > 0
       end
     end

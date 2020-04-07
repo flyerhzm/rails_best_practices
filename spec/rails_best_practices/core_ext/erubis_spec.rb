@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe Erubis::OnlyRuby do
-  subject {
+  subject do
     content = <<-EOF
     <h1>Title</h1>
     <% if current_user %>
@@ -14,7 +14,7 @@ describe Erubis::OnlyRuby do
     <% end %>
     EOF
     described_class.new(content).src
-  }
+  end
 
   it { should_not include('h1') }
   it { should_not include('Title') }

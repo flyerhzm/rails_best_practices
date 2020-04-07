@@ -41,7 +41,9 @@ module RailsBestPractices
         runner.review('db/schema.rb', content)
         runner.after_review
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])')
+        expect(runner.errors[0].to_s).to eq(
+          'db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])'
+        )
       end
 
       it 'alwayses add db index with polymorphic foreign key and _type is defined before _id' do
@@ -57,7 +59,9 @@ module RailsBestPractices
         runner.review('db/schema.rb', content)
         runner.after_review
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])')
+        expect(runner.errors[0].to_s).to eq(
+          'db/schema.rb:2 - always add db index (versions => [versioned_id, versioned_type])'
+        )
       end
 
       it 'alwayses add db index with single index, but without polymorphic foreign key' do
@@ -77,7 +81,9 @@ module RailsBestPractices
         runner.review('db/schema.rb', content)
         runner.after_review
         expect(runner.errors.size).to eq(1)
-        expect(runner.errors[0].to_s).to eq('db/schema.rb:2 - always add db index (taggings => [taggable_id, taggable_type])')
+        expect(runner.errors[0].to_s).to eq(
+          'db/schema.rb:2 - always add db index (taggings => [taggable_id, taggable_type])'
+        )
       end
 
       it 'alwayses add db index with polymorphic foreign key, but without single index' do

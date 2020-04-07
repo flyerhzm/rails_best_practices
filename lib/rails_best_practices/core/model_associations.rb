@@ -15,7 +15,9 @@ module RailsBestPractices
       # @param [String] association class name
       def add_association(model_name, association_name, association_meta, association_class = nil)
         @associations[model_name] ||= {}
-        @associations[model_name][association_name] = { 'meta' => association_meta, 'class_name' => association_class || association_name.classify }
+        @associations[model_name][association_name] = {
+          'meta' => association_meta, 'class_name' => association_class || association_name.classify
+        }
       end
 
       # Get a model association.
@@ -49,8 +51,11 @@ module RailsBestPractices
       # @param [String] association_name
       # @return [String] association's class name
       def get_association_class_name(table_name, association_name)
-        (associations = @associations.select { |model, _model_associations| model.gsub('::', '').tableize == table_name }.values.first) &&
-          (association_meta = associations.select { |name, _meta| name == association_name }.values.first) &&
+        (
+          associations =
+            @associations.select { |model, _model_associations| model.gsub('::', '').tableize == table_name }.values
+              .first
+        ) && (association_meta = associations.select { |name, _meta| name == association_name }.values.first) &&
           association_meta['class_name']
       end
     end

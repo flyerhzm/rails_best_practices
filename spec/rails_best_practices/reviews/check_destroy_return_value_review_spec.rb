@@ -19,7 +19,9 @@ module RailsBestPractices
           EOF
           runner.review('app/helpers/posts_helper.rb', content)
           expect(runner.errors.size).to eq(1)
-          expect(runner.errors[0].to_s).to eq("app/helpers/posts_helper.rb:5 - check 'destroy' return value or use 'destroy!'")
+          expect(runner.errors[0].to_s).to eq(
+            "app/helpers/posts_helper.rb:5 - check 'destroy' return value or use 'destroy!'"
+          )
         end
 
         it 'allows destroy return value if assigned to a var' do

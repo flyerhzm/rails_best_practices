@@ -3,6 +3,7 @@
 module RailsBestPractices
   module Core
     # A Check class that takes charge of checking the sexp.
+
     class Check < CodeAnalyzer::Checker
       ALL_FILES = /.*/.freeze
       CONTROLLER_FILES = /app\/(controllers|cells)\/.*\.rb$/.freeze
@@ -60,13 +61,10 @@ module RailsBestPractices
       # @param [String] filename, is the filename of source code
       # @param [Integer] line_number, is the line number of the source code which is reviewing
       def add_error(message, filename = @node.file, line_number = @node.line_number)
-        errors << RailsBestPractices::Core::Error.new(
-          filename: filename,
-          line_number: line_number,
-          message: message,
-          type: self.class.to_s,
-          url: url
-        )
+        errors <<
+          RailsBestPractices::Core::Error.new(
+            filename: filename, line_number: line_number, message: message, type: self.class.to_s, url: url
+          )
       end
 
       # errors that violate the rails best practices.
@@ -99,9 +97,9 @@ module RailsBestPractices
         end
       end
 
-      class <<self
+      class << self
         def url(url = nil)
-          url ?  @url = url : @url
+          url ? @url = url : @url
         end
 
         def debug?
@@ -114,6 +112,7 @@ module RailsBestPractices
       end
 
       # Helper to parse the class name.
+
       module Classable
         def self.included(base)
           base.class_eval do
@@ -165,6 +164,7 @@ module RailsBestPractices
       end
 
       # Helper to parse the module name.
+
       module Moduleable
         def self.included(base)
           base.class_eval do
@@ -197,7 +197,15 @@ module RailsBestPractices
       module Callable
         def self.included(base)
           base.class_eval do
-            interesting_nodes :call, :fcall, :var_ref, :vcall, :command_call, :command, :alias, :bare_assoc_hash, :method_add_arg
+            interesting_nodes :call,
+                              :fcall,
+                              :var_ref,
+                              :vcall,
+                              :command_call,
+                              :command,
+                              :alias,
+                              :bare_assoc_hash,
+                              :method_add_arg
 
             # remembe the message of call node.
             add_callback :start_call do |node|
@@ -371,10 +379,8 @@ module RailsBestPractices
             class_name = '.*' if class_name == '*'
             class_expression = Regexp.new class_name
 
-            class_names = Prepares.klasses
-                                  .select { |klass| klass.class_name == method.class_name }
-                                  .map(&:extend_class_name)
-                                  .compact
+            class_names =
+              Prepares.klasses.select { |klass| klass.class_name == method.class_name }.map(&:extend_class_name).compact
 
             class_names.unshift method.class_name
             matched = class_names.any? { |name| name =~ class_expression }
@@ -385,6 +391,7 @@ module RailsBestPractices
       end
 
       # Helper to parse the access control.
+
       module Accessable
         def self.included(base)
           base.class_eval do
