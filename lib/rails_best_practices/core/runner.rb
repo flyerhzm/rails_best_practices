@@ -20,33 +20,23 @@ module RailsBestPractices
     class Runner
       attr_reader :checks
 
-      # set the base path.
-      #
-      # @param [String] path the base path
-      def self.base_path=(path)
-        @base_path = path
-      end
+      class << self
+        attr_writer :base_path, :config_path
 
-      # get the base path, by default, the base path is current path.
-      #
-      # @return [String] the base path
-      def self.base_path
-        @base_path || '.'
-      end
+        # get the base path, by default, the base path is current path.
+        #
+        # @return [String] the base path
+        def base_path
+          @base_path || '.'
+        end
 
-      # set the configuration path
-      #
-      # @param path [String] path to rbc config file
-      def self.config_path=(path)
-        @config_path = path
-      end
-
-      # get the configuration path, if will default to config/rails_best_practices.yml
-      #
-      # @return [String] the config path
-      def self.config_path
-        custom_config = @config_path || File.join(Runner.base_path, 'config/rails_best_practices.yml')
-        File.exist?(custom_config) ? custom_config : RailsBestPractices::Analyzer::DEFAULT_CONFIG
+        # get the configuration path, if will default to config/rails_best_practices.yml
+        #
+        # @return [String] the config path
+        def config_path
+          custom_config = @config_path || File.join(Runner.base_path, 'config/rails_best_practices.yml')
+          File.exist?(custom_config) ? custom_config : RailsBestPractices::Analyzer::DEFAULT_CONFIG
+        end
       end
 
       # initialize the runner.
