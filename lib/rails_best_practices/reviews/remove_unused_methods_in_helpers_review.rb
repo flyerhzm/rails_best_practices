@@ -26,11 +26,10 @@ module RailsBestPractices
       # get all unused methods at the end of review process
       add_callback :after_check do
         @helper_methods.get_all_unused_methods.each do |method|
-          unless excepted?(method)
-            add_error "remove unused methods (#{method.class_name}##{method.method_name})",
-                      method.file,
-                      method.line_number
-          end
+          next if excepted?(method)
+          add_error "remove unused methods (#{method.class_name}##{method.method_name})",
+                    method.file,
+                    method.line_number
         end
       end
 
