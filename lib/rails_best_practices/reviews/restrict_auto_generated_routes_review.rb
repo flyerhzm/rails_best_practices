@@ -109,11 +109,12 @@ module RailsBestPractices
       def controller_name(node)
         if option_with_hash(node)
           option_node = node.arguments.all[1]
-          if hash_key_exist?(option_node, 'controller')
-            name = option_node.hash_value('controller').to_s
-          else
-            name = node.arguments.all.first.to_s.gsub('::', '').tableize
-          end
+          name =
+            if hash_key_exist?(option_node, 'controller')
+              option_node.hash_value('controller').to_s
+            else
+              node.arguments.all.first.to_s.gsub('::', '').tableize
+            end
         else
           name = node.arguments.all.first.to_s.gsub('::', '').tableize
         end

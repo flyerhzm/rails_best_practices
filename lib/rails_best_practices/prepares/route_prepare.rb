@@ -150,11 +150,12 @@ module RailsBestPractices
           if node.arguments.all.last.hash_value('module').present?
             @namespaces << node.arguments.all.last.hash_value('module').to_s
           end
-          if node.arguments.all.last.hash_value('controller').present?
-            @controller_name = [:scope, node.arguments.all.last.hash_value('controller').to_s]
-          else
-            @controller_name = @controller_name.try(:first) == :scope ? @controller_name : nil
-          end
+          @controller_name =
+            if node.arguments.all.last.hash_value('controller').present?
+              [:scope, node.arguments.all.last.hash_value('controller').to_s]
+            else
+              @controller_name.try(:first) == :scope ? @controller_name : nil
+            end
         when 'with_options'
           argument = node.arguments.all.last
           if argument.sexp_type == :bare_assoc_hash && argument.hash_value('controller').present?
