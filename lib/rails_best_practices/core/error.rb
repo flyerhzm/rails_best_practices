@@ -20,7 +20,7 @@ module RailsBestPractices
       end
 
       def short_filename
-        File.expand_path(filename)[File.expand_path(Core::Runner.base_path).size..-1].sub(/^\//, '')
+        File.expand_path(filename)[File.expand_path(Core::Runner.base_path).size..-1].sub(%r{^/}, '')
       end
 
       def first_line_number

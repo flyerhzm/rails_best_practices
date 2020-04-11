@@ -6,22 +6,22 @@ module RailsBestPractices
 
     class Check < CodeAnalyzer::Checker
       ALL_FILES = /.*/.freeze
-      CONTROLLER_FILES = /app\/(controllers|cells)\/.*\.rb$/.freeze
-      MIGRATION_FILES = /db\/migrate\/.*\.rb$/.freeze
-      MODEL_FILES = /app\/models\/.*\.rb$/.freeze
-      MAILER_FILES = /app\/models\/.*mailer\.rb$|app\/mailers\/.*\.rb/.freeze
-      VIEW_FILES = /app\/(views|cells)\/.*\.(erb|haml|slim|builder|rxml)$/.freeze
-      PARTIAL_VIEW_FILES = /app\/(views|cells)\/.*\/_.*\.(erb|haml|slim|builder|rxml)$/.freeze
-      ROUTE_FILES = /config\/routes.*\.rb/.freeze
-      SCHEMA_FILE = /db\/schema\.rb/.freeze
-      HELPER_FILES = /app\/helpers\/.*\.rb$/.freeze
-      DEPLOY_FILES = /config\/deploy.*\.rb/.freeze
-      CONFIG_FILES = /config\/(application|environment|environments\/.*)\.rb/.freeze
-      INITIALIZER_FILES = /config\/initializers\/.*\.rb/.freeze
+      CONTROLLER_FILES = %r{app/(controllers|cells)/.*\.rb$}.freeze
+      MIGRATION_FILES = %r{db/migrate/.*\.rb$}.freeze
+      MODEL_FILES = %r{app/models/.*\.rb$}.freeze
+      MAILER_FILES = %r{app/models/.*mailer\.rb$|app/mailers/.*\.rb}.freeze
+      VIEW_FILES = %r{app/(views|cells)/.*\.(erb|haml|slim|builder|rxml)$}.freeze
+      PARTIAL_VIEW_FILES = %r{app/(views|cells)/.*/_.*\.(erb|haml|slim|builder|rxml)$}.freeze
+      ROUTE_FILES = %r{config/routes.*\.rb}.freeze
+      SCHEMA_FILE = %r{db/schema\.rb}.freeze
+      HELPER_FILES = %r{app/helpers/.*\.rb$}.freeze
+      DEPLOY_FILES = %r{config/deploy.*\.rb}.freeze
+      CONFIG_FILES = %r{config/(application|environment|environments/.*)\.rb}.freeze
+      INITIALIZER_FILES = %r{config/initializers/.*\.rb}.freeze
       CAPFILE = /Capfile/.freeze
       GEMFILE_LOCK = /Gemfile\.lock/.freeze
 
-      SKIP_FILES = /db\/schema.rb/.freeze
+      SKIP_FILES = %r{db/schema.rb}.freeze
 
       def initialize(options = {})
         options.each do |key, value|

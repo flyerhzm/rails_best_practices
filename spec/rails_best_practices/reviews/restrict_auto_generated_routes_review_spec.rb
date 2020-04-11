@@ -237,7 +237,7 @@ module RailsBestPractices
           runner =
             Core::Runner.new(
               prepares: Prepares::ControllerPrepare.new,
-              reviews: described_class.new(ignored_files: /config\/routes\.rb/)
+              reviews: described_class.new(ignored_files: %r{config/routes\.rb})
             )
 
           content = <<-EOF

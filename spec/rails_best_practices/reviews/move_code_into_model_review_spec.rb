@@ -99,7 +99,7 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /app\/views\/post/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: %r{app/views/post}))
         content = <<-EOF
         <% if current_user && @post.user && (current_user == @post.user || @post.editors.include?(current_user)) %>
           <%= link_to 'Edit this post', edit_post_url(@post) %>
