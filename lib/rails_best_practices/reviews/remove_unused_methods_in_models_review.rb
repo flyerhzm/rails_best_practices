@@ -81,6 +81,7 @@ module RailsBestPractices
       add_callback :after_check do
         @model_methods.get_all_unused_methods.each do |method|
           next unless !excepted?(method) && method.method_name !~ /=$/
+
           add_error "remove unused methods (#{method.class_name}##{method.method_name})",
                     method.file,
                     method.line_number
