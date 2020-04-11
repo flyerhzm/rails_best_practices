@@ -4,7 +4,7 @@ require 'spec_helper'
 
 module RailsBestPractices::Core
   describe Klasses do
-    it { should be_a_kind_of Array }
+    it { is_expected.to be_a_kind_of Array }
 
     context 'Klass' do
       describe '#class_name' do

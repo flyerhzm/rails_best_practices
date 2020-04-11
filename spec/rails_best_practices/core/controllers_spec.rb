@@ -4,6 +4,6 @@ require 'spec_helper'
 
 module RailsBestPractices::Core
   describe Controllers do
-    it { should be_a_kind_of Klasses }
+    it { is_expected.to be_a_kind_of Klasses }
   end
 end
