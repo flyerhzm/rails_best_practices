@@ -16,9 +16,9 @@ describe Erubis::OnlyRuby do
     described_class.new(content).src
   end
 
-  it { is_expected.to_not include('h1') }
-  it { is_expected.to_not include('Title') }
-  it { is_expected.to_not include('Not logged in') }
+  it { is_expected.not_to include('h1') }
+  it { is_expected.not_to include('Title') }
+  it { is_expected.not_to include('Not logged in') }
   it { is_expected.to include('current_user') }
   it { is_expected.to include('if') }
   it { is_expected.to include('else') }
