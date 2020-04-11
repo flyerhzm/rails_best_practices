@@ -75,11 +75,10 @@ module RailsBestPractices
         @foreign_keys.each do |table, foreign_key|
           table_node = @table_nodes[table]
           foreign_key.each do |column|
-            if not_indexed?(table, column)
-              add_error "always add db index (#{table} => [#{Array(column).join(', ')}])",
-                        table_node.file,
-                        table_node.line_number
-            end
+            next unless not_indexed?(table, column)
+            add_error "always add db index (#{table} => [#{Array(column).join(', ')}])",
+                      table_node.file,
+                      table_node.line_number
           end
         end
       end

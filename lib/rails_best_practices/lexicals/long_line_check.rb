@@ -22,13 +22,12 @@ module RailsBestPractices
           content.each_line do |line|
             line_no += 1
             actual_line_length = line.sub(/\s+$/, '').length
-            if actual_line_length > @max_line_length
-              add_error(
-                "line is longer than #{@max_line_length} characters (#{actual_line_length} characters)",
-                filename,
-                line_no
-              )
-            end
+            next unless actual_line_length > @max_line_length
+            add_error(
+              "line is longer than #{@max_line_length} characters (#{actual_line_length} characters)",
+              filename,
+              line_no
+            )
           end
         end
       end
