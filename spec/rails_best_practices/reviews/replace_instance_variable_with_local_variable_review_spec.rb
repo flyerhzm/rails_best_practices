@@ -49,7 +49,7 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /views\/posts/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: %r{views/posts}))
         content = <<-EOF
         <%= @post.title %>
         EOF

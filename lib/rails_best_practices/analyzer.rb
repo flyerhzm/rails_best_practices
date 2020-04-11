@@ -199,7 +199,7 @@ module RailsBestPractices
       hg_progressbar = ProgressBar.create(title: 'Hg Info', total: errors.size) if display_bar?
       errors.each do |error|
         info_command = "cd #{@runner.class.base_path}"
-        info_command += " && hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(/^\//, '')}"
+        info_command += " && hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(%r{^/}, '')}"
         info_command += " | sed -n /:#{error.line_number.split(',').first}:/p"
         hg_info = system(info_command)
         unless hg_info == ''
@@ -215,7 +215,7 @@ module RailsBestPractices
     # load git commit and git username info.
     def load_git_info
       git_progressbar = ProgressBar.create(title: 'Git Info', total: errors.size) if display_bar?
-      start = @runner.class.base_path =~ /\/$/ ? @runner.class.base_path.size : @runner.class.base_path.size + 1
+      start = @runner.class.base_path =~ %r{/$} ? @runner.class.base_path.size : @runner.class.base_path.size + 1
       errors.each do |error|
         info_command = "cd #{@runner.class.base_path}"
         info_command += " && git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}"

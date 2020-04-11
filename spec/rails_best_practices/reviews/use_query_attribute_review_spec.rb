@@ -233,7 +233,7 @@ module RailsBestPractices
         runner =
           Core::Runner.new(
             prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new],
-            reviews: described_class.new(ignored_files: /users\/show/)
+            reviews: described_class.new(ignored_files: %r{users/show})
           )
         content = <<-EOF
         <% if @user.login.blank? %>

@@ -171,7 +171,7 @@ module RailsBestPractices
         runner =
           Core::Runner.new(
             prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new],
-            reviews: described_class.new(ignored_files: /app\/views\/invoices/)
+            reviews: described_class.new(ignored_files: %r{app/views/invoices})
           )
         content = <<-EOF
           <%= @invoice.user.name %>

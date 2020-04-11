@@ -98,7 +98,7 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /app\/models\/post\.rb/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: %r{app/models/post\.rb}))
         content = <<-EOF
         class Post < ActiveRecord::Base
           has_many :comments

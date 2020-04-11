@@ -31,7 +31,7 @@ module RailsBestPractices
       it 'does not check ignored files' do
         runner =
           Core::Runner.new(
-            reviews: MoveCodeIntoControllerReview.new('array_count' => 2, 'ignored_files' => /app\/views\/post/)
+            reviews: MoveCodeIntoControllerReview.new('array_count' => 2, 'ignored_files' => %r{app/views/post})
           )
         content = <<-EOF
         <%= select_tag :state, options_for_select( [[t(:draft), "draft"],

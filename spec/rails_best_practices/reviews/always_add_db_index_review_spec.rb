@@ -285,7 +285,7 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /db\/schema/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: %r{db/schema}))
         content = <<-EOF
         ActiveRecord::Schema.define(version: 20100603080629) do
           create_table "comments", force: true do |t|

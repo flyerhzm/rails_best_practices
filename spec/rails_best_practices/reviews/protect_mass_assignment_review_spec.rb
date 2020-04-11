@@ -182,7 +182,7 @@ module RailsBestPractices
         runner =
           Core::Runner.new(
             prepares: [Prepares::GemfilePrepare.new, Prepares::ConfigPrepare.new, Prepares::InitializerPrepare.new],
-            reviews: described_class.new(ignored_files: /app\/models\/user\.rb/)
+            reviews: described_class.new(ignored_files: %r{app/models/user\.rb})
           )
         content = <<-EOF
         class User < ActiveRecord::Base

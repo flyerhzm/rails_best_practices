@@ -89,7 +89,7 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /config\/routes/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: %r{config/routes}))
         content = <<-EOF
           map.resources :posts do |post|
             post.resources :comments do |comment|

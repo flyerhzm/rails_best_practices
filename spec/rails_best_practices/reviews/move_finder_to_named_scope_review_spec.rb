@@ -76,7 +76,7 @@ module RailsBestPractices
       end
 
       it 'does not check ignored files' do
-        runner = Core::Runner.new(reviews: described_class.new(ignored_files: /app\/controllers\/posts/))
+        runner = Core::Runner.new(reviews: described_class.new(ignored_files: %r{app/controllers/posts}))
         content = <<-EOF
         class PostsController < ActionController::Base
           def index
