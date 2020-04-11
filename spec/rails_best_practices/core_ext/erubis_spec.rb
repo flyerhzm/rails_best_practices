@@ -16,11 +16,11 @@ describe Erubis::OnlyRuby do
     described_class.new(content).src
   end
 
-  it { should_not include('h1') }
-  it { should_not include('Title') }
-  it { should_not include('Not logged in') }
-  it { should include('current_user') }
-  it { should include('if') }
-  it { should include('else') }
-  it { should include('end') }
+  it { is_expected.to_not include('h1') }
+  it { is_expected.to_not include('Title') }
+  it { is_expected.to_not include('Not logged in') }
+  it { is_expected.to include('current_user') }
+  it { is_expected.to include('if') }
+  it { is_expected.to include('else') }
+  it { is_expected.to include('end') }
 end
