@@ -34,7 +34,7 @@ module RailsBestPractices
       # @param [String] the file name of node.
       # @return [Boolean] true if the check will need to parse the file.
       def parse_file?(node_file)
-        is_interesting_file?(node_file) && !is_ignored?(node_file)
+        node_file.is_a?(String) && is_interesting_file?(node_file) && !is_ignored?(node_file)
       end
 
       def is_interesting_file?(node_file)
