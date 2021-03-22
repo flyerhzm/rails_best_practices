@@ -65,6 +65,50 @@ module RailsBestPractices
         expect(runner.errors.size).to eq(0)
       end
 
+      it 'does not remove unused methods if called on admins' do
+        helper_content = <<-EOF
+        module PostsHelper
+          def used?(post); end
+        end
+        EOF
+        admin_content = <<-EOF
+        ActiveAdmin.register Posts do
+          column :used do
+            used?(@post)
+          end
+        end
+        EOF
+        runner.prepare('app/helpers/posts_helper.rb', helper_content)
+        runner.prepare('app/admin/posts.rb', admin_content)
+        runner.after_prepare
+        runner.review('app/helpers/posts_helper.rb', helper_content)
+        runner.review('app/admin/posts.rb', admin_content)
+        runner.after_review
+        expect(runner.errors.size).to eq(0)
+      end
+
+      it 'does not remove unused methods if called on notifiers' do
+        helper_content = <<-EOF
+        module PostsHelper
+          def used?(post); end
+        end
+        EOF
+        notifier_content = <<-EOF
+        class UserMailer ActionMailer::Base
+          def post_notification(post)
+            return unless used?(post)
+          end
+        end
+        EOF
+        runner.prepare('app/helpers/posts_helper.rb', helper_content)
+        runner.prepare('app/notifer/post_mailer.rb', notifier_content)
+        runner.after_prepare
+        runner.review('app/helpers/posts_helper.rb', helper_content)
+        runner.review('app/notifier/post_mailer.rb', notifier_content)
+        runner.after_review
+        expect(runner.errors.size).to eq(0)
+      end
+
       it 'does not remove unused methods if called on controllers' do
         helper_content = <<-EOF
         module PostsHelper

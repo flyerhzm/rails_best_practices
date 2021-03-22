@@ -15,7 +15,7 @@ module RailsBestPractices
       include Callable
       include Exceptable
 
-      interesting_files HELPER_FILES, VIEW_FILES, CONTROLLER_FILES
+      interesting_files HELPER_FILES, VIEW_FILES, CONTROLLER_FILES, ADMIN_FILES, NOTIFIER_FILES
 
       def initialize(options = {})
         super
