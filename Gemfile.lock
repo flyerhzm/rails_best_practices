@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_best_practices (1.20.0)
+    rails_best_practices (1.20.1)
       activesupport
       code_analyzer (>= 0.5.2)
       erubis
