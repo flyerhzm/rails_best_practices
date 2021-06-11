@@ -8,6 +8,7 @@ require 'rails_best_practices/analyzer'
 require 'rails_best_practices/lexicals'
 require 'rails_best_practices/prepares'
 require 'rails_best_practices/reviews'
+require 'rails_best_practices/inline_disables'
 require 'rails_best_practices/option_parser'
 require 'rails_best_practices/cli'
 
