@@ -1,5 +1,10 @@
 # Next Release
 
+## 1.21.0 (2021-06-15)
+
+* Disable check by inline comment
+* Add type check for string
+
 ## 1.20.0 (2020-02-29)
 
 * Support ruby 2.7
