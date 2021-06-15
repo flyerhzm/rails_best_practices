@@ -65,6 +65,9 @@ module RailsBestPractices
             checkers: @prepares.reject { |checker| checker.is_a? Prepares::GemfilePrepare }
           )
         @review_checker ||= CodeAnalyzer::CheckingVisitor::Default.new(checkers: @reviews)
+
+        @inlnie_disable ||= InlineDisables::InlineDisable.new
+        @inline_disable_checker ||= CodeAnalyzer::CheckingVisitor::Plain.new(checkers: [@inlnie_disable])
       end
 
       # lexical analysis the file.
@@ -106,11 +109,27 @@ module RailsBestPractices
         @review_checker.after_check
       end
 
+      # disable check by inline comment the file.
+      #
+      # @param [String] filename of the file
+      # @param [String] content of the file
+      def inline_disable(filename, content)
+        content = parse_html_template(filename, content)
+        @inline_disable_checker.check(filename, content)
+      end
+
+      def after_inline_disable
+        @inline_disable_checker.after_check
+      end
+
       # get all errors from lexicals and reviews.
       #
       # @return [Array] all errors from lexicals and reviews
       def errors
-        @errors ||= (@reviews + @lexicals).collect(&:errors).flatten
+        @errors ||= begin
+          reported_errors = (@reviews + @lexicals).collect(&:errors).flatten
+          reported_errors.reject { |error| @inlnie_disable.disabled?(error) }
+        end
       end
 
       private
