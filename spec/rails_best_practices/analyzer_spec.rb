@@ -168,7 +168,9 @@ module RailsBestPractices
       end
 
       it 'saves output as json into output file' do
-        expect(result).to eq '[{"filename":"app/models/user.rb","line_number":"10","message":"law of demeter"},{"filename":"app/models/post.rb","line_number":"100","message":"use query attribute"}]'
+        expect(
+          result
+        ).to eq '[{"filename":"app/models/user.rb","line_number":"10","message":"law of demeter"},{"filename":"app/models/post.rb","line_number":"100","message":"use query attribute"}]'
       end
     end
 

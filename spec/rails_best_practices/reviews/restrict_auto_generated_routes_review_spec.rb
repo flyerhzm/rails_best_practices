@@ -253,7 +253,8 @@ module RailsBestPractices
       context 'api_only = true' do
         let(:runner) do
           Core::Runner.new(
-            prepares: [Prepares::ConfigPrepare.new, Prepares::ControllerPrepare.new], reviews: described_class.new
+            prepares: [Prepares::ConfigPrepare.new, Prepares::ControllerPrepare.new],
+            reviews: described_class.new
           )
         end
 

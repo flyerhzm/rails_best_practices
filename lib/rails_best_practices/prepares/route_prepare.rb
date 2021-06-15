@@ -50,6 +50,7 @@ module RailsBestPractices
           else
             if first_argument.sexp_type == :bare_assoc_hash
               route_node = first_argument.hash_values.first
+
               # do not parse redirect block
               if route_node.sexp_type != :method_add_arg
                 controller_name, action_name = route_node.to_s.split('#')

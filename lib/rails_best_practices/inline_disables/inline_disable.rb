@@ -42,7 +42,11 @@ module RailsBestPractices
       def add_as_disable_error(filename, check_name, line_number)
         @disabled_errors <<
           RailsBestPractices::Core::Error.new(
-            filename: filename, line_number: line_number, message: 'disable by inline comment', type: check_name, url: url
+            filename: filename,
+            line_number: line_number,
+            message: 'disable by inline comment',
+            type: check_name,
+            url: url
           )
       end
     end

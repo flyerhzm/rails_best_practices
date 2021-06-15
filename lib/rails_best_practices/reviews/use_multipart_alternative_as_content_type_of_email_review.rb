@@ -44,8 +44,9 @@ module RailsBestPractices
         return true if mailer_files(name).empty?
         return true if mailer_files(name).none? { |filename| filename.index 'html' }
 
-        mailer_files(name).any? { |filename| filename.index 'html' } &&
-          mailer_files(name).any? { |filename| filename.index 'text' }
+        mailer_files(name).any? { |filename| filename.index 'html' } && mailer_files(name).any? { |filename|
+          filename.index 'text'
+        }
       end
 
       # all mail view files for a method name.

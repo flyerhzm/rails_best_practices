@@ -24,9 +24,7 @@ module RailsBestPractices
       SKIP_FILES = %r{db/schema.rb}.freeze
 
       def initialize(options = {})
-        options.each do |key, value|
-          instance_variable_set("@#{key}", value)
-        end
+        options.each do |key, value| instance_variable_set("@#{key}", value)end
       end
 
       # check if the check will need to parse the node file.
@@ -63,7 +61,11 @@ module RailsBestPractices
       def add_error(message, filename = @node.file, line_number = @node.line_number)
         errors <<
           RailsBestPractices::Core::Error.new(
-            filename: filename, line_number: line_number, message: message, type: self.class.to_s, url: url
+            filename: filename,
+            line_number: line_number,
+            message: message,
+            type: self.class.to_s,
+            url: url
           )
       end
 
@@ -358,8 +360,9 @@ module RailsBestPractices
 
             # check if the method is in the except methods list.
             def excepted?(method)
-              is_ignored?(method.file) ||
-                except_methods.any? { |except_method| Exceptable.matches method, except_method }
+              is_ignored?(method.file) || except_methods.any? { |except_method|
+                Exceptable.matches method, except_method
+              }
             end
 
             def internal_except_methods

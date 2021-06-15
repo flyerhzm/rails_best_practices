@@ -7,7 +7,8 @@ module RailsBestPractices
     describe LawOfDemeterReview do
       let(:runner) do
         Core::Runner.new(
-          prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new], reviews: described_class.new
+          prepares: [Prepares::ModelPrepare.new, Prepares::SchemaPrepare.new],
+          reviews: described_class.new
         )
       end
 
