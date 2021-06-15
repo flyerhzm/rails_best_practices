@@ -234,9 +234,11 @@ module RailsBestPractices
     def output_html_errors
       require 'erubis'
       template =
-        @options['template'] ?
-          File.read(File.expand_path(@options['template'])) :
+        if @options['template']
+          File.read(File.expand_path(@options['template']))
+        else
           File.read(File.join(File.dirname(__FILE__), '..', '..', 'assets', 'result.html.erb'))
+        end
 
       if @options['with-github']
         last_commit_id = @options['last-commit-id'] || `cd #{@runner.class.base_path} && git rev-parse HEAD`.chomp
@@ -265,10 +267,7 @@ module RailsBestPractices
     def output_xml_errors
       require 'rexml/document'
 
-      document =
-        REXML::Document.new.tap do |d|
-          d << REXML::XMLDecl.new
-        end
+      document = REXML::Document.new.tap do |d| d << REXML::XMLDecl.newend
 
       checkstyle = REXML::Element.new('checkstyle', document)
 

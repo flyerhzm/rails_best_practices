@@ -35,6 +35,7 @@ module RailsBestPractices
       add_callback :start_binary do |node|
         if %w[&& || and or].include?(node[2].to_s)
           all_conditions = node.all_conditions
+
           # if our current binary is a subset of the @used_return_value_of
           # then don't overwrite it
           already_included = @used_return_value_of && (all_conditions - @used_return_value_of).empty?

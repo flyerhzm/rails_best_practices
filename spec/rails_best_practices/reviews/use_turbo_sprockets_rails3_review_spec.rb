@@ -96,7 +96,8 @@ module RailsBestPractices
       it 'does not check ignored files' do
         runner =
           Core::Runner.new(
-            prepares: Prepares::GemfilePrepare.new, reviews: described_class.new(ignored_files: /Capfile/)
+            prepares: Prepares::GemfilePrepare.new,
+            reviews: described_class.new(ignored_files: /Capfile/)
           )
         content = <<~EOF
           GEM

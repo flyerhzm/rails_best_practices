@@ -126,10 +126,11 @@ module RailsBestPractices
       #
       # @return [Array] all errors from lexicals and reviews
       def errors
-        @errors ||= begin
-          reported_errors = (@reviews + @lexicals).collect(&:errors).flatten
-          reported_errors.reject { |error| @inlnie_disable.disabled?(error) }
-        end
+        @errors ||=
+          begin
+            reported_errors = (@reviews + @lexicals).collect(&:errors).flatten
+            reported_errors.reject { |error| @inlnie_disable.disabled?(error) }
+          end
       end
 
       private
@@ -145,6 +146,7 @@ module RailsBestPractices
           begin
             require 'haml'
             content = Haml::Engine.new(content).precompiled
+
             # remove \xxx characters
             content.gsub!(/\\\d{3}/, '')
           rescue LoadError
