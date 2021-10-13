@@ -50,15 +50,17 @@ module RailsBestPractices
           else
             if first_argument.sexp_type == :bare_assoc_hash
               route_node = first_argument.hash_values.first
+
               # do not parse redirect block
               if route_node.sexp_type != :method_add_arg
                 controller_name, action_name = route_node.to_s.split('#')
                 @routes.add_route(current_namespaces, controller_name.underscore, action_name)
               end
             elsif first_argument.sexp_type == :array
-              first_argument.array_values.map(&:to_s).each do |action_node|
-                @routes.add_route(current_namespaces, controller_name, action_node.to_s)
-              end
+              first_argument
+                .array_values
+                .map(&:to_s)
+                .each { |action_node| @routes.add_route(current_namespaces, controller_name, action_node.to_s) }
             elsif second_argument.try(:sexp_type) == :bare_assoc_hash
               if second_argument.hash_value('to').present?
                 controller_name, action_name = second_argument.hash_value('to').to_s.split('#')
@@ -93,9 +95,7 @@ module RailsBestPractices
               end
             end
           when :string_literal, :symbol_literal
-            if current_controller_name
-              @routes.add_route(current_namespaces, current_controller_name, options.to_s)
-            end
+            @routes.add_route(current_namespaces, current_controller_name, options.to_s) if current_controller_name
           else
             # do nothing
           end
@@ -172,9 +172,7 @@ module RailsBestPractices
         when 'namespace'
           @namespaces.pop
         when 'scope'
-          if node.arguments.all.last.hash_value('module').present?
-            @namespaces.pop
-          end
+          @namespaces.pop if node.arguments.all.last.hash_value('module').present?
         else
           # do nothing
         end
@@ -190,8 +188,7 @@ module RailsBestPractices
         @controller_names.pop
       end
 
-      %i[resources resource].each do |route_name|
-        class_eval <<-EOF
+      %i[resources resource].each { |route_name| class_eval <<-EOF }
         def add_#{route_name}_routes(node)
           resource_names = node.arguments.all.select { |argument| :symbol_literal == argument.sexp_type }
           resource_names.each do |resource_name|
@@ -249,7 +246,6 @@ module RailsBestPractices
         def add_customize_routes
         end
         EOF
-      end
 
       def current_namespaces
         @namespaces.dup

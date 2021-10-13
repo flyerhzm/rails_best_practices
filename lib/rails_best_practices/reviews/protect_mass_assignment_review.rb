@@ -56,21 +56,15 @@ module RailsBestPractices
       private
 
       def check_activerecord_version
-        if Prepares.gems.gem_version('activerecord').to_i > 3
-          @mass_assignement = false
-        end
+        @mass_assignement = false if Prepares.gems.gem_version('activerecord').to_i > 3
       end
 
       def check_whitelist_attributes_config
-        if Prepares.configs['config.active_record.whitelist_attributes'] == 'true'
-          @whitelist_attributes = true
-        end
+        @whitelist_attributes = true if Prepares.configs['config.active_record.whitelist_attributes'] == 'true'
       end
 
       def check_include_forbidden_attributes_protection_config
-        if Prepares.configs['railsbp.include_forbidden_attributes_protection'] == 'true'
-          @mass_assignement = false
-        end
+        @mass_assignement = false if Prepares.configs['railsbp.include_forbidden_attributes_protection'] == 'true'
       end
 
       def check_rails_builtin(node)
@@ -88,21 +82,15 @@ module RailsBestPractices
       end
 
       def check_devise(command_node)
-        if command_node.message.to_s == 'devise'
-          @mass_assignement = false
-        end
+        @mass_assignement = false if command_node.message.to_s == 'devise'
       end
 
       def check_authlogic(node)
-        if [node.to_s, node.message.to_s].include? 'acts_as_authentic'
-          @mass_assignement = false
-        end
+        @mass_assignement = false if [node.to_s, node.message.to_s].include? 'acts_as_authentic'
       end
 
       def check_active_record(const_path_ref_node)
-        if const_path_ref_node.base_class.to_s != 'ActiveRecord::Base'
-          @mass_assignement = false
-        end
+        @mass_assignement = false if const_path_ref_node.base_class.to_s != 'ActiveRecord::Base'
       end
     end
   end

@@ -24,9 +24,7 @@ module RailsBestPractices
       SKIP_FILES = %r{db/schema.rb}.freeze
 
       def initialize(options = {})
-        options.each do |key, value|
-          instance_variable_set("@#{key}", value)
-        end
+        options.each { |key, value| instance_variable_set("@#{key}", value) }
       end
 
       # check if the check will need to parse the node file.
@@ -39,11 +37,7 @@ module RailsBestPractices
 
       def is_interesting_file?(node_file)
         interesting_files.any? do |pattern|
-          if pattern == ALL_FILES
-            node_file =~ pattern && node_file !~ SKIP_FILES
-          else
-            node_file =~ pattern
-          end
+          pattern == ALL_FILES ? node_file =~ pattern && node_file !~ SKIP_FILES : node_file =~ pattern
         end
       end
 
@@ -63,7 +57,11 @@ module RailsBestPractices
       def add_error(message, filename = @node.file, line_number = @node.line_number)
         errors <<
           RailsBestPractices::Core::Error.new(
-            filename: filename, line_number: line_number, message: message, type: self.class.to_s, url: url
+            filename: filename,
+            line_number: line_number,
+            message: message,
+            type: self.class.to_s,
+            url: url
           )
       end
 
@@ -270,9 +268,7 @@ module RailsBestPractices
             #       super options.merge(exclude: :visible, methods: [:is_discussion_conversation])
             #     end
             add_callback :start_bare_assoc_hash do |node|
-              if node.hash_keys.include? 'methods'
-                mark_used(node.hash_value('methods'))
-              end
+              mark_used(node.hash_value('methods')) if node.hash_keys.include? 'methods'
             end
 
             # remember the first argument for try and send method.
@@ -306,9 +302,7 @@ module RailsBestPractices
 
             def call_method(method_name, class_name = nil)
               class_name ||= respond_to?(:current_class_name) ? current_class_name : current_module_name
-              if methods.has_method?(class_name, method_name)
-                methods.get_method(class_name, method_name).mark_used
-              end
+              methods.get_method(class_name, method_name).mark_used if methods.has_method?(class_name, method_name)
               methods.mark_parent_class_method_used(class_name, method_name)
               methods.mark_subclasses_method_used(class_name, method_name)
               methods.possible_public_used(method_name)
@@ -326,23 +320,17 @@ module RailsBestPractices
 
             # check if the controller is inherit from InheritedResources::Base.
             add_callback :start_class do |_node|
-              if current_extend_class_name == 'InheritedResources::Base'
-                @inherited_resources = true
-              end
+              @inherited_resources = true if current_extend_class_name == 'InheritedResources::Base'
             end
 
             # check if there is a DSL call inherit_resources.
             add_callback :start_var_ref do |node|
-              if node.to_s == 'inherit_resources'
-                @inherited_resources = true
-              end
+              @inherited_resources = true if node.to_s == 'inherit_resources'
             end
 
             # check if there is a DSL call inherit_resources.
             add_callback :start_vcall do |node|
-              if node.to_s == 'inherit_resources'
-                @inherited_resources = true
-              end
+              @inherited_resources = true if node.to_s == 'inherit_resources'
             end
           end
         end
@@ -399,16 +387,12 @@ module RailsBestPractices
 
             # remember the current access control for methods.
             add_callback :start_var_ref do |node|
-              if %w[public protected private].include? node.to_s
-                @access_control = node.to_s
-              end
+              @access_control = node.to_s if %w[public protected private].include? node.to_s
             end
 
             # remember the current access control for methods.
             add_callback :start_vcall do |node|
-              if %w[public protected private].include? node.to_s
-                @access_control = node.to_s
-              end
+              @access_control = node.to_s if %w[public protected private].include? node.to_s
             end
 
             # set access control to "public" by default.

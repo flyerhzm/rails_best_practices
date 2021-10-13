@@ -9,9 +9,7 @@ module RailsBestPractices
     #   RailsBestPractices::CLI.run(['-d', '-o', 'path/to/file'])
     def self.run(argv)
       options = OptionParser.parse!(argv)
-      if !argv.empty? && !File.exist?(argv.first)
-        raise Errno::ENOENT, "#{argv.first} doesn't exist"
-      end
+      raise Errno::ENOENT, "#{argv.first} doesn't exist" if !argv.empty? && !File.exist?(argv.first)
 
       analyzer = Analyzer.new(argv.first, options)
       analyzer.analyze

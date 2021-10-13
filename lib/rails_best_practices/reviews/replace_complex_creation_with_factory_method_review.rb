@@ -37,9 +37,7 @@ module RailsBestPractices
         node.recursive_children do |child_node|
           case child_node.sexp_type
           when :assign
-            if child_node.receiver[2].to_s == '.'
-              remember_variable_use_count(child_node)
-            end
+            remember_variable_use_count(child_node) if child_node.receiver[2].to_s == '.'
           when :call
             check_variable_save(child_node)
           end
@@ -53,7 +51,7 @@ module RailsBestPractices
       # and the count attribute assignment on the receiver of the call node is greater than @assign_count defined,
       # then it is a complex creation, should be replaced with factory method.
       def check_variable_save(node)
-        if ['save', 'save!'].include? node.message.to_s
+        if %w[save save!].include? node.message.to_s
           variable = node.receiver.to_s
           if variable_use_count[variable].to_i > @assigns_count
             hint = "#{variable} attribute_assignment_count > #{@assigns_count}"

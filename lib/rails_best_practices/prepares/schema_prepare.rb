@@ -15,9 +15,7 @@ module RailsBestPractices
       end
 
       add_callback :start_command do |node|
-        if node.message.to_s == 'create_table'
-          @last_klazz = node.arguments.all.first.to_s.classify
-        end
+        @last_klazz = node.arguments.all.first.to_s.classify if node.message.to_s == 'create_table'
       end
 
       # check command_call node to remember the model attributes.

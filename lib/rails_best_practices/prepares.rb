@@ -59,9 +59,7 @@ module RailsBestPractices
 
       # Clear all prepare objects.
       def clear
-        instance_variables.each do |instance_variable|
-          instance_variable_set(instance_variable, nil)
-        end
+        instance_variables.each { |instance_variable| instance_variable_set(instance_variable, nil) }
       end
     end
   end

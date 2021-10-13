@@ -29,11 +29,7 @@ module RailsBestPractices
       end
 
       def to_s
-        if @modules.empty?
-          @module_name
-        else
-          @modules.map { |modu| "#{modu}::" }.join('') + @module_name
-        end
+        @modules.empty? ? @module_name : @modules.map { |modu| "#{modu}::" }.join('') + @module_name
       end
     end
   end

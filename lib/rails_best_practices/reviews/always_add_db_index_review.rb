@@ -120,20 +120,18 @@ module RailsBestPractices
         foreign_key_column = node.arguments.all.first.to_s
         @foreign_keys[table_name] ||= []
         if foreign_key_column =~ /(.*?)_id$/
-          @foreign_keys[table_name] <<
-            if @foreign_keys[table_name].delete("#{Regexp.last_match(1)}_type")
-              ["#{Regexp.last_match(1)}_id", "#{Regexp.last_match(1)}_type"]
-            else
-              foreign_key_column
-            end
+          @foreign_keys[table_name] << if @foreign_keys[table_name].delete("#{Regexp.last_match(1)}_type")
+            ["#{Regexp.last_match(1)}_id", "#{Regexp.last_match(1)}_type"]
+          else
+            foreign_key_column
+          end
           foreign_id_column = foreign_key_column
         elsif foreign_key_column =~ /(.*?)_type$/
-          @foreign_keys[table_name] <<
-            if @foreign_keys[table_name].delete("#{Regexp.last_match(1)}_id")
-              ["#{Regexp.last_match(1)}_id", "#{Regexp.last_match(1)}_type"]
-            else
-              foreign_key_column
-            end
+          @foreign_keys[table_name] << if @foreign_keys[table_name].delete("#{Regexp.last_match(1)}_id")
+            ["#{Regexp.last_match(1)}_id", "#{Regexp.last_match(1)}_type"]
+          else
+            foreign_key_column
+          end
           foreign_id_column = "#{Regexp.last_match(1)}_id"
         end
 
@@ -172,8 +170,10 @@ module RailsBestPractices
           foreign_id_keys = foreign_keys.select { |key| key.size == 1 && key.first =~ /_id/ }
           foreign_type_keys = foreign_keys.select { |key| key.size == 1 && key.first =~ /_type/ }
           foreign_id_keys.each do |id_key|
-            next unless type_key =
-              foreign_type_keys.detect { |type_key| type_key.first == id_key.first.sub(/_id/, '') + '_type' }
+            unless type_key =
+                     foreign_type_keys.detect { |type_key| type_key.first == id_key.first.sub(/_id/, '') + '_type' }
+              next
+            end
 
             foreign_keys.delete(id_key)
             foreign_keys.delete(type_key)

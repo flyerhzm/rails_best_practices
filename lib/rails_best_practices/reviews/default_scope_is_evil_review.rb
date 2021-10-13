@@ -17,9 +17,7 @@ module RailsBestPractices
 
       # check all command nodes' message
       add_callback :start_command do |node|
-        if node.message.to_s == 'default_scope'
-          add_error 'default_scope is evil'
-        end
+        add_error 'default_scope is evil' if node.message.to_s == 'default_scope'
       end
     end
   end

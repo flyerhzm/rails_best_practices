@@ -42,9 +42,7 @@ module RailsBestPractices
       # and there is a actionmailer deliver call in the method define node,
       # then it should be replaced by using observer.
       add_callback :start_def do |node|
-        if callback_method?(node) && deliver_mailer?(node)
-          add_error 'use observer'
-        end
+        add_error 'use observer' if callback_method?(node) && deliver_mailer?(node)
       end
 
       private

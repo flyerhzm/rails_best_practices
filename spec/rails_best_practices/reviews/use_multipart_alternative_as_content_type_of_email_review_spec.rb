@@ -31,8 +31,7 @@ module RailsBestPractices
       end
 
       context 'project_mailer' do
-        let(:content) do
-          <<-EOF
+        let(:content) { <<-EOF }
           class ProjectMailer < ActionMailer::Base
             def send_email(email)
               receiver      email.receiver
@@ -43,7 +42,6 @@ module RailsBestPractices
             end
           end
           EOF
-        end
 
         context 'erb' do
           it 'uses mulipart/alternative as content_type of email' do
@@ -62,7 +60,7 @@ module RailsBestPractices
           end
 
           it 'does not use multipart/alternative as content_type of email' do
-            mock_email_files(['send_email.text.erb', 'send_email.html.erb'])
+            mock_email_files(%w[send_email.text.erb send_email.html.erb])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
           end
@@ -85,19 +83,19 @@ module RailsBestPractices
           end
 
           it 'does not use multipart/alternative as content_type of email' do
-            mock_email_files(['send_email.html.haml', 'send_email.text.haml'])
+            mock_email_files(%w[send_email.html.haml send_email.text.haml])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
           end
 
           it 'does not use multipart/alternative as content_type of email with text locale' do
-            mock_email_files(['send_email.html.haml', 'send_email.de.text.haml'])
+            mock_email_files(%w[send_email.html.haml send_email.de.text.haml])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
           end
 
           it 'does not use multipart/alternative as content_type of email with html locale' do
-            mock_email_files(['send_email.de.html.haml', 'send_email.text.haml'])
+            mock_email_files(%w[send_email.de.html.haml send_email.text.haml])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
           end
@@ -105,11 +103,11 @@ module RailsBestPractices
 
         context 'haml/erb mix' do
           it 'does not suggest using multipart/alternative when mixing html.haml and text.erb' do
-            mock_email_files(['send_email.html.haml', 'send_email.text.erb'])
+            mock_email_files(%w[send_email.html.haml send_email.text.erb])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
 
-            mock_email_files(['send_email.html.erb', 'send_email.text.haml'])
+            mock_email_files(%w[send_email.html.erb send_email.text.haml])
             runner.review('app/mailers/project_mailer.rb', content)
             expect(runner.errors.size).to eq(0)
           end

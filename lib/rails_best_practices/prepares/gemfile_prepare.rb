@@ -11,11 +11,11 @@ module RailsBestPractices
       end
 
       def check(_filename, content)
-        content.split("\n").each do |line|
-          if line =~ /([^ ]+) \((\d.*)\)/
-            @gems << Core::Gem.new(Regexp.last_match(1), Regexp.last_match(2))
+        content
+          .split("\n")
+          .each do |line|
+            @gems << Core::Gem.new(Regexp.last_match(1), Regexp.last_match(2)) if line =~ /([^ ]+) \((\d.*)\)/
           end
-        end
       end
     end
   end

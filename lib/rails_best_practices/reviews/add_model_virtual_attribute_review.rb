@@ -64,11 +64,11 @@ module RailsBestPractices
       # and if the arguments of this attribute assignments has duplicated entries (different message and same arguments),
       # then this node needs to add a virtual attribute.
       def call_assignment(node)
-        if ['save', 'save!'].include? node.message.to_s
+        if %w[save save!].include? node.message.to_s
           receiver = node.receiver.to_s
-          add_error "add model virtual attribute (for #{receiver})" if params_dup?(
-            assignments(receiver).collect { |h| h[:arguments] }
-          )
+          if params_dup?(assignments(receiver).collect { |h| h[:arguments] })
+            add_error "add model virtual attribute (for #{receiver})"
+          end
         end
       end
 

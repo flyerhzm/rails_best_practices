@@ -19,11 +19,7 @@ module RailsBestPractices
       url 'https://rails-bestpractices.com/posts/2011/08/19/restrict-auto-generated-routes/'
 
       def resource_methods
-        if Prepares.configs['config.api_only']
-          %w[show create update destroy]
-        else
-          %w[show new create edit update destroy]
-        end
+        Prepares.configs['config.api_only'] ? %w[show create update destroy] : %w[show new create edit update destroy]
       end
 
       def resources_methods
@@ -82,9 +78,7 @@ module RailsBestPractices
           when 'resources', 'resource'
             @resource_controllers.pop
           when 'scope'
-            if check_method_add_block?(node) && module_option(node)
-              @namespaces.pop
-            end
+            @namespaces.pop if check_method_add_block?(node) && module_option(node)
           end
         end
       end

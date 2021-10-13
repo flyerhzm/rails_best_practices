@@ -126,10 +126,11 @@ module RailsBestPractices
       #
       # @return [Array] all errors from lexicals and reviews
       def errors
-        @errors ||= begin
-          reported_errors = (@reviews + @lexicals).collect(&:errors).flatten
-          reported_errors.reject { |error| @inlnie_disable.disabled?(error) }
-        end
+        @errors ||=
+          begin
+            reported_errors = (@reviews + @lexicals).collect(&:errors).flatten
+            reported_errors.reject { |error| @inlnie_disable.disabled?(error) }
+          end
       end
 
       private
@@ -145,6 +146,7 @@ module RailsBestPractices
           begin
             require 'haml'
             content = Haml::Engine.new(content).precompiled
+
             # remove \xxx characters
             content.gsub!(/\\\d{3}/, '')
           rescue LoadError
@@ -174,9 +176,7 @@ module RailsBestPractices
       def load_plugin_reviews
         plugins = File.join(Runner.base_path, 'lib', 'rails_best_practices', 'plugins', 'reviews')
         if File.directory?(plugins)
-          Dir[File.expand_path(File.join(plugins, '*.rb'))].each do |review|
-            require review
-          end
+          Dir[File.expand_path(File.join(plugins, '*.rb'))].each { |review| require review }
           if RailsBestPractices.constants.map(&:to_sym).include? :Plugins
             RailsBestPractices::Plugins::Reviews.constants.each do |review|
               @reviews << RailsBestPractices::Plugins::Reviews.const_get(review).new

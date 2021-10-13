@@ -111,7 +111,7 @@ module RailsBestPractices
 
       # check if the node is with node type :binary, node message :== and node argument is empty string.
       def compare_with_empty_string?(node)
-        node.sexp_type == :binary && ['==', '!='].include?(node.message.to_s) &&
+        node.sexp_type == :binary && %w[== !=].include?(node.message.to_s) &&
           s(:string_literal, s(:string_content)) == node.argument
       end
     end
