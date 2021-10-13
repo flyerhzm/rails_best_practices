@@ -10,6 +10,7 @@ module RailsBestPractices
     #    -f, --format FORMAT              output format (text, html, yaml, json, xml)
     #        --output-file FILE           output html file for the analyzing result
     #        --without-color              only output plain text without color
+    #        --with-atom                  open file by atom in html format
     #        --with-textmate              open file by textmate in html format
     #        --with-vscode                open file by vscode in html format
     #        --with-sublime               open file by sublime in html format (requires subl-handler)
@@ -47,6 +48,10 @@ module RailsBestPractices
 
         opts.on('--without-color', 'only output plain text without color') do
           options['without-color'] = true
+        end
+
+        opts.on('--with-atom', 'open file by atom in html format') do
+          options['with-atom'] = true
         end
 
         opts.on('--with-textmate', 'open file by textmate in html format') do

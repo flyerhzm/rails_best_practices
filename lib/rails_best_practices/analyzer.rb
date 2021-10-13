@@ -249,6 +249,7 @@ module RailsBestPractices
         file.puts eruby.evaluate(
                     errors: errors,
                     error_types: error_types,
+                    atom: @options['with-atom'],
                     textmate: @options['with-textmate'],
                     vscode: @options['with-vscode'],
                     sublime: @options['with-sublime'],
@@ -326,8 +327,8 @@ module RailsBestPractices
 
     # analyze source codes.
     def analyze_source_codes
-      @bar = ProgressBar.create(title: 'Source Code', total: parse_files.size * 4) if display_bar?
-      %w[lexical prepare review inline_disable].each { |process| send(:process, process) }
+      @bar = ProgressBar.create(title: 'Source Code', total: parse_files.size * 3) if display_bar?
+      %w[lexical prepare review].each { |process| send(:process, process) }
       @bar.finish if display_bar?
     end
 
