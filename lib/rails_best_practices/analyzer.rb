@@ -249,6 +249,7 @@ module RailsBestPractices
         file.puts eruby.evaluate(
                     errors: errors,
                     error_types: error_types,
+                    atom: @options['with-atom'],
                     textmate: @options['with-textmate'],
                     vscode: @options['with-vscode'],
                     sublime: @options['with-sublime'],
