@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require File.expand_path('lib/rails_best_practices/version', __dir__)
+lib = File.expand_path('lib', __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'rails_best_practices/version'
 
 Gem::Specification.new do |spec|
   spec.name        = 'rails_best_practices'
@@ -16,13 +18,13 @@ Gem::Specification.new do |spec|
   spec.required_ruby_version = '>= 1.9.0'
   spec.required_rubygems_version = '>= 1.3.6'
 
-  spec.add_dependency('activesupport')
-  spec.add_dependency('code_analyzer', '>= 0.5.2')
-  spec.add_dependency('erubis')
-  spec.add_dependency('i18n')
-  spec.add_dependency('json')
-  spec.add_dependency('require_all', '~> 3.0')
-  spec.add_dependency('ruby-progressbar')
+  spec.add_runtime_dependency('activesupport')
+  spec.add_runtime_dependency('code_analyzer', '>= 0.5.2')
+  spec.add_runtime_dependency('erubis')
+  spec.add_runtime_dependency('i18n')
+  spec.add_runtime_dependency('json')
+  spec.add_runtime_dependency('require_all', '~> 3.0')
+  spec.add_runtime_dependency('ruby-progressbar')
 
   spec.add_development_dependency('awesome_print')
   spec.add_development_dependency('bundler')
