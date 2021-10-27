@@ -1,5 +1,9 @@
 # Next Release
 
+## 1.22.0 (2021-10-27)
+
+* Support atom editor
+
 ## 1.21.0 (2021-06-15)
 
 * Disable check by inline comment

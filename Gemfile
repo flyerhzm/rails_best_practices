@@ -8,4 +8,3 @@ gem 'coveralls', require: false
 gem 'guard'
 gem 'guard-rspec'
 gem 'pry'
-gem 'rspec'
