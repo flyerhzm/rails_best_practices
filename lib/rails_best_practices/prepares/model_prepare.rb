@@ -32,9 +32,7 @@ module RailsBestPractices
 
       # remember the class name.
       add_callback :start_class do |_node|
-        if current_extend_class_name != 'ActionMailer::Base'
-          @models << @klass
-        end
+        @models << @klass if current_extend_class_name != 'ActionMailer::Base'
       end
 
       # check def node to remember all methods.

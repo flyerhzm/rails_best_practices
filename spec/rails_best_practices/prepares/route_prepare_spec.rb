@@ -18,14 +18,14 @@ module RailsBestPractices
           routes = Prepares.routes
           expect(routes.size).to eq(7)
           expect(routes.map(&:to_s)).to eq(
-            [
-              'PostsController#index',
-              'PostsController#show',
-              'PostsController#new',
-              'PostsController#create',
-              'PostsController#edit',
-              'PostsController#update',
-              'PostsController#destroy'
+            %w[
+              PostsController#index
+              PostsController#show
+              PostsController#new
+              PostsController#create
+              PostsController#edit
+              PostsController#update
+              PostsController#destroy
             ]
           )
         end
@@ -51,14 +51,14 @@ module RailsBestPractices
           routes = Prepares.routes
           expect(routes.size).to eq(7)
           expect(routes.map(&:to_s)).to eq(
-            [
-              'BlogPostsController#index',
-              'BlogPostsController#show',
-              'BlogPostsController#new',
-              'BlogPostsController#create',
-              'BlogPostsController#edit',
-              'BlogPostsController#update',
-              'BlogPostsController#destroy'
+            %w[
+              BlogPostsController#index
+              BlogPostsController#show
+              BlogPostsController#new
+              BlogPostsController#create
+              BlogPostsController#edit
+              BlogPostsController#update
+              BlogPostsController#destroy
             ]
           )
         end
@@ -73,7 +73,7 @@ module RailsBestPractices
           routes = Prepares.routes
           expect(routes.size).to eq(4)
           expect(routes.map(&:to_s)).to eq(
-            ['PostsController#index', 'PostsController#show', 'PostsController#new', 'PostsController#create']
+            %w[PostsController#index PostsController#show PostsController#new PostsController#create]
           )
         end
 
@@ -87,7 +87,7 @@ module RailsBestPractices
           routes = Prepares.routes
           expect(routes.size).to eq(4)
           expect(routes.map(&:to_s)).to eq(
-            ['PostsController#index', 'PostsController#show', 'PostsController#new', 'PostsController#create']
+            %w[PostsController#index PostsController#show PostsController#new PostsController#create]
           )
         end
 
@@ -129,11 +129,11 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.map(&:to_s)).to eq(
-            [
-              'Admin::PostsController#edit',
-              'Admin::PostsController#update',
-              'Admin::PostsController#link_to_post',
-              'Admin::PostsController#extra_update'
+            %w[
+              Admin::PostsController#edit
+              Admin::PostsController#update
+              Admin::PostsController#link_to_post
+              Admin::PostsController#extra_update
             ]
           )
         end
@@ -151,12 +151,12 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.map(&:to_s)).to eq(
-            [
-              'Admin::PostsController#edit',
-              'Admin::PostsController#update',
-              'Admin::PostsController#link_to_post',
-              'Admin::PostsController#extra_update',
-              'Admin::PostsController#retrieve'
+            %w[
+              Admin::PostsController#edit
+              Admin::PostsController#update
+              Admin::PostsController#link_to_post
+              Admin::PostsController#extra_update
+              Admin::PostsController#retrieve
             ]
           )
         end
@@ -195,13 +195,13 @@ module RailsBestPractices
           routes = Prepares.routes
           expect(routes.size).to eq(6)
           expect(routes.map(&:to_s)).to eq(
-            [
-              'PostsController#show',
-              'PostsController#new',
-              'PostsController#create',
-              'PostsController#edit',
-              'PostsController#update',
-              'PostsController#destroy'
+            %w[
+              PostsController#show
+              PostsController#new
+              PostsController#create
+              PostsController#edit
+              PostsController#update
+              PostsController#destroy
             ]
           )
         end
@@ -226,7 +226,7 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(3)
-          expect(routes.map(&:to_s)).to eq(['PostsController#show', 'PostsController#new', 'PostsController#create'])
+          expect(routes.map(&:to_s)).to eq(%w[PostsController#show PostsController#new PostsController#create])
         end
 
         it 'adds resource route with except option' do
@@ -238,7 +238,7 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(3)
-          expect(routes.map(&:to_s)).to eq(['PostsController#show', 'PostsController#new', 'PostsController#create'])
+          expect(routes.map(&:to_s)).to eq(%w[PostsController#show PostsController#new PostsController#create])
         end
 
         it 'does not add resource routes with only: :none' do
@@ -284,14 +284,14 @@ module RailsBestPractices
           routes = Prepares.routes
           expect(routes.size).to eq(7)
           expect(routes.map(&:to_s)).to eq(
-            [
-              'PostsController#show',
-              'PostsController#list',
-              'PostsController#search',
-              'PostsController#available',
-              'PostsController#create',
-              'PostsController#update',
-              'PostsController#update'
+            %w[
+              PostsController#show
+              PostsController#list
+              PostsController#search
+              PostsController#available
+              PostsController#create
+              PostsController#update
+              PostsController#update
             ]
           )
         end
@@ -307,7 +307,7 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(2)
-          expect(routes.map(&:to_s)).to eq(['PostsController#show', 'PostsController#inactive'])
+          expect(routes.map(&:to_s)).to eq(%w[PostsController#show PostsController#inactive])
         end
 
         it 'adds resources routes with get %w() routes' do
@@ -323,9 +323,7 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.size).to eq(3)
-          expect(routes.map(&:to_s)).to eq(
-            ['PostsController#show', 'PostsController#latest', 'PostsController#popular']
-          )
+          expect(routes.map(&:to_s)).to eq(%w[PostsController#show PostsController#latest PostsController#popular])
         end
 
         it 'adds route with nested routes' do
@@ -368,7 +366,7 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.map(&:to_s)).to eq(
-            ['SomethingController#route_one', 'SomethingController#route_two', 'SomethingController#custom_action']
+            %w[SomethingController#route_one SomethingController#route_two SomethingController#custom_action]
           )
         end
 
@@ -393,12 +391,12 @@ module RailsBestPractices
           runner.prepare('config/routes.rb', content)
           routes = Prepares.routes
           expect(routes.map(&:to_s)).to eq(
-            [
-              'Admin::PostsController#index',
-              'Admin::DiscussionsController#index',
-              'CommentsController#index',
-              'UsersController#show',
-              'UsersController#preview'
+            %w[
+              Admin::PostsController#index
+              Admin::DiscussionsController#index
+              CommentsController#index
+              UsersController#show
+              UsersController#preview
             ]
           )
         end
@@ -418,12 +416,12 @@ module RailsBestPractices
         routes = Prepares.routes
         expect(routes.size).to eq(5)
         expect(routes.map(&:to_s)).to eq(
-          [
-            'PostsController#show',
-            'PostsController#create',
-            'PostsController#update',
-            'PostsController#destroy',
-            'HighVoltage::PagesController#show'
+          %w[
+            PostsController#show
+            PostsController#create
+            PostsController#update
+            PostsController#destroy
+            HighVoltage::PagesController#show
           ]
         )
       end

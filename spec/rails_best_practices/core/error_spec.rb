@@ -7,7 +7,10 @@ module RailsBestPractices::Core
     it 'returns error with filename, line number and message' do
       expect(
         described_class.new(
-          filename: 'app/models/user.rb', line_number: '100', message: 'not good', type: 'BogusReview'
+          filename: 'app/models/user.rb',
+          line_number: '100',
+          message: 'not good',
+          type: 'BogusReview'
         ).to_s
       ).to eq('app/models/user.rb:100 - not good')
     end
@@ -27,7 +30,10 @@ module RailsBestPractices::Core
     it 'returns first line number' do
       expect(
         described_class.new(
-          filename: 'app/models/user.rb', line_number: '50,70,100', message: 'not good', type: 'BogusReview'
+          filename: 'app/models/user.rb',
+          line_number: '50,70,100',
+          message: 'not good',
+          type: 'BogusReview'
         ).first_line_number
       ).to eq('50')
     end

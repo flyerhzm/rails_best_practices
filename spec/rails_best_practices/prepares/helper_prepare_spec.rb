@@ -39,7 +39,7 @@ module RailsBestPractices
           EOF
           runner.prepare('app/helpers/base_helper.rb', content)
           helpers = Prepares.helpers
-          expect(helpers.map(&:to_s)).to eq(['PostsHelper', 'Admin::UsersHelper', 'Admin', 'Admin::BaseHelper'])
+          expect(helpers.map(&:to_s)).to eq(%w[PostsHelper Admin::UsersHelper Admin Admin::BaseHelper])
         end
       end
     end

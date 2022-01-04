@@ -44,16 +44,20 @@ module RailsBestPractices
           runner.prepare('app/models/project.rb', content)
           model_associations = Prepares.model_associations
           expect(model_associations.get_association('Project', 'portfolio')).to eq(
-            'meta' => 'belongs_to', 'class_name' => 'Portfolio'
+            'meta' => 'belongs_to',
+            'class_name' => 'Portfolio'
           )
           expect(model_associations.get_association('Project', 'project_manager')).to eq(
-            'meta' => 'has_one', 'class_name' => 'ProjectManager'
+            'meta' => 'has_one',
+            'class_name' => 'ProjectManager'
           )
           expect(model_associations.get_association('Project', 'milestones')).to eq(
-            'meta' => 'has_many', 'class_name' => 'Milestone'
+            'meta' => 'has_many',
+            'class_name' => 'Milestone'
           )
           expect(model_associations.get_association('Project', 'categories')).to eq(
-            'meta' => 'has_and_belongs_to_many', 'class_name' => 'Category'
+            'meta' => 'has_and_belongs_to_many',
+            'class_name' => 'Category'
           )
         end
 
@@ -67,7 +71,8 @@ module RailsBestPractices
             runner.prepare('app/models/post.rb', content)
             model_associations = Prepares.model_associations
             expect(model_associations.get_association('Post', 'author')).to eq(
-              'meta' => 'belongs_to', 'class_name' => 'Person'
+              'meta' => 'belongs_to',
+              'class_name' => 'Person'
             )
           end
 
@@ -80,7 +85,8 @@ module RailsBestPractices
             runner.prepare('app/models/post.rb', content)
             model_associations = Prepares.model_associations
             expect(model_associations.get_association('Project', 'project_manager')).to eq(
-              'meta' => 'has_one', 'class_name' => 'Person'
+              'meta' => 'has_one',
+              'class_name' => 'Person'
             )
           end
 
@@ -93,7 +99,8 @@ module RailsBestPractices
             runner.prepare('app/models/project.rb', content)
             model_associations = Prepares.model_associations
             expect(model_associations.get_association('Project', 'people')).to eq(
-              'meta' => 'has_many', 'class_name' => 'Person'
+              'meta' => 'has_many',
+              'class_name' => 'Person'
             )
           end
 
@@ -106,7 +113,8 @@ module RailsBestPractices
             runner.prepare('app/models/citizen.rb', content)
             model_associations = Prepares.model_associations
             expect(model_associations.get_association('Citizen', 'nations')).to eq(
-              'meta' => 'has_and_belongs_to_many', 'class_name' => 'Country'
+              'meta' => 'has_and_belongs_to_many',
+              'class_name' => 'Country'
             )
           end
 
@@ -127,10 +135,12 @@ module RailsBestPractices
               runner.after_prepare
               model_associations = Prepares.model_associations
               expect(model_associations.get_association('Community', 'members')).to eq(
-                'meta' => 'has_many', 'class_name' => 'Community::Member'
+                'meta' => 'has_many',
+                'class_name' => 'Community::Member'
               )
               expect(model_associations.get_association('Community::Member', 'community')).to eq(
-                'meta' => 'belongs_to', 'class_name' => 'Community'
+                'meta' => 'belongs_to',
+                'class_name' => 'Community'
               )
             end
 
@@ -150,10 +160,12 @@ module RailsBestPractices
               runner.after_prepare
               model_associations = Prepares.model_associations
               expect(model_associations.get_association('Community::Member::Rating', 'member')).to eq(
-                'meta' => 'belongs_to', 'class_name' => 'Community::Member'
+                'meta' => 'belongs_to',
+                'class_name' => 'Community::Member'
               )
               expect(model_associations.get_association('Community::Member', 'ratings')).to eq(
-                'meta' => 'has_many', 'class_name' => 'Community::Member::Rating'
+                'meta' => 'has_many',
+                'class_name' => 'Community::Member::Rating'
               )
             end
           end
@@ -170,7 +182,8 @@ module RailsBestPractices
             runner.prepare('app/models/person.rb', content)
             model_associations = Prepares.model_associations
             expect(model_associations.get_association('Person', 'addresses')).to eq(
-              'meta' => 'embeds_many', 'class_name' => 'Address'
+              'meta' => 'embeds_many',
+              'class_name' => 'Address'
             )
           end
 
@@ -184,7 +197,8 @@ module RailsBestPractices
             runner.prepare('app/models/lush.rb', content)
             model_associations = Prepares.model_associations
             expect(model_associations.get_association('Lush', 'whiskey')).to eq(
-              'meta' => 'embeds_one', 'class_name' => 'Drink'
+              'meta' => 'embeds_one',
+              'class_name' => 'Drink'
             )
           end
 
@@ -198,7 +212,8 @@ module RailsBestPractices
             runner.prepare('app/models/drink.rb', content)
             model_associations = Prepares.model_associations
             expect(model_associations.get_association('Drink', 'alcoholic')).to eq(
-              'meta' => 'embedded_in', 'class_name' => 'Lush'
+              'meta' => 'embedded_in',
+              'class_name' => 'Lush'
             )
           end
         end
@@ -214,7 +229,8 @@ module RailsBestPractices
             runner.prepare('app/models/employee.rb', content)
             model_associations = Prepares.model_associations
             expect(model_associations.get_association('Employee', 'desk')).to eq(
-              'meta' => 'one', 'class_name' => 'Desk'
+              'meta' => 'one',
+              'class_name' => 'Desk'
             )
           end
 

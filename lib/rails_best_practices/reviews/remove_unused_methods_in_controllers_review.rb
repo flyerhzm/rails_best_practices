@@ -38,9 +38,7 @@ module RailsBestPractices
       # mark custom inherited_resources methods as used.
       add_callback :end_class do |_node|
         if @inherited_resources
-          INHERITED_RESOURCES_METHODS.each do |method|
-            call_method(method, @current_controller_name)
-          end
+          INHERITED_RESOURCES_METHODS.each { |method| call_method(method, @current_controller_name) }
         end
       end
 
@@ -65,9 +63,7 @@ module RailsBestPractices
           node.arguments.all.each { |argument| mark_used(argument) }
         when 'layout'
           first_argument = node.arguments.all.first
-          if first_argument.sexp_type == :symbol_literal
-            mark_used(first_argument)
-          end
+          mark_used(first_argument) if first_argument.sexp_type == :symbol_literal
         when 'helper_method'
           node.arguments.all.each { |argument| mark_publicize(argument.to_s) }
         when 'delegate'
@@ -83,9 +79,7 @@ module RailsBestPractices
 
       # mark assignment as used, like current_user = @user
       add_callback :start_assign do |node|
-        if node.left_value.sexp_type == :var_field
-          call_method "#{node.left_value}=", current_class_name
-        end
+        call_method "#{node.left_value}=", current_class_name if node.left_value.sexp_type == :var_field
       end
 
       # get all unused methods at the end of review process.

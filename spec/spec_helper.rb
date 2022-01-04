@@ -9,9 +9,7 @@ require 'coveralls'
 Coveralls.wear!
 
 RSpec.configure do |config|
-  config.after do
-    RailsBestPractices::Prepares.clear
-  end
+  config.after { RailsBestPractices::Prepares.clear }
   config.filter_run focus: true
   config.run_all_when_everything_filtered = true
 end

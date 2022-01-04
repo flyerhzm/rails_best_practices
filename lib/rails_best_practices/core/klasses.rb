@@ -21,9 +21,7 @@ module RailsBestPractices
         @modules = modules.dup
         base = @modules.map { |modu| "#{modu}::" }.join('')
         @class_name = base + class_name
-        if extend_class_name
-          @extend_class_name = base + extend_class_name
-        end
+        @extend_class_name = base + extend_class_name if extend_class_name
       end
 
       def to_s

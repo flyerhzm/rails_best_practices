@@ -28,9 +28,7 @@ module RailsBestPractices
       # and the message of the receiver call node matchs one of the association name with the class name,
       # then it violates the law of demeter.
       add_callback :start_call do |node|
-        if node.receiver.sexp_type == :call && need_delegate?(node)
-          add_error 'law of demeter'
-        end
+        add_error 'law of demeter' if node.receiver.sexp_type == :call && need_delegate?(node)
       end
 
       private

@@ -23,7 +23,7 @@ module RailsBestPractices
       #     ActiveRecord::Base.send(:include, ActiveModel::ForbiddenAttributesProtection)
       def include_forbidden_attributes_protection?(node)
         node.receiver.to_s == 'ActiveRecord::Base' && node.message.to_s == 'send' &&
-          node.arguments.all.map(&:to_s) == ['include', 'ActiveModel::ForbiddenAttributesProtection']
+          node.arguments.all.map(&:to_s) == %w[include ActiveModel::ForbiddenAttributesProtection]
       end
     end
   end

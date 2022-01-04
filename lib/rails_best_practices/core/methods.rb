@@ -20,9 +20,7 @@ module RailsBestPractices
         return if has_method?(class_name, method_name)
 
         methods(class_name) << Method.new(class_name, method_name, access_control, meta)
-        if access_control == 'public'
-          @possible_methods[method_name] = false
-        end
+        @possible_methods[method_name] = false if access_control == 'public'
       end
 
       # Get methods of a class.
@@ -72,11 +70,14 @@ module RailsBestPractices
       # @param [String] class name
       # @param [String] method name
       def mark_subclasses_method_used(class_name, method_name)
-        Prepares.klasses.select { |klass| klass.extend_class_name == class_name }.each do |klass|
-          mark_subclasses_method_used(klass.to_s, method_name)
-          method = get_method(klass.to_s, method_name)
-          method&.mark_used
-        end
+        Prepares
+          .klasses
+          .select { |klass| klass.extend_class_name == class_name }
+          .each do |klass|
+            mark_subclasses_method_used(klass.to_s, method_name)
+            method = get_method(klass.to_s, method_name)
+            method&.mark_used
+          end
       end
 
       # Mark the method as public.
@@ -128,14 +129,16 @@ module RailsBestPractices
       # @param [String] access control
       # @return [Array] array of Method
       def get_all_unused_methods(access_control = nil)
-        @methods.inject([]) do |unused_methods, (_class_name, methods)|
-          unused_methods +=
-            if access_control
-              methods.select { |method| method.access_control == access_control && !method.used }
-            else
-              methods.reject(&:used)
-            end
-        end.reject { |method| method.access_control == 'public' && @possible_methods[method.method_name] }
+        @methods
+          .inject([]) do |unused_methods, (_class_name, methods)|
+            unused_methods +=
+              if access_control
+                methods.select { |method| method.access_control == access_control && !method.used }
+              else
+                methods.reject(&:used)
+              end
+          end
+          .reject { |method| method.access_control == 'public' && @possible_methods[method.method_name] }
       end
 
       private

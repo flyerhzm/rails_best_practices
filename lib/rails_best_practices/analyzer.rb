@@ -109,9 +109,7 @@ module RailsBestPractices
           files = expand_dirs_to_files(@path)
           files = file_sort(files)
 
-          if @options['only'].present?
-            files = file_accept(files, @options['only'])
-          end
+          files = file_accept(files, @options['only']) if @options['only'].present?
 
           # By default, tmp, vender, spec, test, features are ignored.
           %w[vendor spec test features tmp].each do |dir|
@@ -119,13 +117,9 @@ module RailsBestPractices
           end
 
           # Exclude files based on exclude regexes if the option is set.
-          @options['exclude'].each do |pattern|
-            files = file_ignore(files, pattern)
-          end
+          @options['exclude'].each { |pattern| files = file_ignore(files, pattern) }
 
-          %w[Capfile Gemfile Gemfile.lock].each do |file|
-            files.unshift File.join(@path, file)
-          end
+          %w[Capfile Gemfile Gemfile.lock].each { |file| files.unshift File.join(@path, file) }
 
           files.compact
         end
@@ -138,15 +132,18 @@ module RailsBestPractices
     def expand_dirs_to_files(*dirs)
       extensions = %w[rb erb rake rhtml haml slim builder rxml rabl]
 
-      dirs.flatten.map do |entry|
-        next unless File.exist? entry
+      dirs
+        .flatten
+        .map do |entry|
+          next unless File.exist? entry
 
-        if File.directory? entry
-          Dir[File.join(entry, '**', "*.{#{extensions.join(',')}}")]
-        else
-          entry
+          if File.directory? entry
+            Dir[File.join(entry, '**', "*.{#{extensions.join(',')}}")]
+          else
+            entry
+          end
         end
-      end.flatten
+        .flatten
     end
 
     # sort files, models first, mailers, helpers, and then sort other files by characters.
@@ -234,9 +231,11 @@ module RailsBestPractices
     def output_html_errors
       require 'erubis'
       template =
-        @options['template'] ?
-          File.read(File.expand_path(@options['template'])) :
+        if @options['template']
+          File.read(File.expand_path(@options['template']))
+        else
           File.read(File.join(File.dirname(__FILE__), '..', '..', 'assets', 'result.html.erb'))
+        end
 
       if @options['with-github']
         last_commit_id = @options['last-commit-id'] || `cd #{@runner.class.base_path} && git rev-parse HEAD`.chomp
@@ -266,51 +265,46 @@ module RailsBestPractices
     def output_xml_errors
       require 'rexml/document'
 
-      document =
-        REXML::Document.new.tap do |d|
-          d << REXML::XMLDecl.new
-        end
+      document = REXML::Document.new.tap { |d| d << REXML::XMLDecl.new }
 
       checkstyle = REXML::Element.new('checkstyle', document)
 
-      errors.group_by(&:filename).each do |file, group|
-        REXML::Element.new('file', checkstyle).tap do |f|
-          f.attributes['name'] = file
-          group.each do |error|
-            REXML::Element.new('error', f).tap do |e|
-              e.attributes['line'] = error.line_number
-              e.attributes['column'] = 0
-              e.attributes['severity'] = 'error'
-              e.attributes['message'] = error.message
-              e.attributes['source'] = 'com.puppycrawl.tools.checkstyle.' + error.type
+      errors
+        .group_by(&:filename)
+        .each do |file, group|
+          REXML::Element
+            .new('file', checkstyle)
+            .tap do |f|
+              f.attributes['name'] = file
+              group.each do |error|
+                REXML::Element
+                  .new('error', f)
+                  .tap do |e|
+                    e.attributes['line'] = error.line_number
+                    e.attributes['column'] = 0
+                    e.attributes['severity'] = 'error'
+                    e.attributes['message'] = error.message
+                    e.attributes['source'] = 'com.puppycrawl.tools.checkstyle.' + error.type
+                  end
+              end
             end
-          end
         end
-      end
 
       formatter = REXML::Formatters::Default.new
-      File.open(@options['output-file'], 'w+') do |result|
-        formatter.write(document, result)
-      end
+      File.open(@options['output-file'], 'w+') { |result| formatter.write(document, result) }
     end
 
     # output errors with yaml format.
     def output_yaml_errors
-      File.open(@options['output-file'], 'w+') do |file|
-        file.write YAML.dump(errors)
-      end
+      File.open(@options['output-file'], 'w+') { |file| file.write YAML.dump(errors) }
     end
 
     # output errors with json format.
     def output_json_errors
       errors_as_hashes =
-        errors.map do |err|
-          { filename: err.filename, line_number: err.line_number, message: err.message }
-        end
+        errors.map { |err| { filename: err.filename, line_number: err.line_number, message: err.message } }
 
-      File.open(@options['output-file'], 'w+') do |file|
-        file.write JSON.dump(errors_as_hashes)
-      end
+      File.open(@options['output-file'], 'w+') { |file| file.write JSON.dump(errors_as_hashes) }
     end
 
     # plain output with color.

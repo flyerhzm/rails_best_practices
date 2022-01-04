@@ -22,24 +22,24 @@ module RailsBestPractices
 
     describe 'file_sort' do
       it 'gets models first, mailers, helpers and then others' do
-        files = [
-          'app/controllers/users_controller.rb',
-          'app/mailers/user_mailer.rb',
-          'app/helpers/users_helper.rb',
-          'app/models/user.rb',
-          'app/views/users/index.html.haml',
-          'app/views/users/show.html.slim',
-          'lib/user.rb'
+        files = %w[
+          app/controllers/users_controller.rb
+          app/mailers/user_mailer.rb
+          app/helpers/users_helper.rb
+          app/models/user.rb
+          app/views/users/index.html.haml
+          app/views/users/show.html.slim
+          lib/user.rb
         ]
         expect(subject.file_sort(files)).to eq(
-          [
-            'app/models/user.rb',
-            'app/mailers/user_mailer.rb',
-            'app/helpers/users_helper.rb',
-            'app/controllers/users_controller.rb',
-            'app/views/users/index.html.haml',
-            'app/views/users/show.html.slim',
-            'lib/user.rb'
+          %w[
+            app/models/user.rb
+            app/mailers/user_mailer.rb
+            app/helpers/users_helper.rb
+            app/controllers/users_controller.rb
+            app/views/users/index.html.haml
+            app/views/users/show.html.slim
+            lib/user.rb
           ]
         )
       end
@@ -47,20 +47,20 @@ module RailsBestPractices
 
     describe 'file_ignore' do
       before do
-        @all = [
-          'app/controllers/users_controller.rb',
-          'app/mailers/user_mailer.rb',
-          'app/models/user.rb',
-          'app/views/users/index.html.haml',
-          'app/views/users/show.html.slim',
-          'lib/user.rb'
+        @all = %w[
+          app/controllers/users_controller.rb
+          app/mailers/user_mailer.rb
+          app/models/user.rb
+          app/views/users/index.html.haml
+          app/views/users/show.html.slim
+          lib/user.rb
         ]
-        @filtered = [
-          'app/controllers/users_controller.rb',
-          'app/mailers/user_mailer.rb',
-          'app/models/user.rb',
-          'app/views/users/index.html.haml',
-          'app/views/users/show.html.slim'
+        @filtered = %w[
+          app/controllers/users_controller.rb
+          app/mailers/user_mailer.rb
+          app/models/user.rb
+          app/views/users/index.html.haml
+          app/views/users/show.html.slim
         ]
       end
 
@@ -147,9 +147,7 @@ module RailsBestPractices
     describe 'output_json_errors' do
       let(:output_file) { 'rails_best_practices_output.json' }
 
-      subject do
-        described_class.new('.', 'format' => 'json', 'output-file' => output_file)
-      end
+      subject { described_class.new('.', 'format' => 'json', 'output-file' => output_file) }
 
       let(:check1) { Reviews::LawOfDemeterReview.new }
       let(:check2) { Reviews::UseQueryAttributeReview.new }
@@ -163,12 +161,12 @@ module RailsBestPractices
         subject.output
       end
 
-      after do
-        File.delete(output_file) if File.exist?(output_file)
-      end
+      after { File.delete(output_file) if File.exist?(output_file) }
 
       it 'saves output as json into output file' do
-        expect(result).to eq '[{"filename":"app/models/user.rb","line_number":"10","message":"law of demeter"},{"filename":"app/models/post.rb","line_number":"100","message":"use query attribute"}]'
+        expect(
+          result
+        ).to eq '[{"filename":"app/models/user.rb","line_number":"10","message":"law of demeter"},{"filename":"app/models/post.rb","line_number":"100","message":"use query attribute"}]'
       end
     end
 

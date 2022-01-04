@@ -46,9 +46,9 @@ module RailsBestPractices
       # and the receiver of the call node is included in @new_variables,
       # then you should isolate it to seed data.
       add_callback :start_call do |node|
-        if ['create', 'create!'].include? node.message.to_s
+        if %w[create create!].include? node.message.to_s
           add_error('isolate seed data')
-        elsif ['save', 'save!'].include? node.message.to_s
+        elsif %w[save save!].include? node.message.to_s
           add_error('isolate seed data') if new_record?(node)
         end
       end

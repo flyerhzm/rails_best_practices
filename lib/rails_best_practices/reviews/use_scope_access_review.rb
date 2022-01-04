@@ -44,7 +44,7 @@ module RailsBestPractices
           end
         results =
           all_conditions.map do |condition_node|
-            ['==', '!='].include?(condition_node.message.to_s) &&
+            %w[== !=].include?(condition_node.message.to_s) &&
               (current_user?(condition_node.argument) || current_user?(condition_node.receiver))
           end
         results.any? { |result| result == true } && node.body.grep_node(message: 'redirect_to')

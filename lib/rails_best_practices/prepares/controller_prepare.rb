@@ -36,7 +36,8 @@ module RailsBestPractices
             @methods.add_method(
               @current_controller_name,
               action,
-              'file' => node.file, 'line_number' => node.line_number
+              'file' => node.file,
+              'line_number' => node.line_number
             )
           end
         end

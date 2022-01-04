@@ -16,9 +16,7 @@ module RailsBestPractices
 
       # check hash node to see if it is ruby 1.8 style.
       add_callback :start_hash, :start_bare_assoc_hash do |node|
-        if !empty_hash?(node) && hash_is_18?(node) && valid_keys?(node)
-          add_error 'change Hash Syntax to 1.9'
-        end
+        add_error 'change Hash Syntax to 1.9' if !empty_hash?(node) && hash_is_18?(node) && valid_keys?(node)
       end
 
       protected

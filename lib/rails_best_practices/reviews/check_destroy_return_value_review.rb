@@ -35,6 +35,7 @@ module RailsBestPractices
       add_callback :start_binary do |node|
         if %w[&& || and or].include?(node[2].to_s)
           all_conditions = node.all_conditions
+
           # if our current binary is a subset of the @used_return_value_of
           # then don't overwrite it
           already_included = @used_return_value_of && (all_conditions - @used_return_value_of).empty?
@@ -57,13 +58,9 @@ module RailsBestPractices
         unless @already_checked == node
           message = node.message.to_s
           if message.eql? 'destroy'
-            unless return_value_is_used? node
-              add_error "check '#{message}' return value or use '#{message}!'"
-            end
+            add_error "check '#{message}' return value or use '#{message}!'" unless return_value_is_used? node
           end
-          if node.sexp_type == :method_add_arg
-            @already_checked = node[1]
-          end
+          @already_checked = node[1] if node.sexp_type == :method_add_arg
         end
       end
     end

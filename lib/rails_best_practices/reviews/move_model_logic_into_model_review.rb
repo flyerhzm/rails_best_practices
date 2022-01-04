@@ -30,9 +30,7 @@ module RailsBestPractices
       # and the receiver is a variable,
       # then these method calls and attribute assignments should be moved into model.
       add_callback :start_def do |node|
-        node.grep_nodes(sexp_type: %i[call assign]) do |child_node|
-          remember_variable_use_count(child_node)
-        end
+        node.grep_nodes(sexp_type: %i[call assign]) { |child_node| remember_variable_use_count(child_node) }
 
         variable_use_count.each do |variable_node, count|
           add_error "move model logic into model (#{variable_node} use_count > #{@use_count})" if count > @use_count

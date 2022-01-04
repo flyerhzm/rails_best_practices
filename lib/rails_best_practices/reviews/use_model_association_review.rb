@@ -56,7 +56,7 @@ module RailsBestPractices
       # if the receiver of call node exists in @assignments,
       # then the attribute assignment should be replaced by using model association.
       def call_assignment(node)
-        if ['save', 'save!'].include? node.message.to_s
+        if %w[save save!].include? node.message.to_s
           receiver = node.receiver.to_s
           add_error "use model association (for #{receiver})" if @assignments[receiver]
         end
