@@ -204,7 +204,7 @@ module RailsBestPractices
                               :command_call,
                               :command,
                               :alias,
-                              :bare_assoc_hash,
+                              :assoc_new,
                               :method_add_arg
 
             # remembe the message of call node.
@@ -269,9 +269,12 @@ module RailsBestPractices
             #     def to_xml(options = {})
             #       super options.merge(exclude: :visible, methods: [:is_discussion_conversation])
             #     end
-            add_callback :start_bare_assoc_hash do |node|
-              if node.hash_keys.include? 'methods'
-                mark_used(node.hash_value('methods'))
+            add_callback :start_assoc_new do |node|
+              if node.key == 'methods'
+                mark_used(node.value)
+              end
+              if node.value.nil?
+                mark_used(node.key)
               end
             end
 
@@ -294,7 +297,9 @@ module RailsBestPractices
             def mark_used(method_node)
               return if method_node == :call
 
-              if method_node.sexp_type == :bare_assoc_hash
+              if method_node.is_a?(String)
+                method_name = method_node
+              elsif method_node.sexp_type == :bare_assoc_hash
                 method_node.hash_values.each { |value_node| mark_used(value_node) }
               elsif method_node.sexp_type == :array
                 method_node.array_values.each { |value_node| mark_used(value_node) }
