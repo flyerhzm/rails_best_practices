@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.required_rubygems_version = '>= 1.3.6'
 
   spec.add_runtime_dependency('activesupport')
-  spec.add_runtime_dependency('code_analyzer', '>= 0.5.2')
+  spec.add_runtime_dependency('code_analyzer', '~> 0.5.5')
   spec.add_runtime_dependency('erubis')
   spec.add_runtime_dependency('i18n')
   spec.add_runtime_dependency('json')
