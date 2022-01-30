@@ -556,23 +556,25 @@ module RailsBestPractices
         end
       end
 
-      context 'short syntax value' do
-        it 'does not remove unused method' do
-          content = <<-EOF
-          class Post < ActiveRecord::Base
-            def build
-              new(value:)
-            end
+      if RUBY_VERSION.to_f > 3.0
+        context 'short syntax value' do
+          it 'does not remove unused method' do
+            content = <<-EOF
+            class Post < ActiveRecord::Base
+              def build
+                new(value:)
+              end
 
-            def value
-              'value'
+              def value
+                'value'
+              end
             end
+            EOF
+            runner.prepare('app/models/post.rb', content)
+            runner.review('app/models/post.rb', content)
+            runner.after_review
+            expect(runner.errors.size).to eq(1)
           end
-          EOF
-          runner.prepare('app/models/post.rb', content)
-          runner.review('app/models/post.rb', content)
-          runner.after_review
-          expect(runner.errors.size).to eq(1)
         end
       end
 
