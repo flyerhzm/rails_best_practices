@@ -1,5 +1,9 @@
 # Next Release
 
+## 1.23.0 (2022-01-31)
+
+* Support hash short syntax
+
 ## 1.22.0 (2021-10-27)
 
 * Support atom editor
