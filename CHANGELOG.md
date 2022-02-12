@@ -1,5 +1,9 @@
 # Next Release
 
+## 1.23.1 (2022-02-12)
+
+* Do not strict activesupport dependency version
+
 ## 1.23.0 (2022-01-31)
 
 * Support hash short syntax

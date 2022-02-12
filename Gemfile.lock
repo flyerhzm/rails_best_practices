@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rails_best_practices (1.23.0)
+    rails_best_practices (1.23.1)
       activesupport
       code_analyzer (~> 0.5.5)
       erubis
@@ -13,12 +13,11 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (6.1.4.4)
+    activesupport (7.0.2.2)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
-      zeitwerk (~> 2.3)
     awesome_print (1.8.0)
     code_analyzer (0.5.5)
       sexp_processor
@@ -105,7 +104,6 @@ GEM
     tins (1.22.2)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
-    zeitwerk (2.5.4)
 
 PLATFORMS
   ruby
