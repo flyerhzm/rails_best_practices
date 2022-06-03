@@ -1,7 +1,7 @@
 # rails_best_practices
 
 [![Gem Version](https://badge.fury.io/rb/rails_best_practices.svg)](http://badge.fury.io/rb/rails_best_practices)
-[![Build Status](https://secure.travis-ci.org/flyerhzm/rails_best_practices.svg)](http://travis-ci.org/flyerhzm/rails_best_practices)
+[![CI](https://github.com/flyerhzm/rails_best_practices/actions/workflows/main.yml/badge.svg)](https://github.com/flyerhzm/rails_best_practices/actions/workflows/main.yml)
 [![Coverage Status](https://coveralls.io/repos/railsbp/rails_best_practices/badge.svg?branch=master)](https://coveralls.io/r/railsbp/rails_best_practices)
 [![AwesomeCode Status for flyerhzm/rails_best_practices](https://awesomecode.io/projects/d02ecd70-e068-4ad4-b61a-7003ac24b49a/status)](https://awesomecode.io/repos/flyerhzm/rails_best_practices)
 
