@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 gemspec
 
-gem 'coveralls', require: false
+gem 'coveralls_reborn', require: false
 
 gem 'guard'
 gem 'guard-rspec'
