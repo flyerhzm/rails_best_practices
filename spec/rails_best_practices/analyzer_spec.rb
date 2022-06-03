@@ -77,10 +77,10 @@ module RailsBestPractices
       subject { described_class.new('.', 'format' => format) }
 
       before do
-        subject.stub(:output_terminal_errors)
-        subject.stub(:output_html_errors)
-        subject.stub(:output_yaml_errors)
-        subject.stub(:output_xml_errors)
+        allow(subject).to receive(:output_terminal_errors)
+        allow(subject).to receive(:output_html_errors)
+        allow(subject).to receive(:output_yaml_errors)
+        allow(subject).to receive(:output_xml_errors)
 
         subject.output
       end
