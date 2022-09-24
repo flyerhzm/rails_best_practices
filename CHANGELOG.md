@@ -1,5 +1,9 @@
 # Next Release
 
+## 1.23.2 (2022-09-24)
+
+* require_ruby_version 2.3.0
+
 ## 1.23.1 (2022-02-12)
 
 * Do not strict activesupport dependency version
