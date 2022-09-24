@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.description = 'a code metric tool for rails codes, written in Ruby.'
   spec.license     = 'MIT'
 
-  spec.required_ruby_version = '>= 1.9.0'
+  spec.required_ruby_version = '>= 2.3.0'
   spec.required_rubygems_version = '>= 1.3.6'
 
   spec.add_runtime_dependency('activesupport')
