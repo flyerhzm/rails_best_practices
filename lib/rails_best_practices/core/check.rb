@@ -138,7 +138,7 @@ module RailsBestPractices
             # end of the class
             add_callback :end_class do |_node|
               klasses.pop
-              @klass = nil
+              @klass = klasses.last
             end
           end
         end
