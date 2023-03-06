@@ -40,9 +40,9 @@ module RailsBestPractices
       def is_interesting_file?(node_file)
         interesting_files.any? do |pattern|
           if pattern == ALL_FILES
-            node_file =~ pattern && node_file !~ SKIP_FILES
+            node_file.index pattern && node_file !~ SKIP_FILES
           else
-            node_file =~ pattern
+            node_file.index pattern
           end
         end
       end
