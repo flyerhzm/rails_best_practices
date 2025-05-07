@@ -90,15 +90,15 @@ To see the full list of command-line options, run:
 
 Homepage: <http://rails-bestpractices.com>
 
-GitHub: <http://github.com/railsbp/rails_best_practices>
+GitHub: <http://github.com/flyerhzm/rails_best_practices>
 
 Team Blog <http://rails-bestpractices.com>
 
 Google Group: <https://groups.google.com/group/rails_best_practices>
 
-Wiki: <http://github.com/railsbp/rails_best_practices/wiki>
+Wiki: <http://github.com/flyerhzm/rails_best_practices/wiki>
 
-Issue Tracker: <http://github.com/railsbp/rails_best_practices/issues>
+Issue Tracker: <http://github.com/flyerhzm/rails_best_practices/issues>
 
 ## Install
 
@@ -287,4 +287,4 @@ Send us email: <team@railsbp.com>
 Copyright © 2009 - 2022 Richard Huang (flyerhzm@gmail.com), released under the MIT license
 
 
-[1]: https://github.com/railsbp/rails_best_practices/wiki/How-to-write-your-own-check-list
+[1]: https://github.com/flyerhzm/rails_best_practices/wiki/How-to-write-your-own-check-list
