@@ -14,31 +14,14 @@ on:
     branches: [ master ]
 
 jobs:
-  test_ruby_2_6:
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        ruby-version: ['2.6']
-    env: # $BUNDLE_GEMFILE must be set at the job level, so it is set for all steps
-      BUNDLE_GEMFILE: Gemfile.ruby-2.6
+        ruby-version: ['2.7', '3.0', '3.1', '3.2', '3.3']
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: ${{ matrix.ruby-version }}
-        bundler-cache: true
-    - name: Run tests
-      run: bundle exec rspec spec
-  test_ruby_2_7_above:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        ruby-version: ['2.7', '3.0', '3.1']
-
-    steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up Ruby
       uses: ruby/setup-ruby@v1
       with:
