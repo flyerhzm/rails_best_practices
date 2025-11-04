@@ -10,9 +10,13 @@ Gem::Specification.new do |spec|
   spec.platform    = Gem::Platform::RUBY
   spec.authors     = ['Richard Huang']
   spec.email       = ['flyerhzm@gmail.com']
-  spec.homepage    = 'http://rails-bestpractices.com'
+  spec.homepage    = 'https://github.com/flyerhzm/rails_best_practices'
   spec.summary     = 'a code metric tool for rails codes.'
   spec.description = 'a code metric tool for rails codes, written in Ruby.'
+  spec.metadata    = {
+    'changelog_uri' => 'https://github.com/flyerhzm/rails_best_practices/blob/main/CHANGELOG.md',
+    'source_code_uri' => 'https://github.com/flyerhzm/rails_best_practices'
+  }
   spec.license     = 'MIT'
 
   spec.required_ruby_version = '>= 2.3.0'
