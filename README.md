@@ -5,9 +5,6 @@
 [![Coverage Status](https://coveralls.io/repos/railsbp/rails_best_practices/badge.svg?branch=master)](https://coveralls.io/r/railsbp/rails_best_practices)
 [![AwesomeCode Status for flyerhzm/rails_best_practices](https://awesomecode.io/projects/d02ecd70-e068-4ad4-b61a-7003ac24b49a/status)](https://awesomecode.io/repos/flyerhzm/rails_best_practices)
 
-[![Coderwall Endorse](http://api.coderwall.com/flyerhzm/endorsecount.png)](http://coderwall.com/flyerhzm)
-[![Click here to lend your support to: rails best practices and make a donation at www.pledgie.com !](https://pledgie.com/campaigns/12057.png?skin_name=chrome)](https://pledgie.com/campaigns/12057)
-
 rails_best_practices is a code metric tool to check the quality of Rails code.
 
 It supports the following ORM/ODMs:
