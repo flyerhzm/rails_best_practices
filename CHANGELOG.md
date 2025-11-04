@@ -1,5 +1,10 @@
 # Next Release
 
+## 1.23.3 (2025-11-04)
+
+* Fix klass at the end_class
+* Fix links
+
 ## 1.23.2 (2022-09-24)
 
 * require_ruby_version 2.3.0
