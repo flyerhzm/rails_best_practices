@@ -144,7 +144,7 @@ module RailsBestPractices
         elsif filename =~ /.*\.haml$/
           begin
             require 'haml'
-            content = Haml::Engine.new(content).precompiled
+            content = haml_template_to_ruby(content)
             # remove \xxx characters
             content.gsub!(/\\\d{3}/, '')
           rescue LoadError
@@ -163,6 +163,18 @@ module RailsBestPractices
           end
         end
         content
+      end
+
+      # @param [String] template Haml source
+      # @return [String] Ruby source equivalent (Haml-internal representation)
+      def haml_template_to_ruby(template)
+        # Haml 6+ is a Temple engine: `Engine#initialize` takes options, template is passed to `#call`.
+        # Haml 5 and earlier: `Engine.new(template).precompiled`.
+        if defined?(Haml::VERSION) && ::Gem::Version.new(Haml::VERSION) >= ::Gem::Version.new('6.0')
+          Haml::Engine.new.call(template)
+        else
+          Haml::Engine.new(template).precompiled
+        end
       end
 
       # load all prepares.
