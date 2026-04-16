@@ -5,12 +5,11 @@ require 'spec_helper'
 module RailsBestPractices::Core
   describe Runner do
     describe '#parse_html_template (haml)' do
-      # Load before `it ... if:` metadata is evaluated (nested under Core, so use top-level constants).
+      # Load Haml here so the top-level `Haml` constants used by these examples are defined
+      # when the example group is set up and can be safely referenced/stubbed.
       require 'haml'
 
       let(:runner) { described_class.new }
-      let(:haml_path) { 'app/views/posts/show.html.haml' }
-      let(:haml_source) { "%p.title Hello\n= link_to 'x', posts_path" }
 
       context 'when Haml::VERSION is forced in the app environment' do
         let(:template) { "%p\n" }
