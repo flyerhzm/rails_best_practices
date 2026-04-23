@@ -1,5 +1,9 @@
 # Next Release
 
+## 1.23.4 (2026-04-23)
+
+* Fix Haml 6+ template compilation in Runner (Temple Engine#call)
+
 ## 1.23.3 (2025-11-04)
 
 * Fix klass at the end_class
