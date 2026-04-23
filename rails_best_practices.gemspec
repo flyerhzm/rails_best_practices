@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency('erubis')
   spec.add_runtime_dependency('i18n')
   spec.add_runtime_dependency('json')
+  spec.add_runtime_dependency('ostruct')
   spec.add_runtime_dependency('require_all', '~> 3.0')
   spec.add_runtime_dependency('ruby-progressbar')
 
