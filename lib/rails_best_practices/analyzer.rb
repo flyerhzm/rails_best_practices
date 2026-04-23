@@ -201,7 +201,7 @@ module RailsBestPractices
         info_command = "cd #{@runner.class.base_path}"
         info_command += " && hg blame -lvcu #{error.filename[@runner.class.base_path.size..-1].gsub(%r{^/}, '')}"
         info_command += " | sed -n /:#{error.line_number.split(',').first}:/p"
-        hg_info = system(info_command)
+        hg_info = `#{info_command}`
         unless hg_info == ''
           hg_commit_username = hg_info.split(':')[0].strip
           error.hg_username = hg_commit_username.split(/\ /)[0..-2].join(' ')
@@ -219,7 +219,7 @@ module RailsBestPractices
       errors.each do |error|
         info_command = "cd #{@runner.class.base_path}"
         info_command += " && git blame -L #{error.line_number.split(',').first},+1 #{error.filename[start..-1]}"
-        git_info = system(info_command)
+        git_info = `#{info_command}`
         unless git_info == ''
           git_commit, git_username = git_info.split(/\d{4}-\d{2}-\d{2}/).first.split('(')
           error.git_commit = git_commit.split(' ').first.strip
